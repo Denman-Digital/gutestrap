@@ -6,8 +6,8 @@
  */
 
 //  Import CSS.
-import './editor.scss';
-import './style.scss';
+import "./editor.scss";
+import "./style.scss";
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -25,16 +25,12 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'cgb/block-gutestrap', {
+registerBlockType("cgb/block-gutestrap", {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-	title: __( 'gutestrap - CGB Block' ), // Block title.
-	icon: 'shield', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-	category: 'common', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-	keywords: [
-		__( 'gutestrap — CGB Block' ),
-		__( 'CGB Example' ),
-		__( 'create-guten-block' ),
-	],
+	title: __("gutestrap - CGB Block"), // Block title.
+	icon: "shield", // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+	category: "common", // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+	keywords: [__("gutestrap — CGB Block"), __("CGB Example"), __("create-guten-block")],
 
 	/**
 	 * The edit function describes the structure of your block in the context of the editor.
@@ -47,21 +43,20 @@ registerBlockType( 'cgb/block-gutestrap', {
 	 * @param {Object} props Props.
 	 * @returns {Mixed} JSX Component.
 	 */
-	edit: ( props ) => {
+	edit: (props) => {
 		// Creates a <p class='wp-block-cgb-block-gutestrap'></p>.
 		return (
-			<div className={ props.className }>
+			<div className={props.className}>
 				<p>— Hello from the backend.</p>
 				<p>
 					CGB BLOCK: <code>gutestrap</code> is a new Gutenberg block
 				</p>
 				<p>
-					It was created via{ ' ' }
+					It was created via{" "}
 					<code>
-						<a href="https://github.com/ahmadawais/create-guten-block">
-							create-guten-block
-						</a>
-					</code>.
+						<a href="https://github.com/ahmadawais/create-guten-block">create-guten-block</a>
+					</code>
+					.
 				</p>
 			</div>
 		);
@@ -78,22 +73,21 @@ registerBlockType( 'cgb/block-gutestrap', {
 	 * @param {Object} props Props.
 	 * @returns {Mixed} JSX Frontend HTML.
 	 */
-	save: ( props ) => {
+	save: (props) => {
 		return (
-			<div className={ props.className }>
+			<div className={props.className}>
 				<p>— Hello from the frontend.</p>
 				<p>
 					CGB BLOCK: <code>gutestrap</code> is a new Gutenberg block.
 				</p>
 				<p>
-					It was created via{ ' ' }
+					It was created via{" "}
 					<code>
-						<a href="https://github.com/ahmadawais/create-guten-block">
-							create-guten-block
-						</a>
-					</code>.
+						<a href="https://github.com/ahmadawais/create-guten-block">create-guten-block</a>
+					</code>
+					.
 				</p>
 			</div>
 		);
 	},
-} );
+});
