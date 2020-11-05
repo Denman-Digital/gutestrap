@@ -1,0 +1,14 @@
+{
+    "name": "paulthewalton/gutestrap",
+    "description": "Wordpress plugin to bring Bootstrap's grid system to Gutenberg",
+    "type": "project",
+    "require-dev": {
+        "php-stubs/wordpress-stubs": "^5.5"
+    },
+    "authors": [
+        {
+            "name": "Paul Walton",
+            "email": "paul@denmandigital.com"
+        }
+    ]
+}
