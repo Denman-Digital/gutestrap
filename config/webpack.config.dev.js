@@ -108,6 +108,10 @@ module.exports = {
 				exclude: /(node_modules|bower_components)/,
 				use: editBlocksCSSPlugin.extract(extractConfig),
 			},
+			{
+				test: /\.svg$/,
+				use: ["@svgr/webpack", "url-loader"],
+			},
 		],
 	},
 	// Add plugins.
