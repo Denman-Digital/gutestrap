@@ -42,11 +42,11 @@ export const ColumnWidthOffsetControl = ({
 	onChange = () => {},
 	value: { width: widthProp, offset: offsetProp },
 }) => {
-	const [width, setWidth] = useState(null != widthProp ? widthProp : 0);
+	const [width, setWidth] = useState(widthProp != null ? widthProp : 0);
 	useEffect(() => setWidth(widthProp), [widthProp]);
 
 	const [offset, setOffset] = useState(
-		(null != offsetProp && offsetProp) || (canInherit && COLUMN_OPTION_INHERIT) || 0
+		(offsetProp != null && offsetProp) || (canInherit && COLUMN_OPTION_INHERIT) || 0
 	);
 	useEffect(() => setOffset(offsetProp), [offsetProp]);
 

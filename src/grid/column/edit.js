@@ -64,8 +64,8 @@ export const ColumnEdit = ({ attributes, className, setAttributes }) => {
 								<ColumnWidthOffsetControl
 									label={title}
 									value={{
-										width: null != attributes.width[breakpoint] ? attributes.width[breakpoint] : fallbacks.width,
-										offset: null != attributes.offset[breakpoint] ? attributes.offset[breakpoint] : fallbacks.offset,
+										width: attributes.width[breakpoint] != null ? attributes.width[breakpoint] : fallbacks.width,
+										offset: attributes.offset[breakpoint] != null ? attributes.offset[breakpoint] : fallbacks.offset,
 									}}
 									onChange={({ width, offset }) => {
 										const { [breakpoint]: _w, ...widths } = attributes.width;
@@ -75,7 +75,7 @@ export const ColumnEdit = ({ attributes, className, setAttributes }) => {
 											offset: { [breakpoint]: offset, ...offsets },
 										});
 									}}
-									canInherit={"xs" !== breakpoint}
+									canInherit={breakpoint !== "xs"}
 								/>
 							</div>
 						);

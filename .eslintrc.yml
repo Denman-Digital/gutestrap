@@ -117,7 +117,10 @@ rules:
   - error
   - requireReturn: false
   valid-typeof: error
-  yoda: warn
+  yoda:
+  - warn
+  - never
+  - exceptRange: true
   # object-curly-spacing:
   # - error
   # - always
