@@ -37,8 +37,8 @@ import { columnClassName } from "./render";
  * @returns {Mixed} JSX Component.
  */
 export const ColumnEdit = ({ attributes, className, setAttributes }) => {
-	attributes.width = attributes.width || {};
-	attributes.offset = attributes.offset || {};
+	const widths = attributes.width || {};
+	const offsets = attributes.offset || {};
 	return (
 		<Fragment>
 			<InspectorControls>
@@ -49,7 +49,7 @@ export const ColumnEdit = ({ attributes, className, setAttributes }) => {
 							GUTESTRAP_TEXT_DOMAIN
 						)}
 					</p> */}
-				<pre>{JSON.stringify(attributes, null, 2)}</pre>
+				{/* <pre>{JSON.stringify(attributes, null, 2)}</pre> */}
 
 				<ResponsiveTabs>
 					{(tab) => {
@@ -68,11 +68,12 @@ export const ColumnEdit = ({ attributes, className, setAttributes }) => {
 										offset: attributes.offset[breakpoint] != null ? attributes.offset[breakpoint] : fallbacks.offset,
 									}}
 									onChange={({ width, offset }) => {
-										const { [breakpoint]: _w, ...widths } = attributes.width;
-										const { [breakpoint]: _o, ...offsets } = attributes.offset;
+										widths[breakpoint] = width;
+										offsets[breakpoint] = offset;
 										setAttributes({
-											width: { [breakpoint]: width, ...widths },
-											offset: { [breakpoint]: offset, ...offsets },
+											width: widths,
+											offset: offsets,
+											__forceUpdate: Date.now(),
 										});
 									}}
 									canInherit={breakpoint !== "xs"}
