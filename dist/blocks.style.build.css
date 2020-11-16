@@ -9,3 +9,29 @@
  *
  * CSS for both Frontend+Backend.
  */
+.justify-content-evenly {
+  -ms-flex-pack: space-evenly !important;
+      justify-content: space-evenly !important; }
+
+@media (min-width: 576px) {
+  .justify-content-sm-evenly {
+    -ms-flex-pack: space-evenly !important;
+        justify-content: space-evenly !important; } }
+
+@media (min-width: 768px) {
+  .justify-content-md-evenly {
+    -ms-flex-pack: space-evenly !important;
+        justify-content: space-evenly !important; } }
+
+@media (min-width: 992px) {
+  .justify-content-lg-evenly {
+    -ms-flex-pack: space-evenly !important;
+        justify-content: space-evenly !important; } }
+
+@media (min-width: 1200px) {
+  .justify-content-xl-evenly {
+    -ms-flex-pack: space-evenly !important;
+        justify-content: space-evenly !important; } }
+
+.w-100 {
+  width: 100% !important; }

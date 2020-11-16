@@ -10,5 +10,8 @@
             "name": "Paul Walton",
             "email": "paul@denmandigital.com"
         }
-    ]
+    ],
+    "require": {
+        "scssphp/scssphp": "^1.4"
+    }
 }
