@@ -5,26 +5,84 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
-import {
-	ColumnWidthOffsetControl,
-	COLUMN_OPTION_INHERIT,
-	COLUMN_OPTION_WIDTH_DEFAULT,
-} from "./column-width-offset-control";
-
+import { __, _n, _x } from "@wordpress/i18n";
+import { sprintf } from "sprintf-js";
 import classNames from "classnames";
 
-import { __ } from "@wordpress/i18n";
-
 import { Fragment } from "@wordpress/element";
-import { InspectorControls, InnerBlocks } from "@wordpress/block-editor";
-import { PanelBody } from "@wordpress/components";
+import { SelectControl, PanelBody } from "@wordpress/components";
+import { InspectorControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
+import { toNumber } from "pw-js-utils";
 
+import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
+import {
+	BlockFlexItemAlignmentToolbar,
+	FLEX_ALIGN_SELF_OPTIONS,
+} from "../../components/alignment/flex-items-alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
-import { columnClassName } from "./render";
+import { columnClassNames } from "./render";
 
-// const optionsXS =
+export const COLUMN_OPTION_WIDTH_FIT_VALUE = "auto";
+export const COLUMN_OPTION_WIDTH_DEFAULT_VALUE = "default";
+export const COLUMN_OPTION_INHERIT_VALUE = "inherit";
+
+const INHERIT_OPTION = {
+	label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
+	value: COLUMN_OPTION_INHERIT_VALUE,
+};
+
+function generateColumnOptions(gridCols) {
+	const columnsCount = Math.max(1, gridCols);
+	const offsets = [INHERIT_OPTION];
+	const widths = [
+		INHERIT_OPTION,
+		{
+			label: __("Default width from row", GUTESTRAP_TEXT_DOMAIN),
+			value: COLUMN_OPTION_WIDTH_DEFAULT_VALUE,
+		},
+		{
+			label: __("Fit content", GUTESTRAP_TEXT_DOMAIN),
+			value: COLUMN_OPTION_WIDTH_FIT_VALUE,
+		},
+	];
+
+	for (let count = 1; count <= columnsCount; count++) {
+		const offset = count - 1;
+		offsets.push({
+			value: offset,
+			label: offset
+				? sprintf(_n("%d column", "%d columns", offset, GUTESTRAP_TEXT_DOMAIN), offset)
+				: __("No offset", GUTESTRAP_TEXT_DOMAIN),
+		});
+		widths.push({
+			value: count,
+			label: sprintf(_n("%d column", "%d columns", count, GUTESTRAP_TEXT_DOMAIN), count),
+		});
+	}
+	return { widths, offsets };
+}
+
+const { widths: COL_WIDTH_OPTIONS, offsets: COL_OFFSET_OPTIONS } = generateColumnOptions(12);
+
+const COL_ALIGN_OPTIONS = [
+	{
+		label: __("Top", GUTESTRAP_TEXT_DOMAIN),
+		value: "top",
+	},
+	{
+		label: __("Center", GUTESTRAP_TEXT_DOMAIN),
+		value: "center",
+	},
+	{
+		label: __("Bottom", GUTESTRAP_TEXT_DOMAIN),
+		value: "bottom",
+	},
+	{
+		label: __("Baseline", GUTESTRAP_TEXT_DOMAIN),
+		value: "baseline",
+	},
+];
 /**
  * The edit function describes the structure of your block in the context of the editor.
  * This represents what the editor will render when the block is used.
@@ -37,71 +95,108 @@ import { columnClassName } from "./render";
  * @returns {Mixed} JSX Component.
  */
 export const ColumnEdit = ({ attributes, className, setAttributes }) => {
-	const widths = attributes.width || {};
-	const offsets = attributes.offset || {};
+	const { width = {}, offset = {}, alignment = {} } = attributes;
+
 	return (
 		<Fragment>
 			<InspectorControls>
-				{/* <PanelBody title={__("Responsive Width & Offset", GUTESTRAP_TEXT_DOMAIN)}>
-					<p>
-						{__(
-							"Bootstrap rows and columns are based on a 12-column grid. Each column can span and be offset by a number of the available columns, wrapping as needed.",
-							GUTESTRAP_TEXT_DOMAIN
-						)}
-					</p> */}
-				{/* <pre>{JSON.stringify(attributes, null, 2)}</pre> */}
-
-				<ResponsiveTabs>
+				<ResponsiveTabs
+					hasNotification={(bp) => {
+						if (bp === "xs") return false;
+						return (
+							(width[bp] && width[bp] !== COLUMN_OPTION_INHERIT_VALUE) ||
+							(offset[bp] && offset[bp] !== COLUMN_OPTION_INHERIT_VALUE) ||
+							(alignment[bp] && alignment[bp] !== COLUMN_OPTION_INHERIT_VALUE)
+						);
+					}}
+				>
 					{(tab) => {
-						console.log(tab);
-						const { title, breakpoint } = tab;
+						const { title, breakpoint, label } = tab;
+						const canInherit = breakpoint !== "xs";
+
 						const fallbacks = {
-							width: ["xs", "sm"].includes(breakpoint) ? COLUMN_OPTION_WIDTH_DEFAULT : COLUMN_OPTION_INHERIT,
-							offset: ["xs", "sm"].includes(breakpoint) ? 0 : COLUMN_OPTION_INHERIT,
+							width: canInherit ? COLUMN_OPTION_INHERIT_VALUE : COLUMN_OPTION_WIDTH_DEFAULT_VALUE,
+							offset: canInherit ? COLUMN_OPTION_INHERIT_VALUE : 0,
+							alignment: COLUMN_OPTION_INHERIT_VALUE,
 						};
 						return (
-							<div>
-								<ColumnWidthOffsetControl
-									label={title}
-									value={{
-										width: attributes.width[breakpoint] != null ? attributes.width[breakpoint] : fallbacks.width,
-										offset: attributes.offset[breakpoint] != null ? attributes.offset[breakpoint] : fallbacks.offset,
+							<PanelBody>
+								<p>{`${label} layout`}</p>
+								<SelectControl
+									label={__("Width", GUTESTRAP_TEXT_DOMAIN)}
+									options={canInherit ? COL_WIDTH_OPTIONS : COL_WIDTH_OPTIONS.slice(1)}
+									value={width[breakpoint] != null ? width[breakpoint] : fallbacks.width}
+									onChange={(value) => {
+										width[breakpoint] = toNumber(value);
+										setAttributes({ width: { ...width } });
 									}}
-									onChange={({ width, offset }) => {
-										widths[breakpoint] = width;
-										offsets[breakpoint] = offset;
-										setAttributes({
-											width: widths,
-											offset: offsets,
-											__forceUpdate: Date.now(),
-										});
-									}}
-									canInherit={breakpoint !== "xs"}
 								/>
-							</div>
+								<SelectControl
+									label={__("Offset", GUTESTRAP_TEXT_DOMAIN)}
+									options={canInherit ? COL_OFFSET_OPTIONS : COL_OFFSET_OPTIONS.slice(1)}
+									value={offset[breakpoint] != null ? offset[breakpoint] : fallbacks.offset}
+									onChange={(value) => {
+										offset[breakpoint] = toNumber(value);
+										setAttributes({ offset: { ...offset } });
+									}}
+								/>
+								<SelectControl
+									label={__("Alignment", GUTESTRAP_TEXT_DOMAIN)}
+									options={[
+										canInherit
+											? INHERIT_OPTION
+											: {
+													label: __("Default alignment from row", GUTESTRAP_TEXT_DOMAIN),
+													value: COLUMN_OPTION_INHERIT_VALUE,
+											  },
+										...COL_ALIGN_OPTIONS,
+									]}
+									value={alignment[breakpoint] != null ? alignment[breakpoint] : fallbacks.alignment}
+									onChange={(value) => {
+										alignment[breakpoint] = value;
+										setAttributes({ alignment: { ...alignment } });
+									}}
+								/>
+							</PanelBody>
 						);
 					}}
 				</ResponsiveTabs>
-				{/* </PanelBody> */}
 			</InspectorControls>
+			<BlockControls>
+				<BlockFlexItemAlignmentToolbar
+					label={__("column", GUTESTRAP_TEXT_DOMAIN)}
+					value={alignment.xs}
+					onChange={(value) => {
+						alignment.xs = value;
+						setAttributes({ alignment: { ...alignment } });
+					}}
+				/>
+			</BlockControls>
 			<div className={className}>
-				<InnerBlocks />
+				<InnerBlocks renderAppender={() => <InnerBlocks.ButtonBlockAppender />} />
 			</div>
 		</Fragment>
 	);
 };
 
-const gutestrapBlockListBlockClasses = createHigherOrderComponent((BlockListBlock) => {
-	return ({ className, ...props }) => {
-		const { attributes, block } = props;
-		switch (block.name) {
-			case "gutestrap/col":
-				// console.log(`${block.name}:`, props);
-				className = classNames(className, columnClassName(attributes));
-				break;
-		}
-		return <BlockListBlock {...props} className={className} />;
-	};
-}, "withBlockListBlockClasses");
-
-wp.hooks.addFilter("editor.BlockListBlock", "gutestrap/with-block-list-block-classes", gutestrapBlockListBlockClasses);
+wp.hooks.addFilter(
+	"editor.BlockListBlock",
+	"gutestrap/with-column-block-list-block-classes",
+	createHigherOrderComponent((BlockListBlock) => {
+		/**
+		 * @arg {Object} props - Props.
+		 * @arg {Object} props.attributes - Block attributes.
+		 * @arg {Object} props.block - Block properties.
+		 * @arg {string} props.block.name - Block name.
+		 * @returns {*} JSX
+		 */
+		const gutestrapColumnBlockListBlockClasses = ({ className, ...props }) => {
+			const { attributes, block } = props;
+			if (block.name === "gutestrap/col") {
+				className = classNames(className, columnClassNames(attributes));
+			}
+			return <BlockListBlock {...props} className={className} />;
+		};
+		return gutestrapColumnBlockListBlockClasses;
+	}, "withGutestrapColumnBlockListBlockClasses")
+);

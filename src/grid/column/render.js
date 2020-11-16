@@ -17,18 +17,20 @@ const columnWidthSuffix = (width) => {
 	}
 };
 
-export const columnClassName = ({ width = {}, offset = {} }) => {
+export const columnClassNames = ({ width = {}, offset = {} }) => {
 	return classNames({
 		[`col${columnWidthSuffix(width.xs || COLUMN_OPTION_WIDTH_DEFAULT)}`]: true,
-		[`col-sm${columnWidthSuffix(width.sm)}`]: null != width.sm && width.sm !== COLUMN_OPTION_INHERIT,
-		[`col-md${columnWidthSuffix(width.md)}`]: null != width.md && width.md !== COLUMN_OPTION_INHERIT,
-		[`col-lg${columnWidthSuffix(width.lg)}`]: null != width.lg && width.lg !== COLUMN_OPTION_INHERIT,
-		[`col-xl${columnWidthSuffix(width.xl)}`]: null != width.xl && width.xl !== COLUMN_OPTION_INHERIT,
+		[`col-sm${columnWidthSuffix(width.sm)}`]: width.sm != null && width.sm !== COLUMN_OPTION_INHERIT,
+		[`col-md${columnWidthSuffix(width.md)}`]: width.md != null && width.md !== COLUMN_OPTION_INHERIT,
+		[`col-lg${columnWidthSuffix(width.lg)}`]: width.lg != null && width.lg !== COLUMN_OPTION_INHERIT,
+		[`col-xl${columnWidthSuffix(width.xl)}`]: width.xl != null && width.xl !== COLUMN_OPTION_INHERIT,
+		[`col-xxl${columnWidthSuffix(width.xxl)}`]: width.xxl != null && width.xxl !== COLUMN_OPTION_INHERIT,
 		[`offset-${offset.xs}`]: !!offset.xs,
-		[`offset-sm-${offset.sm}`]: null != offset.sm && offset.sm !== COLUMN_OPTION_INHERIT,
-		[`offset-md-${offset.md}`]: null != offset.md && offset.md !== COLUMN_OPTION_INHERIT,
-		[`offset-lg-${offset.lg}`]: null != offset.lg && offset.lg !== COLUMN_OPTION_INHERIT,
-		[`offset-xl-${offset.xl}`]: null != offset.xl && offset.xl !== COLUMN_OPTION_INHERIT,
+		[`offset-sm-${offset.sm}`]: offset.sm != null && offset.sm !== COLUMN_OPTION_INHERIT,
+		[`offset-md-${offset.md}`]: offset.md != null && offset.md !== COLUMN_OPTION_INHERIT,
+		[`offset-lg-${offset.lg}`]: offset.lg != null && offset.lg !== COLUMN_OPTION_INHERIT,
+		[`offset-xl-${offset.xl}`]: offset.xl != null && offset.xl !== COLUMN_OPTION_INHERIT,
+		[`offset-xxl-${offset.xxl}`]: offset.xxl != null && offset.xxl !== COLUMN_OPTION_INHERIT,
 	});
 };
 
@@ -45,7 +47,7 @@ export const columnClassName = ({ width = {}, offset = {} }) => {
  */
 export const ColumnRender = ({ attributes, className }) => {
 	return (
-		<div className={classNames(className, columnClassName(attributes))}>
+		<div className={classNames(className, columnClassNames(attributes))}>
 			<InnerBlocks.Content />
 		</div>
 	);

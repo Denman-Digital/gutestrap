@@ -6,23 +6,32 @@
  */
 
 import { __ } from "@wordpress/i18n";
-import { column as icon } from "@wordpress/icons";
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 import { ColumnEdit as edit } from "./edit";
 import { ColumnRender as save } from "./render";
+import { ReactComponent as icon } from "./icon.svg";
+import { name as rowBlockName } from "../row";
 
-const name = "gutestrap/col"; // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
+/** Block name. */
+export const name = "gutestrap/col";
 
-const title = __("Column", GUTESTRAP_TEXT_DOMAIN); // Block title.
+/** Block title. */
+export const title = __("Column", GUTESTRAP_TEXT_DOMAIN); // Block title.
 
-const attributes = {
+/** Block attributes. */
+export const attributes = {
 	width: { type: "object" },
 	offset: { type: "object" },
+	alignment: { type: "object" },
 };
 
-const category = "layout";
+/** Block category. */
+export const category = "layout";
 
-const parent = ["gutestrap/row"];
+/** @type {string[]} Allowed parent blocks. */
+export const parent = [rowBlockName];
+
+export { icon, edit, save };
 
 export default { name, settings: { title, category, icon, parent, attributes, edit, save } };
