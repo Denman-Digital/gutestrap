@@ -1,0 +1,13 @@
+.bi {
+	&-block-control-icon {
+		font-size: 1.5rem;
+		flex: 0 0 auto;
+	}
+}
+
+.components-dropdown-menu__popover.popover-align-text-start {
+	.components-dropdown-menu__menu > button {
+		text-align: left;
+		text-align: start;
+	}
+}
