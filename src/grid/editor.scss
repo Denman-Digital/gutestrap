@@ -175,7 +175,10 @@ html {
 	&::after {
 		content: "";
 		display: block;
-		border-top: thin solid currentColor;
+		// border-top: thin solid currentColor;
+		border: 0;
+		border-top: 1px solid #ddd;
+		border-bottom: 1px solid #fafafa;
 		flex: 1 1 0;
 	}
 

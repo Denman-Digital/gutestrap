@@ -2477,7 +2477,9 @@ html {
   .wp-block-gutestrap-row-break::before, .wp-block-gutestrap-row-break::after {
     content: "";
     display: block;
-    border-top: thin solid currentColor;
+    border: 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #fafafa;
     -ms-flex: 1 1 0px;
         flex: 1 1 0; }
   .wp-block-gutestrap-row-break svg {

@@ -10,6 +10,7 @@
  */
 
 import "./grid/";
+import "./block-clear/";
 
 // const { registerPlugin } = wp.plugins;
 // const { PluginDocumentSettingPanel } = wp.editPost;
