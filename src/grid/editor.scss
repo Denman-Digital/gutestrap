@@ -5,61 +5,65 @@
  * which makes it higher in priority.
  */
 
-@import "../../node_modules/bootstrap/scss/functions";
-@import "../../node_modules/bootstrap/scss/variables";
-@import "../../node_modules/bootstrap/scss/mixins";
-
 html {
-  box-sizing: border-box;
-  -ms-overflow-style: scrollbar;
+	box-sizing: border-box;
+	-ms-overflow-style: scrollbar;
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 
-@import "../../node_modules/bootstrap/scss/functions";
-@import "../../node_modules/bootstrap/scss/variables";
-
-@import "../../node_modules/bootstrap/scss/mixins/breakpoints";
-@import "../../node_modules/bootstrap/scss/mixins/grid-framework";
-@import "../../node_modules/bootstrap/scss/mixins/grid";
+#editor .wp-block {
+	max-width: unset;
+}
 
 // Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
 // Makes the @content apply to the given breakpoint and wider.
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
-  $min: breakpoint-min($name, $breakpoints);
-  @if $min {
+	$min: breakpoint-min($name, $breakpoints);
+	@if $min {
 		$min: $min + 280px;
-    @media (min-width: $min) {
-			@content;
+		@media (min-width: $min) {
+			#editor {
+				@content;
 
-			@if $name == sm or $name == md {
-				#editor .editor-styles-wrapper[style*="width: 780px;"] {
-					@content;
+				@if $name == sm or $name == md {
+					.editor-styles-wrapper[style*="width: 780px;"] {
+						@content;
+					}
 				}
 			}
 		}
-  } @else {
-		@content;
-
-		#editor .editor-styles-wrapper[style*="width: 360px;"],
-		#editor .editor-styles-wrapper[style*="width: 780px;"] {
+	} @else {
+		#editor {
 			@content;
+
+			.editor-styles-wrapper[style*="width: 360px;"],
+			.editor-styles-wrapper[style*="width: 780px;"] {
+				@content;
+			}
 		}
 	}
 }
 
 @import "../../node_modules/bootstrap/scss/grid";
-@import "../../node_modules/bootstrap/scss/utilities/display";
 @import "../../node_modules/bootstrap/scss/utilities/flex";
-@import "../../node_modules/bootstrap/scss/utilities/spacing";
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+		.justify-content#{$infix}-evenly {
+			justify-content: space-evenly !important;
+		}
+	}
+}
 
 .block-editor-block-list__block[data-title] {
 	&::before {
-		content: attr(data-title);
+		content: attr(data-title) !important;
 		font-family: $font-family-sans-serif !important;
 		@include font-size(0.625rem, true);
 		font-weight: normal !important;
@@ -76,13 +80,24 @@ html {
 	}
 
 	&[data-type="gutestrap/container"] {
-		&.is-selected {
-		}
-		&.is-hovered {
+		// border: 1px dashed transparent;
+		// border-radius: 4px;
+		// outline: ;
 
+		&.has-child-selected,
+		&.is-selected,
+		&.is-hovered,
+		&:hover {
+			// border-color: $admin-color-fallback;
+			// border-color: $admin-color;
+			outline: $admin-color-fallback auto;
+			outline: $admin-color auto;
 		}
-		&.has-child-selected {
+	}
 
+	&[data-type="gutestrap/container"] {
+		&::before {
+			// float: left;
 		}
 	}
 
@@ -114,21 +129,58 @@ html {
 	}
 }
 
-.components-column-width-offset-control {
-	&__fields {
-		columns: 2;
-		column-gap: 0.5rem;
-
-		> .components-base-control {
-			margin-bottom: 0;
+.gutestrap-block {
+	&-container,
+	&-col {
+		&.block-editor-block-list__block {
+			margin-top: unset;
+			margin-bottom: unset;
 		}
 
-		.components-select-control__input {
-			font-size: small;
+		.block-editor-block-list__layout & {
+			margin-left: unset;
+			margin-right: unset;
 		}
-		.components-base-control__label {
-			font-size: x-small;
-		}
+	}
+}
 
+#editor .w-100 {
+	width: 100% !important;
+}
+
+.gutestrap-block-col + .block-list-appender {
+	// margin-top: 0;
+
+	&::before {
+		content: "·";
+		font-size: 0.625rem !important;
+		display: block;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+}
+
+.gutestrap-block-row-break {
+	@include make-col-ready;
+}
+
+.wp-block-gutestrap-row-break {
+	font-size: 1.5rem;
+	color: grey;
+	display: flex;
+	align-items: center;
+
+	&::before,
+	&::after {
+		content: "";
+		display: block;
+		border-top: thin solid currentColor;
+		flex: 1 1 0;
+	}
+
+	svg {
+		margin: 0 0.25em;
+		display: block;
 	}
 }

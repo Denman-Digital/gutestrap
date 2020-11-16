@@ -4,4 +4,15 @@
  * CSS for both Frontend+Backend.
  */
 
-// @import "../../node_modules/bootstrap/scss/bootstrap-grid.scss"
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+		.justify-content#{$infix}-evenly {
+			justify-content: space-evenly !important;
+		}
+	}
+}
+
+.w-100 {
+	width: 100% !important;
+}
