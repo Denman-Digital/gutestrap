@@ -1,12 +1,57 @@
 .gutestrap-responsive-tabs {
-	.components-tab-panel__tabs-item {
-		padding: 0 1em;
-		// border-top: 3px solid transparent;
-		// border-bottom: 3px solid transparent;
+	.components-tab-panel__tabs {
+		// box-shadow: inset 0 -4px 0 0 whitesmoke;
 
-		// &.is-active {
-		// 	color: $admin-color;
-		// 	border-bottom-color: currentColor;
-		// }
+		&-item {
+			padding: 0 0.6875rem;
+
+			&.is-active {
+				// color: $admin-color;
+			}
+
+			&:focus,
+			&.is-active:focus {
+				box-shadow: inset 0 0 0 1.5px transparent, inset 0 -4px 0 0 $admin-color-fallback;
+				box-shadow: inset 0 0 0 1.5px transparent, inset 0 -4px 0 0 $admin-color;
+				outline: none;
+			}
+
+			&.has-icon-title {
+				.bi {
+					font-size: 1.333em;
+				}
+			}
+
+			&.has-notification {
+				span {
+					position: relative;
+
+					&::after {
+						content: "";
+						width: 8px;
+						height: 8px;
+						top: -2px;
+						right: -2px;
+						border-radius: 50%;
+						display: block;
+						position: absolute;
+						background-color: dodgerblue;
+						box-shadow: inset 1px 1px 3px -1px aliceblue;
+					}
+				}
+				&-info {
+					background-color: dodgerblue;
+					box-shadow: inset 1px 1px 3px -1px aliceblue;
+				}
+				&-warn span::after {
+					background-color: gold;
+					box-shadow: inset 2px 2px 2px -1px lemonchiffon;
+				}
+				&-error span::after {
+					background-color: orangered;
+					box-shadow: inset 2px 2px 2px -1px tomato;
+				}
+			}
+		}
 	}
 }
