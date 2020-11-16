@@ -4,5 +4,9 @@
  * Can include things like variables and mixins
  * that are used across the project.
 */
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
 
 $admin-color: var(--wp-admin-theme-color);
+$admin-color-fallback: #007cba;
