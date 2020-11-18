@@ -13,13 +13,17 @@ import { Fragment } from "@wordpress/element";
 import { SelectControl, PanelBody } from "@wordpress/components";
 import { InspectorControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
-import { toNumber } from "pw-js-utils";
+// import { toNumber } from "js-utils";
+function toNumber(value, fallback = 0) {
+	const number = Number(value);
+	if (isNaN(number)) {
+		return toNumber(fallback);
+	}
+	return number;
+}
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
-import {
-	BlockFlexItemAlignmentToolbar,
-	FLEX_ALIGN_SELF_OPTIONS,
-} from "../../components/alignment/flex-items-alignment";
+import { BlockFlexItemAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { columnClassNames } from "./render";
 

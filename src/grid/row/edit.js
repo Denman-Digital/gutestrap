@@ -3,7 +3,14 @@ import { __, _x } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { InspectorControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
 import { PanelBody, SelectControl, ToggleControl, Toolbar, Tooltip, Button } from "@wordpress/components";
-import { toNumber } from "pw-js-utils";
+// import { toNumber } from "js-utils";
+function toNumber(value, fallback = 0) {
+	const number = Number(value);
+	if (isNaN(number)) {
+		return toNumber(fallback);
+	}
+	return number;
+}
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { BlockFlexItemsAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
 import { BlockContentJustificationToolbar } from "../../components/alignment/flex-content-justification";
@@ -16,9 +23,9 @@ import { name as columnBlockName } from "../column";
 
 const ROW_CHILDREN_LABEL = __("columns", GUTESTRAP_TEXT_DOMAIN);
 
-const generateRowColumnsOptions = (gridCols = 12) => {
+const generateRowColumnsOptions = (gridRowCols = 6) => {
 	const opts = [];
-	for (let count = 1; count <= gridCols; count++) {
+	for (let count = 1; count <= gridRowCols; count++) {
 		opts.push({
 			label: `1/${count}`,
 			value: count,

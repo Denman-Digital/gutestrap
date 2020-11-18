@@ -73,6 +73,7 @@ const extractConfig = {
 	],
 };
 
+// console.log(paths.babelExclude);
 // Export configuration.
 module.exports = {
 	entry: {
@@ -91,7 +92,8 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(js|jsx|mjs)$/,
-				exclude: /(node_modules|bower_components)/,
+				// exclude: /node_modules[\\/](?!(js-utils)[\\/])/,
+				exclude: paths.babelExclude,
 				use: {
 					loader: "babel-loader",
 					options: {
