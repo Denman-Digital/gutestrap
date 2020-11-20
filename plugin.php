@@ -1,21 +1,19 @@
 <?php
 /**
- * Plugin Name: gutestrap — CGB Gutenberg Block Plugin
+ * Plugin Name: Gutestrap
  * Plugin URI: https://github.com/ahmadawais/create-guten-block/
- * Description: gutestrap — is a Gutenberg plugin created via create-guten-block.
- * Author: mrahmadawais, maedahbatool
- * Author URI: https://AhmadAwais.com/
+ * Description: Supercharge your Gutenberg layouts with Bootstrap Grid.
+ * Author: Denman Digital
+ * Author URI: https://denman.digital
  * Version: 1.0.0
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  *
- * @package CGB
+ * @package gutestrap
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) ||	exit;
 
 require __DIR__ . '/vendor/autoload.php';
 

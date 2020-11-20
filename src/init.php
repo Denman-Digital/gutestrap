@@ -6,7 +6,7 @@
  * Enqueue CSS/JS of all the blocks.
  *
  * @since   1.0.0
- * @package CGB
+ * @package gutestrap
  */
 
 // Exit if accessed directly.
@@ -28,11 +28,11 @@ if (!defined('ABSPATH')) {
  * @uses {wp-editor} for WP editor styles.
  * @since 1.0.0
  */
-function gutestrap_cgb_block_assets()
+function gutestrap_block_assets()
 { // phpcs:ignore
 	// Register block styles for both frontend + backend.
 	wp_register_style(
-		'gutestrap-cgb-style-css',
+		'gutestrap-style-css',
 		plugins_url('dist/blocks.style.build.css', dirname(__FILE__)),
 		is_admin() ? ['wp-editor', "gutestrap-bootstrap-grid", "gutestrap-fontawesome"] : ["gutestrap-bootstrap-grid", "gutestrap-fontawesome"],
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css') // Version: File modification time.
@@ -54,7 +54,7 @@ function gutestrap_cgb_block_assets()
 
 	// Register block editor script for backend.
 	wp_register_script(
-		'gutestrap-cgb-block-js',
+		'gutestrap-block-js',
 		plugins_url('/dist/blocks.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
 		['wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'], // Dependencies, defined above.
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.build.js'), // Version: filemtime — Gets file modification time.
@@ -63,27 +63,27 @@ function gutestrap_cgb_block_assets()
 
 	// Register block editor styles for backend.
 	wp_register_style(
-		'gutestrap-cgb-block-editor-css',
+		'gutestrap-block-editor-css',
 		plugins_url('dist/blocks.editor.build.css', dirname(__FILE__)), // Block editor CSS.
 		['wp-edit-blocks'], // Dependency to include the CSS after it.
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.editor.build.css') // Version: File modification time.
 	);
 
-	// WP Localized globals. Use dynamic PHP stuff in JavaScript via `cgbGlobal` object.
+	// WP Localized globals. Use dynamic PHP stuff in JavaScript via `gutestrapGlobal` object.
 	wp_localize_script(
-		'gutestrap-cgb-block-js',
-		'cgbGlobal', // Array containing dynamic data for a JS Global.
+		'gutestrap-block-js',
+		'gutestrapGlobal', // Array containing dynamic data for a JS Global.
 		[
 			'pluginDirPath' => plugin_dir_path(__DIR__),
 			'pluginDirUrl'  => plugin_dir_url(__DIR__),
-			// Add more data here that you want to access from `cgbGlobal` object.
+			// Add more data here that you want to access from `gutestrapGlobal` object.
 		]
 	);
 
 	$block_assets = [
-		'style' => 'gutestrap-cgb-style-css',
-		'editor_script' => 'gutestrap-cgb-block-js',
-		'editor_style' => 'gutestrap-cgb-block-editor-css',
+		'style' => 'gutestrap-style-css',
+		'editor_script' => 'gutestrap-block-js',
+		'editor_style' => 'gutestrap-block-editor-css',
 	];
 
 	/**
@@ -100,7 +100,7 @@ function gutestrap_cgb_block_assets()
 	register_block_type('gutestrap/row', $block_assets);
 	register_block_type('gutestrap/col', $block_assets);
 }
-add_action('init', 'gutestrap_cgb_block_assets');
+add_action('init', 'gutestrap_block_assets');
 
 function gutestrap_apply_settings()
 {

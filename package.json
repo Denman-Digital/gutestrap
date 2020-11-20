@@ -1,7 +1,15 @@
 {
 	"name": "gutestrap",
+	"displayName": "Gutestrap",
 	"version": "1.0.0",
 	"private": true,
+	"author": "Denman Digital",
+	"description": "Supercharge your Gutenberg layouts with Bootstrap Grid.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Denman-Digital/gutestrap"
+	},
+	"homepage": "https://github.com/Denman-Digital/gutestrap#readme",
 	"scripts": {
 		"start": "node scripts/start.js",
 		"build": "node scripts/build.js",

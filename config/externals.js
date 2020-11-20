@@ -44,7 +44,7 @@ const externals = [
 		jquery: "jQuery", // import $ from 'jquery'; // Use jQuery from WP after enqueuing it.
 		"react-dom": "ReactDOM",
 		lodash: "lodash", // Lodash is there in Gutenberg.
-		cgbGlobal: "cgbGlobal", // import globals from 'cgbGlobal'; // Localized data.
+		gutestrapGlobal: "gutestrapGlobal", // import globals from 'gutestrapGlobal'; // Localized data.
 	}
 );
 
