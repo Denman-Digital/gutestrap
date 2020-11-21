@@ -127,6 +127,29 @@ html {
 			padding-bottom: 0.5rem;
 		}
 	}
+
+	&[data-type="core/cover"] {
+		&::before {
+			content: "" !important;
+			width: auto;
+		}
+		&::after {
+			content: attr(data-title) !important;
+			font-family: $font-family-sans-serif !important;
+			@include font-size(0.625rem, true);
+			font-weight: normal !important;
+			display: block;
+			width: fit-content;
+			color: grey;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		&.has-background::after {
+			color: white;
+			text-shadow: 0 0 2px black;
+		}
+	}
 }
 
 .gutestrap-block {
