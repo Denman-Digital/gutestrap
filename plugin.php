@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Gutestrap
- * Plugin URI: https://github.com/ahmadawais/create-guten-block/
+ * Plugin URI: https://github.com/Denman-Digital/gutestrap
  * Description: Supercharge your Gutenberg layouts with Bootstrap Grid.
  * Author: Denman Digital
  * Author URI: https://denman.digital
