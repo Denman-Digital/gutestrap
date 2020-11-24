@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { __, _x } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import { InspectorControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
+import { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
 import { PanelBody, SelectControl, ToggleControl, Toolbar, Tooltip, Button } from "@wordpress/components";
 // import { toNumber } from "js-utils";
 function toNumber(value, fallback = 0) {
@@ -134,7 +134,7 @@ const ROW_JUSTIFICATION_OPTIONS_XS = [
  * @returns {Mixed} JSX Component.
  */
 export const RowEdit = ({ attributes, className, setAttributes }) => {
-	const { defaultColWidth = {}, alignment = {}, justification = {}, noGutters } = attributes;
+	const { defaultColWidth = {}, alignment = {}, justification = {}, noGutters, disabled } = attributes;
 	const rowProps = {
 		className: classNames(className, rowClassNames(attributes)),
 	};
@@ -228,6 +228,16 @@ export const RowEdit = ({ attributes, className, setAttributes }) => {
 					/>
 				</PanelBody>
 			</InspectorControls>
+			<InspectorAdvancedControls>
+				<ToggleControl
+					label={__("Disable block", GUTESTRAP_TEXT_DOMAIN)}
+					help={__("Prevent this block and its contents from rendering.", GUTESTRAP_TEXT_DOMAIN)}
+					checked={disabled}
+					onChange={(checked) => {
+						setAttributes({ disabled: !!checked });
+					}}
+				/>
+			</InspectorAdvancedControls>
 			<InnerBlocks
 				allowedBlocks={[rowBreakBlockName, columnBlockName]}
 				orientation="horizontal"

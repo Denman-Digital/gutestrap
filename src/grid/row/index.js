@@ -28,11 +28,15 @@ export const attributes = {
 	defaultColWidth: {
 		type: "object",
 	},
+	disabled: {
+		type: "boolean",
+	},
 };
 
 /** Block attribute default values. */
 export const DEFAULT_ATTRIBUTES = {
 	noGutters: false,
+	disabled: false,
 	alignment: {
 		xs: "top",
 		sm: "inherit",

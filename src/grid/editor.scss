@@ -184,8 +184,15 @@ html {
 	}
 }
 
-.gutestrap-block-row-break {
-	@include make-col-ready;
+.gutestrap-block {
+	&.-is-disabled {
+		opacity: 0.5;
+		filter: grayscale(0.25);
+		border: thin dashed gray;
+	}
+	&-row-break {
+		@include make-col-ready;
+	}
 }
 
 .wp-block-gutestrap-row-break {

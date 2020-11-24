@@ -1,1 +1,42 @@
-.justify-content-evenly{-ms-flex-pack:space-evenly !important;justify-content:space-evenly !important}@media (min-width: 576px){.justify-content-sm-evenly{-ms-flex-pack:space-evenly !important;justify-content:space-evenly !important}}@media (min-width: 768px){.justify-content-md-evenly{-ms-flex-pack:space-evenly !important;justify-content:space-evenly !important}}@media (min-width: 992px){.justify-content-lg-evenly{-ms-flex-pack:space-evenly !important;justify-content:space-evenly !important}}@media (min-width: 1200px){.justify-content-xl-evenly{-ms-flex-pack:space-evenly !important;justify-content:space-evenly !important}}@media (min-width: 1440px){.justify-content-xxl-evenly{-ms-flex-pack:space-evenly !important;justify-content:space-evenly !important}}.w-100{width:100% !important}
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.justify-content-evenly {
+  -ms-flex-pack: space-evenly !important;
+      justify-content: space-evenly !important; }
+
+@media (min-width: 576px) {
+  .justify-content-sm-evenly {
+    -ms-flex-pack: space-evenly !important;
+        justify-content: space-evenly !important; } }
+
+@media (min-width: 768px) {
+  .justify-content-md-evenly {
+    -ms-flex-pack: space-evenly !important;
+        justify-content: space-evenly !important; } }
+
+@media (min-width: 992px) {
+  .justify-content-lg-evenly {
+    -ms-flex-pack: space-evenly !important;
+        justify-content: space-evenly !important; } }
+
+@media (min-width: 1200px) {
+  .justify-content-xl-evenly {
+    -ms-flex-pack: space-evenly !important;
+        justify-content: space-evenly !important; } }
+
+@media (min-width: 1440px) {
+  .justify-content-xxl-evenly {
+    -ms-flex-pack: space-evenly !important;
+        justify-content: space-evenly !important; } }
+
+.w-100 {
+  width: 100% !important; }

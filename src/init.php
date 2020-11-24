@@ -140,3 +140,14 @@ function my_plugin_deny_list_blocks()
 	);
 }
 add_action('enqueue_block_editor_assets', 'my_plugin_deny_list_blocks');
+
+add_filter("render_block", function ($block_content, $block) {
+	$blockName = $block["blockName"];
+	$attributes = $block["attrs"];
+	if (in_array($blockName, ["gutestrap/row", "gutestrap/container"])) {
+		if (!is_admin() && isset($attributes["disabled"]) && $attributes["disabled"]) {
+			return "<!-- Block disabled [$blockName] -->";
+		}
+	}
+	return $block_content;
+}, 10, 2);
