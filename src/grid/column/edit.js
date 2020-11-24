@@ -72,7 +72,7 @@ const { widths: COL_WIDTH_OPTIONS, offsets: COL_OFFSET_OPTIONS } = generateColum
 const COL_ALIGN_OPTIONS = [
 	{
 		label: __("Top", GUTESTRAP_TEXT_DOMAIN),
-		value: "top",
+		value: "start",
 	},
 	{
 		label: __("Center", GUTESTRAP_TEXT_DOMAIN),
@@ -80,7 +80,7 @@ const COL_ALIGN_OPTIONS = [
 	},
 	{
 		label: __("Bottom", GUTESTRAP_TEXT_DOMAIN),
-		value: "bottom",
+		value: "end",
 	},
 	{
 		label: __("Baseline", GUTESTRAP_TEXT_DOMAIN),

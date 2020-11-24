@@ -52,7 +52,7 @@ const ROW_ALIGNMENT_OPTIONS = [
 	},
 	{
 		label: __("Top", GUTESTRAP_TEXT_DOMAIN),
-		value: "top",
+		value: "start",
 	},
 	{
 		label: __("Center", GUTESTRAP_TEXT_DOMAIN),
@@ -60,7 +60,7 @@ const ROW_ALIGNMENT_OPTIONS = [
 	},
 	{
 		label: __("Bottom", GUTESTRAP_TEXT_DOMAIN),
-		value: "bottom",
+		value: "end",
 	},
 	{
 		label: __("Baseline", GUTESTRAP_TEXT_DOMAIN),
