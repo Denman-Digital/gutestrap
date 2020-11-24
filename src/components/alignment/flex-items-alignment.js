@@ -70,16 +70,16 @@ const POPOVER_PROPS = {
 export function BlockFlexItemsAlignmentToolbar({
 	value,
 	onChange,
-	controls = ["top", "center", "bottom", "baseline"],
+	controls = ["start", "center", "end", "baseline", "stretch"],
 	isCollapsed = true,
-	label = _x("items", "Block items alignment default label subject", GUTESTRAP_TEXT_DOMAIN),
+	label = _x("items", "Block items reference for alignment labels", GUTESTRAP_TEXT_DOMAIN),
 }) {
 	function applyOrUnset(align) {
 		return () => onChange(value === align ? undefined : align);
 	}
 
 	const activeAlignment = BLOCK_FLEX_ITEMS_ALIGNMENT_CONTROLS[value];
-	const defaultAlignmentControl = BLOCK_FLEX_ITEMS_ALIGNMENT_CONTROLS.top;
+	const defaultAlignmentControl = BLOCK_FLEX_ITEMS_ALIGNMENT_CONTROLS.start;
 
 	return (
 		<ToolbarGroup
@@ -156,9 +156,9 @@ export const FLEX_ALIGN_SELF_OPTIONS = {
 export function BlockFlexItemAlignmentToolbar({
 	value,
 	onChange,
-	controls = ["none", "start", "center", "end", "baseline"],
+	controls = ["none", "start", "center", "end", "baseline", "stretch"],
 	isCollapsed = true,
-	label = _x("item", ""),
+	label = _x("item", "Block self reference for alignment labels", GUTESTRAP_TEXT_DOMAIN),
 }) {
 	function applyOrUnset(align) {
 		return () => onChange(value === align ? undefined : align);

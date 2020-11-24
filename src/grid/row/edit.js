@@ -45,37 +45,6 @@ const COLS_AUTO_OPTION = {
 	value: 0,
 };
 
-const ROW_ALIGNMENT_OPTIONS = [
-	{
-		label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
-		value: "inherit",
-	},
-	{
-		label: __("Top", GUTESTRAP_TEXT_DOMAIN),
-		value: "start",
-	},
-	{
-		label: __("Center", GUTESTRAP_TEXT_DOMAIN),
-		value: "center",
-	},
-	{
-		label: __("Bottom", GUTESTRAP_TEXT_DOMAIN),
-		value: "end",
-	},
-	{
-		label: __("Baseline", GUTESTRAP_TEXT_DOMAIN),
-		value: "baseline",
-	},
-];
-
-const ROW_ALIGNMENT_OPTIONS_XS = [
-	{
-		label: __("Top (default)", GUTESTRAP_TEXT_DOMAIN),
-		value: "top",
-	},
-	...ROW_ALIGNMENT_OPTIONS.slice(2),
-];
-
 const ROW_JUSTIFICATION_OPTIONS = [
 	{
 		label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
@@ -120,6 +89,41 @@ const ROW_JUSTIFICATION_OPTIONS_XS = [
 		value: "start",
 	},
 	...ROW_JUSTIFICATION_OPTIONS.slice(2),
+];
+
+const ROW_ALIGNMENT_OPTIONS = [
+	{
+		label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
+		value: "inherit",
+	},
+	{
+		label: __("Top", GUTESTRAP_TEXT_DOMAIN),
+		value: "start",
+	},
+	{
+		label: __("Center", GUTESTRAP_TEXT_DOMAIN),
+		value: "center",
+	},
+	{
+		label: __("Bottom", GUTESTRAP_TEXT_DOMAIN),
+		value: "end",
+	},
+	{
+		label: __("Baseline", GUTESTRAP_TEXT_DOMAIN),
+		value: "baseline",
+	},
+	{
+		label: __("Stretch", GUTESTRAP_TEXT_DOMAIN),
+		value: "stretch",
+	},
+];
+
+const ROW_ALIGNMENT_OPTIONS_XS = [
+	{
+		label: __("Top (default)", GUTESTRAP_TEXT_DOMAIN),
+		value: "start",
+	},
+	...ROW_ALIGNMENT_OPTIONS.slice(2),
 ];
 
 /**
@@ -190,17 +194,6 @@ export const RowEdit = ({ attributes, className, setAttributes }) => {
 									}}
 								/>
 								<SelectControl
-									label={__("Align columns", GUTESTRAP_TEXT_DOMAIN)}
-									options={canInherit ? ROW_ALIGNMENT_OPTIONS : ROW_ALIGNMENT_OPTIONS_XS}
-									value={
-										alignment[breakpoint] != null ? alignment[breakpoint] : DEFAULT_ATTRIBUTES.alignment[breakpoint]
-									}
-									onChange={(value) => {
-										alignment[breakpoint] = value;
-										setAttributes({ alignment: { ...alignment } });
-									}}
-								/>
-								<SelectControl
 									label={__("Distribute columns", GUTESTRAP_TEXT_DOMAIN)}
 									options={canInherit ? ROW_JUSTIFICATION_OPTIONS : ROW_JUSTIFICATION_OPTIONS_XS}
 									value={
@@ -211,6 +204,17 @@ export const RowEdit = ({ attributes, className, setAttributes }) => {
 									onChange={(value) => {
 										justification[breakpoint] = value;
 										setAttributes({ justification: { ...justification } });
+									}}
+								/>
+								<SelectControl
+									label={__("Align columns", GUTESTRAP_TEXT_DOMAIN)}
+									options={canInherit ? ROW_ALIGNMENT_OPTIONS : ROW_ALIGNMENT_OPTIONS_XS}
+									value={
+										alignment[breakpoint] != null ? alignment[breakpoint] : DEFAULT_ATTRIBUTES.alignment[breakpoint]
+									}
+									onChange={(value) => {
+										alignment[breakpoint] = value;
+										setAttributes({ alignment: { ...alignment } });
 									}}
 								/>
 							</PanelBody>
