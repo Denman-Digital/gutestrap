@@ -30,3 +30,8 @@ $grid-gutter-width: 32px;
 
 $admin-color: var(--wp-admin-theme-color);
 $admin-color-fallback: #007cba;
+
+.wp-block-cover,
+.wp-block-cover-image {
+	min-height: unset;
+}

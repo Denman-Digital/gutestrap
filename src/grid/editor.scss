@@ -62,92 +62,13 @@ html {
 }
 
 .block-editor-block-list__block[data-title] {
-	&::before {
-		content: attr(data-title) !important;
-		font-family: $font-family-sans-serif !important;
-		@include font-size(0.625rem, true);
-		font-weight: normal !important;
-		display: block;
-		width: fit-content;
-		color: grey;
-	}
-
-	&.has-background {
-		&::before {
-			color: currentColor;
-			opacity: 0.75;
-		}
-	}
-
 	&[data-type="gutestrap/container"] {
-		// border: 1px dashed transparent;
-		// border-radius: 4px;
-		// outline: ;
-
 		&.has-child-selected,
 		&.is-selected,
 		&.is-hovered,
 		&:hover {
-			// border-color: $admin-color-fallback;
-			// border-color: $admin-color;
 			outline: $admin-color-fallback auto;
 			outline: $admin-color auto;
-		}
-	}
-
-	&[data-type="gutestrap/container"] {
-		&::before {
-			// float: left;
-		}
-	}
-
-	&[data-type="core/media-text"],
-	&[data-type="core/columns"] {
-		padding-top: 1.125rem;
-		&::before {
-			position: absolute;
-			top: 0;
-		}
-	}
-	&[data-type="core/column"] {
-		&::before {
-			margin-bottom: -28px;
-		}
-		.block-list-appender {
-			margin-top: 8px + 28px;
-		}
-	}
-	&[data-type="core/group"] {
-		border: thin dashed lightgray;
-		border-radius: 0.25rem;
-		padding: 0.5rem;
-
-		&::before {
-			margin-bottom: -28px;
-			padding-bottom: 0.5rem;
-		}
-	}
-
-	&[data-type="core/cover"] {
-		&::before {
-			content: "" !important;
-			width: auto;
-		}
-		&::after {
-			content: attr(data-title) !important;
-			font-family: $font-family-sans-serif !important;
-			@include font-size(0.625rem, true);
-			font-weight: normal !important;
-			display: block;
-			width: fit-content;
-			color: grey;
-			position: absolute;
-			top: 0;
-			left: 0;
-		}
-		&.has-background::after {
-			color: white;
-			text-shadow: 0 0 2px black;
 		}
 	}
 }
@@ -188,7 +109,7 @@ html {
 	&.-is-disabled {
 		opacity: 0.5;
 		filter: grayscale(0.25);
-		border: thin dashed gray;
+		// border: thin dashed gray;
 	}
 	&-row-break {
 		@include make-col-ready;
@@ -205,7 +126,6 @@ html {
 	&::after {
 		content: "";
 		display: block;
-		// border-top: thin solid currentColor;
 		border: 0;
 		border-top: 1px solid #ddd;
 		border-bottom: 1px solid #fafafa;
