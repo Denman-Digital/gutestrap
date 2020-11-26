@@ -1,0 +1,19 @@
+@each $breakpoint in map-keys($grid-breakpoints) {
+	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+	@include media-breakpoint-up($breakpoint) {
+		.hide#{$infix},
+		.hide#{$infix}-up {
+			display: none !important;
+		}
+	}
+	@include media-breakpoint-down($breakpoint) {
+		.hide#{$infix}-down {
+			display: none !important;
+		}
+	}
+	@include media-breakpoint-only($breakpoint) {
+		.hide#{$infix}-only {
+			display: none !important;
+		}
+	}
+}

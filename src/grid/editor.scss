@@ -61,6 +61,26 @@ html {
 	}
 }
 
+@each $breakpoint in map-keys($grid-breakpoints) {
+	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+	@include media-breakpoint-up($breakpoint) {
+		.hide#{$infix},
+		.hide#{$infix}-up {
+			display: none !important;
+		}
+	}
+	@include media-breakpoint-down($breakpoint) {
+		.hide#{$infix}-down {
+			display: none !important;
+		}
+	}
+	@include media-breakpoint-only($breakpoint) {
+		.hide#{$infix}-only {
+			display: none !important;
+		}
+	}
+}
+
 .block-editor-block-list__block[data-title] {
 	&[data-type="gutestrap/container"] {
 		&.has-child-selected,
@@ -116,24 +136,37 @@ html {
 	}
 }
 
-.wp-block-gutestrap-row-break {
-	font-size: 1.5rem;
-	color: grey;
-	display: flex;
-	align-items: center;
-
-	&::before,
-	&::after {
-		content: "";
-		display: block;
-		border: 0;
-		border-top: 1px solid #ddd;
-		border-bottom: 1px solid #fafafa;
-		flex: 1 1 0;
+.wp-block-gutestrap {
+	&-col {
+		& > div > div > * {
+			&:first-child {
+				margin-top: 0;
+			}
+			&:nth-last-child(2) {
+				margin-bottom: 0;
+			}
+		}
 	}
 
-	svg {
-		margin: 0 0.25em;
-		display: block;
+	&-row-break {
+		font-size: 1.5rem;
+		color: grey;
+		display: flex;
+		align-items: center;
+
+		&::before,
+		&::after {
+			content: "";
+			display: block;
+			border: 0;
+			border-top: 1px solid #ddd;
+			border-bottom: 1px solid #fafafa;
+			flex: 1 1 0;
+		}
+
+		svg {
+			margin: 0 0.25em;
+			display: block;
+		}
 	}
 }

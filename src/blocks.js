@@ -10,6 +10,7 @@
  */
 
 import "./editor.scss";
+import "./style.scss";
 
 import "./grid/";
 import "./block-clear/";
