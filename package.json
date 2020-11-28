@@ -12,7 +12,7 @@
 	"homepage": "https://github.com/Denman-Digital/gutestrap#readme",
 	"scripts": {
 		"start": "node scripts/start.js",
-		"build": "node scripts/build.js",
+		"build": "node scripts/build.js && composer install --no-dev",
 		"postinstall": "npx are-you-es5 check -r --silent . | tail -n 1 > ./.non_ES5_node_modules"
 	},
 	"dependencies": {
@@ -42,6 +42,7 @@
 		"chalk": "^2.3.0",
 		"cross-env": "^5.0.1",
 		"cross-spawn": "^5.1.0",
+		"del": "^6.0.0",
 		"eslint": "^7.13.0",
 		"eslint-config-prettier": "^6.15.0",
 		"eslint-config-wordpress": "^2.0.0",

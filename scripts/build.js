@@ -18,6 +18,7 @@ process.on("unhandledRejection", (err) => {
 });
 
 // Modules.
+const del = require("del");
 const fs = require("fs");
 const ora = require("ora");
 const path = require("path");
@@ -64,6 +65,9 @@ const spinner = new ora({ text: "" });
 async function build(webpackConfig) {
 	// Compiler Instance.
 	const compiler = await webpack(webpackConfig);
+
+	const deletedPaths = await del("vendor");
+	console.log("Files and directories deleted:\n", deletedPaths.join("\n"));
 
 	// Run the compiler.
 	compiler.run((err, stats) => {
