@@ -66,9 +66,6 @@ async function build(webpackConfig) {
 	// Compiler Instance.
 	const compiler = await webpack(webpackConfig);
 
-	const deletedPaths = await del("vendor");
-	console.log("Files and directories deleted:\n", deletedPaths.join("\n"));
-
 	// Run the compiler.
 	compiler.run((err, stats) => {
 		// clearConsole();
