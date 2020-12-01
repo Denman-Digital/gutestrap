@@ -17,7 +17,7 @@ import { ReactComponent as AlignSelfCenterIcon } from "bootstrap-icons/icons/ali
 import { ReactComponent as AlignSelfBottomIcon } from "bootstrap-icons/icons/align-bottom.svg";
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 
-const BOOTSTRAP_ICON_CLASSES = "bi bi-block-control-icon";
+export const BOOTSTRAP_ICON_CLASSES = "bi bi-block-control-icon";
 
 export const FLEX_ALIGN_ITEMS_OPTIONS = [
 	{

@@ -2,10 +2,10 @@
 /**
  * Plugin Name: Gutestrap
  * Plugin URI: https://github.com/Denman-Digital/gutestrap
- * Description: Supercharge your Gutenberg layouts with Bootstrap Grid.
+ * Description: Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies).
  * Author: Denman Digital
  * Author URI: https://denman.digital
- * Version: 1.0.1
+ * Version: 1.1.0
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  *
@@ -15,7 +15,10 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) ||	exit;
 
-require __DIR__ . '/vendor/autoload.php';
+/**
+ * PHP Dependencies
+ */
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 /**
  * Block Initializer.

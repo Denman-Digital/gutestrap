@@ -78,6 +78,7 @@ const extractConfig = {
 module.exports = {
 	entry: {
 		"./dist/blocks.build": paths.pluginBlocksJs, // 'name' : 'path/file.ext'.
+		"./dist/classic.build": paths.pluginClassicJs,
 	},
 	output: {
 		// Add /* filename */ comments to generated require()s in the output.

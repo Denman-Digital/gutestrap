@@ -25,6 +25,8 @@ globals:
   wpApiSettings: true
   window: true
   document: true
+  gutestrapGlobal: true
+  gutestrapCodeMirrorSettings: true
 plugins:
 - react
 - jsx-a11y
