@@ -157,12 +157,6 @@ function gutestrap_print_custom_scss_compiled()
 	echo "<style>$css</style>";
 }
 add_action("wp_print_scripts", "gutestrap_print_custom_scss_compiled", 1);
-add_action("wp_body_open", function () {
-	global $post;
-	echo '<pre>';
-	var_dump(get_post_meta(get_the_ID()));
-	echo '</pre>';
-}, 1);
 
 /**
  * Add custom sass metabox for classic editor.
