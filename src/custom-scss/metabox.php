@@ -45,13 +45,43 @@ function gutestrap_compile_custom_scss($raw_scss, $import_paths = [])
 function gutestrap_compile_custom_scss_after_rest_insert($post, $request)
 {
 	$request_meta = $request->get_param("meta");
-	if (!$request_meta || !isset($request_meta["_custom_scss"])) {
+	$has_custom_scss_meta = $request_meta && isset($request_meta["_custom_scss"]);
+	$has_custom_scss_blocks = has_block("gutestrap/custom-scss", $post);
+	if (!$has_custom_scss_meta && !$has_custom_scss_blocks) {
 		return;
 	}
-	$raw_scss = $request_meta["_custom_scss"];
 	$import_paths = apply_filters("gutestrap_custom_scss_import_paths", [], $post->ID, $post);
-	$css = gutestrap_compile_custom_scss($raw_scss, $import_paths);
-	update_post_meta($post->ID, '_custom_css',	$css);
+
+	if ($has_custom_scss_meta) {
+		$meta_raw_scss = $request_meta["_custom_scss"];
+		$meta_css = gutestrap_compile_custom_scss($meta_raw_scss, $import_paths);
+		update_post_meta($post->ID, '_custom_css',	$meta_css);
+	}
+
+	if ($has_custom_scss_blocks) {
+		$blocks = parse_blocks($post->post_content);
+		$new_content = "";
+		foreach ($blocks as $block) {
+			if ($block["blockName"] === "gutestrap/custom-scss") {
+				$block_raw_scss = $block["attrs"]["raw"];
+				$block_css = gutestrap_compile_custom_scss($block_raw_scss, $import_paths);
+
+				$block["attrs"]["css"] = $block_css;
+				$block["innerHTML"] = "<style class=\"wp-block-gutestrap-custom-scss\">$block_css</style>";
+				$block["innerContent"] = [$block["innerHTML"]];
+
+				$block = serialize_block(filter_block_kses($block, "post", []));
+				$block = str_replace(["\\n", "\\t"], ["\\\\n", "\\\\t"], $block);
+			} else {
+				$block = serialize_block(filter_block_kses($block, "post", []));
+			}
+			$new_content .= $block;
+		}
+		wp_update_post([
+			"ID" => $post->ID,
+			"post_content" => $new_content,
+		]);
+	}
 };
 
 /**

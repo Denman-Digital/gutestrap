@@ -134,16 +134,36 @@ function gutenberg_custom_scss_codemirror_assets()
 			"tabSize" => $tab_size,
 		],
 	]);
-
+	wp_localize_script('gutestrap-block-js', 'gutestrapCodeMirrorSettings', $codemirror_settings);
+	wp_enqueue_style('wp-codemirror');
+	if ($screen->is_block_editor()) {
+		return;
+	}
 	wp_enqueue_script(
 		'gutestrap-classic-js',
-		plugins_url('/dist/classic.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
+		plugins_url('/dist/classic.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
 		["jquery", "wp-theme-plugin-editor"], // Dependencies, defined above.
-		filemtime(plugin_dir_path(__DIR__) . 'dist/classic.js'), // Version: filemtime — Gets file modification time.
+		filemtime(plugin_dir_path(__DIR__) . 'dist/classic.build.js'), // Version: filemtime — Gets file modification time.
 		true
 	);
-	wp_localize_script('gutestrap-blocks-js', 'gutestrapCodeMirrorSettings', $codemirror_settings);
 	wp_localize_script('gutestrap-classic-js', 'gutestrapCodeMirrorSettings', $codemirror_settings);
-	wp_enqueue_style('wp-codemirror');
 }
 add_action('admin_enqueue_scripts', 'gutenberg_custom_scss_codemirror_assets');
+
+function gutestrap_block_categories($categories, $post)
+{
+	// if ($post->post_type !== 'post') {
+	// 	return $categories;
+	// }
+	return array_merge(
+		$categories,
+		[
+			[
+				'slug' => 'advanced',
+				'title' => __('Advanced', GUTESTRAP_TEXT_DOMAIN),
+				'icon'  => 'code-standards',
+			]
+		]
+	);
+}
+add_filter('block_categories', 'gutestrap_block_categories', 10, 2);

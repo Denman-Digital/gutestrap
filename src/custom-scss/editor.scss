@@ -1,0 +1,30 @@
+.block-editor-block-list__block[data-title] {
+	&[data-type="gutestrap/custom-scss"] {
+		font-size: initial;
+		margin: auto;
+		border: thin dashed lightgrey;
+		padding: 0.5em;
+		padding-left: 0;
+		border-radius: 0.5em;
+		background: whitesmoke;
+		max-width: 120ch !important;
+
+		&::before {
+			padding: 0 0 0.75em 1em;
+		}
+	}
+}
+
+.gutestrap-custom-scss-editor {
+	font-size: initial;
+
+	.components-modal__frame & {
+		textarea,
+		.CodeMirror {
+			width: 80vw;
+			height: 50vh;
+			min-height: 10em;
+			max-width: 120ch;
+		}
+	}
+}

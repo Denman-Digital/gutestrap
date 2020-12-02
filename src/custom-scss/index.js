@@ -1,34 +1,13 @@
 const { registerPlugin } = wp.plugins;
 const { PluginDocumentSettingPanel } = wp.editPost;
-const { useState, useRef, useEffect } = wp.element;
+const { useState } = wp.element;
 const { Button, Modal, Flex, FlexItem } = wp.components;
-const { initialize: initializeCodeMirror } = wp.codeEditor;
+// const { initialize: initializeCodeMirror } = wp.codeEditor;
 const { useSelect } = wp.data;
 const { useEntityProp } = wp.coreData;
 
-const CustomScssEditor = ({ value: valueProp, onChange = () => {} }) => {
-	const scssInput = useRef();
-	const scssEditor = useRef();
-
-	useEffect(() => {
-		scssEditor.current = initializeCodeMirror(scssInput.current, gutestrapCodeMirrorSettings);
-		const { codemirror } = scssEditor.current;
-		setTimeout(function () {
-			codemirror.refresh();
-		}, 1);
-	}, []);
-
-	useEffect(() => {
-		const { codemirror } = scssEditor.current;
-		const listener = () => {
-			onChange(codemirror.getValue());
-		};
-		codemirror.on("change", listener);
-		return () => codemirror.off("change", listener);
-	}, [onChange]);
-
-	return <textarea ref={scssInput} cols="80" rows="20" value={valueProp} />;
-};
+import { CustomScssEditor } from "./block";
+import "./editor.scss";
 
 const AdvancedDocumentSettingPanel = () => {
 	const [isModalOpen, setModalOpen] = useState(false);
@@ -38,7 +17,6 @@ const AdvancedDocumentSettingPanel = () => {
 	const postType = useSelect((select) => select("core/editor").getCurrentPostType(), []);
 	const [meta, setMeta] = useEntityProp("postType", postType, "meta");
 
-	// const { _custom_scss: customScss, _custom_css: customCSS } = meta;
 	function updateCustomScss(value) {
 		// eslint-disable-next-line camelcase
 		setMeta({ ...meta, _custom_scss: value });
@@ -47,19 +25,12 @@ const AdvancedDocumentSettingPanel = () => {
 
 	return (
 		<PluginDocumentSettingPanel name="advanced-document-panel" title="Advanced" className="advanced-document-panel">
-			Custom Panel Contents
-			<pre>{JSON.stringify(meta, null, 2)}</pre>
 			<Button isSecondary onClick={openModal}>
-				Open Modal
+				Add Custom Styles
 			</Button>
 			{isModalOpen && (
-				<Modal title="This is my modal" onRequestClose={closeModal}>
-					<CustomScssEditor
-						value={scss}
-						onChange={(value) => {
-							setScss(value);
-						}}
-					/>
+				<Modal title="Post Custom SCSS" onRequestClose={closeModal}>
+					<CustomScssEditor value={scss} onChange={(value) => setScss(value)} />
 					<Flex justify="flex-end">
 						<FlexItem>
 							<Button
