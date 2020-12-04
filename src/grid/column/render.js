@@ -54,12 +54,14 @@ export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) =>
  */
 export const ColumnRender = ({ attributes, className }) => {
 	const { background, textColor, backgroundColor } = attributes;
-	const style = {
-		backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
-		backgroundPosition: background?.position || null,
-		backgroundSize: background?.size || null,
-		backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-	};
+	const style = background?.image?.url
+		? {
+				backgroundImage: `url(${background.image.url})`,
+				backgroundPosition: background.position || "center",
+				backgroundSize: background.size || "cover",
+				backgroundRepeat: background.repeat ? "repeat" : "no-repeat",
+		  }
+		: null;
 	return (
 		<div className={classNames(className, columnClassNames(attributes))}>
 			<div
