@@ -1,71 +1,7 @@
 .block-editor-block-list__block[data-title] {
-	&::before {
-		content: attr(data-title) !important;
-		font-family: $font-family-sans-serif !important;
-		@include font-size(0.625rem, true);
-		font-weight: normal !important;
-		display: block;
-		width: fit-content;
-		color: grey;
-	}
-
-	.wp-block-cover &,
-	&.has-background:not(.wp-block-cover) {
-		&::before {
-			color: currentColor;
-			opacity: 0.75;
-		}
-	}
-
-	&[data-type="core/media-text"],
-	&[data-type="core/columns"] {
-		padding-top: 1.125rem;
-		&::before {
-			position: absolute;
-			top: 0;
-		}
-	}
-	&[data-type="core/column"] {
-		&::before {
-			margin-bottom: -28px;
-		}
-		.block-list-appender {
-			margin-top: 8px + 28px;
-		}
-	}
 	&[data-type="core/group"] {
-		border: thin dashed lightgray;
-		border-radius: 0.25rem;
-		padding: 0.5rem;
-
-		&::before {
-			margin-bottom: -28px;
-			padding-bottom: 0.5rem;
-		}
-	}
-
-	&[data-type="core/cover"] {
-		&::before {
-			content: "" !important;
-			width: auto;
-		}
-		&::after {
-			content: attr(data-title) !important;
-			font-family: $font-family-sans-serif !important;
-			@include font-size(0.625rem, true);
-			font-weight: normal !important;
-			display: block;
-			color: grey;
-			position: absolute;
-			padding: 0 0.125rem;
-			top: 0;
-			left: 0;
-			z-index: 1;
-			pointer-events: none;
-		}
-		&[class*="has-background"]::after {
-			color: white;
-			text-shadow: 0 0 5px black;
+		&:not(.has-background) {
+			border: thin dashed gray;
 		}
 	}
 }
