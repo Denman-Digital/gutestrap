@@ -2,14 +2,22 @@ import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 
 import classNames from "classnames";
 
-import { __ } from "@wordpress/i18n";
+const { __ } = wp.i18n;
+const { Fragment } = wp.element;
+const { InspectorControls, InspectorAdvancedControls, InnerBlocks, PanelColorSettings, withColors } = wp.blockEditor;
+const { PanelBody, SelectControl, ToggleControl } = wp.components;
+import { PanelBackgroundImage } from "../../components/panel-background-image";
 
-import { Fragment } from "@wordpress/element";
-import { InspectorControls, InspectorAdvancedControls, InnerBlocks } from "@wordpress/block-editor";
-import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
-
-export const ContainerEdit = ({ attributes, className, setAttributes }) => {
-	const { breakpoint, fluid, disabled } = attributes;
+function ContainerEdit({
+	attributes,
+	className,
+	setAttributes,
+	textColor,
+	setTextColor,
+	backgroundColor,
+	setBackgroundColor,
+}) {
+	const { breakpoint, fluid, disabled, background } = attributes;
 	return (
 		<Fragment>
 			<InspectorControls>
@@ -31,11 +39,17 @@ export const ContainerEdit = ({ attributes, className, setAttributes }) => {
 						disabled={!fluid}
 						options={[
 							{
-								label: __("576px and up (landscape smartphone)", GUTESTRAP_TEXT_DOMAIN),
+								label: __("576px and up (landscape smartphone, default)", GUTESTRAP_TEXT_DOMAIN),
 								value: "",
 							},
-							{ label: __("768px and up (tablet)", GUTESTRAP_TEXT_DOMAIN), value: "md" },
-							{ label: __("992px and up (landscape tablet)", GUTESTRAP_TEXT_DOMAIN), value: "lg" },
+							{
+								label: __("768px and up (tablet)", GUTESTRAP_TEXT_DOMAIN),
+								value: "md",
+							},
+							{
+								label: __("992px and up (landscape tablet)", GUTESTRAP_TEXT_DOMAIN),
+								value: "lg",
+							},
 							{
 								label: __("1200px and up (laptop)", GUTESTRAP_TEXT_DOMAIN),
 								value: "xl",
@@ -44,11 +58,35 @@ export const ContainerEdit = ({ attributes, className, setAttributes }) => {
 								label: __("1440px and up (desktop)", GUTESTRAP_TEXT_DOMAIN),
 								value: "xxl",
 							},
-							{ label: __("No max-width", GUTESTRAP_TEXT_DOMAIN), value: "fluid" },
+							{
+								label: __("No max-width", GUTESTRAP_TEXT_DOMAIN),
+								value: "fluid",
+							},
 						]}
 						onChange={(value) => setAttributes({ breakpoint: value })}
 					/>
 				</PanelBody>
+				<PanelBackgroundImage
+					value={background}
+					onChange={(value) => {
+						setAttributes({ background: value });
+					}}
+					initialOpen={!!background?.image}
+				/>
+				<PanelColorSettings
+					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
+					initialOpen={false}
+					disableCustomColors={true}
+					disableCustomGradients={true}
+					colorSettings={[
+						{
+							value: backgroundColor.color,
+							onChange: setBackgroundColor,
+							label: __("Background colour", GUTESTRAP_TEXT_DOMAIN),
+						},
+						{ value: textColor.color, onChange: setTextColor, label: __("Text colour", GUTESTRAP_TEXT_DOMAIN) },
+					]}
+				/>
 			</InspectorControls>
 			<InspectorAdvancedControls>
 				<ToggleControl
@@ -61,13 +99,28 @@ export const ContainerEdit = ({ attributes, className, setAttributes }) => {
 				/>
 			</InspectorAdvancedControls>
 			<div
-				className={classNames(className, {
-					container: !fluid,
-					[`container-${breakpoint}`]: fluid && breakpoint,
-				})}
+				className={classNames(textColor?.class, backgroundColor?.class)}
+				style={{
+					backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
+					backgroundPosition: background?.position || null,
+					backgroundSize: background?.size || null,
+					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+				}}
 			>
-				<InnerBlocks />
+				<div
+					className={classNames(className, {
+						container: !fluid,
+						[`container-${breakpoint}`]: fluid && breakpoint,
+					})}
+				>
+					<InnerBlocks />
+				</div>
 			</div>
 		</Fragment>
 	);
-};
+}
+
+ContainerEdit = withColors({ textColor: "color", backgroundColor: "background-color" })(ContainerEdit);
+
+export { ContainerEdit };
+export default ContainerEdit;

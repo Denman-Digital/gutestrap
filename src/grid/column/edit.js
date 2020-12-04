@@ -181,7 +181,6 @@ function ColumnEdit({
 					value={background}
 					onChange={(value) => {
 						setAttributes({ background: value });
-						// setAttributes({ background: assign(background, value) });
 					}}
 					initialOpen={!!background.image}
 				/>

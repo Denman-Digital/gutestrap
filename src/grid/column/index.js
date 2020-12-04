@@ -9,7 +9,7 @@ import { __ } from "@wordpress/i18n";
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 import { ColumnEdit as edit } from "./edit";
-import { ColumnRender as save } from "./render";
+import { ColumnRender as save, deprecated } from "./render";
 import { ReactComponent as icon } from "./icon.svg";
 import { name as rowBlockName } from "../row";
 
@@ -49,4 +49,4 @@ export const supports = {
 
 export { icon, edit, save };
 
-export default { name, settings: { title, category, icon, parent, attributes, supports, edit, save } };
+export default { name, settings: { title, category, icon, parent, attributes, supports, edit, save, deprecated } };

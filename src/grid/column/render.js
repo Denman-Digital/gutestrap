@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import { InnerBlocks, getColorClassName } from "@wordpress/block-editor";
+const { InnerBlocks, getColorClassName } = wp.blockEditor;
+
 import {
 	COLUMN_OPTION_INHERIT,
 	COLUMN_OPTION_WIDTH_DEFAULT,
@@ -53,7 +54,6 @@ export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) =>
  */
 export const ColumnRender = ({ attributes, className }) => {
 	const { background, textColor, backgroundColor } = attributes;
-	console.log(attributes);
 	const style = {
 		backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
 		backgroundPosition: background?.position || null,
@@ -74,3 +74,20 @@ export const ColumnRender = ({ attributes, className }) => {
 		</div>
 	);
 };
+
+const v1 = {
+	attributes: {
+		width: { type: "object" },
+		offset: { type: "object" },
+		alignment: { type: "object" },
+	},
+	save: ({ attributes, className }) => {
+		return (
+			<div className={classNames(className, columnClassNames(attributes))}>
+				<InnerBlocks.Content />
+			</div>
+		);
+	},
+};
+
+export const deprecated = [v1];
