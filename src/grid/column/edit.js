@@ -8,11 +8,12 @@
 import { __, _n, _x } from "@wordpress/i18n";
 import { sprintf } from "sprintf-js";
 import classNames from "classnames";
-
+import { select } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { SelectControl, PanelBody } from "@wordpress/components";
 import { InspectorControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
+
 // import { toNumber } from "js-utils";
 function toNumber(value, fallback = 0) {
 	const number = Number(value);
@@ -23,6 +24,7 @@ function toNumber(value, fallback = 0) {
 }
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
+import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { columnClassNames } from "./render";
@@ -98,8 +100,13 @@ const COL_ALIGN_OPTIONS = [
  * @param {Object} props Props.
  * @returns {Mixed} JSX Component.
  */
-export const ColumnEdit = ({ attributes, className, setAttributes }) => {
-	const { width = {}, offset = {}, alignment = {} } = attributes;
+function ColumnEdit({
+	attributes,
+	className,
+	setAttributes,
+	clientId,
+}) {
+	const { width = {}, offset = {}, alignment = {}, background = {} } = attributes;
 
 	return (
 		<Fragment>
@@ -115,7 +122,7 @@ export const ColumnEdit = ({ attributes, className, setAttributes }) => {
 					}}
 				>
 					{(tab) => {
-						const { title, breakpoint, label } = tab;
+						const { breakpoint, label } = tab;
 						const canInherit = breakpoint !== "xs";
 
 						const fallbacks = {
@@ -177,11 +184,22 @@ export const ColumnEdit = ({ attributes, className, setAttributes }) => {
 				/>
 			</BlockControls>
 			<div className={className}>
-				<InnerBlocks renderAppender={() => <InnerBlocks.ButtonBlockAppender />} />
+				<InnerBlocks
+					__experimentalPassedProps={{ className: "gutestrap-block-col-inner-blocks" }}
+					renderAppender={() => {
+						const { innerBlocks } = select("core/block-editor").getBlock(clientId);
+						return (
+							<Fragment>
+								<BlockControlsBlockAppender rootClientId={clientId} />
+								{!innerBlocks.length && <InnerBlocks.ButtonBlockAppender />}
+							</Fragment>
+						);
+					}}
+				/>
 			</div>
 		</Fragment>
 	);
-};
+}
 
 wp.hooks.addFilter(
 	"editor.BlockListBlock",

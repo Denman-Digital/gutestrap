@@ -2,7 +2,8 @@ import classNames from "classnames";
 import { __, _x } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
-import { PanelBody, SelectControl, ToggleControl, Toolbar, Tooltip, Button } from "@wordpress/components";
+import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
+
 // import { toNumber } from "js-utils";
 function toNumber(value, fallback = 0) {
 	const number = Number(value);
@@ -11,6 +12,8 @@ function toNumber(value, fallback = 0) {
 	}
 	return number;
 }
+
+import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { BlockFlexItemsAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
 import { BlockContentJustificationToolbar } from "../../components/alignment/flex-content-justification";
@@ -137,7 +140,8 @@ const ROW_ALIGNMENT_OPTIONS_XS = [
  * @param {Object} props Props.
  * @returns {Mixed} JSX Component.
  */
-export const RowEdit = ({ attributes, className, setAttributes }) => {
+export const RowEdit = (props) => {
+	const { attributes, className, setAttributes, clientId } = props;
 	const { defaultColWidth = {}, alignment = {}, justification = {}, noGutters, disabled } = attributes;
 	const rowProps = {
 		className: classNames(className, rowClassNames(attributes)),
@@ -246,7 +250,14 @@ export const RowEdit = ({ attributes, className, setAttributes }) => {
 				allowedBlocks={[rowBreakBlockName, columnBlockName]}
 				orientation="horizontal"
 				__experimentalPassedProps={rowProps}
-				renderAppender={() => <InnerBlocks.ButtonBlockAppender />}
+				renderAppender={() => {
+					return (
+						<Fragment>
+							<BlockControlsBlockAppender rootClientId={clientId} />
+							<InnerBlocks.ButtonBlockAppender />
+						</Fragment>
+					);
+				}}
 			/>
 		</Fragment>
 	);
