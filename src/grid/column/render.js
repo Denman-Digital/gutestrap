@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { InnerBlocks } from "@wordpress/block-editor";
+import { InnerBlocks, getColorClassName } from "@wordpress/block-editor";
 import {
 	COLUMN_OPTION_INHERIT,
 	COLUMN_OPTION_WIDTH_DEFAULT,
@@ -52,9 +52,25 @@ export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) =>
  * @returns {Mixed} JSX Frontend HTML.
  */
 export const ColumnRender = ({ attributes, className }) => {
+	const { background, textColor, backgroundColor } = attributes;
+	console.log(attributes);
+	const style = {
+		backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
+		backgroundPosition: background?.position || null,
+		backgroundSize: background?.size || null,
+		backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+	};
 	return (
 		<div className={classNames(className, columnClassNames(attributes))}>
-			<InnerBlocks.Content />
+			<div
+				className={classNames({
+					[getColorClassName("color", textColor)]: textColor,
+					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+				})}
+				style={style}
+			>
+				<InnerBlocks.Content />
+			</div>
 		</div>
 	);
 };

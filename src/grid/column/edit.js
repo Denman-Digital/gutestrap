@@ -11,7 +11,7 @@ import classNames from "classnames";
 import { select } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { SelectControl, PanelBody } from "@wordpress/components";
-import { InspectorControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
+import { InspectorControls, InnerBlocks, BlockControls, PanelColorSettings, withColors } from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
 
 // import { toNumber } from "js-utils";
@@ -24,6 +24,7 @@ function toNumber(value, fallback = 0) {
 }
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
+import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
@@ -105,6 +106,10 @@ function ColumnEdit({
 	className,
 	setAttributes,
 	clientId,
+	textColor,
+	setTextColor,
+	backgroundColor,
+	setBackgroundColor,
 }) {
 	const { width = {}, offset = {}, alignment = {}, background = {} } = attributes;
 
@@ -172,6 +177,28 @@ function ColumnEdit({
 						);
 					}}
 				</ResponsiveTabs>
+				<PanelBackgroundImage
+					value={background}
+					onChange={(value) => {
+						setAttributes({ background: value });
+						// setAttributes({ background: assign(background, value) });
+					}}
+					initialOpen={!!background.image}
+				/>
+				<PanelColorSettings
+					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
+					initialOpen={false}
+					disableCustomColors={true}
+					disableCustomGradients={true}
+					colorSettings={[
+						{
+							value: backgroundColor.color,
+							onChange: setBackgroundColor,
+							label: __("Background colour", GUTESTRAP_TEXT_DOMAIN),
+						},
+						{ value: textColor.color, onChange: setTextColor, label: __("Text colour", GUTESTRAP_TEXT_DOMAIN) },
+					]}
+				/>
 			</InspectorControls>
 			<BlockControls>
 				<BlockFlexItemAlignmentToolbar
@@ -183,7 +210,15 @@ function ColumnEdit({
 					}}
 				/>
 			</BlockControls>
-			<div className={className}>
+			<div
+				className={classNames(className, textColor?.class, backgroundColor?.class)}
+				style={{
+					backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
+					backgroundPosition: background?.position || null,
+					backgroundSize: background?.size || null,
+					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+				}}
+			>
 				<InnerBlocks
 					__experimentalPassedProps={{ className: "gutestrap-block-col-inner-blocks" }}
 					renderAppender={() => {
@@ -222,3 +257,8 @@ wp.hooks.addFilter(
 		return gutestrapColumnBlockListBlockClasses;
 	}, "withGutestrapColumnBlockListBlockClasses")
 );
+
+ColumnEdit = withColors({ textColor: "color", backgroundColor: "background-color" })(ColumnEdit);
+
+export { ColumnEdit };
+export default ColumnEdit;

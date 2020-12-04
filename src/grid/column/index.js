@@ -24,6 +24,9 @@ export const attributes = {
 	width: { type: "object" },
 	offset: { type: "object" },
 	alignment: { type: "object" },
+	background: { type: "object" },
+	textColor: { type: "string" },
+	backgroundColor: { type: "string" },
 };
 
 /** Block category. */
@@ -32,6 +35,18 @@ export const category = "layout";
 /** @type {string[]} Allowed parent blocks. */
 export const parent = [rowBlockName];
 
+/** Supported WordPress/Gutenberg features. */
+export const supports = {
+	anchor: true,
+	alignWide: false,
+	color: {
+		background: true,
+		gradient: true,
+		text: true,
+	},
+	padding: true,
+};
+
 export { icon, edit, save };
 
-export default { name, settings: { title, category, icon, parent, attributes, edit, save } };
+export default { name, settings: { title, category, icon, parent, attributes, supports, edit, save } };
