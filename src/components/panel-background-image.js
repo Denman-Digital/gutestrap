@@ -1,18 +1,11 @@
 import { sprintf } from "sprintf-js";
 const { __ } = wp.i18n;
 const { SelectControl, ToggleControl, PanelBody } = wp.components;
-const { Fragment, useState, useEffect } = wp.element;
+const { Fragment, useEffect } = wp.element;
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../const";
 import { MediaSelectControl } from "./media-select-control";
-
-const useStateProp = (stateProp, checkShouldUpdate = (newStateProp, state) => newStateProp !== state) => {
-	const [state, setState] = useState(stateProp);
-	useEffect(() => {
-		if (checkShouldUpdate(stateProp, state)) setState(stateProp);
-	}, [stateProp]);
-	return [state, setState];
-};
+import { useStateProp } from "./hooks";
 
 const instructions = (attr) => (
 	<p>{sprintf(__("To edit the %s, you need permission to upload media.", GUTESTRAP_TEXT_DOMAIN), attr)}</p>

@@ -76,7 +76,7 @@ function ContainerEdit({
 				<PanelColorSettings
 					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
 					initialOpen={false}
-					disableCustomColors={true}
+					disableCustomColors={false}
 					disableCustomGradients={true}
 					colorSettings={[
 						{
