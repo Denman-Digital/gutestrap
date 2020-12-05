@@ -53,15 +53,19 @@ export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) =>
  * @returns {Mixed} JSX Frontend HTML.
  */
 export const ColumnRender = ({ attributes, className }) => {
-	const { background, textColor, backgroundColor } = attributes;
-	const style = background?.image?.url
-		? {
-				backgroundImage: `url(${background.image.url})`,
-				backgroundPosition: background.position || "center",
-				backgroundSize: background.size || "cover",
-				backgroundRepeat: background.repeat ? "repeat" : "no-repeat",
-		  }
-		: null;
+	const { background, textColor, backgroundColor, padding } = attributes;
+	const innerStyle = {
+		paddingTop: padding?.top,
+		paddingRight: padding?.right,
+		paddingBottom: padding?.bottom,
+		paddingLeft: padding?.left,
+	};
+	if (background?.image?.url) {
+		innerStyle.backgroundImage = `url(${background.image.url})`;
+		innerStyle.backgroundPosition = background.position || "center";
+		innerStyle.backgroundSize = background.size || "cover";
+		innerStyle.backgroundRepeat = background.repeat ? "repeat" : "no-repeat";
+	}
 	return (
 		<div className={classNames(className, columnClassNames(attributes))}>
 			<div
@@ -69,12 +73,47 @@ export const ColumnRender = ({ attributes, className }) => {
 					[getColorClassName("color", textColor)]: textColor,
 					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 				})}
-				style={style}
+				style={innerStyle}
 			>
 				<InnerBlocks.Content />
 			</div>
 		</div>
 	);
+};
+
+const v2 = {
+	attributes: {
+		width: { type: "object" },
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		background: { type: "object" },
+		textColor: { type: "string" },
+		backgroundColor: { type: "string" },
+	},
+	save: ({ attributes, className }) => {
+		const { background, textColor, backgroundColor } = attributes;
+		const style = background?.image?.url
+			? {
+					backgroundImage: `url(${background.image.url})`,
+					backgroundPosition: background.position || "center",
+					backgroundSize: background.size || "cover",
+					backgroundRepeat: background.repeat ? "repeat" : "no-repeat",
+			  }
+			: null;
+		return (
+			<div className={classNames(className, columnClassNames(attributes))}>
+				<div
+					className={classNames({
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+					})}
+					style={style}
+				>
+					<InnerBlocks.Content />
+				</div>
+			</div>
+		);
+	},
 };
 
 const v1 = {
@@ -92,4 +131,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v1];
+export const deprecated = [v2, v1];

@@ -27,6 +27,7 @@ export const attributes = {
 	background: { type: "object" },
 	textColor: { type: "string" },
 	backgroundColor: { type: "string" },
+	padding: { type: "object" },
 };
 
 /** Block category. */

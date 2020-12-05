@@ -101,9 +101,14 @@ html {
 
 	&-col {
 		border: thin dashed transparent;
-		display: flex;
 
-		> .wp-block-gutestrap-col {
+		&,
+		& > *:not(.wp-block-gutestrap-col) {
+			display: flex
+		}
+
+		> *,
+		> * > .wp-block-gutestrap-col {
 			width: 100%;
 			align-self: stretch;
 		}

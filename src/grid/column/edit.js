@@ -24,6 +24,7 @@ function toNumber(value, fallback = 0) {
 }
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
+import { PanelSpacing } from "../../components/panel-spacing";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
@@ -111,7 +112,7 @@ function ColumnEdit({
 	backgroundColor,
 	setBackgroundColor,
 }) {
-	const { width = {}, offset = {}, alignment = {}, background = {} } = attributes;
+	const { width = {}, offset = {}, alignment = {}, background = {}, padding = {} } = attributes;
 
 	return (
 		<Fragment>
@@ -198,6 +199,16 @@ function ColumnEdit({
 						{ value: textColor.color, onChange: setTextColor, label: __("Text colour", GUTESTRAP_TEXT_DOMAIN) },
 					]}
 				/>
+				<PanelSpacing
+					initialOpen={padding?.top || padding?.right || padding?.bottom || padding?.left}
+					spacingSettings={[
+						{
+							values: padding,
+							onChange: (value) => setAttributes({ padding: value }),
+							label: __("Padding", GUTESTRAP_TEXT_DOMAIN),
+						},
+					]}
+				/>
 			</InspectorControls>
 			<BlockControls>
 				<BlockFlexItemAlignmentToolbar
@@ -209,28 +220,34 @@ function ColumnEdit({
 					}}
 				/>
 			</BlockControls>
-			<div
-				className={classNames(className, textColor?.class, backgroundColor?.class)}
-				style={{
-					backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
-					backgroundPosition: background?.position || null,
-					backgroundSize: background?.size || null,
-					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-				}}
-			>
-				<InnerBlocks
-					__experimentalPassedProps={{ className: "gutestrap-block-col-inner-blocks" }}
-					renderAppender={() => {
-						const { innerBlocks } = select("core/block-editor").getBlock(clientId);
-						return (
-							<Fragment>
-								<BlockControlsBlockAppender rootClientId={clientId} />
-								{!innerBlocks.length && <InnerBlocks.ButtonBlockAppender />}
-							</Fragment>
-						);
+			<PanelSpacing.Visualizer values={padding}>
+				<div
+					className={classNames(className, textColor?.class, backgroundColor?.class)}
+					style={{
+						backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
+						backgroundPosition: background?.position || null,
+						backgroundSize: background?.size || null,
+						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+						paddingTop: padding.top,
+						paddingRight: padding.right,
+						paddingBottom: padding.bottom,
+						paddingLeft: padding.left,
 					}}
-				/>
-			</div>
+				>
+					<InnerBlocks
+						__experimentalPassedProps={{ className: "gutestrap-block-col-inner-blocks" }}
+						renderAppender={() => {
+							const { innerBlocks } = select("core/block-editor").getBlock(clientId);
+							return (
+								<Fragment>
+									<BlockControlsBlockAppender rootClientId={clientId} />
+									{!innerBlocks.length && <InnerBlocks.ButtonBlockAppender />}
+								</Fragment>
+							);
+						}}
+					/>
+				</div>
+			</PanelSpacing.Visualizer>
 		</Fragment>
 	);
 }

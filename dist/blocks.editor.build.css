@@ -2787,10 +2787,13 @@ html {
   margin-right: unset; }
 
 .gutestrap-block-col {
-  border: thin dashed transparent;
-  display: -ms-flexbox;
-  display: flex; }
-  .gutestrap-block-col > .wp-block-gutestrap-col {
+  border: thin dashed transparent; }
+  .gutestrap-block-col,
+  .gutestrap-block-col > *:not(.wp-block-gutestrap-col) {
+    display: -ms-flexbox;
+    display: flex; }
+  .gutestrap-block-col > *,
+  .gutestrap-block-col > * > .wp-block-gutestrap-col {
     width: 100%;
     -ms-flex-item-align: stretch;
         align-self: stretch; }
