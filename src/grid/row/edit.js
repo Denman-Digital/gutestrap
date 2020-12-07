@@ -1,8 +1,18 @@
 import classNames from "classnames";
 import { __, _x } from "@wordpress/i18n";
-import { Fragment } from "@wordpress/element";
+import { Fragment, useState } from "@wordpress/element";
 import { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
-import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
+import {
+	PanelBody,
+	SelectControl,
+	ToggleControl,
+	__experimentalUnitControl as UnitControl,
+	Flex,
+	FlexItem,
+	Button,
+	Tooltip,
+	BaseControl,
+} from "@wordpress/components";
 
 // import { toNumber } from "js-utils";
 function toNumber(value, fallback = 0) {
@@ -13,6 +23,9 @@ function toNumber(value, fallback = 0) {
 	return number;
 }
 
+import { link, linkOff } from "@wordpress/icons";
+
+import { Visualizer } from "../../components/panel-spacing";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { BlockFlexItemsAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
@@ -129,6 +142,17 @@ const ROW_ALIGNMENT_OPTIONS_XS = [
 	...ROW_ALIGNMENT_OPTIONS.slice(2),
 ];
 
+// /**
+//  * WordPress dependencies
+//  */
+
+// function LinkedButton({ isLinked, ...props }) {
+// 	const linkedTooltipText = ;
+
+// 	return (
+// 	);
+// }
+
 /**
  * The edit function describes the structure of your block in the context of the editor.
  * This represents what the editor will render when the block is used.
@@ -142,10 +166,12 @@ const ROW_ALIGNMENT_OPTIONS_XS = [
  */
 export const RowEdit = (props) => {
 	const { attributes, className, setAttributes, clientId } = props;
-	const { defaultColWidth = {}, alignment = {}, justification = {}, noGutters, disabled } = attributes;
+	const { defaultColWidth = {}, alignment = {}, justification = {}, padding = {}, noGutters, disabled } = attributes;
 	const rowProps = {
 		className: classNames(className, rowClassNames(attributes)),
 	};
+
+	const [isPaddingLinked, setIsPaddingLinked] = useState(padding?.top === padding?.bottom);
 
 	return (
 		<Fragment>
@@ -235,6 +261,69 @@ export const RowEdit = (props) => {
 						}}
 					/>
 				</PanelBody>
+
+				<PanelBody
+					title={__("Spacing", GUTESTRAP_TEXT_DOMAIN)}
+					initialOpen={!!(parseFloat(padding?.top) || parseFloat(padding?.bottom))}
+					className={isPaddingLinked ? "padding-linked" : "padding-not-linked"}
+				>
+					<BaseControl label={__("Padding", GUTESTRAP_TEXT_DOMAIN)}>
+						<Flex align={"flex-end"}>
+							<FlexItem>
+								<UnitControl
+									className="padding-unit-control"
+									label={
+										isPaddingLinked ? __("Top and bottom", GUTESTRAP_TEXT_DOMAIN) : __("Top", GUTESTRAP_TEXT_DOMAIN)
+									}
+									size={"small"}
+									value={padding?.top}
+									onChange={(value) => {
+										padding.top = value;
+										if (isPaddingLinked) {
+											padding.bottom = value;
+										}
+										setAttributes({ padding: { ...padding } });
+									}}
+								/>
+							</FlexItem>
+							{!isPaddingLinked && (
+								<FlexItem>
+									<UnitControl
+										className="padding-unit-control"
+										label={__("Bottom", GUTESTRAP_TEXT_DOMAIN)}
+										size={"small"}
+										value={padding?.bottom}
+										onChange={(value) => {
+											padding.bottom = value;
+											setAttributes({ padding: { ...padding } });
+										}}
+									/>
+								</FlexItem>
+							)}
+							<FlexItem style={{ marginLeft: "auto" }}>
+								<Tooltip
+									text={
+										isPaddingLinked
+											? __("Unlink sides", GUTESTRAP_TEXT_DOMAIN)
+											: __("Link sides", GUTESTRAP_TEXT_DOMAIN)
+									}
+								>
+									<span>
+										<Button
+											onClick={() => setIsPaddingLinked((state) => !state)}
+											className="padding-linked-button"
+											isPrimary={isPaddingLinked}
+											isSecondary={!isPaddingLinked}
+											isSmall
+											icon={isPaddingLinked ? link : linkOff}
+											iconSize={16}
+										/>
+									</span>
+								</Tooltip>
+							</FlexItem>
+						</Flex>
+					</BaseControl>
+				</PanelBody>
 			</InspectorControls>
 			<InspectorAdvancedControls>
 				<ToggleControl
@@ -246,19 +335,28 @@ export const RowEdit = (props) => {
 					}}
 				/>
 			</InspectorAdvancedControls>
-			<InnerBlocks
-				allowedBlocks={[rowBreakBlockName, columnBlockName]}
-				orientation="horizontal"
-				__experimentalPassedProps={rowProps}
-				renderAppender={() => {
-					return (
-						<Fragment>
-							<BlockControlsBlockAppender rootClientId={clientId} />
-							<InnerBlocks.ButtonBlockAppender />
-						</Fragment>
-					);
-				}}
-			/>
+			<Visualizer values={padding}>
+				<div
+					style={{
+						paddingTop: padding?.top,
+						paddingBottom: padding?.bottom,
+					}}
+				>
+					<InnerBlocks
+						allowedBlocks={[rowBreakBlockName, columnBlockName]}
+						orientation="horizontal"
+						__experimentalPassedProps={rowProps}
+						renderAppender={() => {
+							return (
+								<Fragment>
+									<BlockControlsBlockAppender rootClientId={clientId} />
+									<InnerBlocks.ButtonBlockAppender />
+								</Fragment>
+							);
+						}}
+					/>
+				</div>
+			</Visualizer>
 		</Fragment>
 	);
 };

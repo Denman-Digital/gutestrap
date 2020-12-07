@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 import { RowEdit as edit } from "./edit";
-import { RowRender as save } from "./render";
+import { RowRender as save, deprecated } from "./render";
 import { ReactComponent as icon } from "bootstrap-icons/icons/layout-three-columns.svg";
 
 import RowBreakBlock from "./row-break";
@@ -16,21 +16,13 @@ export const title = __("Row", GUTESTRAP_TEXT_DOMAIN);
 
 /** Block attributes. */
 export const attributes = {
-	noGutters: {
-		type: "boolean",
-	},
-	alignment: {
-		type: "object",
-	},
-	justification: {
-		type: "object",
-	},
-	defaultColWidth: {
-		type: "object",
-	},
-	disabled: {
-		type: "boolean",
-	},
+	noGutters: { type: "boolean" },
+	alignment: { type: "object" },
+	justification: { type: "object" },
+	defaultColWidth: { type: "object" },
+	disabled: { type: "boolean" },
+	padding: { type: "object" },
+	anchor: { type: "string" },
 };
 
 /** Block attribute default values. */
@@ -73,4 +65,4 @@ export const supports = {
 
 export { icon, edit, save };
 
-export default { name, settings: { title, category, icon, attributes, edit, save, supports } };
+export default { name, settings: { title, category, icon, attributes, edit, save, supports, deprecated } };

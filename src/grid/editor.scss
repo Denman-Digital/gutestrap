@@ -99,12 +99,43 @@ html {
 		}
 	}
 
+	&-container {
+		outline: thin dashed gray;
+		min-height: 1.25rem;
+
+		&.has-child-selected,
+		&.is-selected,
+		&.is-hovered {
+			outline: thin dashed tomato;
+		}
+
+		&::before {
+			content: attr(data-title);
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			font-size: 0.75rem;
+			font-family: sans-serif;
+			color: gray;
+			padding-left: 0.25rem;
+		}
+	}
+
+	&-row {
+		&.has-child-selected,
+		&.is-selected,
+		&.is-hovered {
+			outline: thin dashed springgreen;
+		}
+	}
+
 	&-col {
 		border: thin dashed transparent;
 
 		&,
 		& > *:not(.wp-block-gutestrap-col) {
-			display: flex
+			display: flex;
 		}
 
 		> *,
@@ -116,9 +147,8 @@ html {
 		&.has-child-selected,
 		&.is-selected,
 		&.is-hovered {
-			// &.is-hovered,
-			// &:hover {
-			border-color: gray;
+			// outline: thin dashed gray;
+			outline: thin dashed dodgerblue;
 		}
 
 		&-inner-blocks {
@@ -186,6 +216,20 @@ html {
 		svg {
 			margin: 0 0.25em;
 			display: block;
+		}
+	}
+}
+
+#editor {
+	.padding-not-linked .padding-unit-control {
+		.components-input-control__input {
+			width: 6.625em;
+		}
+	}
+	.padding-linked-button {
+		svg {
+			width: 1.5em;
+			height: auto;
 		}
 	}
 }

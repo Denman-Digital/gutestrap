@@ -38,9 +38,38 @@ export const rowClassNames = ({ defaultColWidth = {}, noGutters = false, justifi
  * @returns {Mixed} JSX Frontend HTML.
  */
 export const RowRender = ({ attributes, className }) => {
+	const { padding, anchor } = attributes;
+	const style = {
+		paddingTop: padding?.top,
+		paddingRight: padding?.right,
+		paddingBottom: padding?.bottom,
+		paddingLeft: padding?.left,
+	};
 	return (
-		<div className={classNames(className, rowClassNames(attributes))}>
+		<div id={anchor || null} className={classNames(className, rowClassNames(attributes))} style={style}>
 			<InnerBlocks.Content />
 		</div>
 	);
 };
+
+const v1 = {
+	attributes: {
+		noGutters: { type: "boolean" },
+		alignment: { type: "object" },
+		justification: { type: "object" },
+		defaultColWidth: { type: "object" },
+		disabled: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+	},
+	save: ({ attributes, className }) => {
+		return (
+			<div className={classNames(className, rowClassNames(attributes))}>
+				<InnerBlocks.Content />
+			</div>
+		);
+	},
+};
+
+export const deprecated = [v1];
