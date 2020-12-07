@@ -81,7 +81,7 @@ export const ColumnRender = ({ attributes, className }) => {
 	);
 };
 
-const v2 = {
+const v3 = {
 	attributes: {
 		width: { type: "object" },
 		offset: { type: "object" },
@@ -125,6 +125,48 @@ const v2 = {
 	},
 };
 
+const v2 = {
+	attributes: {
+		width: { type: "object" },
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		background: { type: "object" },
+		textColor: { type: "string" },
+		backgroundColor: { type: "string" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			background: true,
+			gradient: true,
+			text: true,
+		},
+	},
+	save: ({ attributes, className }) => {
+		const { background, textColor, backgroundColor } = attributes;
+		const style = {
+			backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
+			backgroundPosition: background?.position || null,
+			backgroundSize: background?.size || null,
+			backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+		};
+		return (
+			<div className={classNames(className, columnClassNames(attributes))}>
+				<div
+					className={classNames({
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+					})}
+					style={style}
+				>
+					<InnerBlocks.Content />
+				</div>
+			</div>
+		);
+	},
+};
+
 const v1 = {
 	attributes: {
 		width: { type: "object" },
@@ -144,4 +186,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v2, v1];
+export const deprecated = [v3, v2, v1];
