@@ -1,11 +1,4 @@
-/**
- * BLOCK: gutestrap
- *
- * Registering a basic block with Gutenberg.
- * Simple block, renders and saves the same content without any interactivity.
- */
-
-import { __, _n, _x } from "@wordpress/i18n";
+import { __, _n } from "@wordpress/i18n";
 import { sprintf } from "sprintf-js";
 import classNames from "classnames";
 import { select } from "@wordpress/data";
@@ -24,7 +17,7 @@ function toNumber(value, fallback = 0) {
 }
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
-import { PanelSpacing } from "../../components/panel-spacing";
+import { PanelSpacing, Visualizer } from "../../components/panel-spacing";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
@@ -220,7 +213,7 @@ function ColumnEdit({
 					}}
 				/>
 			</BlockControls>
-			<PanelSpacing.Visualizer values={padding}>
+			<Visualizer values={padding}>
 				<div
 					className={classNames(className, textColor?.class, backgroundColor?.class)}
 					style={{
@@ -247,7 +240,7 @@ function ColumnEdit({
 						}}
 					/>
 				</div>
-			</PanelSpacing.Visualizer>
+			</Visualizer>
 		</Fragment>
 	);
 }

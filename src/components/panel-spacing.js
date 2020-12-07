@@ -1,5 +1,5 @@
 const { __ } = wp.i18n;
-const { PanelBody } = wp.components;
+const { PanelBody, Button, Tooltip, Flex, FlexItem } = wp.components;
 
 import { __experimentalBoxControl as BoxControl } from "@wordpress/components";
 
@@ -15,4 +15,6 @@ export const PanelSpacing = ({ initialOpen = true, spacingSettings = [] }) => {
 	);
 };
 
-PanelSpacing.Visualizer = BoxControl.__Visualizer;
+export default PanelSpacing;
+
+export const Visualizer = BoxControl.__Visualizer;

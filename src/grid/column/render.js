@@ -90,6 +90,15 @@ const v2 = {
 		textColor: { type: "string" },
 		backgroundColor: { type: "string" },
 	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			background: true,
+			gradient: true,
+			text: true,
+		},
+	},
 	save: ({ attributes, className }) => {
 		const { background, textColor, backgroundColor } = attributes;
 		const style = background?.image?.url
@@ -121,6 +130,10 @@ const v1 = {
 		width: { type: "object" },
 		offset: { type: "object" },
 		alignment: { type: "object" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
 	},
 	save: ({ attributes, className }) => {
 		return (
