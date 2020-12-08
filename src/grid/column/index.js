@@ -24,6 +24,7 @@ export const attributes = {
 	width: { type: "object" },
 	offset: { type: "object" },
 	alignment: { type: "object" },
+	contentAlignment: { type: "object" },
 	background: { type: "object" },
 	textColor: { type: "string" },
 	backgroundColor: { type: "string" },

@@ -4,7 +4,14 @@ import classNames from "classnames";
 import { select } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { SelectControl, PanelBody } from "@wordpress/components";
-import { InspectorControls, InnerBlocks, BlockControls, PanelColorSettings, withColors } from "@wordpress/block-editor";
+import {
+	InspectorControls,
+	InnerBlocks,
+	BlockControls,
+	PanelColorSettings,
+	withColors,
+	__experimentalBlockAlignmentMatrixToolbar as BlockAlignmentMatrixToolbar,
+} from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
 
 // import { toNumber } from "js-utils";
@@ -22,7 +29,7 @@ import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
-import { columnClassNames } from "./render";
+import { columnClassNames, columnInnerClassNames } from "./render";
 
 export const COLUMN_OPTION_WIDTH_FIT_VALUE = "auto";
 export const COLUMN_OPTION_WIDTH_DEFAULT_VALUE = "default";
@@ -83,6 +90,49 @@ const COL_ALIGN_OPTIONS = [
 		label: __("Baseline", GUTESTRAP_TEXT_DOMAIN),
 		value: "baseline",
 	},
+	{
+		label: __("Stretch to fit", GUTESTRAP_TEXT_DOMAIN),
+		value: "stretch",
+	},
+];
+
+const COL_CONTENT_ALIGN_OPTIONS = [
+	{
+		label: __("Top left", GUTESTRAP_TEXT_DOMAIN),
+		value: "top left",
+	},
+	{
+		label: __("Top centre", GUTESTRAP_TEXT_DOMAIN),
+		value: "top center",
+	},
+	{
+		label: __("Top right", GUTESTRAP_TEXT_DOMAIN),
+		value: "top right",
+	},
+	{
+		label: __("Centre left", GUTESTRAP_TEXT_DOMAIN),
+		value: "center left",
+	},
+	{
+		label: __("Centre", GUTESTRAP_TEXT_DOMAIN),
+		value: "center center",
+	},
+	{
+		label: __("Centre right", GUTESTRAP_TEXT_DOMAIN),
+		value: "center right",
+	},
+	{
+		label: __("Bottom left", GUTESTRAP_TEXT_DOMAIN),
+		value: "bottom left",
+	},
+	{
+		label: __("Bottom centre", GUTESTRAP_TEXT_DOMAIN),
+		value: "bottom center",
+	},
+	{
+		label: __("Bottom right", GUTESTRAP_TEXT_DOMAIN),
+		value: "bottom right",
+	},
 ];
 /**
  * The edit function describes the structure of your block in the context of the editor.
@@ -105,7 +155,7 @@ function ColumnEdit({
 	backgroundColor,
 	setBackgroundColor,
 }) {
-	const { width = {}, offset = {}, alignment = {}, background = {}, padding = {} } = attributes;
+	const { width = {}, offset = {}, alignment = {}, background = {}, padding = {}, contentAlignment = {} } = attributes;
 
 	return (
 		<Fragment>
@@ -116,7 +166,8 @@ function ColumnEdit({
 						return (
 							(width[bp] && width[bp] !== COLUMN_OPTION_INHERIT_VALUE) ||
 							(offset[bp] && offset[bp] !== COLUMN_OPTION_INHERIT_VALUE) ||
-							(alignment[bp] && alignment[bp] !== COLUMN_OPTION_INHERIT_VALUE)
+							(alignment[bp] && alignment[bp] !== COLUMN_OPTION_INHERIT_VALUE) ||
+							(contentAlignment[bp] && contentAlignment[bp] !== COLUMN_OPTION_INHERIT_VALUE)
 						);
 					}}
 				>
@@ -128,6 +179,7 @@ function ColumnEdit({
 							width: canInherit ? COLUMN_OPTION_INHERIT_VALUE : COLUMN_OPTION_WIDTH_DEFAULT_VALUE,
 							offset: canInherit ? COLUMN_OPTION_INHERIT_VALUE : 0,
 							alignment: COLUMN_OPTION_INHERIT_VALUE,
+							contentAlignment: canInherit ? COLUMN_OPTION_INHERIT_VALUE : "topLeft",
 						};
 						return (
 							<PanelBody>
@@ -167,6 +219,17 @@ function ColumnEdit({
 										setAttributes({ alignment: { ...alignment } });
 									}}
 								/>
+								<SelectControl
+									label={__("Content Alignment", GUTESTRAP_TEXT_DOMAIN)}
+									options={canInherit ? [INHERIT_OPTION, ...COL_CONTENT_ALIGN_OPTIONS] : COL_CONTENT_ALIGN_OPTIONS}
+									value={
+										contentAlignment[breakpoint] != null ? contentAlignment[breakpoint] : fallbacks.contentAlignment
+									}
+									onChange={(value) => {
+										contentAlignment[breakpoint] = value;
+										setAttributes({ contentAlignment: { ...contentAlignment } });
+									}}
+								/>
 							</PanelBody>
 						);
 					}}
@@ -193,7 +256,14 @@ function ColumnEdit({
 					]}
 				/>
 				<PanelSpacing
-					initialOpen={padding?.top || padding?.right || padding?.bottom || padding?.left}
+					initialOpen={
+						!!(
+							parseFloat(padding?.top) ||
+							parseFloat(padding?.right) ||
+							parseFloat(padding?.bottom) ||
+							parseFloat(padding?.left)
+						)
+					}
 					spacingSettings={[
 						{
 							values: padding,
@@ -212,10 +282,18 @@ function ColumnEdit({
 						setAttributes({ alignment: { ...alignment } });
 					}}
 				/>
+				<BlockAlignmentMatrixToolbar
+					label={__("Change content alignment", GUTESTRAP_TEXT_DOMAIN)}
+					value={contentAlignment.xs || "top left"}
+					onChange={(value) => {
+						contentAlignment.xs = value;
+						setAttributes({ contentAlignment: { ...contentAlignment } });
+					}}
+				/>
 			</BlockControls>
 			<Visualizer values={padding}>
 				<div
-					className={classNames(className, textColor?.class, backgroundColor?.class)}
+					className={classNames(className, textColor?.class, backgroundColor?.class, columnInnerClassNames(attributes))}
 					style={{
 						backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
 						backgroundPosition: background?.position || null,
@@ -257,10 +335,16 @@ wp.hooks.addFilter(
 		 * @returns {*} JSX
 		 */
 		const gutestrapColumnBlockListBlockClasses = ({ className, ...props }) => {
-			const { attributes, block } = props;
-			if (block.name === "gutestrap/col") {
-				className = classNames(className, columnClassNames(attributes));
+			const { attributes, block, clientId } = props;
+			const extraClasses = [];
+			const { innerBlocks } = select("core/block-editor").getBlock(clientId);
+			if (innerBlocks?.length) {
+				extraClasses.push("has-inner-blocks");
 			}
+			if (block.name === "gutestrap/col") {
+				extraClasses.push(columnClassNames(attributes));
+			}
+			className = classNames(className, ...extraClasses);
 			return <BlockListBlock {...props} className={className} />;
 		};
 		return gutestrapColumnBlockListBlockClasses;

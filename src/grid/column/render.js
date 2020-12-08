@@ -42,6 +42,49 @@ export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) =>
 };
 
 /**
+ * @arg {string} contentAlignmentValue Value from content alignment.
+ * @returns {{justify: string?, align: string?}} Transformed alignments.
+ */
+function decodeContentAlignment(contentAlignmentValue) {
+	let justify, align;
+	if (!contentAlignmentValue || contentAlignmentValue === COLUMN_OPTION_INHERIT) return { justify, align };
+	const [alignY, alignX] = contentAlignmentValue.split(" ");
+	switch (alignX) {
+		case "left":
+			justify = "start";
+			break;
+		case "right":
+			justify = "end";
+			break;
+		default:
+			justify = alignX;
+	}
+	switch (alignY) {
+		case "top":
+			align = "start";
+			break;
+		case "bottom":
+			align = "end";
+			break;
+		default:
+			align = alignY;
+	}
+	return { justify, align };
+}
+
+export const columnInnerClassNames = ({ contentAlignment }) => {
+	const contentAlignClasses = {};
+	for (const breakpoint in contentAlignment) {
+		if (!contentAlignment.hasOwnProperty(breakpoint)) continue;
+		const { justify, align } = decodeContentAlignment(contentAlignment[breakpoint]);
+		const infix = breakpoint === "xs" ? "" : "-" + breakpoint;
+		contentAlignClasses[`align-items${infix}-${align}`] = !!align;
+		contentAlignClasses[`justify-content${infix}-${justify}`] = !!justify;
+	}
+	return classNames("col__inner", contentAlignClasses);
+};
+
+/**
  * The save function defines the way in which the different attributes should be combined
  * into the final markup, which is then serialized by Gutenberg into post_content.
  *
@@ -69,16 +112,68 @@ export const ColumnRender = ({ attributes, className }) => {
 	return (
 		<div className={classNames(className, columnClassNames(attributes))}>
 			<div
-				className={classNames({
+				className={classNames(columnInnerClassNames(attributes), {
 					[getColorClassName("color", textColor)]: textColor,
 					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 				})}
 				style={innerStyle}
 			>
-				<InnerBlocks.Content />
+				<div className="col__content">
+					<InnerBlocks.Content />
+				</div>
 			</div>
 		</div>
 	);
+};
+
+const v4 = {
+	attributes: {
+		width: { type: "object" },
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		background: { type: "object" },
+		textColor: { type: "string" },
+		backgroundColor: { type: "string" },
+		padding: { type: "object" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			background: true,
+			gradient: true,
+			text: true,
+		},
+		padding: true,
+	},
+	save: ({ attributes, className }) => {
+		const { background, textColor, backgroundColor, padding } = attributes;
+		const innerStyle = {
+			paddingTop: padding?.top,
+			paddingRight: padding?.right,
+			paddingBottom: padding?.bottom,
+			paddingLeft: padding?.left,
+		};
+		if (background?.image?.url) {
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+			innerStyle.backgroundPosition = background.position || "center";
+			innerStyle.backgroundSize = background.size || "cover";
+			innerStyle.backgroundRepeat = background.repeat ? "repeat" : "no-repeat";
+		}
+		return (
+			<div className={classNames(className, columnClassNames(attributes))}>
+				<div
+					className={classNames({
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+					})}
+					style={innerStyle}
+				>
+					<InnerBlocks.Content />
+				</div>
+			</div>
+		);
+	},
 };
 
 const v3 = {
@@ -186,4 +281,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v3, v2, v1];
+export const deprecated = [v4, v3, v2, v1];

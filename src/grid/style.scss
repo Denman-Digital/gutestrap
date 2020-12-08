@@ -21,8 +21,9 @@
 	&-col {
 		display: flex;
 
-		> div {
+		.col__inner {
 			width: 100%;
+			display: flex;
 		}
 	}
 }

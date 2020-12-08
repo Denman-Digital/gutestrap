@@ -88,11 +88,6 @@ html {
 .gutestrap-block {
 	&-container,
 	&-col {
-		&.block-editor-block-list__block {
-			margin-top: unset;
-			margin-bottom: unset;
-		}
-
 		.block-editor-block-list__layout & {
 			margin-left: unset;
 			margin-right: unset;
@@ -111,15 +106,18 @@ html {
 
 		&::before {
 			content: attr(data-title);
-			position: absolute;
-			top: 0;
-			left: 0;
 			display: block;
 			font-size: 0.75rem;
 			font-family: sans-serif;
 			color: gray;
 			padding-left: 0.25rem;
-			pointer-events: none;
+		}
+		&.is-selected,
+		&.has-child-selected,
+		&.has-inner-blocks {
+			&::before {
+				margin-bottom: -28px;
+			}
 		}
 	}
 
@@ -127,7 +125,16 @@ html {
 		&.has-child-selected,
 		&.is-selected,
 		&.is-hovered {
-			outline: thin dashed springgreen;
+			outline: thin dashed limegreen;
+		}
+
+		&::before {
+			content: attr(data-title);
+			display: block;
+			font-size: 0.75rem;
+			font-family: sans-serif;
+			color: gray;
+			padding-left: 0.25rem;
 		}
 	}
 
@@ -150,6 +157,11 @@ html {
 		&.is-hovered {
 			// outline: thin dashed gray;
 			outline: thin dashed dodgerblue;
+		}
+
+		&.block-editor-block-list__block {
+			margin-top: unset;
+			margin-bottom: unset;
 		}
 
 		&-inner-blocks {
