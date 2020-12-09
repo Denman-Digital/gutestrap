@@ -2,8 +2,17 @@ import { __, _n } from "@wordpress/i18n";
 import { sprintf } from "sprintf-js";
 import classNames from "classnames";
 import { select } from "@wordpress/data";
-import { Fragment } from "@wordpress/element";
-import { SelectControl, PanelBody } from "@wordpress/components";
+import {
+	Fragment,
+	// useState,
+} from "@wordpress/element";
+import {
+	SelectControl,
+	PanelBody,
+	// BaseControl, Flex, FlexItem, Tooltip, Button
+} from "@wordpress/components";
+// import { link, linkOff } from "@wordpress/icons";
+
 import {
 	InspectorControls,
 	InnerBlocks,
@@ -11,6 +20,8 @@ import {
 	PanelColorSettings,
 	withColors,
 	__experimentalBlockAlignmentMatrixToolbar as BlockAlignmentMatrixToolbar,
+	// __experimentalBoxControl as BoxControl,
+	// __experimentalUnitControl as UnitControl,
 } from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
 
@@ -155,7 +166,17 @@ function ColumnEdit({
 	backgroundColor,
 	setBackgroundColor,
 }) {
-	const { width = {}, offset = {}, alignment = {}, background = {}, padding = {}, contentAlignment = {} } = attributes;
+	const {
+		width = {},
+		offset = {},
+		alignment = {},
+		background = {},
+		padding = {},
+		// margin = {},
+		contentAlignment = {},
+	} = attributes;
+
+	// const [isMarginLinked, setIsMarginLinked] = useState(margin?.top === margin?.bottom);
 
 	return (
 		<Fragment>
@@ -272,6 +293,87 @@ function ColumnEdit({
 						},
 					]}
 				/>
+
+				{/* <PanelBody
+					title={__("Spacing", GUTESTRAP_TEXT_DOMAIN)}
+					initialOpen={
+						!!(
+							parseFloat(padding?.top) ||
+							parseFloat(padding?.right) ||
+							parseFloat(padding?.bottom) ||
+							parseFloat(padding?.left) ||
+							parseFloat(margin?.top) ||
+							parseFloat(margin?.bottom)
+						)
+					}
+				>
+					<BoxControl
+						values={padding}
+						onChange={(value) => setAttributes({ padding: value })}
+						label={__("Padding", GUTESTRAP_TEXT_DOMAIN)}
+					/>
+					<BaseControl
+						label={__("Margin", GUTESTRAP_TEXT_DOMAIN)}
+						className={isMarginLinked ? "spacing-linked" : "spacing-not-linked"}
+					>
+						<Flex align={"flex-end"}>
+							<FlexItem>
+								<Flex>
+									<FlexItem>
+										<UnitControl
+											className="spacing-unit-control"
+											label={
+												isMarginLinked ? __("Top and bottom", GUTESTRAP_TEXT_DOMAIN) : __("Top", GUTESTRAP_TEXT_DOMAIN)
+											}
+											size={"small"}
+											value={margin?.top}
+											onChange={(value) => {
+												margin.top = value;
+												if (isMarginLinked) {
+													margin.bottom = value;
+												}
+												setAttributes({ margin: { ...margin } });
+											}}
+										/>
+									</FlexItem>
+									{!isMarginLinked && (
+										<FlexItem>
+											<UnitControl
+												className="spacing-unit-control"
+												label={__("Bottom", GUTESTRAP_TEXT_DOMAIN)}
+												size="small"
+												// value={margin?.bottom}
+												onChange={(value) => {
+													margin.bottom = value;
+													setAttributes({ margin: { ...margin } });
+												}}
+											/>
+										</FlexItem>
+									)}
+								</Flex>
+							</FlexItem>
+							<FlexItem style={{ marginLeft: "auto" }}>
+								<Tooltip
+									text={
+										isMarginLinked ? __("Unlink sides", GUTESTRAP_TEXT_DOMAIN) : __("Link sides", GUTESTRAP_TEXT_DOMAIN)
+									}
+								>
+									<span>
+										<Button
+											onClick={() => setIsMarginLinked((state) => !state)}
+											className="spacing-linked-button"
+											isPrimary={isMarginLinked}
+											isSecondary={!isMarginLinked}
+											isSmall
+											icon={isMarginLinked ? link : linkOff}
+											iconSize={16}
+										/>
+									</span>
+								</Tooltip>
+							</FlexItem>
+						</Flex>
+					</BaseControl>
+				</PanelBody> */}
 			</InspectorControls>
 			<BlockControls>
 				<BlockFlexItemAlignmentToolbar
@@ -291,7 +393,7 @@ function ColumnEdit({
 					}}
 				/>
 			</BlockControls>
-			<Visualizer values={padding}>
+			<Visualizer values={padding} className="gutestrap-block-col-visualizer">
 				<div
 					className={classNames(className, textColor?.class, backgroundColor?.class, columnInnerClassNames(attributes))}
 					style={{
