@@ -1,3 +1,32 @@
+// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+	$min: breakpoint-min($name, $breakpoints);
+	@if $min {
+		$min: $min + 280px;
+		@media (min-width: $min) {
+			#editor {
+				@content;
+
+				@if $name == sm or $name == md {
+					.editor-styles-wrapper[style*="width: 780px;"] {
+						@content;
+					}
+				}
+			}
+		}
+	} @else {
+		#editor {
+			@content;
+
+			.editor-styles-wrapper[style*="width: 360px;"],
+			.editor-styles-wrapper[style*="width: 780px;"] {
+				@content;
+			}
+		}
+	}
+}
+
 .block-editor-block-list__block[data-title] {
 	&[data-type="core/group"] {
 		&:not(.has-background) {
