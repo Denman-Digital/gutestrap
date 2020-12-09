@@ -39,16 +39,16 @@ function gutestrap_block_assets()
 	wp_register_style(
 		'gutestrap-style-css',
 		plugins_url('dist/blocks.style.build.css', dirname(__FILE__)),
-		is_admin() ? ['wp-editor', "gutestrap-bootstrap-grid", "gutestrap-fontawesome"] : ["gutestrap-bootstrap-grid", "gutestrap-fontawesome"],
+		is_admin() ? ['wp-editor', "gutestrap-fontawesome"] : ["gutestrap-fontawesome"],
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css') // Version: File modification time.
 	);
 
-	wp_register_style(
-		'gutestrap-bootstrap-grid',
-		plugins_url('assets/bootstrap@4.5.3/css/bootstrap-grid.min.css', dirname(__FILE__)), // Block style CSS.
-		is_admin() ? ['wp-editor'] : null, // Dependency to include the CSS after it.
-		"4.5.3"
-	);
+	// wp_register_style(
+	// 	'gutestrap-bootstrap-grid',
+	// 	plugins_url('assets/bootstrap@4.5.3/css/bootstrap-grid.min.css', dirname(__FILE__)), // Block style CSS.
+	// 	is_admin() ? ['wp-editor'] : null, // Dependency to include the CSS after it.
+	// 	"4.5.3"
+	// );
 
 	wp_register_style(
 		'gutestrap-fontawesome',

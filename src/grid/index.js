@@ -5,9 +5,6 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
-import "./editor.scss";
-import "./style.scss";
-
 import { registerBlockType } from "@wordpress/blocks";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import classNames from "classnames";

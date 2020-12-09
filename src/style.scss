@@ -1,3 +1,59 @@
+/**
+ * #.# Styles
+ *
+ * CSS for Frontend.
+ */
+
+@import "../node_modules/bootstrap/scss/grid";
+
+// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
+.vertical-gutters {
+	margin-top: -($grid-gutter-width / 2);
+	margin-bottom: -($grid-gutter-width / 2);
+
+	> .col,
+	> [class*="col-"] {
+		padding-top: ($grid-gutter-width / 2);
+		padding-bottom: ($grid-gutter-width / 2);
+	}
+}
+
+@import "../node_modules/bootstrap/scss/utilities/flex";
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+		.justify-content#{$infix}-evenly {
+			justify-content: space-evenly !important;
+		}
+		.w#{$infix}-100 {
+			width: 100% !important;
+		}
+		[class*="justify-content#{$infix}-"]:not(.justify-content#{$infix}-stretch) {
+			>.col__content {
+				flex-basis: unset;
+			}
+		}
+		.justify-content#{$infix}-stretch {
+			> .col__content {
+				flex-basis: 100%;
+			}
+		}
+	}
+}
+
+.wp-block-gutestrap {
+	&-col {
+		display: flex;
+
+		> .col__inner {
+			width: 100%;
+			display: flex;
+		}
+	}
+}
+
+
 @each $breakpoint in map-keys($grid-breakpoints) {
 	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 	@include media-breakpoint-up($breakpoint) {
@@ -17,3 +73,4 @@
 		}
 	}
 }
+

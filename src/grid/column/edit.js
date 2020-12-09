@@ -9,6 +9,9 @@ import {
 import {
 	SelectControl,
 	PanelBody,
+	ToolbarButton,
+	Toolbar,
+	Tooltip,
 	// BaseControl, Flex, FlexItem, Tooltip, Button
 } from "@wordpress/components";
 // import { link, linkOff } from "@wordpress/icons";
@@ -38,9 +41,11 @@ import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 import { PanelSpacing, Visualizer } from "../../components/panel-spacing";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
-import { BlockFlexItemAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
+import { BlockFlexItemAlignmentToolbar, BOOTSTRAP_ICON_CLASSES } from "../../components/alignment/flex-items-alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { columnClassNames, columnInnerClassNames } from "./render";
+
+import { ReactComponent as ExpandIcon } from "bootstrap-icons/icons/arrows-angle-expand.svg";
 
 export const COLUMN_OPTION_WIDTH_FIT_VALUE = "auto";
 export const COLUMN_OPTION_WIDTH_DEFAULT_VALUE = "default";
@@ -108,6 +113,10 @@ const COL_ALIGN_OPTIONS = [
 ];
 
 const COL_CONTENT_ALIGN_OPTIONS = [
+	{
+		label: __("Stretch to fit", GUTESTRAP_TEXT_DOMAIN),
+		value: "stretch stretch",
+	},
 	{
 		label: __("Top left", GUTESTRAP_TEXT_DOMAIN),
 		value: "top left",
@@ -177,6 +186,7 @@ function ColumnEdit({
 	} = attributes;
 
 	// const [isMarginLinked, setIsMarginLinked] = useState(margin?.top === margin?.bottom);
+	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
 
 	return (
 		<Fragment>
@@ -200,7 +210,7 @@ function ColumnEdit({
 							width: canInherit ? COLUMN_OPTION_INHERIT_VALUE : COLUMN_OPTION_WIDTH_DEFAULT_VALUE,
 							offset: canInherit ? COLUMN_OPTION_INHERIT_VALUE : 0,
 							alignment: COLUMN_OPTION_INHERIT_VALUE,
-							contentAlignment: canInherit ? COLUMN_OPTION_INHERIT_VALUE : "topLeft",
+							contentAlignment: canInherit ? COLUMN_OPTION_INHERIT_VALUE : "stretch stretch",
 						};
 						return (
 							<PanelBody>
@@ -384,9 +394,23 @@ function ColumnEdit({
 						setAttributes({ alignment: { ...alignment } });
 					}}
 				/>
+				<Toolbar>
+					<ToolbarButton
+						showTooltip={true}
+						label={__("Expand contents to fit", GUTESTRAP_TEXT_DOMAIN)}
+						isPressed={contentAlignment.xs === "stretch stretch"}
+						onClick={() => {
+							contentAlignment.xs = contentAlignment.xs === "stretch stretch" ? "top left" : "stretch stretch";
+							setAttributes({ contentAlignment: { ...contentAlignment } });
+						}}
+						icon={() => <ExpandIcon className={BOOTSTRAP_ICON_CLASSES} />}
+					>
+						{/* <ExpandIcon /> */}
+					</ToolbarButton>
+				</Toolbar>
 				<BlockAlignmentMatrixToolbar
 					label={__("Change content alignment", GUTESTRAP_TEXT_DOMAIN)}
-					value={contentAlignment.xs || "top left"}
+					value={contentAlignment.xs}
 					onChange={(value) => {
 						contentAlignment.xs = value;
 						setAttributes({ contentAlignment: { ...contentAlignment } });
@@ -439,9 +463,11 @@ wp.hooks.addFilter(
 		const gutestrapColumnBlockListBlockClasses = ({ className, ...props }) => {
 			const { attributes, block, clientId } = props;
 			const extraClasses = [];
-			const _block = select("core/block-editor").getBlock(clientId);
-			if (_block?.innerBlocks?.length) {
-				extraClasses.push("has-inner-blocks");
+			if (block.name === "gutestrap/col" || block.name === "gutestrap/container") {
+				const _block = select("core/block-editor").getBlock(clientId);
+				if (_block?.innerBlocks?.length) {
+					extraClasses.push("has-inner-blocks");
+				}
 			}
 			if (block.name === "gutestrap/col") {
 				extraClasses.push(columnClassNames(attributes));
