@@ -166,7 +166,15 @@ const ROW_ALIGNMENT_OPTIONS_XS = [
  */
 export const RowEdit = (props) => {
 	const { attributes, className, setAttributes, clientId } = props;
-	const { defaultColWidth = {}, alignment = {}, justification = {}, padding = {}, noGutters, disabled } = attributes;
+	const {
+		defaultColWidth = {},
+		alignment = {},
+		justification = {},
+		padding = {},
+		noGutters,
+		verticalGutters,
+		disabled,
+	} = attributes;
 	const rowProps = {
 		className: classNames(className, rowClassNames(attributes)),
 	};
@@ -251,55 +259,50 @@ export const RowEdit = (props) => {
 						);
 					}}
 				</ResponsiveTabs>
-				<PanelBody title={__("Gutters", GUTESTRAP_TEXT_DOMAIN)}>
-					<ToggleControl
-						checked={!!noGutters}
-						help={__("Remove gutters between the columns of this row.", GUTESTRAP_TEXT_DOMAIN)}
-						label={__("No gutters", GUTESTRAP_TEXT_DOMAIN)}
-						onChange={(checked) => {
-							setAttributes({ noGutters: !!checked });
-						}}
-					/>
-				</PanelBody>
-
 				<PanelBody
 					title={__("Spacing", GUTESTRAP_TEXT_DOMAIN)}
 					initialOpen={!!(parseFloat(padding?.top) || parseFloat(padding?.bottom))}
-					className={isPaddingLinked ? "padding-linked" : "padding-not-linked"}
 				>
-					<BaseControl label={__("Padding", GUTESTRAP_TEXT_DOMAIN)}>
+					<BaseControl
+						label={__("Padding", GUTESTRAP_TEXT_DOMAIN)}
+						className={isPaddingLinked ? "spacing-linked" : "spacing-not-linked"}
+					>
 						<Flex align={"flex-end"}>
 							<FlexItem>
-								<UnitControl
-									className="padding-unit-control"
-									label={
-										isPaddingLinked ? __("Top and bottom", GUTESTRAP_TEXT_DOMAIN) : __("Top", GUTESTRAP_TEXT_DOMAIN)
-									}
-									size={"small"}
-									value={padding?.top}
-									onChange={(value) => {
-										padding.top = value;
-										if (isPaddingLinked) {
-											padding.bottom = value;
-										}
-										setAttributes({ padding: { ...padding } });
-									}}
-								/>
+								<Flex>
+									<FlexItem>
+										<UnitControl
+											className="spacing-unit-control"
+											label={
+												isPaddingLinked ? __("Top and bottom", GUTESTRAP_TEXT_DOMAIN) : __("Top", GUTESTRAP_TEXT_DOMAIN)
+											}
+											size="small"
+											value={padding?.top}
+											onChange={(value) => {
+												padding.top = value;
+												if (isPaddingLinked) {
+													padding.bottom = value;
+												}
+												setAttributes({ padding: { ...padding } });
+											}}
+										/>
+									</FlexItem>
+									{!isPaddingLinked && (
+										<FlexItem>
+											<UnitControl
+												className="spacing-unit-control"
+												label={__("Bottom", GUTESTRAP_TEXT_DOMAIN)}
+												size="small"
+												value={padding?.bottom}
+												onChange={(value) => {
+													padding.bottom = value;
+													setAttributes({ padding: { ...padding } });
+												}}
+											/>
+										</FlexItem>
+									)}
+								</Flex>
 							</FlexItem>
-							{!isPaddingLinked && (
-								<FlexItem>
-									<UnitControl
-										className="padding-unit-control"
-										label={__("Bottom", GUTESTRAP_TEXT_DOMAIN)}
-										size={"small"}
-										value={padding?.bottom}
-										onChange={(value) => {
-											padding.bottom = value;
-											setAttributes({ padding: { ...padding } });
-										}}
-									/>
-								</FlexItem>
-							)}
 							<FlexItem style={{ marginLeft: "auto" }}>
 								<Tooltip
 									text={
@@ -311,7 +314,7 @@ export const RowEdit = (props) => {
 									<span>
 										<Button
 											onClick={() => setIsPaddingLinked((state) => !state)}
-											className="padding-linked-button"
+											className="spacing-linked-button"
 											isPrimary={isPaddingLinked}
 											isSecondary={!isPaddingLinked}
 											isSmall
@@ -323,6 +326,24 @@ export const RowEdit = (props) => {
 							</FlexItem>
 						</Flex>
 					</BaseControl>
+				</PanelBody>
+				<PanelBody title={__("Gutters", GUTESTRAP_TEXT_DOMAIN)} initialOpen={false}>
+					<ToggleControl
+						checked={!noGutters}
+						// help={__("Add gutters between the columns of this row.", GUTESTRAP_TEXT_DOMAIN)}
+						label={__("Horizontal gutters", GUTESTRAP_TEXT_DOMAIN)}
+						onChange={(checked) => {
+							setAttributes({ noGutters: !checked });
+						}}
+					/>
+					<ToggleControl
+						checked={!!verticalGutters}
+						// help={__("Add gutters between the lines of columns of this row.", GUTESTRAP_TEXT_DOMAIN)}
+						label={__("Vertical gutters", GUTESTRAP_TEXT_DOMAIN)}
+						onChange={(checked) => {
+							setAttributes({ verticalGutters: !!checked });
+						}}
+					/>
 				</PanelBody>
 			</InspectorControls>
 			<InspectorAdvancedControls>

@@ -17,6 +17,7 @@ export const title = __("Row", GUTESTRAP_TEXT_DOMAIN);
 /** Block attributes. */
 export const attributes = {
 	noGutters: { type: "boolean" },
+	verticalGutters: { type: "boolean" },
 	alignment: { type: "object" },
 	justification: { type: "object" },
 	defaultColWidth: { type: "object" },
@@ -28,6 +29,7 @@ export const attributes = {
 /** Block attribute default values. */
 export const DEFAULT_ATTRIBUTES = {
 	noGutters: false,
+	verticalGutters: false,
 	disabled: false,
 	alignment: {
 		xs: "top",

@@ -1,10 +1,17 @@
 import classNames from "classnames";
 import { InnerBlocks } from "@wordpress/block-editor";
 
-export const rowClassNames = ({ defaultColWidth = {}, noGutters = false, justification = {}, alignment = {} }) => {
+export const rowClassNames = ({
+	defaultColWidth = {},
+	noGutters = false,
+	verticalGutters = false,
+	justification = {},
+	alignment = {},
+}) => {
 	return classNames({
 		row: true,
 		"no-gutters": !!noGutters,
+		"vertical-gutters": !!verticalGutters,
 		[`row-cols-${defaultColWidth.xs}`]: !!defaultColWidth.xs,
 		[`row-cols-sm-${defaultColWidth.sm}`]: !!defaultColWidth.sm,
 		[`row-cols-md-${defaultColWidth.md}`]: !!defaultColWidth.md,

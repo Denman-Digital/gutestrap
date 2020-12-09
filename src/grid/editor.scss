@@ -20,36 +20,20 @@ html {
 	max-width: unset;
 }
 
-// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
-// Makes the @content apply to the given breakpoint and wider.
-@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
-	$min: breakpoint-min($name, $breakpoints);
-	@if $min {
-		$min: $min + 280px;
-		@media (min-width: $min) {
-			#editor {
-				@content;
+@import "../../node_modules/bootstrap/scss/grid";
 
-				@if $name == sm or $name == md {
-					.editor-styles-wrapper[style*="width: 780px;"] {
-						@content;
-					}
-				}
-			}
-		}
-	} @else {
-		#editor {
-			@content;
+// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
+.vertical-gutters {
+	margin-top: -($grid-gutter-width / 2);
+	margin-bottom: -($grid-gutter-width / 2);
 
-			.editor-styles-wrapper[style*="width: 360px;"],
-			.editor-styles-wrapper[style*="width: 780px;"] {
-				@content;
-			}
-		}
+	> .col,
+	> [class*="col-"] {
+		padding-top: ($grid-gutter-width / 2);
+		padding-bottom: ($grid-gutter-width / 2);
 	}
 }
 
-@import "../../node_modules/bootstrap/scss/grid";
 @import "../../node_modules/bootstrap/scss/utilities/flex";
 
 @each $breakpoint in map-keys($grid-breakpoints) {
@@ -164,6 +148,17 @@ html {
 			margin-bottom: unset;
 		}
 
+
+		& > &-visualizer > .col__inner > .block-editor-inner-blocks {
+			min-width: 1em;
+		}
+		& > &-visualizer > .col__inner > .block-editor-inner-blocks > &-inner-blocks > p[aria-label^="Empty block"] {
+			min-width: 5em;
+		}
+		&:not(.has-inner-blocks) > &-visualizer > .col__inner > .block-editor-inner-blocks {
+			width: 100%;
+		}
+
 		&-inner-blocks {
 			> .block-list-appender:not(:first-child) {
 				margin: 0;
@@ -234,12 +229,12 @@ html {
 }
 
 #editor {
-	.padding-not-linked .padding-unit-control {
+	.spacing-not-linked .spacing-unit-control {
 		.components-input-control__input {
 			width: 6.625em;
 		}
 	}
-	.padding-linked-button {
+	.spacing-linked-button {
 		svg {
 			width: 1.5em;
 			height: auto;
