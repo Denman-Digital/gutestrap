@@ -175,10 +175,6 @@ export const RowEdit = (props) => {
 		verticalGutters,
 		disabled,
 	} = attributes;
-	const rowProps = {
-		className: classNames(className, rowClassNames(attributes)),
-	};
-
 	const [isPaddingLinked, setIsPaddingLinked] = useState(padding?.top === padding?.bottom);
 
 	return (
@@ -358,6 +354,7 @@ export const RowEdit = (props) => {
 			</InspectorAdvancedControls>
 			<Visualizer values={padding}>
 				<div
+					className={classNames(className, rowClassNames(attributes))}
 					style={{
 						paddingTop: padding?.top,
 						paddingBottom: padding?.bottom,
@@ -366,7 +363,6 @@ export const RowEdit = (props) => {
 					<InnerBlocks
 						allowedBlocks={[rowBreakBlockName, columnBlockName]}
 						orientation="horizontal"
-						__experimentalPassedProps={rowProps}
 						renderAppender={() => {
 							return (
 								<Fragment>

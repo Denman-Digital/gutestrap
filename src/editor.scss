@@ -73,6 +73,8 @@ html {
 		}
 		#editor .w#{$infix}-100 {
 			width: 100% !important;
+			max-width: 100% !important;
+			flex-basis: 100% !important;
 		}
 	}
 }
@@ -115,12 +117,14 @@ html {
 	}
 
 	&-row {
+		outline: 1px dashed gray;
+		outline-offset: -1px;
+
 		&.has-child-selected,
 		&.is-selected,
 		&.is-hovered {
 			outline: 1px dashed limegreen;
 		}
-		outline-offset: -1px;
 
 		&::before {
 			content: attr(data-title);
@@ -133,6 +137,10 @@ html {
 	}
 
 	&-col {
+		#editor & {
+			background: none !important
+		}
+
 		&,
 		& > *:not(.wp-block-gutestrap-col) {
 			display: flex;
@@ -159,14 +167,14 @@ html {
 		& > &-visualizer > .col__inner > .block-editor-inner-blocks {
 			min-width: 1em;
 		}
-		& > &-visualizer > .col__inner > .block-editor-inner-blocks > &-inner-blocks > p[aria-label^="Empty block"] {
+		& > &-visualizer > .col__inner > .block-editor-inner-blocks > .block-editor-block-list__layout > p[aria-label^="Empty block"] {
 			min-width: 5em;
 		}
 		&:not(.has-inner-blocks) > &-visualizer > .col__inner > .block-editor-inner-blocks {
 			width: 100%;
 		}
 
-		&-inner-blocks {
+		> * > .block-editor-block-list__layout {
 			> .block-list-appender:not(:first-child) {
 				margin: 0;
 			}
@@ -214,18 +222,6 @@ html {
 						flex-basis: 100%;
 					}
 				}
-			}
-		}
-	}
-
-	&-row {
-		> .block-list-appender {
-			margin-left: $grid-gutter-width / 2;
-			width: 100%;
-			pointer-events: none;
-			> * {
-				width: fit-content;
-				pointer-events: auto;
 			}
 		}
 	}
@@ -291,6 +287,110 @@ html {
 	&[data-type="core/group"] {
 		&:not(.has-background) {
 			border: 1px dashed gray;
+		}
+	}
+}
+
+#editor {
+
+	.row.wp-block-gutestrap-row {
+		margin-right: 0;
+		margin-left: 0;
+		display: block;
+
+		> .block-editor-inner-blocks {
+			max-width: 100%;
+		}
+
+		> * > .block-editor-block-list__layout {
+			@include make-row();
+
+			> .block-list-appender {
+				padding-left: $grid-gutter-width / 2;
+				width: 100%;
+				max-width: 100%;
+				flex-basis: 100%;
+				pointer-events: none;
+				> * {
+					width: fit-content;
+					pointer-events: auto;
+				}
+			}
+		}
+
+		&.no-gutters > * > .block-editor-block-list__layout {
+			margin-right: 0;
+			margin-left: 0;
+
+			> .col,
+			> [class*="col-"] {
+				padding-right: 0;
+				padding-left: 0;
+			}
+		}
+		// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
+		&.vertical-gutters > * > .block-editor-block-list__layout {
+			margin-top: -($grid-gutter-width / 2);
+			margin-bottom: -($grid-gutter-width / 2);
+
+			> .col,
+			> [class*="col-"] {
+				padding-top: ($grid-gutter-width / 2);
+				padding-bottom: ($grid-gutter-width / 2);
+			}
+		}
+	}
+}
+@each $breakpoint in map-keys($grid-breakpoints) {
+	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+	@include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+		@if $grid-row-columns > 0 {
+			@for $count from 1 through $grid-row-columns {
+				.row-cols#{$infix}-#{$count} > * > .block-editor-block-list__layout {
+					> * {
+						flex: 0 0 100% / $count;
+						max-width: 100% / $count;
+					}
+				}
+			}
+		}
+
+		.wp-block-gutestrap-row {
+			&.justify-content#{$infix}-start > * > .block-editor-block-list__layout {
+				justify-content: flex-start !important;
+			}
+			&.justify-content#{$infix}-end > * > .block-editor-block-list__layout {
+				justify-content: flex-end !important;
+			}
+			&.justify-content#{$infix}-center > * > .block-editor-block-list__layout {
+				justify-content: center !important;
+			}
+			&.justify-content#{$infix}-between > * > .block-editor-block-list__layout {
+				justify-content: space-between !important;
+			}
+			&.justify-content#{$infix}-around > * > .block-editor-block-list__layout {
+				justify-content: space-around !important;
+			}
+			&.justify-content#{$infix}-evenly > * > .block-editor-block-list__layout {
+				justify-content: space-evenly !important;
+			}
+
+			&.align-items#{$infix}-start > * > .block-editor-block-list__layout {
+				align-items: flex-start !important;
+			}
+			&.align-items#{$infix}-end > * > .block-editor-block-list__layout {
+				align-items: flex-end !important;
+			}
+			&.align-items#{$infix}-center > * > .block-editor-block-list__layout {
+				align-items: center !important;
+			}
+			&.align-items#{$infix}-baseline > * > .block-editor-block-list__layout {
+				align-items: baseline !important;
+			}
+			&.align-items#{$infix}-stretch > * > .block-editor-block-list__layout {
+				align-items: stretch !important;
+			}
 		}
 	}
 }

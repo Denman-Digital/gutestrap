@@ -47,7 +47,9 @@ export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) =>
  */
 function decodeContentAlignment(contentAlignmentValue) {
 	let justify, align;
-	if (!contentAlignmentValue || contentAlignmentValue === COLUMN_OPTION_INHERIT) return { justify, align };
+	if (!contentAlignmentValue || contentAlignmentValue === COLUMN_OPTION_INHERIT) {
+		return { justify: "stretch", align: "stretch" };
+	}
 	const [alignY, alignX] = contentAlignmentValue.split(" ");
 	switch (alignX) {
 		case "left":
@@ -110,7 +112,12 @@ export const ColumnRender = ({ attributes, className }) => {
 		innerStyle.backgroundRepeat = background.repeat ? "repeat" : "no-repeat";
 	}
 	return (
-		<div className={classNames(className, columnClassNames(attributes))}>
+		<div
+			className={classNames(className, columnClassNames(attributes))
+				.replace(getColorClassName("color", textColor), "")
+				.replace(getColorClassName("background-color", backgroundColor), "")
+				.replace(/\s+/g, " ")}
+		>
 			<div
 				className={classNames(columnInnerClassNames(attributes), {
 					[getColorClassName("color", textColor)]: textColor,
