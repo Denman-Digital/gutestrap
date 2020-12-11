@@ -48,7 +48,7 @@ export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) =>
 function decodeContentAlignment(contentAlignmentValue) {
 	let justify, align;
 	if (!contentAlignmentValue || contentAlignmentValue === COLUMN_OPTION_INHERIT) {
-		return { justify: "stretch", align: "stretch" };
+		return { justify, align };
 	}
 	const [alignY, alignX] = contentAlignmentValue.split(" ");
 	switch (alignX) {
@@ -74,8 +74,9 @@ function decodeContentAlignment(contentAlignmentValue) {
 	return { justify, align };
 }
 
-export const columnInnerClassNames = ({ contentAlignment }) => {
+export const columnInnerClassNames = ({ contentAlignment = {} }) => {
 	const contentAlignClasses = {};
+	contentAlignment.xs = contentAlignment?.xs || "stretch stretch";
 	for (const breakpoint in contentAlignment) {
 		if (!contentAlignment.hasOwnProperty(breakpoint)) continue;
 		const { justify, align } = decodeContentAlignment(contentAlignment[breakpoint]);
