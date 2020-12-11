@@ -424,8 +424,8 @@ function ColumnEdit({
 					className={classNames(className, textColor?.class, backgroundColor?.class, columnInnerClassNames(attributes))}
 					style={{
 						backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
-						backgroundPosition: background?.position || null,
-						backgroundSize: background?.size || null,
+						backgroundPosition: background?.position || "center",
+						backgroundSize: background?.size || "cover",
 						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
 						paddingTop: padding.top,
 						paddingRight: padding.right,
