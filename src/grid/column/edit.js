@@ -234,7 +234,7 @@ function ColumnEdit({
 									}}
 								/>
 								<SelectControl
-									label={__("Alignment", GUTESTRAP_TEXT_DOMAIN)}
+									label={__("Column alignment", GUTESTRAP_TEXT_DOMAIN)}
 									options={[
 										canInherit
 											? INHERIT_OPTION
@@ -249,6 +249,7 @@ function ColumnEdit({
 										alignment[breakpoint] = value;
 										setAttributes({ alignment: { ...alignment } });
 									}}
+									help={__("Align the column within the row.", GUTESTRAP_TEXT_DOMAIN)}
 								/>
 								<SelectControl
 									label={__("Content Alignment", GUTESTRAP_TEXT_DOMAIN)}
@@ -260,6 +261,7 @@ function ColumnEdit({
 										contentAlignment[breakpoint] = value;
 										setAttributes({ contentAlignment: { ...contentAlignment } });
 									}}
+									help={__("Align content within the column.", GUTESTRAP_TEXT_DOMAIN)}
 								/>
 							</PanelBody>
 						);
