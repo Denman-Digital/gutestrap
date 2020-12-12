@@ -21,9 +21,6 @@ export const attributes = {
 	backgroundColor: { type: "string" },
 };
 
-/** Block category. */
-export const category = "layout";
-
 /** Block Description. */
 export const description = __(
 	"Containers are used to contain, pad, and (sometimes) center the content within them",
@@ -43,4 +40,4 @@ export const supports = {
 
 export { icon, edit, save };
 
-export default { name, settings: { title, category, icon, attributes, description, supports, edit, save, deprecated } };
+export default { name, settings: { title, icon, attributes, description, supports, edit, save, deprecated } };

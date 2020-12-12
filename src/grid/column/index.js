@@ -31,9 +31,6 @@ export const attributes = {
 	padding: { type: "object" },
 };
 
-/** Block category. */
-export const category = "layout";
-
 /** @type {string[]} Allowed parent blocks. */
 export const parent = [rowBlockName];
 
@@ -51,4 +48,4 @@ export const supports = {
 
 export { icon, edit, save };
 
-export default { name, settings: { title, category, icon, parent, attributes, supports, edit, save, deprecated } };
+export default { name, settings: { title, icon, parent, attributes, supports, edit, save, deprecated } };

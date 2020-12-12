@@ -18,8 +18,6 @@ export const name = "gutestrap/row-break";
 
 export const title = __("Row Break", GUTESTRAP_TEXT_DOMAIN);
 
-export const category = "layout";
-
 export const description = __(
 	"Row breaks will cause any following columns to start on a new line.",
 	GUTESTRAP_TEXT_DOMAIN
@@ -47,7 +45,7 @@ export const edit = ({ className }) => {
 
 export { BreakIcon as icon };
 
-export default { name, settings: { title, icon: BreakIcon, category, description, parent, edit, save } };
+export default { name, settings: { title, icon: BreakIcon, description, parent, edit, save } };
 
 wp.hooks.addFilter(
 	"editor.BlockListBlock",

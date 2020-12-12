@@ -57,9 +57,6 @@ export const DEFAULT_ATTRIBUTES = {
 	},
 };
 
-/** Block category. */
-export const category = "layout";
-
 /** Supported WordPress/Gutenberg features. */
 export const supports = {
 	anchor: true,
@@ -67,4 +64,4 @@ export const supports = {
 
 export { icon, edit, save };
 
-export default { name, settings: { title, category, icon, attributes, edit, save, supports, deprecated } };
+export default { name, settings: { title, icon, attributes, edit, save, supports, deprecated } };

@@ -13,6 +13,9 @@ import ContainerBlock from "./container";
 import RowBlock, { RowBreakBlock } from "./row";
 import ColumnBlock from "./column";
 
+/** Block category. */
+const category = "bootstrap-grid";
+
 /**
  * Register: a Gutenberg Block.
  *
@@ -26,10 +29,10 @@ import ColumnBlock from "./column";
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType(ContainerBlock.name, ContainerBlock.settings);
-registerBlockType(RowBlock.name, RowBlock.settings);
-registerBlockType(RowBreakBlock.name, RowBreakBlock.settings);
-registerBlockType(ColumnBlock.name, ColumnBlock.settings);
+registerBlockType(ContainerBlock.name, { category, ...ContainerBlock.settings });
+registerBlockType(RowBlock.name, { category, ...RowBlock.settings });
+registerBlockType(RowBreakBlock.name, { category, ...RowBreakBlock.settings });
+registerBlockType(ColumnBlock.name, { category, ...ColumnBlock.settings });
 
 wp.hooks.addFilter(
 	"editor.BlockListBlock",

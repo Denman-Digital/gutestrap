@@ -156,6 +156,13 @@ function gutestrap_block_categories($categories, $post)
 	// 	return $categories;
 	// }
 	return array_merge(
+		[
+			[
+				"slug" => "bootstrap-grid",
+				"title" => __("Bootstrap Grid", GUTESTRAP_TEXT_DOMAIN),
+				"icon" => "layout",
+			],
+		],
 		$categories,
 		[
 			[
