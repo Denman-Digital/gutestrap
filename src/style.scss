@@ -49,6 +49,10 @@
 		> .col__inner {
 			width: 100%;
 			display: flex;
+
+			> .col__content {
+				max-width: 100%;
+			}
 		}
 	}
 }
