@@ -28,7 +28,10 @@ export const attributes = {
 	background: { type: "object" },
 	textColor: { type: "string" },
 	backgroundColor: { type: "string" },
+	customTextColor: { type: "string" },
+	customBackgroundColor: { type: "string" },
 	padding: { type: "object" },
+	margin: { type: "object" },
 };
 
 /** @type {string[]} Allowed parent blocks. */
@@ -38,12 +41,6 @@ export const parent = [rowBlockName];
 export const supports = {
 	anchor: true,
 	alignWide: false,
-	color: {
-		background: true,
-		gradient: true,
-		text: true,
-	},
-	padding: true,
 };
 
 export { icon, edit, save };

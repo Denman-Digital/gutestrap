@@ -2,19 +2,21 @@ import { __, _n } from "@wordpress/i18n";
 import { sprintf } from "sprintf-js";
 import classNames from "classnames";
 import { select } from "@wordpress/data";
-import {
-	Fragment,
-	// useState,
-} from "@wordpress/element";
+import { Fragment, useState } from "@wordpress/element";
 import {
 	SelectControl,
 	PanelBody,
 	ToolbarButton,
 	Toolbar,
 	Tooltip,
-	// BaseControl, Flex, FlexItem, Tooltip, Button
+	BaseControl,
+	Flex,
+	FlexItem,
+	Button,
+	__experimentalBoxControl as BoxControl,
+	__experimentalUnitControl as UnitControl,
 } from "@wordpress/components";
-// import { link, linkOff } from "@wordpress/icons";
+import { link, linkOff } from "@wordpress/icons";
 
 import {
 	InspectorControls,
@@ -23,8 +25,6 @@ import {
 	PanelColorSettings,
 	withColors,
 	__experimentalBlockAlignmentMatrixToolbar as BlockAlignmentMatrixToolbar,
-	// __experimentalBoxControl as BoxControl,
-	// __experimentalUnitControl as UnitControl,
 } from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
 
@@ -181,11 +181,11 @@ function ColumnEdit({
 		alignment = {},
 		background = {},
 		padding = {},
-		// margin = {},
+		margin = {},
 		contentAlignment = {},
 	} = attributes;
 
-	// const [isMarginLinked, setIsMarginLinked] = useState(margin?.top === margin?.bottom);
+	const [isMarginLinked, setIsMarginLinked] = useState(margin?.top === margin?.bottom);
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
 
 	return (
@@ -282,13 +282,16 @@ function ColumnEdit({
 					colorSettings={[
 						{
 							value: backgroundColor.color,
-							onChange: setBackgroundColor,
+							onChange: (value) => {
+								console.log(value);
+								setBackgroundColor(value);
+							},
 							label: __("Background colour", GUTESTRAP_TEXT_DOMAIN),
 						},
 						{ value: textColor.color, onChange: setTextColor, label: __("Text colour", GUTESTRAP_TEXT_DOMAIN) },
 					]}
 				/>
-				<PanelSpacing
+				{/* <PanelSpacing
 					initialOpen={
 						!!(
 							parseFloat(padding?.top) ||
@@ -304,9 +307,9 @@ function ColumnEdit({
 							label: __("Padding", GUTESTRAP_TEXT_DOMAIN),
 						},
 					]}
-				/>
+				/> */}
 
-				{/* <PanelBody
+				<PanelBody
 					title={__("Spacing", GUTESTRAP_TEXT_DOMAIN)}
 					initialOpen={
 						!!(
@@ -319,14 +322,17 @@ function ColumnEdit({
 						)
 					}
 				>
-					<BoxControl
-						values={padding}
-						onChange={(value) => setAttributes({ padding: value })}
-						label={__("Padding", GUTESTRAP_TEXT_DOMAIN)}
-					/>
+					<BaseControl>
+						<BoxControl
+							values={padding}
+							onChange={(value) => setAttributes({ padding: value })}
+							label={__("Padding", GUTESTRAP_TEXT_DOMAIN)}
+						/>
+					</BaseControl>
 					<BaseControl
 						label={__("Margin", GUTESTRAP_TEXT_DOMAIN)}
 						className={isMarginLinked ? "spacing-linked" : "spacing-not-linked"}
+						// help={__("Add margin above or below the column.")}
 					>
 						<Flex align={"flex-end"}>
 							<FlexItem>
@@ -353,8 +359,8 @@ function ColumnEdit({
 											<UnitControl
 												className="spacing-unit-control"
 												label={__("Bottom", GUTESTRAP_TEXT_DOMAIN)}
-												size="small"
-												// value={margin?.bottom}
+												size={"small"}
+												value={margin?.bottom}
 												onChange={(value) => {
 													margin.bottom = value;
 													setAttributes({ margin: { ...margin } });
@@ -372,7 +378,11 @@ function ColumnEdit({
 								>
 									<span>
 										<Button
-											onClick={() => setIsMarginLinked((state) => !state)}
+											onClick={() => {
+												setIsMarginLinked((state) => !state);
+												margin.bottom = margin.top;
+												setAttributes({ margin: { ...margin } });
+											}}
 											className="spacing-linked-button"
 											isPrimary={isMarginLinked}
 											isSecondary={!isMarginLinked}
@@ -385,7 +395,7 @@ function ColumnEdit({
 							</FlexItem>
 						</Flex>
 					</BaseControl>
-				</PanelBody> */}
+				</PanelBody>
 			</InspectorControls>
 			<BlockControls>
 				<BlockFlexItemAlignmentToolbar
@@ -406,9 +416,7 @@ function ColumnEdit({
 							setAttributes({ contentAlignment: { ...contentAlignment } });
 						}}
 						icon={() => <ExpandIcon className={BOOTSTRAP_ICON_CLASSES} />}
-					>
-						{/* <ExpandIcon /> */}
-					</ToolbarButton>
+					/>
 				</Toolbar>
 				<BlockAlignmentMatrixToolbar
 					label={__("Change content alignment", GUTESTRAP_TEXT_DOMAIN)}
@@ -419,18 +427,28 @@ function ColumnEdit({
 					}}
 				/>
 			</BlockControls>
-			<Visualizer values={padding} className="gutestrap-block-col-visualizer">
+			<Visualizer values={margin} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-margin" />
+			<Visualizer values={padding} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-padding">
 				<div
-					className={classNames(className, textColor?.class, backgroundColor?.class, columnInnerClassNames(attributes))}
+					className={classNames(className, columnInnerClassNames(attributes), {
+						"has-color": textColor?.color,
+						[textColor?.class]: textColor?.class,
+						"has-background-color": backgroundColor?.color,
+						[backgroundColor?.class]: backgroundColor?.class,
+					})}
 					style={{
 						backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
 						backgroundPosition: background?.position || "center",
 						backgroundSize: background?.size || "cover",
 						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-						paddingTop: padding.top,
-						paddingRight: padding.right,
-						paddingBottom: padding.bottom,
-						paddingLeft: padding.left,
+						paddingTop: padding?.top,
+						paddingRight: padding?.right,
+						paddingBottom: padding?.bottom,
+						paddingLeft: padding?.left,
+						marginTop: margin?.top,
+						marginBottom: margin?.bottom,
+						color: textColor?.color,
+						backgroundColor: backgroundColor?.color,
 					}}
 				>
 					<div className="col__content">

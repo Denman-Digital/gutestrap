@@ -99,12 +99,22 @@ export const columnInnerClassNames = ({ contentAlignment = {} }) => {
  * @returns {Mixed} JSX Frontend HTML.
  */
 export const ColumnRender = ({ attributes, className }) => {
-	const { background, textColor, backgroundColor, padding } = attributes;
+	const {
+		background,
+		textColor,
+		customTextColor,
+		backgroundColor,
+		customBackgroundColor,
+		padding,
+		margin,
+	} = attributes;
 	const innerStyle = {
 		paddingTop: padding?.top,
 		paddingRight: padding?.right,
 		paddingBottom: padding?.bottom,
 		paddingLeft: padding?.left,
+		color: customTextColor || null,
+		backgroundColor: customBackgroundColor || null,
 	};
 	if (background?.image?.url) {
 		innerStyle.backgroundImage = `url(${background.image.url})`;
@@ -114,13 +124,16 @@ export const ColumnRender = ({ attributes, className }) => {
 	}
 	return (
 		<div
-			className={classNames(className, columnClassNames(attributes))
-				.replace(getColorClassName("color", textColor), "")
-				.replace(getColorClassName("background-color", backgroundColor), "")
-				.replace(/\s+/g, " ")}
+			className={classNames(className, columnClassNames(attributes))}
+			style={{
+				marginTop: margin?.top,
+				marginBottom: margin?.bottom,
+			}}
 		>
 			<div
 				className={classNames(columnInnerClassNames(attributes), {
+					"has-text-color": textColor || customTextColor,
+					"has-background-color": backgroundColor || customBackgroundColor,
 					[getColorClassName("color", textColor)]: textColor,
 					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 				})}
@@ -132,6 +145,64 @@ export const ColumnRender = ({ attributes, className }) => {
 			</div>
 		</div>
 	);
+};
+
+const v5 = {
+	attributes: {
+		width: { type: "object" },
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		contentAlignment: { type: "object" },
+		background: { type: "object" },
+		textColor: { type: "string" },
+		backgroundColor: { type: "string" },
+		padding: { type: "object" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			background: true,
+			gradient: true,
+			text: true,
+		},
+		padding: true,
+	},
+	save: ({ attributes, className }) => {
+		const { background, textColor, backgroundColor, padding } = attributes;
+		const innerStyle = {
+			paddingTop: padding?.top,
+			paddingRight: padding?.right,
+			paddingBottom: padding?.bottom,
+			paddingLeft: padding?.left,
+		};
+		if (background?.image?.url) {
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+			innerStyle.backgroundPosition = background.position || "center";
+			innerStyle.backgroundSize = background.size || "cover";
+			innerStyle.backgroundRepeat = background.repeat ? "repeat" : "no-repeat";
+		}
+		return (
+			<div
+				className={classNames(className, columnClassNames(attributes))
+					.replace(getColorClassName("color", textColor), "")
+					.replace(getColorClassName("background-color", backgroundColor), "")
+					.replace(/\s+/g, " ")}
+			>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+					})}
+					style={innerStyle}
+				>
+					<div className="col__content">
+						<InnerBlocks.Content />
+					</div>
+				</div>
+			</div>
+		);
+	},
 };
 
 const v4 = {
@@ -289,4 +360,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v4, v3, v2, v1];
+export const deprecated = [v5, v4, v3, v2, v1];

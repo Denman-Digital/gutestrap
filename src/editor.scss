@@ -261,6 +261,11 @@ html {
 			height: auto;
 		}
 	}
+	.spacing-unit-control {
+		label {
+			font-size: smaller;
+		}
+	}
 }
 
 @each $breakpoint in map-keys($grid-breakpoints) {

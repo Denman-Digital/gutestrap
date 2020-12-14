@@ -23,7 +23,7 @@
 			}
 
 			&.has-notification {
-				span {
+				> span {
 					position: relative;
 
 					&::after {
