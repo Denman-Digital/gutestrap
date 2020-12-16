@@ -160,7 +160,6 @@ function gutestrap_block_categories($categories, $post)
 			[
 				"slug" => "bootstrap-grid",
 				"title" => __("Bootstrap Grid", GUTESTRAP_TEXT_DOMAIN),
-				"icon" => "layout",
 			],
 		],
 		$categories,
@@ -168,7 +167,6 @@ function gutestrap_block_categories($categories, $post)
 			[
 				'slug' => 'advanced',
 				'title' => __('Advanced', GUTESTRAP_TEXT_DOMAIN),
-				'icon'  => 'code-standards',
 			]
 		]
 	);
