@@ -454,11 +454,11 @@ function ColumnEdit({
 					<div className="col__content">
 						<InnerBlocks
 							renderAppender={() => {
-								const { innerBlocks } = select("core/block-editor").getBlock(clientId);
+								const block = select("core/block-editor").getBlock(clientId);
 								return (
 									<Fragment>
 										<BlockControlsBlockAppender rootClientId={clientId} />
-										{!innerBlocks.length && <InnerBlocks.ButtonBlockAppender />}
+										{!block?.innerBlocks?.length && <InnerBlocks.ButtonBlockAppender />}
 									</Fragment>
 								);
 							}}
