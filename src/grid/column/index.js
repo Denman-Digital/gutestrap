@@ -17,7 +17,10 @@ import { name as rowBlockName } from "../row";
 export const name = "gutestrap/col";
 
 /** Block title. */
-export const title = __("Column", GUTESTRAP_TEXT_DOMAIN); // Block title.
+export const title = __("Row Column", GUTESTRAP_TEXT_DOMAIN);
+
+/** Block Description. */
+export const description = __("Row columns are the building blocks of responsive layouts.", GUTESTRAP_TEXT_DOMAIN);
 
 /** Block attributes. */
 export const attributes = {
@@ -32,6 +35,7 @@ export const attributes = {
 	customBackgroundColor: { type: "string" },
 	padding: { type: "object" },
 	margin: { type: "object" },
+	_isExample: { type: "boolean" },
 };
 
 /** @type {string[]} Allowed parent blocks. */
@@ -43,6 +47,43 @@ export const supports = {
 	alignWide: false,
 };
 
+export const example = {
+	attributes: {
+		width: {
+			xs: 6,
+		},
+		offset: {
+			xs: 3,
+		},
+		_isExample: true,
+	},
+	innerBlocks: [
+		{
+			name: "core/image",
+			attributes: {
+				url: "https://s.w.org/images/core/5.3/MtBlanc1.jpg",
+			},
+		},
+		{
+			name: "core/heading",
+			attributes: {
+				/* translators: example text. */
+				content: __("Cyborg Roundup", GUTESTRAP_TEXT_DOMAIN),
+			},
+		},
+		{
+			name: "core/paragraph",
+			attributes: {
+				/* translators: example text. */
+				content: __("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", GUTESTRAP_TEXT_DOMAIN),
+			},
+		},
+	],
+};
+
 export { icon, edit, save };
 
-export default { name, settings: { title, icon, parent, attributes, supports, edit, save, deprecated } };
+export default {
+	name,
+	settings: { title, description, icon, parent, attributes, supports, edit, save, deprecated, example },
+};

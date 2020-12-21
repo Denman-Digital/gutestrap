@@ -23,6 +23,7 @@ function toNumber(value, fallback = 0) {
 	return number;
 }
 
+import { createHigherOrderComponent } from "@wordpress/compose";
 import { link, linkOff } from "@wordpress/icons";
 
 import { Visualizer } from "../../components/panel-spacing";
@@ -377,3 +378,29 @@ export const RowEdit = (props) => {
 		</Fragment>
 	);
 };
+
+wp.hooks.addFilter(
+	"editor.BlockListBlock",
+	"gutestrap/with-example-classes",
+	createHigherOrderComponent((BlockListBlock) => {
+		/**
+		 * @arg {Object} props - Props.
+		 * @arg {Object} props.attributes - Block attributes.
+		 * @arg {Object} props.block - Block properties.
+		 * @arg {string} props.block.name - Block name.
+		 * @returns {*} JSX
+		 */
+		const gutestrapExampleClasses = ({ className, ...props }) => {
+			const { attributes } = props;
+			return (
+				<BlockListBlock
+					{...props}
+					className={classNames(className, {
+						"-is-example": !!attributes?._isExample,
+					})}
+				/>
+			);
+		};
+		return gutestrapExampleClasses;
+	}, "withGutestrapExampleClasses")
+);

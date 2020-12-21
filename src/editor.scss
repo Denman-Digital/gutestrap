@@ -134,6 +134,15 @@ html {
 			color: gray;
 			padding-left: 0.25rem;
 		}
+
+		.-is-example &,
+		&.-is-example {
+			outline: none !important;
+
+			&::before {
+				content: none !important;
+			}
+		}
 	}
 
 	&-col {
@@ -178,6 +187,11 @@ html {
 			> .block-list-appender:not(:first-child) {
 				margin: 0;
 			}
+		}
+
+		.-is-example &,
+		&.-is-example {
+			outline: 1px dashed grey;
 		}
 	}
 
