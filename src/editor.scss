@@ -189,10 +189,10 @@ html {
 			}
 		}
 
-		.-is-example &,
-		&.-is-example {
-			outline: 1px dashed grey;
-		}
+		// .-is-example &,
+		// &.-is-example {
+		// 	outline: 1px dashed grey;
+		// }
 	}
 
 	&-row.is-selected &-col {

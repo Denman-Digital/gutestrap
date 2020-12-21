@@ -35,7 +35,7 @@ export const attributes = {
 	customBackgroundColor: { type: "string" },
 	padding: { type: "object" },
 	margin: { type: "object" },
-	_isExample: { type: "boolean" },
+	// _isExample: { type: "boolean" },
 };
 
 /** @type {string[]} Allowed parent blocks. */
@@ -55,15 +55,9 @@ export const example = {
 		offset: {
 			xs: 3,
 		},
-		_isExample: true,
+		// _isExample: true,
 	},
 	innerBlocks: [
-		{
-			name: "core/image",
-			attributes: {
-				url: "https://s.w.org/images/core/5.3/MtBlanc1.jpg",
-			},
-		},
 		{
 			name: "core/heading",
 			attributes: {
