@@ -114,6 +114,10 @@ const ROW_ALIGNMENT_OPTIONS = [
 		value: "inherit",
 	},
 	{
+		label: __("Stretch", GUTESTRAP_TEXT_DOMAIN),
+		value: "stretch",
+	},
+	{
 		label: __("Top", GUTESTRAP_TEXT_DOMAIN),
 		value: "start",
 	},
@@ -129,17 +133,14 @@ const ROW_ALIGNMENT_OPTIONS = [
 		label: __("Baseline", GUTESTRAP_TEXT_DOMAIN),
 		value: "baseline",
 	},
-	{
-		label: __("Stretch", GUTESTRAP_TEXT_DOMAIN),
-		value: "stretch",
-	},
 ];
 
 const ROW_ALIGNMENT_OPTIONS_XS = [
 	{
-		label: __("Top (default)", GUTESTRAP_TEXT_DOMAIN),
-		value: "start",
+		label: __("Stretch (default)", GUTESTRAP_TEXT_DOMAIN),
+		value: "stretch",
 	},
+
 	...ROW_ALIGNMENT_OPTIONS.slice(2),
 ];
 
@@ -192,6 +193,7 @@ export const RowEdit = (props) => {
 				<BlockFlexItemsAlignmentToolbar
 					label={ROW_CHILDREN_LABEL}
 					value={alignment.xs}
+					controls={["stretch", "start", "center", "end", "baseline"]}
 					onChange={(value) => {
 						alignment.xs = value;
 						setAttributes({ alignment: { ...alignment } });
@@ -378,29 +380,3 @@ export const RowEdit = (props) => {
 		</Fragment>
 	);
 };
-
-wp.hooks.addFilter(
-	"editor.BlockListBlock",
-	"gutestrap/with-example-classes",
-	createHigherOrderComponent((BlockListBlock) => {
-		/**
-		 * @arg {Object} props - Props.
-		 * @arg {Object} props.attributes - Block attributes.
-		 * @arg {Object} props.block - Block properties.
-		 * @arg {string} props.block.name - Block name.
-		 * @returns {*} JSX
-		 */
-		const gutestrapExampleClasses = ({ className, ...props }) => {
-			const { attributes } = props;
-			return (
-				<BlockListBlock
-					{...props}
-					className={classNames(className, {
-						"-is-example": !!attributes?._isExample,
-					})}
-				/>
-			);
-		};
-		return gutestrapExampleClasses;
-	}, "withGutestrapExampleClasses")
-);

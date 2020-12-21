@@ -79,7 +79,7 @@ export function BlockFlexItemsAlignmentToolbar({
 	}
 
 	const activeAlignment = BLOCK_FLEX_ITEMS_ALIGNMENT_CONTROLS[value];
-	const defaultAlignmentControl = BLOCK_FLEX_ITEMS_ALIGNMENT_CONTROLS.start;
+	const defaultAlignmentControl = controls.length && BLOCK_FLEX_ITEMS_ALIGNMENT_CONTROLS[controls[0]];
 
 	return (
 		<ToolbarGroup

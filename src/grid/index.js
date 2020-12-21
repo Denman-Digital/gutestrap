@@ -51,7 +51,8 @@ wp.hooks.addFilter(
 				className = classNames(className, {
 					"gutestrap-block": true,
 					[`gutestrap-block-${block.name.slice(10)}`]: true,
-					"-is-disabled": attributes.disabled,
+					"-is-disabled": !!attributes?.disabled,
+					"-is-example": !!attributes?._isExample,
 				});
 			}
 			return <BlockListBlock {...props} className={className} />;
