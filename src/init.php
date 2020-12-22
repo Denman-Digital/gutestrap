@@ -81,6 +81,7 @@ function gutestrap_block_assets()
 		[
 			'pluginDirPath' => plugin_dir_path(__DIR__),
 			'pluginDirUrl'  => plugin_dir_url(__DIR__),
+			'enableBorderColors' => current_theme_supports( 'gutestrap-border-colors' ),
 			// Add more data here that you want to access from `gutestrapGlobal` object.
 		]
 	);

@@ -25,6 +25,7 @@ import {
 	PanelColorSettings,
 	withColors,
 	__experimentalBlockAlignmentMatrixToolbar as BlockAlignmentMatrixToolbar,
+	// __experimentalBlockVariationPicker as BlockVariationPicker,
 } from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
 
@@ -174,6 +175,8 @@ function ColumnEdit({
 	setTextColor,
 	backgroundColor,
 	setBackgroundColor,
+	borderColor,
+	setBorderColor,
 }) {
 	const {
 		width = {},
@@ -187,6 +190,27 @@ function ColumnEdit({
 
 	const [isMarginLinked, setIsMarginLinked] = useState(margin?.top === margin?.bottom);
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
+
+	const colorSettings = [
+		{
+			value: backgroundColor.color,
+			onChange: setBackgroundColor,
+			label: __("Background colour", GUTESTRAP_TEXT_DOMAIN),
+		},
+		{
+			value: textColor.color,
+			onChange: setTextColor,
+			label: __("Text colour", GUTESTRAP_TEXT_DOMAIN),
+		},
+	];
+
+	if (gutestrapGlobal.enableBorderColors) {
+		colorSettings.push({
+			value: borderColor.color,
+			onChange: setBorderColor,
+			label: __("Border colour", GUTESTRAP_TEXT_DOMAIN),
+		});
+	}
 
 	return (
 		<Fragment>
@@ -279,17 +303,7 @@ function ColumnEdit({
 					initialOpen={false}
 					disableCustomColors={false}
 					disableCustomGradients={true}
-					colorSettings={[
-						{
-							value: backgroundColor.color,
-							onChange: (value) => {
-								console.log(value);
-								setBackgroundColor(value);
-							},
-							label: __("Background colour", GUTESTRAP_TEXT_DOMAIN),
-						},
-						{ value: textColor.color, onChange: setTextColor, label: __("Text colour", GUTESTRAP_TEXT_DOMAIN) },
-					]}
+					colorSettings={colorSettings}
 				/>
 				{/* <PanelSpacing
 					initialOpen={
@@ -435,6 +449,8 @@ function ColumnEdit({
 						[textColor?.class]: textColor?.class,
 						"has-background-color": backgroundColor?.color,
 						[backgroundColor?.class]: backgroundColor?.class,
+						"has-border-color": borderColor?.color,
+						[borderColor?.class]: borderColor?.class,
 					})}
 					style={{
 						backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
@@ -449,6 +465,7 @@ function ColumnEdit({
 						marginBottom: margin?.bottom,
 						color: textColor?.color,
 						backgroundColor: backgroundColor?.color,
+						borderColor: borderColor?.color,
 					}}
 				>
 					<div className="col__content">
@@ -500,7 +517,9 @@ wp.hooks.addFilter(
 	}, "withGutestrapColumnBlockListBlockClasses")
 );
 
-ColumnEdit = withColors({ textColor: "color", backgroundColor: "background-color" })(ColumnEdit);
+ColumnEdit = withColors({ textColor: "color", backgroundColor: "background-color", borderColor: "border-color" })(
+	ColumnEdit
+);
 
 export { ColumnEdit };
 export default ColumnEdit;
