@@ -9,7 +9,7 @@ import "./editor.scss";
 
 const breakpoints = ["xs", "sm", "md", "lg", "xl", "xxl"];
 
-export const ResponsiveTabs = ({ className, children, hasNotification = () => false }) => {
+export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, hasNotification = () => false }) => {
 	let haveNotifications = breakpoints.filter(hasNotification);
 	haveNotifications =
 		Array.isArray(haveNotifications) && haveNotifications.filter((value) => breakpoints.includes(value));
@@ -19,16 +19,20 @@ export const ResponsiveTabs = ({ className, children, hasNotification = () => fa
 	return (
 		<TabPanel
 			className={classNames("gutestrap-responsive-tabs", className)}
+			initialTabName={initialBreakpoint}
 			tabs={[
 				{
 					name: "xs",
-					title: <span>{__("Base", GUTESTRAP_TEXT_DOMAIN)}</span>,
-					// title: <Dashicon icon="smartphone" />,
-					// className: "has-icon-title",
-					label: __("Base", GUTESTRAP_TEXT_DOMAIN),
+					// title: <span>{__("Base", GUTESTRAP_TEXT_DOMAIN)}</span>,
+					title: (
+						<span>
+							<Dashicon icon="smartphone" />
+						</span>
+					),
+					label: __("Mobile", GUTESTRAP_TEXT_DOMAIN),
 					description: __("Settings for devices of all sizes.", GUTESTRAP_TEXT_DOMAIN),
 					breakpoint: "xs",
-					className: classNames({
+					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xs"),
 					}),
 				},

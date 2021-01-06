@@ -40,5 +40,7 @@ function save_extra_user_profile_fields($user_id)
 	if (!current_user_can('edit_user', $user_id)) {
 		return false;
 	}
-	update_user_meta($user_id, 'codemirror_tab_width', $_POST['codemirror_tab_width']);
+	if (isset($_POST['codemirror_tab_width'])) {
+		update_user_meta($user_id, 'codemirror_tab_width', $_POST['codemirror_tab_width']);
+	}
 }
