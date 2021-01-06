@@ -52,6 +52,12 @@ export const COLUMN_OPTION_WIDTH_FIT_VALUE = "auto";
 export const COLUMN_OPTION_WIDTH_DEFAULT_VALUE = "default";
 export const COLUMN_OPTION_INHERIT_VALUE = "inherit";
 
+export const COLUMN_SPECIAL_OPTIONS = [
+	COLUMN_OPTION_WIDTH_FIT_VALUE,
+	COLUMN_OPTION_WIDTH_DEFAULT_VALUE,
+	COLUMN_OPTION_INHERIT_VALUE,
+];
+
 const INHERIT_OPTION = {
 	label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
 	value: COLUMN_OPTION_INHERIT_VALUE,
@@ -236,6 +242,16 @@ function ColumnEdit({
 							alignment: COLUMN_OPTION_INHERIT_VALUE,
 							contentAlignment: canInherit ? COLUMN_OPTION_INHERIT_VALUE : "stretch stretch",
 						};
+
+						switch (breakpoint) {
+							case "xs":
+								fallbacks.width = 12;
+								break;
+							default:
+								fallbacks.width = COLUMN_OPTION_INHERIT_VALUE;
+								break;
+						}
+
 						return (
 							<PanelBody>
 								<p>{`${label} layout`}</p>
@@ -244,7 +260,7 @@ function ColumnEdit({
 									options={canInherit ? COL_WIDTH_OPTIONS : COL_WIDTH_OPTIONS.slice(1)}
 									value={width[breakpoint] != null ? width[breakpoint] : fallbacks.width}
 									onChange={(value) => {
-										width[breakpoint] = toNumber(value);
+										width[breakpoint] = COLUMN_SPECIAL_OPTIONS.includes(value) ? value : toNumber(value);
 										setAttributes({ width: { ...width } });
 									}}
 								/>

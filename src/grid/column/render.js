@@ -19,13 +19,21 @@ const columnWidthSuffix = (width) => {
 };
 
 export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) => {
+	const hasWidth = {
+		xs: width.xs != null,
+		sm: width.sm != null && width.sm !== COLUMN_OPTION_INHERIT,
+		md: width.md != null && width.md !== COLUMN_OPTION_INHERIT,
+		lg: width.lg != null && width.lg !== COLUMN_OPTION_INHERIT,
+		xl: width.xl != null && width.xl !== COLUMN_OPTION_INHERIT,
+		xxl: width.xxl != null && width.xxl !== COLUMN_OPTION_INHERIT,
+	};
 	return classNames({
-		[`col${columnWidthSuffix(width.xs || COLUMN_OPTION_WIDTH_DEFAULT)}`]: true,
-		[`col-sm${columnWidthSuffix(width.sm)}`]: width.sm != null && width.sm !== COLUMN_OPTION_INHERIT,
-		[`col-md${columnWidthSuffix(width.md)}`]: width.md != null && width.md !== COLUMN_OPTION_INHERIT,
-		[`col-lg${columnWidthSuffix(width.lg)}`]: width.lg != null && width.lg !== COLUMN_OPTION_INHERIT,
-		[`col-xl${columnWidthSuffix(width.xl)}`]: width.xl != null && width.xl !== COLUMN_OPTION_INHERIT,
-		[`col-xxl${columnWidthSuffix(width.xxl)}`]: width.xxl != null && width.xxl !== COLUMN_OPTION_INHERIT,
+		[`col${columnWidthSuffix(width.xs || 12)}`]: true,
+		[`col-sm${columnWidthSuffix(width.sm)}`]: hasWidth.sm,
+		[`col-md${columnWidthSuffix(width.md)}`]: hasWidth.md,
+		[`col-lg${columnWidthSuffix(width.lg)}`]: hasWidth.lg,
+		[`col-xl${columnWidthSuffix(width.xl)}`]: hasWidth.xl,
+		[`col-xxl${columnWidthSuffix(width.xxl)}`]: hasWidth.xxl,
 		[`offset-${offset.xs}`]: !!offset.xs,
 		[`offset-sm-${offset.sm}`]: offset.sm != null && offset.sm !== COLUMN_OPTION_INHERIT,
 		[`offset-md-${offset.md}`]: offset.md != null && offset.md !== COLUMN_OPTION_INHERIT,
