@@ -99,12 +99,19 @@ function ContainerEdit({
 				/>
 			</InspectorAdvancedControls>
 			<div
-				className={classNames(textColor?.class, backgroundColor?.class)}
+				className={classNames({
+					"has-text-color": textColor?.color,
+					[textColor?.class]: textColor?.class,
+					"has-background-color": backgroundColor?.color,
+					[backgroundColor?.class]: backgroundColor?.class,
+				})}
 				style={{
 					backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
 					backgroundPosition: background?.position || null,
 					backgroundSize: background?.size || null,
 					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+					color: textColor?.color,
+					backgroundColor: backgroundColor?.color,
 				}}
 			>
 				<div

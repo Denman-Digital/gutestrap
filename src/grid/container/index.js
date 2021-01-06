@@ -19,6 +19,8 @@ export const attributes = {
 	background: { type: "object" },
 	textColor: { type: "string" },
 	backgroundColor: { type: "string" },
+	customTextColor: { type: "string" },
+	customBackgroundColor: { type: "string" },
 };
 
 /** Block Description. */
@@ -31,11 +33,6 @@ export const description = __(
 export const supports = {
 	anchor: true,
 	alignWide: false,
-	color: {
-		background: true,
-		gradient: true,
-		text: true,
-	},
 };
 
 export { icon, edit, save };
