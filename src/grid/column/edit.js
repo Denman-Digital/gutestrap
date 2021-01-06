@@ -253,7 +253,7 @@ function ColumnEdit({
 									options={canInherit ? COL_OFFSET_OPTIONS : COL_OFFSET_OPTIONS.slice(1)}
 									value={offset[breakpoint] != null ? offset[breakpoint] : fallbacks.offset}
 									onChange={(value) => {
-										offset[breakpoint] = toNumber(value);
+										offset[breakpoint] = value === COLUMN_OPTION_INHERIT_VALUE ? value : toNumber(value);
 										setAttributes({ offset: { ...offset } });
 									}}
 								/>
