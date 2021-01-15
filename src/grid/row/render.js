@@ -6,6 +6,7 @@ export const rowClassNames = ({
 	noGutters = false,
 	verticalGutters = false,
 	justification = {},
+	direction = {},
 	alignment = {},
 }) => {
 	return classNames({
@@ -30,6 +31,12 @@ export const rowClassNames = ({
 		[`justify-content-lg-${justification.lg}`]: !!justification.lg && justification.lg !== "inherit",
 		[`justify-content-xl-${justification.xl}`]: !!justification.xl && justification.xl !== "inherit",
 		[`justify-content-xxl-${justification.xxl}`]: !!justification.xxl && justification.xxl !== "inherit",
+		[`flex-${direction.xs}`]: direction.xs,
+		[`flex-sm-${direction.sm}`]: !!direction.sm && direction.sm !== "inherit",
+		[`flex-md-${direction.md}`]: !!direction.md && direction.md !== "inherit",
+		[`flex-lg-${direction.lg}`]: !!direction.lg && direction.lg !== "inherit",
+		[`flex-xl-${direction.xl}`]: !!direction.xl && direction.xl !== "inherit",
+		[`flex-xxl-${direction.xxl}`]: !!direction.xxl && direction.xxl !== "inherit",
 	});
 };
 
@@ -59,6 +66,29 @@ export const RowRender = ({ attributes, className }) => {
 	);
 };
 
+const v2 = {
+	attributes: {
+		noGutters: { type: "boolean" },
+		verticalGutters: { type: "boolean" },
+		alignment: { type: "object" },
+		justification: { type: "object" },
+		defaultColWidth: { type: "object" },
+		disabled: { type: "boolean" },
+		padding: { type: "object" },
+		anchor: { type: "string" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+	},
+	save: ({ attributes, className }) => {
+		return (
+			<div className={classNames(className, rowClassNames(attributes))}>
+				<InnerBlocks.Content />
+			</div>
+		);
+	},
+};
 const v1 = {
 	attributes: {
 		noGutters: { type: "boolean" },
@@ -79,4 +109,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v1];
+export const deprecated = [v2, v1];

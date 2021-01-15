@@ -23,7 +23,6 @@ function toNumber(value, fallback = 0) {
 	return number;
 }
 
-import { createHigherOrderComponent } from "@wordpress/compose";
 import { link, linkOff } from "@wordpress/icons";
 
 import { Visualizer } from "../../components/panel-spacing";
@@ -140,20 +139,23 @@ const ROW_ALIGNMENT_OPTIONS_XS = [
 		label: __("Stretch (default)", GUTESTRAP_TEXT_DOMAIN),
 		value: "stretch",
 	},
-
 	...ROW_ALIGNMENT_OPTIONS.slice(2),
 ];
 
-// /**
-//  * WordPress dependencies
-//  */
-
-// function LinkedButton({ isLinked, ...props }) {
-// 	const linkedTooltipText = ;
-
-// 	return (
-// 	);
-// }
+const ROW_DIRECTION_OPTIONS = [
+	{
+		label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
+		value: "inherit",
+	},
+	{
+		label: __("Normal", GUTESTRAP_TEXT_DOMAIN),
+		value: "row",
+	},
+	{
+		label: __("Reversed", GUTESTRAP_TEXT_DOMAIN),
+		value: "row-reverse",
+	},
+];
 
 /**
  * The edit function describes the structure of your block in the context of the editor.
@@ -171,6 +173,7 @@ export const RowEdit = (props) => {
 	const {
 		defaultColWidth = {},
 		alignment = {},
+		direction = {},
 		justification = {},
 		padding = {},
 		noGutters,
@@ -207,7 +210,8 @@ export const RowEdit = (props) => {
 						return (
 							defaultColWidth[bp] ||
 							(alignment[bp] && alignment[bp] !== "inherit") ||
-							(justification[bp] && justification[bp] !== "inherit")
+							(justification[bp] && justification[bp] !== "inherit") ||
+							(direction[bp] && direction[bp] !== "inherit")
 						);
 					}}
 				>
@@ -252,6 +256,27 @@ export const RowEdit = (props) => {
 									onChange={(value) => {
 										alignment[breakpoint] = value;
 										setAttributes({ alignment: { ...alignment } });
+									}}
+								/>
+								<SelectControl
+									label={__("Row direction", GUTESTRAP_TEXT_DOMAIN)}
+									options={
+										canInherit
+											? ROW_DIRECTION_OPTIONS
+											: [
+													{
+														label: __("Normal (Default)", GUTESTRAP_TEXT_DOMAIN),
+														value: "row",
+													},
+													ROW_DIRECTION_OPTIONS[2],
+											  ]
+									}
+									value={
+										direction[breakpoint] != null ? direction[breakpoint] : DEFAULT_ATTRIBUTES.direction[breakpoint]
+									}
+									onChange={(value) => {
+										direction[breakpoint] = value;
+										setAttributes({ direction: { ...direction } });
 									}}
 								/>
 							</PanelBody>

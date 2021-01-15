@@ -41,8 +41,8 @@ html {
 		#editor {
 			@content;
 
-			.editor-styles-wrapper[style*="width: 360px;"],
-			.editor-styles-wrapper[style*="width: 780px;"] {
+			.editor-styles-wrapper[style*="width: 360px"],
+			.editor-styles-wrapper[style*="width: 780px"] {
 				@content;
 			}
 		}
@@ -147,7 +147,7 @@ html {
 
 	&-col {
 		#editor & {
-			background: none !important
+			background: none !important;
 		}
 
 		&,
@@ -176,7 +176,12 @@ html {
 		& > &-visualizer > .col__inner > .block-editor-inner-blocks {
 			min-width: 1em;
 		}
-		& > &-visualizer > .col__inner > .block-editor-inner-blocks > .block-editor-block-list__layout > p[aria-label^="Empty block"] {
+		&
+			> &-visualizer
+			> .col__inner
+			> .block-editor-inner-blocks
+			> .block-editor-block-list__layout
+			> p[aria-label^="Empty block"] {
 			min-width: 5em;
 		}
 		&:not(.has-inner-blocks) > &-visualizer > .col__inner > .block-editor-inner-blocks {
@@ -311,7 +316,6 @@ html {
 }
 
 #editor {
-
 	.row.wp-block-gutestrap-row {
 		margin-right: 0;
 		margin-left: 0;
@@ -410,6 +414,12 @@ html {
 			}
 			&.align-items#{$infix}-stretch > * > .block-editor-block-list__layout {
 				align-items: stretch !important;
+			}
+			&.flex#{$infix}-row > * > .block-editor-block-list__layout {
+				flex-direction: row !important;
+			}
+			&.flex#{$infix}-row-reverse > * > .block-editor-block-list__layout {
+				flex-direction: row-reverse !important;
 			}
 		}
 	}

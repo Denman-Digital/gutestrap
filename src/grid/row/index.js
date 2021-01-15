@@ -28,6 +28,7 @@ export const attributes = {
 	alignment: { type: "object" },
 	justification: { type: "object" },
 	defaultColWidth: { type: "object" },
+	direction: { type: "object" },
 	disabled: { type: "boolean" },
 	padding: { type: "object" },
 	anchor: { type: "string" },
@@ -62,6 +63,14 @@ export const DEFAULT_ATTRIBUTES = {
 		lg: 0,
 		xl: 0,
 		xxl: 0,
+	},
+	direction: {
+		xs: "row",
+		sm: "inherit",
+		md: "inherit",
+		lg: "inherit",
+		xl: "inherit",
+		xxl: "inherit",
 	},
 };
 
