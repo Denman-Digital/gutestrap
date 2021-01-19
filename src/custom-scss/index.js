@@ -1,20 +1,26 @@
 const { registerPlugin } = wp.plugins;
 const { PluginDocumentSettingPanel } = wp.editPost;
 const { useState } = wp.element;
+const { __ } = wp.i18n;
 const { Button, Modal, Flex, FlexItem } = wp.components;
 // const { initialize: initializeCodeMirror } = wp.codeEditor;
 const { useSelect } = wp.data;
 const { useEntityProp } = wp.coreData;
 
+import { GUTESTRAP_TEXT_DOMAIN } from "../const";
 import { CustomScssEditor } from "./block";
 import "./editor.scss";
 
 const AdvancedDocumentSettingPanel = () => {
+	const postType = useSelect((select) => select("core/editor").getCurrentPostType(), []);
+	if (postType === "wp_block") {
+		// Re-usable blocks -> abort!
+		return null;
+	}
 	const [isModalOpen, setModalOpen] = useState(false);
 	const openModal = () => setModalOpen(true);
 	const closeModal = () => setModalOpen(false);
 
-	const postType = useSelect((select) => select("core/editor").getCurrentPostType(), []);
 	const [meta, setMeta] = useEntityProp("postType", postType, "meta");
 
 	function updateCustomScss(value) {
