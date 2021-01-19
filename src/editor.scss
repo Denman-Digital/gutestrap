@@ -16,7 +16,7 @@ html {
 	box-sizing: inherit;
 }
 
-#editor .wp-block {
+body:not(.gutestrap-disabled) #editor .wp-block {
 	max-width: unset;
 }
 
