@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '15ca49b4b177a7be08b8bafbf0deea5e36fb56f8',
+    'reference' => 'a3e1a5529c6df160ed6a5ac8a509bf3dce67973e',
     'name' => 'paulthewalton/gutestrap',
   ),
   'versions' => 
@@ -31,7 +31,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '15ca49b4b177a7be08b8bafbf0deea5e36fb56f8',
+      'reference' => 'a3e1a5529c6df160ed6a5ac8a509bf3dce67973e',
     ),
     'scssphp/scssphp' => 
     array (
