@@ -37,6 +37,7 @@
 		.justify-content#{$infix}-stretch {
 			> .col__content {
 				flex-basis: 100%;
+				max-width: 100%;
 			}
 		}
 	}
@@ -46,7 +47,8 @@
 	&-col {
 		display: flex;
 
-		> .col__inner {
+		> .col__inner,
+		&__inner {
 			width: 100%;
 			display: flex;
 
