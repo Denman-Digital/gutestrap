@@ -16,7 +16,7 @@ html {
 	box-sizing: inherit;
 }
 
-body:not(.gutestrap-disabled) #editor .wp-block {
+.gutestrap-enabled #editor .wp-block {
 	max-width: unset;
 }
 
@@ -27,7 +27,7 @@ body:not(.gutestrap-disabled) #editor .wp-block {
 	@if $min {
 		$min: $min + 280px;
 		@media (min-width: $min) {
-			#editor {
+			.gutestrap-enabled #editor {
 				@content;
 
 				@if $name == sm or $name == md {
@@ -38,7 +38,7 @@ body:not(.gutestrap-disabled) #editor .wp-block {
 			}
 		}
 	} @else {
-		#editor {
+		.gutestrap-enabled #editor {
 			@content;
 
 			.editor-styles-wrapper[style*="width: 360px"],

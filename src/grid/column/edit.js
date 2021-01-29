@@ -491,7 +491,7 @@ function ColumnEdit({
 								return (
 									<Fragment>
 										<BlockControlsBlockAppender rootClientId={clientId} />
-										{!block?.innerBlocks?.length && <InnerBlocks.ButtonBlockAppender />}
+										{!block?.innerBlocks?.length ? <InnerBlocks.ButtonBlockAppender /> : null}
 									</Fragment>
 								);
 							}}
