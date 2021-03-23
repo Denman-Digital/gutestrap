@@ -16,6 +16,8 @@ const {
 const { PanelBody, SelectControl, ToggleControl } = wp.components;
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 
+const { config } = gutestrapGlobal;
+
 function ContainerEdit({
 	attributes,
 	className,
@@ -111,8 +113,8 @@ function ContainerEdit({
 				<PanelColorGradientSettings
 					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
 					initialOpen={false}
-					disableCustomColors={false}
-					disableCustomGradients={false}
+					disableCustomColors={!!config.disableCustomColors}
+					disableCustomGradients={!!config.disableCustomGradients}
 					settings={[
 						{
 							colorValue: backgroundColor.color,

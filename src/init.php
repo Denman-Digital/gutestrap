@@ -85,6 +85,8 @@ function gutestrap_block_assets()
 		// Add more data here that you want to access from `gutestrapGlobal` object.
 		"config" => [
 			"enableBorderColors" => current_theme_supports("gutestrap-border-colors"),
+			"disableCustomColors" => current_theme_supports("disable-custom-colors"),
+			"disableCustomGradients" => current_theme_supports("disable-custom-gradients"),
 			"excludedPostTypes" => [],
 		]
 	];

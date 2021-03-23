@@ -335,8 +335,8 @@ function ColumnEdit({
 				<PanelColorGradientSettings
 					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
 					initialOpen={false}
-					disableCustomColors={false}
-					disableCustomGradients={false}
+					disableCustomColors={!!config.disableCustomColors}
+					disableCustomGradients={!!config.disableCustomGradients}
 					settings={colorSettings}
 				/>
 				{/* <PanelSpacing
