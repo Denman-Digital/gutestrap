@@ -25,11 +25,12 @@ import {
 	PanelColorSettings,
 	withColors,
 	__experimentalBlockAlignmentMatrixToolbar as BlockAlignmentMatrixToolbar,
+	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
+	__experimentalUseGradient as useGradient,
 	// __experimentalBlockVariationPicker as BlockVariationPicker,
 } from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
 
-// import { toNumber } from "js-utils";
 function toNumber(value, fallback = 0) {
 	const number = Number(value);
 	if (isNaN(number)) {
@@ -37,6 +38,8 @@ function toNumber(value, fallback = 0) {
 	}
 	return number;
 }
+
+const { config } = gutestrapGlobal;
 
 import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 import { PanelSpacing, Visualizer } from "../../components/panel-spacing";
@@ -197,20 +200,27 @@ function ColumnEdit({
 	const [isMarginLinked, setIsMarginLinked] = useState(margin?.top === margin?.bottom);
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
 
+	const { gradientClass, gradientValue, setGradient } = useGradient({
+		gradientAttribute: "gradient",
+		customGradientAttribute: "customGradient",
+	});
+
 	const colorSettings = [
 		{
-			value: backgroundColor.color,
-			onChange: setBackgroundColor,
-			label: __("Background colour", GUTESTRAP_TEXT_DOMAIN),
+			colorValue: backgroundColor.color,
+			onColorChange: setBackgroundColor,
+			gradientValue,
+			onGradientChange: setGradient,
+			label: __("Background", GUTESTRAP_TEXT_DOMAIN),
 		},
 		{
-			value: textColor.color,
-			onChange: setTextColor,
-			label: __("Text colour", GUTESTRAP_TEXT_DOMAIN),
+			colorValue: textColor.color,
+			onColorChange: setTextColor,
+			label: __("Text", GUTESTRAP_TEXT_DOMAIN),
 		},
 	];
 
-	if (gutestrapGlobal.enableBorderColors) {
+	if (config.enableBorderColors) {
 		colorSettings.push({
 			value: borderColor.color,
 			onChange: setBorderColor,
@@ -218,6 +228,14 @@ function ColumnEdit({
 		});
 	}
 
+	let backgroundImageCSS = "";
+	if (background?.image?.url) {
+		backgroundImageCSS += `url(${background.image.url})`;
+	}
+	if (gradientValue) {
+		if (backgroundImageCSS) backgroundImageCSS += ", ";
+		backgroundImageCSS += gradientValue;
+	}
 	return (
 		<Fragment>
 			<InspectorControls>
@@ -314,12 +332,12 @@ function ColumnEdit({
 					}}
 					initialOpen={!!background.image}
 				/>
-				<PanelColorSettings
+				<PanelColorGradientSettings
 					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
 					initialOpen={false}
 					disableCustomColors={false}
-					disableCustomGradients={true}
-					colorSettings={colorSettings}
+					disableCustomGradients={false}
+					settings={colorSettings}
 				/>
 				{/* <PanelSpacing
 					initialOpen={
@@ -467,9 +485,11 @@ function ColumnEdit({
 						[backgroundColor?.class]: backgroundColor?.class,
 						"has-border-color": borderColor?.color,
 						[borderColor?.class]: borderColor?.class,
+						"has-gradient-background": !!gradientValue,
+						[gradientClass]: !!gradientClass,
 					})}
 					style={{
-						backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
+						backgroundImage: backgroundImageCSS || null,
 						backgroundPosition: background?.position || "center",
 						backgroundSize: background?.size || "cover",
 						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",

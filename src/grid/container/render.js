@@ -1,8 +1,23 @@
 import classNames from "classnames";
-const { InnerBlocks, getColorClassName } = wp.blockEditor;
+const {
+	InnerBlocks,
+	getColorClassName,
+	validateThemeGradients,
+	getGradientValueBySlug,
+	__experimentalGetGradientClass: getGradientClass,
+} = wp.blockEditor;
 
 export const ContainerRender = ({ attributes, className }) => {
-	const { breakpoint, background, textColor, customTextColor, backgroundColor, customBackgroundColor } = attributes;
+	const {
+		breakpoint,
+		background,
+		textColor,
+		customTextColor,
+		backgroundColor,
+		customBackgroundColor,
+		gradient,
+		customGradient,
+	} = attributes;
 	const style = {
 		color: customTextColor || null,
 		backgroundColor: customBackgroundColor || null,
@@ -13,13 +28,23 @@ export const ContainerRender = ({ attributes, className }) => {
 		style.backgroundSize = background?.size || "cover";
 		style.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
 	}
+	if (customGradient || (gradient && background?.image?.url)) {
+		if (style.backgroundImage) {
+			style.backgroundImage += ", ";
+		} else {
+			style.backgroundImage = "";
+		}
+		style.backgroundImage += customGradient || getGradientValueBySlug(validateThemeGradients(), gradient);
+	}
 	return (
 		<div
 			className={classNames(className, {
 				"has-text-color": textColor || customTextColor,
 				"has-background-color": backgroundColor || customBackgroundColor,
+				"has-gradient-background": gradient || customGradient,
 				[getColorClassName("color", textColor)]: textColor,
 				[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+				[getGradientClass(gradient)]: gradient,
 			})}
 			style={style}
 		>
@@ -28,6 +53,47 @@ export const ContainerRender = ({ attributes, className }) => {
 			</div>
 		</div>
 	);
+};
+
+const v4 = {
+	attributes: {
+		fluid: { type: "boolean" },
+		breakpoint: { type: "string" },
+		disabled: { type: "boolean" },
+		background: { type: "object" },
+		textColor: { type: "string" },
+		backgroundColor: { type: "string" },
+		customTextColor: { type: "string" },
+		customBackgroundColor: { type: "string" },
+	},
+	save: ({ attributes, className }) => {
+		const { breakpoint, background, textColor, customTextColor, backgroundColor, customBackgroundColor } = attributes;
+		const style = {
+			color: customTextColor || null,
+			backgroundColor: customBackgroundColor || null,
+		};
+		if (background?.image?.url) {
+			style.backgroundImage = `url(${background.image.url})`;
+			style.backgroundPosition = background?.position || "center";
+			style.backgroundSize = background?.size || "cover";
+			style.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+		}
+		return (
+			<div
+				className={classNames(className, {
+					"has-text-color": textColor || customTextColor,
+					"has-background-color": backgroundColor || customBackgroundColor,
+					[getColorClassName("color", textColor)]: textColor,
+					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+				})}
+				style={style}
+			>
+				<div className={`container${breakpoint ? "-" + breakpoint : ""}`}>
+					<InnerBlocks.Content />
+				</div>
+			</div>
+		);
+	},
 };
 
 const v3 = {
@@ -120,4 +186,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v3, v2, v1];
+export const deprecated = [v4, v3, v2, v1];

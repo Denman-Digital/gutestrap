@@ -22,6 +22,7 @@ parserOptions:
     jsx: true
 globals:
   wp: true
+  lodash: true
   wpApiSettings: true
   window: true
   document: true

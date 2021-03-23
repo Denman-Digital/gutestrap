@@ -1,5 +1,11 @@
 import classNames from "classnames";
-const { InnerBlocks, getColorClassName } = wp.blockEditor;
+const {
+	InnerBlocks,
+	getColorClassName,
+	getGradientValueBySlug,
+	validateThemeGradients,
+	__experimentalGetGradientClass: getGradientClass,
+} = wp.blockEditor;
 
 import {
 	COLUMN_OPTION_INHERIT,
@@ -115,6 +121,8 @@ export const ColumnRender = ({ attributes, className }) => {
 		customBackgroundColor,
 		borderColor,
 		customBorderColor,
+		gradient,
+		customGradient,
 		padding,
 		margin,
 	} = attributes;
@@ -133,6 +141,15 @@ export const ColumnRender = ({ attributes, className }) => {
 		innerStyle.backgroundSize = background.size || "cover";
 		innerStyle.backgroundRepeat = background.repeat ? "repeat" : "no-repeat";
 	}
+	if (customGradient || (gradient && background?.image?.url)) {
+		if (innerStyle.backgroundImage) {
+			innerStyle.backgroundImage += ", ";
+		} else {
+			innerStyle.backgroundImage = "";
+		}
+		innerStyle.backgroundImage += customGradient || getGradientValueBySlug(validateThemeGradients(), gradient);
+	}
+
 	return (
 		<div
 			className={classNames(className, columnClassNames(attributes))}
@@ -146,9 +163,11 @@ export const ColumnRender = ({ attributes, className }) => {
 					"has-text-color": textColor || customTextColor,
 					"has-background-color": backgroundColor || customBackgroundColor,
 					"has-border-color": borderColor || customBorderColor,
+					"has-background-gradient": gradient || customGradient,
 					[getColorClassName("color", textColor)]: textColor,
 					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 					[getColorClassName("border-color", borderColor)]: borderColor,
+					[getGradientClass(gradient)]: gradient,
 				})}
 				style={innerStyle}
 			>
@@ -158,6 +177,78 @@ export const ColumnRender = ({ attributes, className }) => {
 			</div>
 		</div>
 	);
+};
+
+const v7 = {
+	attributes: {
+		width: { type: "object" },
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		contentAlignment: { type: "object" },
+		background: { type: "object" },
+		textColor: { type: "string" },
+		backgroundColor: { type: "string" },
+		borderColor: { type: "string" },
+		customTextColor: { type: "string" },
+		customBackgroundColor: { type: "string" },
+		customBorderColor: { type: "string" },
+		padding: { type: "object" },
+		margin: { type: "object" },
+		_isExample: { type: "boolean" },
+	},
+	save: ({ attributes, className }) => {
+		const {
+			background,
+			textColor,
+			customTextColor,
+			backgroundColor,
+			customBackgroundColor,
+			borderColor,
+			customBorderColor,
+			padding,
+			margin,
+		} = attributes;
+		const innerStyle = {
+			paddingTop: padding?.top,
+			paddingRight: padding?.right,
+			paddingBottom: padding?.bottom,
+			paddingLeft: padding?.left,
+			color: customTextColor || null,
+			backgroundColor: customBackgroundColor || null,
+			borderColor: customBorderColor || null,
+		};
+		if (background?.image?.url) {
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+			innerStyle.backgroundPosition = background.position || "center";
+			innerStyle.backgroundSize = background.size || "cover";
+			innerStyle.backgroundRepeat = background.repeat ? "repeat" : "no-repeat";
+		}
+		return (
+			<div
+				className={classNames(className, columnClassNames(attributes))}
+				style={{
+					marginTop: margin?.top,
+					marginBottom: margin?.bottom,
+				}}
+			>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						"has-text-color": textColor || customTextColor,
+						"has-background-color": backgroundColor || customBackgroundColor,
+						"has-border-color": borderColor || customBorderColor,
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+						[getColorClassName("border-color", borderColor)]: borderColor,
+					})}
+					style={innerStyle}
+				>
+					<div className="col__content">
+						<InnerBlocks.Content />
+					</div>
+				</div>
+			</div>
+		);
+	},
 };
 
 const v6 = {
@@ -438,4 +529,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v6, v5, v4, v3, v2, v1];
+export const deprecated = [v7, v6, v5, v4, v3, v2, v1];

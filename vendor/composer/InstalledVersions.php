@@ -14,24 +14,24 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '1ea5a873bbb0364aa3cae46186d2b59e56707706',
     'name' => 'paulthewalton/gutestrap',
   ),
   'versions' => 
   array (
     'paulthewalton/gutestrap' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '1ea5a873bbb0364aa3cae46186d2b59e56707706',
     ),
     'scssphp/scssphp' => 
     array (

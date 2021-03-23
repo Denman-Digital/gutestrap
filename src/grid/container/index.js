@@ -19,8 +19,10 @@ export const attributes = {
 	background: { type: "object" },
 	textColor: { type: "string" },
 	backgroundColor: { type: "string" },
+	gradient: { type: "string" },
 	customTextColor: { type: "string" },
 	customBackgroundColor: { type: "string" },
+	customGradient: { type: "string" },
 };
 
 /** Block Description. */

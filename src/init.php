@@ -10,14 +10,14 @@
  */
 
 // Exit if accessed directly.
-if (!defined('ABSPATH')) {
-	exit;
-}
+defined('ABSPATH') || exit;
 
-define("GUTESTRAP_TEXT_DOMAIN", "gutestrap");
+use ScssPhp\ScssPhp;
 
-include_once __DIR__ . '/custom-scss/profile-options.php';
-include_once __DIR__ . '/custom-scss/metabox.php';
+// require_once __DIR__ . '/utils.php';
+// require_once __DIR__ . '/admin.php';
+require_once __DIR__ . '/custom-scss/profile-options.php';
+require_once __DIR__ . '/custom-scss/metabox.php';
 
 /**
  * Enqueue Gutenberg block assets for both frontend + backend.
@@ -43,13 +43,6 @@ function gutestrap_block_assets()
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css') // Version: File modification time.
 	);
 
-	// wp_register_style(
-	// 	'gutestrap-bootstrap-grid',
-	// 	plugins_url('assets/bootstrap@4.5.3/css/bootstrap-grid.min.css', dirname(__FILE__)), // Block style CSS.
-	// 	is_admin() ? ['wp-editor'] : null, // Dependency to include the CSS after it.
-	// 	"4.5.3"
-	// );
-
 	wp_register_style(
 		'gutestrap-fontawesome',
 		plugins_url('assets/fontawesome-pro@5.15.1/css/all.css', dirname(__FILE__)), // Block style CSS.
@@ -61,7 +54,17 @@ function gutestrap_block_assets()
 	wp_register_script(
 		'gutestrap-block-js',
 		plugins_url('/dist/blocks.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
-		['wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', "wp-components", "wp-plugins", "wp-edit-post", "wp-theme-plugin-editor"], // Dependencies, defined above.
+		[
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-editor',
+			"wp-components",
+			"wp-plugins",
+			"wp-edit-post",
+			"wp-theme-plugin-editor",
+			"lodash"
+		],
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.build.js'), // Version: filemtime — Gets file modification time.
 		true
 	);
@@ -75,15 +78,28 @@ function gutestrap_block_assets()
 	);
 
 	// WP Localized globals. Use dynamic PHP stuff in JavaScript via `gutestrapGlobal` object.
+
+	$js_globals = [
+		"pluginDirPath" => plugin_dir_path(__DIR__),
+		"pluginDirUrl"  => plugin_dir_url(__DIR__),
+		// Add more data here that you want to access from `gutestrapGlobal` object.
+		"config" => [
+			"enableBorderColors" => current_theme_supports("gutestrap-border-colors"),
+			"excludedPostTypes" => [],
+		]
+	];
+
+	$post_types = get_post_types([
+		"public" => true,
+	]);
+	foreach ($post_types as $post_type_name) {
+		$js_globals["config"]["excludedPostTypes"][$post_type_name] = current_theme_supports("gutestrap-post-type-disabled", $post_type_name);
+	}
+
 	wp_localize_script(
 		'gutestrap-block-js',
 		'gutestrapGlobal', // Array containing dynamic data for a JS Global.
-		[
-			'pluginDirPath' => plugin_dir_path(__DIR__),
-			'pluginDirUrl'  => plugin_dir_url(__DIR__),
-			'enableBorderColors' => current_theme_supports( 'gutestrap-border-colors' ),
-			// Add more data here that you want to access from `gutestrapGlobal` object.
-		]
+		$js_globals,
 	);
 
 	$block_assets = [
@@ -173,3 +189,26 @@ function gutestrap_block_categories($categories, $post)
 	);
 }
 add_filter('block_categories', 'gutestrap_block_categories', 10, 2);
+
+
+// $scssphp = new ScssPhp\Compiler();
+// if (WP_DEBUG) {
+// 	$scssphp->setOutputStyle(ScssPhp\OutputStyle::EXPANDED);
+// } else {
+// 	$scssphp->setOutputStyle(ScssPhp\OutputStyle::COMPRESSED);
+// }
+// // Set up SCSS compiler (2) - import paths
+// $scssphp->setImportPaths(dirname(__FILE__));
+// // Compile SCSS -> CSS
+// // $css = "scrambled eggs";
+// $css = $scssphp->compile('@import "common.scss"; @import "style.scss";');
+// // $css = $scssphp->compile('');
+// // if (WP_DEBUG && WP_DEBUG_LOG) {
+// // 	error_log(print_r([
+// // 		"name" => "gutestrap_compile_custom_scss",
+// // 		"input" => $raw_scss,
+// // 		"output" => $css
+// // 	], true));
+// // }
+
+// file_put_contents(plugin_dir_path(__DIR__) . "test.css", $css);

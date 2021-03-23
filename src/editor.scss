@@ -28,10 +28,13 @@ html {
 		$min: $min + 280px;
 		@media (min-width: $min) {
 			.gutestrap-enabled #editor {
-				@content;
-
 				@if $name == sm or $name == md {
-					.editor-styles-wrapper[style*="width: 780px;"] {
+					&,
+					& .editor-styles-wrapper[style*="width: 780px"] {
+						@content;
+					}
+				} @else {
+					.editor-styles-wrapper:not([style*="width"]) {
 						@content;
 					}
 				}
@@ -39,10 +42,9 @@ html {
 		}
 	} @else {
 		.gutestrap-enabled #editor {
-			@content;
-
-			.editor-styles-wrapper[style*="width: 360px"],
-			.editor-styles-wrapper[style*="width: 780px"] {
+			&,
+			& .editor-styles-wrapper[style*="width: 360px"],
+			& .editor-styles-wrapper[style*="width: 780px"] {
 				@content;
 			}
 		}
@@ -193,11 +195,6 @@ html {
 				margin: 0;
 			}
 		}
-
-		// .-is-example &,
-		// &.-is-example {
-		// 	outline: 1px dashed grey;
-		// }
 	}
 
 	&-row.is-selected &-col {

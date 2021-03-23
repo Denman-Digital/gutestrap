@@ -4,7 +4,15 @@ import classNames from "classnames";
 
 const { __ } = wp.i18n;
 const { Fragment } = wp.element;
-const { InspectorControls, InspectorAdvancedControls, InnerBlocks, PanelColorSettings, withColors } = wp.blockEditor;
+const {
+	InspectorControls,
+	InspectorAdvancedControls,
+	InnerBlocks,
+	// PanelColorSettings,
+	withColors,
+	__experimentalPanelColorGradientSettings: PanelColorGradientSettings,
+	__experimentalUseGradient: useGradient,
+} = wp.blockEditor;
 const { PanelBody, SelectControl, ToggleControl } = wp.components;
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 
@@ -18,6 +26,19 @@ function ContainerEdit({
 	setBackgroundColor,
 }) {
 	const { breakpoint, fluid, disabled, background } = attributes;
+	const { gradientClass, gradientValue, setGradient } = useGradient({
+		gradientAttribute: "gradient",
+		customGradientAttribute: "customGradient",
+	});
+
+	let backgroundImageCSS = "";
+	if (background?.image?.url) {
+		backgroundImageCSS += `url(${background.image.url})`;
+	}
+	if (gradientValue) {
+		if (backgroundImageCSS) backgroundImageCSS += ", ";
+		backgroundImageCSS += gradientValue;
+	}
 	return (
 		<Fragment>
 			<InspectorControls>
@@ -73,7 +94,7 @@ function ContainerEdit({
 					}}
 					initialOpen={!!background?.image}
 				/>
-				<PanelColorSettings
+				{/* <PanelColorSettings
 					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
 					initialOpen={false}
 					disableCustomColors={false}
@@ -82,9 +103,29 @@ function ContainerEdit({
 						{
 							value: backgroundColor.color,
 							onChange: setBackgroundColor,
-							label: __("Background colour", GUTESTRAP_TEXT_DOMAIN),
+							label: __("Background", GUTESTRAP_TEXT_DOMAIN),
 						},
-						{ value: textColor.color, onChange: setTextColor, label: __("Text colour", GUTESTRAP_TEXT_DOMAIN) },
+						{ value: textColor.color, onChange: setTextColor, label: __("Text", GUTESTRAP_TEXT_DOMAIN) },
+					]}
+				/> */}
+				<PanelColorGradientSettings
+					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
+					initialOpen={false}
+					disableCustomColors={false}
+					disableCustomGradients={false}
+					settings={[
+						{
+							colorValue: backgroundColor.color,
+							gradientValue: gradientValue,
+							onColorChange: setBackgroundColor,
+							onGradientChange: setGradient,
+							label: __("Background", GUTESTRAP_TEXT_DOMAIN),
+						},
+						{
+							colorValue: textColor.color,
+							onColorChange: setTextColor,
+							label: __("Text", GUTESTRAP_TEXT_DOMAIN),
+						},
 					]}
 				/>
 			</InspectorControls>
@@ -104,9 +145,11 @@ function ContainerEdit({
 					[textColor?.class]: textColor?.class,
 					"has-background-color": backgroundColor?.color,
 					[backgroundColor?.class]: backgroundColor?.class,
+					"has-gradient-background": !!gradientValue,
+					[gradientClass]: !!gradientClass,
 				})}
 				style={{
-					backgroundImage: background?.image?.url ? `url(${background.image.url})` : null,
+					backgroundImage: backgroundImageCSS || null,
 					backgroundPosition: background?.position || null,
 					backgroundSize: background?.size || null,
 					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
