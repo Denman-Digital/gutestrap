@@ -22,7 +22,7 @@
 		"bootstrap-icons": "^1.1.0",
 		"classnames": "^2.2.6",
 		"js-utils": "github:paulthewalton/js-utils#main",
-		"lodash": "^4.17.20",
+		"lodash": "^4.17.21",
 		"sprintf-js": "^1.1.2"
 	},
 	"devDependencies": {
