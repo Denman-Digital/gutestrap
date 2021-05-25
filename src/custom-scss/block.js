@@ -1,5 +1,5 @@
 const { registerBlockType } = wp.blocks;
-const { useState, useRef, useEffect, Fragment } = wp.element;
+const { useRef, useEffect } = wp.element;
 const { initialize: initializeCodeMirror } = wp.codeEditor;
 const { __ } = wp.i18n;
 
@@ -20,9 +20,9 @@ export const CustomScssEditor = ({ value: valueProp, onChange = () => {} }) => {
 		const listener = () => {
 			onChange(codemirror.getValue());
 		};
-		codemirror.on("change", listener);
-		return () => codemirror.off("change", listener);
-	}, [onChange]);
+		codemirror.on("changes", listener);
+		return () => codemirror.off("changes", listener);
+	}, [onChange, scssEditor.current]);
 
 	return (
 		<div className="gutestrap-custom-scss-editor">

@@ -35,7 +35,7 @@ const AdvancedDocumentSettingPanel = () => {
 			</Button>
 			{isModalOpen && (
 				<Modal title="Post Custom SCSS" onRequestClose={closeModal}>
-					<CustomScssEditor value={scss} onChange={(value) => setScss(value)} />
+					<CustomScssEditor value={scss} onChange={setScss} />
 					<Flex justify="flex-end">
 						<FlexItem>
 							<Button

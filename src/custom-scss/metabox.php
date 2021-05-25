@@ -167,7 +167,7 @@ function gutestrap_add_custom_scss_metabox()
 		"gutestrap_custom_scss", //id
 		__("Custom SCSS", "gutestrap"), // title
 		"gutestrap_custom_scss_metabox_render", // callback
-		"post",
+		apply_filters("gutestrap_add_custom_scss_metabox_screens", null),
 		"normal",
 		"default",
 		[
@@ -187,7 +187,8 @@ function gutestrap_custom_scss_metabox_render($post)
 	$scss = get_post_meta($post->ID, '_custom_scss', true);
 	wp_nonce_field('gutestrap_update_post_scss_metabox', 'gutestrap_update_custom_scss_nonce');
 ?>
-	<textarea name="custom_scss" id="gutestrap_custom_scss_metabox" cols="80" rows="30"><?= esc_textarea($scss); ?></textarea>
+	<textarea name="custom_scss" id="gutestrap_custom_scss_metabox" cols="80" rows="15"><?= esc_textarea($scss); ?></textarea>
+	<script>jQuery(document).trigger("gutestrap_custom_scss_metabox");</script>
 <?php
 }
 

@@ -14,9 +14,7 @@ defined('ABSPATH') || exit;
 
 use ScssPhp\ScssPhp;
 
-// require_once __DIR__ . '/utils.php';
-// require_once __DIR__ . '/admin.php';
-require_once __DIR__ . '/custom-scss/profile-options.php';
+// require_once __DIR__ . '/custom-scss/profile-options.php';
 require_once __DIR__ . '/custom-scss/metabox.php';
 
 /**
@@ -141,17 +139,15 @@ add_filter("render_block", "gutestrap_disabled_block_render", 10, 2);
 
 function gutenberg_custom_scss_codemirror_assets()
 {
-	$screen = get_current_screen(); //pYF%u2Tel6XTva9*%COq
-	$user_id = get_current_user_id();
-	$tab_size = $user_id ? validate_user_meta_tab_width(get_user_meta($user_id, "codemirror_tab_width", true)) : 2;
-
+	$screen = get_current_screen();
 	$codemirror_settings['codeEditor'] = wp_enqueue_code_editor([
 		'type' => 'text/x-scss',
 		"codemirror" => [
 			"indentWithTabs" => true,
-			"indentUnit" => $tab_size,
-			"tabSize" => $tab_size,
+			// "indentUnit" => $tab_size,
+			"tabSize" => 2,
 		],
+
 	]);
 	wp_localize_script('gutestrap-block-js', 'gutestrapCodeMirrorSettings', $codemirror_settings);
 	wp_enqueue_style('wp-codemirror');
@@ -160,11 +156,12 @@ function gutenberg_custom_scss_codemirror_assets()
 	}
 	wp_enqueue_script(
 		'gutestrap-classic-js',
-		plugins_url('/dist/classic.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
-		["jquery", "wp-theme-plugin-editor"], // Dependencies, defined above.
-		filemtime(plugin_dir_path(__DIR__) . 'dist/classic.build.js'), // Version: filemtime — Gets file modification time.
+		plugins_url('/dist/classic.build.js', dirname(__FILE__)),
+		["jquery"],
+		filemtime(plugin_dir_path(__DIR__) . 'dist/classic.build.js'),
 		true
 	);
+
 	wp_localize_script('gutestrap-classic-js', 'gutestrapCodeMirrorSettings', $codemirror_settings);
 }
 add_action('admin_enqueue_scripts', 'gutenberg_custom_scss_codemirror_assets');
