@@ -7,7 +7,7 @@ import {
 	SelectControl,
 	PanelBody,
 	ToolbarButton,
-	Toolbar,
+	ToolbarGroup,
 	Tooltip,
 	BaseControl,
 	Flex,
@@ -445,7 +445,7 @@ function ColumnEdit({
 						setAttributes({ alignment: { ...alignment } });
 					}}
 				/>
-				<Toolbar>
+				<ToolbarGroup>
 					<ToolbarButton
 						showTooltip={true}
 						label={__("Expand contents to fit", "gutestrap")}
@@ -456,7 +456,7 @@ function ColumnEdit({
 						}}
 						icon={() => <ExpandIcon className={BOOTSTRAP_ICON_CLASSES} />}
 					/>
-				</Toolbar>
+				</ToolbarGroup>
 				<BlockAlignmentMatrixToolbar
 					label={__("Change content alignment", "gutestrap")}
 					value={contentAlignment.xs}
