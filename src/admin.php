@@ -7,9 +7,8 @@
  * @package gutestrap
  */
 
-use function Utils\array_exclude_keys;
-use function Utils\array_exclude_values;
-use function Utils\html_attrs;
+use function Denman_Utils\array_exclude_keys;
+use function Denman_Utils\html_attrs;
 
 // Exit if accessed directly.
 defined('ABSPATH') || exit;
@@ -198,7 +197,7 @@ class Gutestrap_Settings
 		$excluded_boolean_attrs = ["multiple", "checked"];
 		$extra_attrs = html_attrs(
 			array_exclude_keys(
-				array_exclude_values($args, $excluded_boolean_attrs),
+				array_diff($args, $excluded_boolean_attrs),
 				["options", "class", "type", "label_for", "id", "name", "value"],
 				$excluded_boolean_attrs
 			)

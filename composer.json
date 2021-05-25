@@ -2,16 +2,23 @@
     "name": "paulthewalton/gutestrap",
     "description": "Wordpress plugin to bring Bootstrap's grid system to Gutenberg",
     "type": "project",
-    "require-dev": {
-        "php-stubs/wordpress-stubs": "^5.5"
-    },
-    "authors": [
+	"authors": [
         {
             "name": "Paul Walton",
             "email": "paul@denmandigital.com"
         }
     ],
-    "require": {
-        "scssphp/scssphp": "^1.4"
-    }
+	"require": {
+		"denman-digital/wp-utils": "^1.0",
+		"scssphp/scssphp": "^1.4"
+	},
+    "require-dev": {
+        "php-stubs/wordpress-stubs": "^5.7"
+    },
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Denman-Digital/wp-utils"
+		}
+	]
 }
