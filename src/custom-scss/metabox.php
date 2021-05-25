@@ -27,7 +27,7 @@ function gutestrap_compile_custom_scss($raw_scss, $import_paths = [])
 	// Set up SCSS compiler (2) - import paths
 	$scssphp->setImportPaths($import_paths);
 	// Compile SCSS -> CSS
-	$css = $scssphp->compile($raw_scss);
+	$css = $scssphp->compileString($raw_scss);
 	if (WP_DEBUG && WP_DEBUG_LOG) {
 		error_log(print_r([
 			"name" => "gutestrap_compile_custom_scss",
