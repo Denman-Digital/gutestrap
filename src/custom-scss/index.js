@@ -7,7 +7,6 @@ const { Button, Modal, Flex, FlexItem } = wp.components;
 const { useSelect } = wp.data;
 const { useEntityProp } = wp.coreData;
 
-import { GUTESTRAP_TEXT_DOMAIN } from "../const";
 import { CustomScssEditor } from "./block";
 import "./editor.scss";
 

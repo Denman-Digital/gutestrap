@@ -3,7 +3,6 @@ import { ToolbarGroup } from "@wordpress/components";
 
 import "./editor.scss";
 
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 import { ReactComponent as JustifyStartIcon } from "./justify-start.svg";
 import { ReactComponent as JustifyCenterIcon } from "./justify-center.svg";
 import { ReactComponent as JustifyEndIcon } from "./justify-end.svg";
@@ -17,31 +16,27 @@ export const FLEX_JUSTIFY_CONTENT_OPTIONS = [
 	{
 		name: "start",
 		icon: <JustifyStartIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Pack %ITEMS% to the left", "Block content justification setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Pack %ITEMS% to the left", "Block content justification setting", "gutestrap"),
 	},
 	{
 		name: "center",
 		icon: <JustifyCenterIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Pack %ITEMS% in the centre", "Block content justification setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Pack %ITEMS% in the centre", "Block content justification setting", "gutestrap"),
 	},
 	{
 		name: "end",
 		icon: <JustifyEndIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Pack %ITEMS% to the right", "Block content justification setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Pack %ITEMS% to the right", "Block content justification setting", "gutestrap"),
 	},
 	{
 		name: "between",
 		icon: <JustifySpaceBetweenIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Distribute %ITEMS% horizontally", "Block content justification setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Distribute %ITEMS% horizontally", "Block content justification setting", "gutestrap"),
 	},
 	{
 		name: "evenly",
 		icon: <JustifySpaceEvenlyIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x(
-			"Distribute %ITEMS% with equal spacing on each end",
-			"Block content justification setting",
-			GUTESTRAP_TEXT_DOMAIN
-		),
+		title: _x("Distribute %ITEMS% with equal spacing on each end", "Block content justification setting", "gutestrap"),
 	},
 	{
 		name: "around",
@@ -49,7 +44,7 @@ export const FLEX_JUSTIFY_CONTENT_OPTIONS = [
 		title: _x(
 			"Distribute %ITEMS% with half-size spacing on each end",
 			"Block content justification setting",
-			GUTESTRAP_TEXT_DOMAIN
+			"gutestrap"
 		),
 	},
 ];
@@ -61,7 +56,7 @@ const BLOCK_CONTENT_JUSTIFICATION_CONTROLS = FLEX_JUSTIFY_CONTENT_OPTIONS.reduce
 
 const DEFAULT_CONTROLS = ["start", "center", "end", "between", "evenly", "around"];
 const DEFAULT_CONTROL = "start";
-const DEFAULT_LABEL = __("items", GUTESTRAP_TEXT_DOMAIN);
+const DEFAULT_LABEL = __("items", "gutestrap");
 
 const POPOVER_PROPS = {
 	isAlternate: true,
@@ -98,7 +93,7 @@ export function BlockContentJustificationToolbar({
 			popoverProps={POPOVER_PROPS}
 			isCollapsed={isCollapsed}
 			icon={activeAlignment ? activeAlignment.icon : defaultAlignmentControl.icon}
-			label={_x("Change content distribution", "Block content justification setting label", GUTESTRAP_TEXT_DOMAIN)}
+			label={_x("Change content distribution", "Block content justification setting label", "gutestrap")}
 			controls={controls.map((control) => {
 				/** @type {{icon: *, title: string}} */
 				const { icon, title } = BLOCK_CONTENT_JUSTIFICATION_CONTROLS[control];

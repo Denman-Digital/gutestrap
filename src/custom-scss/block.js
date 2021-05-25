@@ -34,8 +34,6 @@ export const CustomScssEditor = ({ value: valueProp, onChange = () => {} }) => {
 /**
  * Internal dependencies
  */
-import { GUTESTRAP_TEXT_DOMAIN } from "../const";
-
 export const registerCustomSCSSBlock = () => {
 	/**
 	 * Register a Gutenberg Block.
@@ -51,14 +49,14 @@ export const registerCustomSCSSBlock = () => {
 	 *                             registered; otherwise `undefined`.
 	 */
 	registerBlockType("gutestrap/custom-scss", {
-		title: __("Custom SCSS", GUTESTRAP_TEXT_DOMAIN),
-		description: __("Add custom styles to the post, written in SASS/SCSS", GUTESTRAP_TEXT_DOMAIN),
+		title: __("Custom SCSS", "gutestrap"),
+		description: __("Add custom styles to the post, written in SASS/SCSS", "gutestrap"),
 		icon: "admin-appearance",
 		category: "advanced",
 		// keywords: [
-		// 	__("layout", GUTESTRAP_TEXT_DOMAIN),
-		// 	__("alignment", GUTESTRAP_TEXT_DOMAIN),
-		// 	__("clear", GUTESTRAP_TEXT_DOMAIN),
+		// 	__("layout", "gutestrap"),
+		// 	__("alignment", "gutestrap"),
+		// 	__("clear", "gutestrap"),
 		// ],
 		attributes: {
 			raw: {

@@ -65,8 +65,8 @@ class Gutestrap_Settings
 	public static function add_admin_menu()
 	{
 		add_menu_page(
-			esc_html__("Gutestrap Settings", GUTESTRAP_TEXT_DOMAIN),
-			esc_html__("Gutestrap Settings", GUTESTRAP_TEXT_DOMAIN),
+			esc_html__("Gutestrap Settings", "gutestrap"),
+			esc_html__("Gutestrap Settings", "gutestrap"),
 			"manage_options",
 			self::MENU_SLUG,
 			array("Gutestrap_Settings", "render")
@@ -92,7 +92,7 @@ class Gutestrap_Settings
 
 		add_settings_section(
 			"gutestrap_section_developers",
-			__("The Matrix has you.", GUTESTRAP_TEXT_DOMAIN),
+			__("The Matrix has you.", "gutestrap"),
 			array("Gutestrap_Settings", "gutestrap_section_developers_callback"),
 			self::MENU_SLUG
 		);
@@ -100,14 +100,14 @@ class Gutestrap_Settings
 		self::add_settings_field(
 			'example_text',
 			'gutestrap_section_developers',
-			__('Text', GUTESTRAP_TEXT_DOMAIN),
+			__('Text', "gutestrap"),
 			['wporg_custom_data' => 'custom'],
 		);
 
 		self::add_settings_field(
 			'example_select',
 			'gutestrap_section_developers',
-			__('Select', GUTESTRAP_TEXT_DOMAIN),
+			__('Select', "gutestrap"),
 			[
 				"type" => "select",
 				'options' => [
@@ -125,7 +125,7 @@ class Gutestrap_Settings
 		self::add_settings_field(
 			'example_textarea',
 			'gutestrap_section_developers',
-			__('TextArea', GUTESTRAP_TEXT_DOMAIN),
+			__('TextArea', "gutestrap"),
 			[
 				"type" => "textarea",
 			],
@@ -133,7 +133,7 @@ class Gutestrap_Settings
 		self::add_settings_field(
 			'example_radio',
 			'gutestrap_section_developers',
-			__('Radios', GUTESTRAP_TEXT_DOMAIN),
+			__('Radios', "gutestrap"),
 			[
 				"type" => "radio",
 				'options' => [
@@ -147,7 +147,7 @@ class Gutestrap_Settings
 		self::add_settings_field(
 			'example_checkbox',
 			'gutestrap_section_developers',
-			__('Checkboxes', GUTESTRAP_TEXT_DOMAIN),
+			__('Checkboxes', "gutestrap"),
 			[
 				"type" => "checkbox",
 				'options' => [
@@ -291,7 +291,7 @@ class Gutestrap_Settings
 	public static function gutestrap_section_developers_callback($args)
 	{
 ?>
-		<p id="<?= esc_attr($args['id']); ?>"><?php esc_html_e('Follow the white rabbit.', GUTESTRAP_TEXT_DOMAIN); ?></p>
+		<p id="<?= esc_attr($args['id']); ?>"><?php esc_html_e('Follow the white rabbit.', "gutestrap"); ?></p>
 	<?php
 	}
 
@@ -343,7 +343,7 @@ class Gutestrap_Settings
 			return;
 		}
 		if (isset($_GET['settings-updated'])) {
-			add_settings_error('gutestrap_messages', 'gutestrap_message', __('Settings Saved', GUTESTRAP_TEXT_DOMAIN), 'updated');
+			add_settings_error('gutestrap_messages', 'gutestrap_message', __('Settings Saved', "gutestrap"), 'updated');
 		}
 		settings_errors('gutestrap_messages');
 	?>

@@ -1,18 +1,16 @@
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
-
-import { __, _n } from "@wordpress/i18n";
+const { __, _n } = wp.i18n;
 
 import { sprintf } from "sprintf-js";
 import classnames from "classnames";
 
-import { useState, useEffect, useRef } from "@wordpress/element";
-import { BaseControl, SelectControl } from "@wordpress/components";
+const { useState, useEffect, useRef } = wp.element;
+const { BaseControl, SelectControl } = wp.components;
 
 export const COLUMN_OPTION_WIDTH_FIT = "auto";
 export const COLUMN_OPTION_WIDTH_DEFAULT = "default";
 export const COLUMN_OPTION_INHERIT = "inherit";
 
-const INHERIT_OPTION = { label: __("Inherit from smaller", GUTESTRAP_TEXT_DOMAIN), value: COLUMN_OPTION_INHERIT };
+const INHERIT_OPTION = { label: __("Inherit from smaller", "gutestrap"), value: COLUMN_OPTION_INHERIT };
 
 function generateOptions(gridCols, canInherit) {
 	const widths = canInherit ? [INHERIT_OPTION] : [];
@@ -23,12 +21,12 @@ function generateOptions(gridCols, canInherit) {
 		offsets.push({
 			value: offset,
 			label: offset
-				? sprintf(_n("%d column", "%d columns", offset, GUTESTRAP_TEXT_DOMAIN), offset)
-				: __("No offset", GUTESTRAP_TEXT_DOMAIN),
+				? sprintf(_n("%d column", "%d columns", offset, "gutestrap"), offset)
+				: __("No offset", "gutestrap"),
 		});
 		widths.push({
 			value: count,
-			label: sprintf(_n("%d column", "%d columns", count, GUTESTRAP_TEXT_DOMAIN), count),
+			label: sprintf(_n("%d column", "%d columns", count, "gutestrap"), count),
 		});
 	}
 	return { widths, offsets };
@@ -66,14 +64,14 @@ export const ColumnWidthOffsetControl = ({
 		<BaseControl label={label} help={help} className={classnames(className, "components-column-width-offset-control")}>
 			<div className="components-column-width-offset-control__fields">
 				<SelectControl
-					label={__("Width", GUTESTRAP_TEXT_DOMAIN)}
+					label={__("Width", "gutestrap")}
 					options={[
 						{
-							label: __("Default width from row", GUTESTRAP_TEXT_DOMAIN),
+							label: __("Default width from row", "gutestrap"),
 							value: COLUMN_OPTION_WIDTH_DEFAULT,
 						},
 						{
-							label: __("Fit content", GUTESTRAP_TEXT_DOMAIN),
+							label: __("Fit content", "gutestrap"),
 							value: COLUMN_OPTION_WIDTH_FIT,
 						},
 						...options.current.widths,
@@ -82,7 +80,7 @@ export const ColumnWidthOffsetControl = ({
 					value={width}
 				/>
 				<SelectControl
-					label={__("Offset", GUTESTRAP_TEXT_DOMAIN)}
+					label={__("Offset", "gutestrap")}
 					options={options.current.offsets}
 					onChange={(value) => setOffset(value)}
 					value={offset}

@@ -1,6 +1,4 @@
-import { __ } from "@wordpress/i18n";
-
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
+const { __ } = wp.i18n;
 import { RowEdit as edit } from "./edit";
 import { RowRender as save, deprecated } from "./render";
 import { ReactComponent as icon } from "bootstrap-icons/icons/layout-three-columns.svg";
@@ -13,13 +11,10 @@ export { RowBreakBlock };
 export const name = "gutestrap/row";
 
 /** Block title. */
-export const title = __("Row", GUTESTRAP_TEXT_DOMAIN);
+export const title = __("Row", "gutestrap");
 
 /** Block Description. */
-export const description = __(
-	"Use rows to create responsive & mobile-first multi-column layouts",
-	GUTESTRAP_TEXT_DOMAIN
-);
+export const description = __("Use rows to create responsive & mobile-first multi-column layouts", "gutestrap");
 
 /** Block attributes. */
 export const attributes = {
@@ -95,7 +90,7 @@ export const example = {
 					name: "core/image",
 					attributes: {
 						url: "https://s.w.org/images/core/5.3/MtBlanc1.jpg",
-						caption: __("The mountain top appears.", GUTESTRAP_TEXT_DOMAIN),
+						caption: __("The mountain top appears.", "gutestrap"),
 					},
 				},
 			],
@@ -110,7 +105,7 @@ export const example = {
 					name: "core/heading",
 					attributes: {
 						/* translators: example text. */
-						content: __("Legendary Crustaceans", GUTESTRAP_TEXT_DOMAIN),
+						content: __("Legendary Crustaceans", "gutestrap"),
 					},
 				},
 				{
@@ -119,7 +114,7 @@ export const example = {
 						/* translators: example text. */
 						content: __(
 							"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-							GUTESTRAP_TEXT_DOMAIN
+							"gutestrap"
 						),
 					},
 				},
@@ -137,7 +132,7 @@ export const example = {
 						/* translators: example text. */
 						content: __(
 							"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-							GUTESTRAP_TEXT_DOMAIN
+							"gutestrap"
 						),
 					},
 				},
@@ -155,7 +150,7 @@ export const example = {
 						/* translators: example text. */
 						content: __(
 							"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-							GUTESTRAP_TEXT_DOMAIN
+							"gutestrap"
 						),
 					},
 				},

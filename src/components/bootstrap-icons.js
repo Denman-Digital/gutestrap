@@ -1,5 +1,3 @@
-import { GUTESTRAP_TEXT_DOMAIN } from "../const";
-
 import { __ } from "@wordpress/i18n";
 
 import { Fragment } from "@wordpress/element";
@@ -24,21 +22,21 @@ const BootstrapIconWrapper = ({ alt = "", icon }) => {
 
 export default BootstrapIconWrapper;
 
-export const XSIcon = ({ alt = __("Extra-small viewports, 0px wide and up.", GUTESTRAP_TEXT_DOMAIN) }) => {
+export const XSIcon = ({ alt = __("Extra-small viewports, 0px wide and up.", "gutestrap") }) => {
 	return <BootstrapIconWrapper alt={alt} icon={<PhonePortraitIcon />} />;
 };
-export const SMIcon = ({ alt = __("Small viewports, 576px wide and up.", GUTESTRAP_TEXT_DOMAIN) }) => {
+export const SMIcon = ({ alt = __("Small viewports, 576px wide and up.", "gutestrap") }) => {
 	return <BootstrapIconWrapper alt={alt} icon={<PhoneLandscapeIcon />} />;
 };
-export const MDIcon = ({ alt = __("Medium viewports, 768px wide and up.", GUTESTRAP_TEXT_DOMAIN) }) => {
+export const MDIcon = ({ alt = __("Medium viewports, 768px wide and up.", "gutestrap") }) => {
 	return <BootstrapIconWrapper alt={alt} icon={<TabletPortraitIcon />} />;
 };
-export const LGIcon = ({ alt = __("Large viewports, 992px wide and up.", GUTESTRAP_TEXT_DOMAIN) }) => {
+export const LGIcon = ({ alt = __("Large viewports, 992px wide and up.", "gutestrap") }) => {
 	return <BootstrapIconWrapper alt={alt} icon={<TabletLandscapeIcon />} />;
 };
-export const XLIcon = ({ alt = __("Extra-large viewports, 1200px wide and up.", GUTESTRAP_TEXT_DOMAIN) }) => {
+export const XLIcon = ({ alt = __("Extra-large viewports, 1200px wide and up.", "gutestrap") }) => {
 	return <BootstrapIconWrapper alt={alt} icon={<LaptopIcon />} />;
 };
-export const XXLIcon = ({ alt = __("Extra-extra-large viewports, 1440px wide and up.", GUTESTRAP_TEXT_DOMAIN) }) => {
+export const XXLIcon = ({ alt = __("Extra-extra-large viewports, 1440px wide and up.", "gutestrap") }) => {
 	return <BootstrapIconWrapper alt={alt} icon={<DesktopIcon />} />;
 };

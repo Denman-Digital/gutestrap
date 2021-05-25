@@ -1,6 +1,4 @@
 import { __ } from "@wordpress/i18n";
-
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 import { ContainerEdit as edit } from "./edit";
 import { ContainerRender as save, deprecated } from "./render";
 import { ReactComponent as icon } from "bootstrap-icons/icons/view-list.svg";
@@ -9,7 +7,7 @@ import { ReactComponent as icon } from "bootstrap-icons/icons/view-list.svg";
 export const name = "gutestrap/container";
 
 /** Block title. */
-export const title = __("Container", GUTESTRAP_TEXT_DOMAIN);
+export const title = __("Container", "gutestrap");
 
 /** Block attributes. */
 export const attributes = {
@@ -28,7 +26,7 @@ export const attributes = {
 /** Block Description. */
 export const description = __(
 	"Containers are used to contain, pad, and (sometimes) center the content within them",
-	GUTESTRAP_TEXT_DOMAIN
+	"gutestrap"
 );
 
 /** Supported WordPress/Gutenberg features. */

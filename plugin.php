@@ -22,8 +22,6 @@ if (!defined("WP_DEBUG_LOG")) {
 	define("WP_DEBUG_LOG", false);
 }
 
-define("GUTESTRAP_TEXT_DOMAIN", "gutestrap");
-
 /**
  * PHP Dependencies
  */

@@ -3,8 +3,6 @@ import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { TabPanel, Dashicon } from "@wordpress/components";
 
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
-
 import "./editor.scss";
 
 const breakpoints = ["xs", "sm", "md", "lg", "xl", "xxl"];
@@ -23,14 +21,14 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 			tabs={[
 				{
 					name: "xs",
-					// title: <span>{__("Base", GUTESTRAP_TEXT_DOMAIN)}</span>,
+					// title: <span>{__("Base", "gutestrap")}</span>,
 					title: (
 						<span>
 							<Dashicon icon="smartphone" />
 						</span>
 					),
-					label: __("Mobile", GUTESTRAP_TEXT_DOMAIN),
-					description: __("Settings for devices of all sizes.", GUTESTRAP_TEXT_DOMAIN),
+					label: __("Mobile", "gutestrap"),
+					description: __("Settings for devices of all sizes.", "gutestrap"),
 					breakpoint: "xs",
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xs"),
@@ -46,11 +44,8 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("sm"),
 					}),
-					label: __("Mobile landscape", GUTESTRAP_TEXT_DOMAIN),
-					description: __(
-						"Settings for landscape mobile devices and larger. 576px wide and up.",
-						GUTESTRAP_TEXT_DOMAIN
-					),
+					label: __("Mobile landscape", "gutestrap"),
+					description: __("Settings for landscape mobile devices and larger. 576px wide and up.", "gutestrap"),
 					breakpoint: "sm",
 				},
 				{
@@ -63,8 +58,8 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("md"),
 					}),
-					label: __("Tablet", GUTESTRAP_TEXT_DOMAIN),
-					description: __("Settings for tablets and larger devices. 768px wide and up.", GUTESTRAP_TEXT_DOMAIN),
+					label: __("Tablet", "gutestrap"),
+					description: __("Settings for tablets and larger devices. 768px wide and up.", "gutestrap"),
 					breakpoint: "md",
 				},
 				{
@@ -77,11 +72,8 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("lg"),
 					}),
-					label: __("Tablet landscape", GUTESTRAP_TEXT_DOMAIN),
-					description: __(
-						"Settings for landscape tablets and larger devices. 992px wide and up.",
-						GUTESTRAP_TEXT_DOMAIN
-					),
+					label: __("Tablet landscape", "gutestrap"),
+					description: __("Settings for landscape tablets and larger devices. 992px wide and up.", "gutestrap"),
 					breakpoint: "lg",
 				},
 				{
@@ -94,8 +86,8 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xl"),
 					}),
-					label: __("Laptop", GUTESTRAP_TEXT_DOMAIN),
-					description: __("Settings for laptops and larger devices. 1200px wide and up.", GUTESTRAP_TEXT_DOMAIN),
+					label: __("Laptop", "gutestrap"),
+					description: __("Settings for laptops and larger devices. 1200px wide and up.", "gutestrap"),
 					breakpoint: "xl",
 				},
 				{
@@ -108,8 +100,8 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xxl"),
 					}),
-					label: __("Desktop", GUTESTRAP_TEXT_DOMAIN),
-					description: __("Settings for desktop devices and larger. 1200px wide and up.", GUTESTRAP_TEXT_DOMAIN),
+					label: __("Desktop", "gutestrap"),
+					description: __("Settings for desktop devices and larger. 1200px wide and up.", "gutestrap"),
 					breakpoint: "xxl",
 				},
 			]}

@@ -22,12 +22,10 @@ import {
 	InspectorControls,
 	InnerBlocks,
 	BlockControls,
-	PanelColorSettings,
 	withColors,
 	__experimentalBlockAlignmentMatrixToolbar as BlockAlignmentMatrixToolbar,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalUseGradient as useGradient,
-	// __experimentalBlockVariationPicker as BlockVariationPicker,
 } from "@wordpress/block-editor";
 import { createHigherOrderComponent } from "@wordpress/compose";
 
@@ -41,8 +39,7 @@ function toNumber(value, fallback = 0) {
 
 const { config } = gutestrapGlobal;
 
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
-import { PanelSpacing, Visualizer } from "../../components/panel-spacing";
+import { Visualizer } from "../../components/panel-spacing";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar, BOOTSTRAP_ICON_CLASSES } from "../../components/alignment/flex-items-alignment";
@@ -62,7 +59,7 @@ export const COLUMN_SPECIAL_OPTIONS = [
 ];
 
 const INHERIT_OPTION = {
-	label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
+	label: __("Inherit from smaller (default)", "gutestrap"),
 	value: COLUMN_OPTION_INHERIT_VALUE,
 };
 
@@ -72,11 +69,11 @@ function generateColumnOptions(gridCols) {
 	const widths = [
 		INHERIT_OPTION,
 		{
-			label: __("Default width from row", GUTESTRAP_TEXT_DOMAIN),
+			label: __("Default width from row", "gutestrap"),
 			value: COLUMN_OPTION_WIDTH_DEFAULT_VALUE,
 		},
 		{
-			label: __("Fit content", GUTESTRAP_TEXT_DOMAIN),
+			label: __("Fit content", "gutestrap"),
 			value: COLUMN_OPTION_WIDTH_FIT_VALUE,
 		},
 	];
@@ -86,12 +83,12 @@ function generateColumnOptions(gridCols) {
 		offsets.push({
 			value: offset,
 			label: offset
-				? sprintf(_n("%d column", "%d columns", offset, GUTESTRAP_TEXT_DOMAIN), offset)
-				: __("No offset", GUTESTRAP_TEXT_DOMAIN),
+				? sprintf(_n("%d column", "%d columns", offset, "gutestrap"), offset)
+				: __("No offset", "gutestrap"),
 		});
 		widths.push({
 			value: count,
-			label: sprintf(_n("%d column", "%d columns", count, GUTESTRAP_TEXT_DOMAIN), count),
+			label: sprintf(_n("%d column", "%d columns", count, "gutestrap"), count),
 		});
 	}
 	return { widths, offsets };
@@ -101,66 +98,66 @@ const { widths: COL_WIDTH_OPTIONS, offsets: COL_OFFSET_OPTIONS } = generateColum
 
 const COL_ALIGN_OPTIONS = [
 	{
-		label: __("Top", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Top", "gutestrap"),
 		value: "start",
 	},
 	{
-		label: __("Center", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Center", "gutestrap"),
 		value: "center",
 	},
 	{
-		label: __("Bottom", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Bottom", "gutestrap"),
 		value: "end",
 	},
 	{
-		label: __("Baseline", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Baseline", "gutestrap"),
 		value: "baseline",
 	},
 	{
-		label: __("Stretch to fit", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Stretch to fit", "gutestrap"),
 		value: "stretch",
 	},
 ];
 
 const COL_CONTENT_ALIGN_OPTIONS = [
 	{
-		label: __("Stretch to fit", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Stretch to fit", "gutestrap"),
 		value: "stretch stretch",
 	},
 	{
-		label: __("Top left", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Top left", "gutestrap"),
 		value: "top left",
 	},
 	{
-		label: __("Top centre", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Top centre", "gutestrap"),
 		value: "top center",
 	},
 	{
-		label: __("Top right", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Top right", "gutestrap"),
 		value: "top right",
 	},
 	{
-		label: __("Centre left", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Centre left", "gutestrap"),
 		value: "center left",
 	},
 	{
-		label: __("Centre", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Centre", "gutestrap"),
 		value: "center center",
 	},
 	{
-		label: __("Centre right", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Centre right", "gutestrap"),
 		value: "center right",
 	},
 	{
-		label: __("Bottom left", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Bottom left", "gutestrap"),
 		value: "bottom left",
 	},
 	{
-		label: __("Bottom centre", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Bottom centre", "gutestrap"),
 		value: "bottom center",
 	},
 	{
-		label: __("Bottom right", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Bottom right", "gutestrap"),
 		value: "bottom right",
 	},
 ];
@@ -211,12 +208,12 @@ function ColumnEdit({
 			onColorChange: setBackgroundColor,
 			gradientValue,
 			onGradientChange: setGradient,
-			label: __("Background", GUTESTRAP_TEXT_DOMAIN),
+			label: __("Background", "gutestrap"),
 		},
 		{
 			colorValue: textColor.color,
 			onColorChange: setTextColor,
-			label: __("Text", GUTESTRAP_TEXT_DOMAIN),
+			label: __("Text", "gutestrap"),
 		},
 	];
 
@@ -224,7 +221,7 @@ function ColumnEdit({
 		colorSettings.push({
 			value: borderColor.color,
 			onChange: setBorderColor,
-			label: __("Border colour", GUTESTRAP_TEXT_DOMAIN),
+			label: __("Border colour", "gutestrap"),
 		});
 	}
 
@@ -274,7 +271,7 @@ function ColumnEdit({
 							<PanelBody>
 								<p>{`${label} layout`}</p>
 								<SelectControl
-									label={__("Width", GUTESTRAP_TEXT_DOMAIN)}
+									label={__("Width", "gutestrap")}
 									options={canInherit ? COL_WIDTH_OPTIONS : COL_WIDTH_OPTIONS.slice(1)}
 									value={width[breakpoint] != null ? width[breakpoint] : fallbacks.width}
 									onChange={(value) => {
@@ -283,7 +280,7 @@ function ColumnEdit({
 									}}
 								/>
 								<SelectControl
-									label={__("Offset", GUTESTRAP_TEXT_DOMAIN)}
+									label={__("Offset", "gutestrap")}
 									options={canInherit ? COL_OFFSET_OPTIONS : COL_OFFSET_OPTIONS.slice(1)}
 									value={offset[breakpoint] != null ? offset[breakpoint] : fallbacks.offset}
 									onChange={(value) => {
@@ -292,12 +289,12 @@ function ColumnEdit({
 									}}
 								/>
 								<SelectControl
-									label={__("Column alignment", GUTESTRAP_TEXT_DOMAIN)}
+									label={__("Column alignment", "gutestrap")}
 									options={[
 										canInherit
 											? INHERIT_OPTION
 											: {
-													label: __("Default alignment from row", GUTESTRAP_TEXT_DOMAIN),
+													label: __("Default alignment from row", "gutestrap"),
 													value: COLUMN_OPTION_INHERIT_VALUE,
 											  },
 										...COL_ALIGN_OPTIONS,
@@ -307,10 +304,10 @@ function ColumnEdit({
 										alignment[breakpoint] = value;
 										setAttributes({ alignment: { ...alignment } });
 									}}
-									help={__("Align the column within the row.", GUTESTRAP_TEXT_DOMAIN)}
+									help={__("Align the column within the row.", "gutestrap")}
 								/>
 								<SelectControl
-									label={__("Content Alignment", GUTESTRAP_TEXT_DOMAIN)}
+									label={__("Content Alignment", "gutestrap")}
 									options={canInherit ? [INHERIT_OPTION, ...COL_CONTENT_ALIGN_OPTIONS] : COL_CONTENT_ALIGN_OPTIONS}
 									value={
 										contentAlignment[breakpoint] != null ? contentAlignment[breakpoint] : fallbacks.contentAlignment
@@ -319,7 +316,7 @@ function ColumnEdit({
 										contentAlignment[breakpoint] = value;
 										setAttributes({ contentAlignment: { ...contentAlignment } });
 									}}
-									help={__("Align content within the column.", GUTESTRAP_TEXT_DOMAIN)}
+									help={__("Align content within the column.", "gutestrap")}
 								/>
 							</PanelBody>
 						);
@@ -333,7 +330,7 @@ function ColumnEdit({
 					initialOpen={!!background.image}
 				/>
 				<PanelColorGradientSettings
-					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
+					title={__("Colour Settings", "gutestrap")}
 					initialOpen={false}
 					disableCustomColors={!!config.disableCustomColors}
 					disableCustomGradients={!!config.disableCustomGradients}
@@ -352,13 +349,13 @@ function ColumnEdit({
 						{
 							values: padding,
 							onChange: (value) => setAttributes({ padding: value }),
-							label: __("Padding", GUTESTRAP_TEXT_DOMAIN),
+							label: __("Padding", "gutestrap"),
 						},
 					]}
 				/> */}
 
 				<PanelBody
-					title={__("Spacing", GUTESTRAP_TEXT_DOMAIN)}
+					title={__("Spacing", "gutestrap")}
 					initialOpen={
 						!!(
 							parseFloat(padding?.top) ||
@@ -374,11 +371,11 @@ function ColumnEdit({
 						<BoxControl
 							values={padding}
 							onChange={(value) => setAttributes({ padding: value })}
-							label={__("Padding", GUTESTRAP_TEXT_DOMAIN)}
+							label={__("Padding", "gutestrap")}
 						/>
 					</BaseControl>
 					<BaseControl
-						label={__("Margin", GUTESTRAP_TEXT_DOMAIN)}
+						label={__("Margin", "gutestrap")}
 						className={isMarginLinked ? "spacing-linked" : "spacing-not-linked"}
 						// help={__("Add margin above or below the column.")}
 					>
@@ -388,9 +385,7 @@ function ColumnEdit({
 									<FlexItem>
 										<UnitControl
 											className="spacing-unit-control"
-											label={
-												isMarginLinked ? __("Top and bottom", GUTESTRAP_TEXT_DOMAIN) : __("Top", GUTESTRAP_TEXT_DOMAIN)
-											}
+											label={isMarginLinked ? __("Top and bottom", "gutestrap") : __("Top", "gutestrap")}
 											size={"small"}
 											value={margin?.top}
 											onChange={(value) => {
@@ -406,7 +401,7 @@ function ColumnEdit({
 										<FlexItem>
 											<UnitControl
 												className="spacing-unit-control"
-												label={__("Bottom", GUTESTRAP_TEXT_DOMAIN)}
+												label={__("Bottom", "gutestrap")}
 												size={"small"}
 												value={margin?.bottom}
 												onChange={(value) => {
@@ -419,11 +414,7 @@ function ColumnEdit({
 								</Flex>
 							</FlexItem>
 							<FlexItem style={{ marginLeft: "auto" }}>
-								<Tooltip
-									text={
-										isMarginLinked ? __("Unlink sides", GUTESTRAP_TEXT_DOMAIN) : __("Link sides", GUTESTRAP_TEXT_DOMAIN)
-									}
-								>
+								<Tooltip text={isMarginLinked ? __("Unlink sides", "gutestrap") : __("Link sides", "gutestrap")}>
 									<span>
 										<Button
 											onClick={() => {
@@ -447,7 +438,7 @@ function ColumnEdit({
 			</InspectorControls>
 			<BlockControls>
 				<BlockFlexItemAlignmentToolbar
-					label={__("column", GUTESTRAP_TEXT_DOMAIN)}
+					label={__("column", "gutestrap")}
 					value={alignment.xs}
 					onChange={(value) => {
 						alignment.xs = value;
@@ -457,7 +448,7 @@ function ColumnEdit({
 				<Toolbar>
 					<ToolbarButton
 						showTooltip={true}
-						label={__("Expand contents to fit", GUTESTRAP_TEXT_DOMAIN)}
+						label={__("Expand contents to fit", "gutestrap")}
 						isPressed={contentAlignment.xs === "stretch stretch"}
 						onClick={() => {
 							contentAlignment.xs = contentAlignment.xs === "stretch stretch" ? "top left" : "stretch stretch";
@@ -467,7 +458,7 @@ function ColumnEdit({
 					/>
 				</Toolbar>
 				<BlockAlignmentMatrixToolbar
-					label={__("Change content alignment", GUTESTRAP_TEXT_DOMAIN)}
+					label={__("Change content alignment", "gutestrap")}
 					value={contentAlignment.xs}
 					onChange={(value) => {
 						contentAlignment.xs = value;

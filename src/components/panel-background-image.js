@@ -2,63 +2,61 @@ import { sprintf } from "sprintf-js";
 const { __ } = wp.i18n;
 const { SelectControl, ToggleControl, PanelBody } = wp.components;
 const { Fragment, useEffect } = wp.element;
-
-import { GUTESTRAP_TEXT_DOMAIN } from "../const";
 import { MediaSelectControl } from "./media-select-control";
 import { useStateProp } from "./hooks";
 
 const instructions = (attr) => (
-	<p>{sprintf(__("To edit the %s, you need permission to upload media.", GUTESTRAP_TEXT_DOMAIN), attr)}</p>
+	<p>{sprintf(__("To edit the %s, you need permission to upload media.", "gutestrap"), attr)}</p>
 );
 
 const positionOptions = [
 	{
-		label: __("Center (default)", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Center (default)", "gutestrap"),
 		value: "center",
 	},
 	{
-		label: __("Top", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Top", "gutestrap"),
 		value: "top",
 	},
 	{
-		label: __("Bottom", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Bottom", "gutestrap"),
 		value: "bottom",
 	},
 	{
-		label: __("Left", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Left", "gutestrap"),
 		value: "left",
 	},
 	{
-		label: __("Right", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Right", "gutestrap"),
 		value: "right",
 	},
 	{
-		label: __("Top left", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Top left", "gutestrap"),
 		value: "top left",
 	},
 	{
-		label: __("Top right", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Top right", "gutestrap"),
 		value: "top right",
 	},
 	{
-		label: __("Bottom left", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Bottom left", "gutestrap"),
 		value: "bottom left",
 	},
 	{
-		label: __("Bottom right", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Bottom right", "gutestrap"),
 		value: "bottom right",
 	},
 	// {
-	// 	label: __("Custom", GUTESTRAP_TEXT_DOMAIN),
+	// 	label: __("Custom", "gutestrap"),
 	// 	value: "custom",
 	// },
 ];
 
 const sizeOptions = [
-	{ label: __("Cover (default)", GUTESTRAP_TEXT_DOMAIN), value: "cover" },
-	{ label: __("Contain", GUTESTRAP_TEXT_DOMAIN), value: "contain" },
-	{ label: __("Auto", GUTESTRAP_TEXT_DOMAIN), value: "auto" },
-	// { label: __("Custom", GUTESTRAP_TEXT_DOMAIN), value: "custom" },
+	{ label: __("Cover (default)", "gutestrap"), value: "cover" },
+	{ label: __("Contain", "gutestrap"), value: "contain" },
+	{ label: __("Auto", "gutestrap"), value: "auto" },
+	// { label: __("Custom", "gutestrap"), value: "custom" },
 ];
 
 // const positionOptionValues = positionOptions.map(({ value }) => value);
@@ -76,15 +74,15 @@ export const PanelBackgroundImage = ({ initialOpen = true, value = {}, onChange 
 	}, [image, position, size, repeat]);
 
 	return (
-		<PanelBody title={__("Background Image", GUTESTRAP_TEXT_DOMAIN)} initialOpen={initialOpen}>
+		<PanelBody title={__("Background Image", "gutestrap")} initialOpen={initialOpen}>
 			<MediaSelectControl
 				value={image}
 				allowedTypes="image"
 				onSelect={setImage}
 				onRemove={() => setImage(null)}
-				fallback={instructions(__("background image", GUTESTRAP_TEXT_DOMAIN))}
-				editText={__("Replace", GUTESTRAP_TEXT_DOMAIN)}
-				removeText={__("Remove", GUTESTRAP_TEXT_DOMAIN)}
+				fallback={instructions(__("background image", "gutestrap"))}
+				editText={__("Replace", "gutestrap")}
+				removeText={__("Remove", "gutestrap")}
 			/>
 			{image && (
 				<Fragment>
@@ -95,7 +93,7 @@ export const PanelBackgroundImage = ({ initialOpen = true, value = {}, onChange 
 					<ToggleControl
 						checked={repeat}
 						onChange={(checked) => setRepeat(!!checked)}
-						label={__("Tile image", GUTESTRAP_TEXT_DOMAIN)}
+						label={__("Tile image", "gutestrap")}
 					/>
 					{/* TODO: background clip */}
 					{/* TODO: background attachment */}

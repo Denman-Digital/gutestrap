@@ -6,8 +6,6 @@
  */
 
 import { __ } from "@wordpress/i18n";
-
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 import { ColumnEdit as edit } from "./edit";
 import { ColumnRender as save, deprecated } from "./render";
 import { ReactComponent as icon } from "./icon.svg";
@@ -17,10 +15,10 @@ import { name as rowBlockName } from "../row";
 export const name = "gutestrap/col";
 
 /** Block title. */
-export const title = __("Row Column", GUTESTRAP_TEXT_DOMAIN);
+export const title = __("Row Column", "gutestrap");
 
 /** Block Description. */
-export const description = __("Row columns are the building blocks of responsive layouts.", GUTESTRAP_TEXT_DOMAIN);
+export const description = __("Row columns are the building blocks of responsive layouts.", "gutestrap");
 
 /** Block attributes. */
 export const attributes = {
@@ -66,14 +64,14 @@ export const example = {
 			name: "core/heading",
 			attributes: {
 				/* translators: example text. */
-				content: __("Cyborg Roundup", GUTESTRAP_TEXT_DOMAIN),
+				content: __("Cyborg Roundup", "gutestrap"),
 			},
 		},
 		{
 			name: "core/paragraph",
 			attributes: {
 				/* translators: example text. */
-				content: __("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", GUTESTRAP_TEXT_DOMAIN),
+				content: __("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "gutestrap"),
 			},
 		},
 	],

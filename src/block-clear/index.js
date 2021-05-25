@@ -9,10 +9,6 @@ import { PanelBody, BaseControl } from "@wordpress/components";
 import { withInstanceId } from "@wordpress/compose";
 
 /**
- * Internal dependencies
- */
-import { GUTESTRAP_TEXT_DOMAIN } from "../const";
-/**
  * Register a Gutenberg Block.
  *
  * Registers a new block provided a unique name and an object defining its
@@ -26,18 +22,14 @@ import { GUTESTRAP_TEXT_DOMAIN } from "../const";
  *                             registered; otherwise `undefined`.
  */
 registerBlockType("gutestrap/clear", {
-	title: __("Clear", GUTESTRAP_TEXT_DOMAIN),
+	title: __("Clear", "gutestrap"),
 	description: __(
 		"Push the following content below any floating elements, such as left‐ or right‐aligned images and other media.",
-		GUTESTRAP_TEXT_DOMAIN
+		"gutestrap"
 	),
 	icon: "forms",
 	category: "layout",
-	keywords: [
-		__("layout", GUTESTRAP_TEXT_DOMAIN),
-		__("alignment", GUTESTRAP_TEXT_DOMAIN),
-		__("clear", GUTESTRAP_TEXT_DOMAIN),
-	],
+	keywords: [__("layout", "gutestrap"), __("alignment", "gutestrap"), __("clear", "gutestrap")],
 	attributes: {
 		height: {
 			type: "integer",
@@ -81,7 +73,7 @@ registerBlockType("gutestrap/clear", {
 		return (
 			<Fragment>
 				<InspectorControls>
-					<PanelBody title={__("Settings", GUTESTRAP_TEXT_DOMAIN)}>
+					<PanelBody title={__("Settings", "gutestrap")}>
 						<BaseControl label={__("Height in pixels")} id={id}>
 							<input
 								type="number"

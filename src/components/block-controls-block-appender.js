@@ -14,8 +14,7 @@ export function BlockControlsBlockAppender({ rootClientId, label, className, ico
 			__experimentalIsQuick
 			renderToggle={({ onToggle, disabled }) => (
 				<BlockControls>
-					<Toolbar>
-						<Tooltip text={label || __("Add a block", GUTESTRAP_TEXT_DOMAIN)}>
+						<Tooltip text={label || __("Add a block", "gutestrap")}>
 							<ToolbarButton className={className} onClick={onToggle} disabled={disabled}>
 								{icon || <AddBlockIcon className={BOOTSTRAP_ICON_CLASSES} />}
 							</ToolbarButton>

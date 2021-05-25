@@ -11,7 +11,6 @@ import { MediaUpload, MediaUploadCheck } from "@wordpress/block-editor";
 import { Button, BaseControl, Flex, FlexItem } from "@wordpress/components";
 const { Fragment } = wp.element;
 import { withInstanceId } from "@wordpress/compose";
-import { GUTESTRAP_TEXT_DOMAIN } from "../const";
 
 let MediaSelectControl = function ({
 	label,
@@ -29,10 +28,8 @@ let MediaSelectControl = function ({
 }) {
 	const id = `inspector-media-select-control-${instanceId}`;
 	const btnText = img?.url
-		? editText || (label && sprintf(__("Change %s"), label.toLowerCase())) || __("Change image", GUTESTRAP_TEXT_DOMAIN)
-		: addText ||
-		  (label && sprintf(__("Add %s", GUTESTRAP_TEXT_DOMAIN), label.toLowerCase())) ||
-		  __("Add image", GUTESTRAP_TEXT_DOMAIN);
+		? editText || (label && sprintf(__("Change %s"), label.toLowerCase())) || __("Change image", "gutestrap")
+		: addText || (label && sprintf(__("Add %s", "gutestrap"), label.toLowerCase())) || __("Add image", "gutestrap");
 	return (
 		<BaseControl label={label} id={id} help={help} className={classnames(className, "components-media-select-control")}>
 			<MediaUploadCheck fallback={fallback}>
@@ -62,8 +59,8 @@ let MediaSelectControl = function ({
 										<FlexItem>
 											<Button isDestructive onClick={onRemove}>
 												{removeText ||
-													(label && sprintf(__("Remove %s", GUTESTRAP_TEXT_DOMAIN), label.toLowerCase())) ||
-													__("Remove image", GUTESTRAP_TEXT_DOMAIN)}
+													(label && sprintf(__("Remove %s", "gutestrap"), label.toLowerCase())) ||
+													__("Remove image", "gutestrap")}
 											</Button>
 										</FlexItem>
 									)}

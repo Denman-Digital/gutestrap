@@ -15,7 +15,6 @@ import { ReactComponent as AlignSelfStretchIcon } from "./align-self-stretch.svg
 import { ReactComponent as AlignSelfTopIcon } from "bootstrap-icons/icons/align-top.svg";
 import { ReactComponent as AlignSelfCenterIcon } from "bootstrap-icons/icons/align-middle.svg";
 import { ReactComponent as AlignSelfBottomIcon } from "bootstrap-icons/icons/align-bottom.svg";
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 
 export const BOOTSTRAP_ICON_CLASSES = "bi bi-block-control-icon";
 
@@ -23,27 +22,27 @@ export const FLEX_ALIGN_ITEMS_OPTIONS = [
 	{
 		name: "start",
 		icon: <AlignItemsTopIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Align %ITEMS% top", "Block flex content alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Align %ITEMS% top", "Block flex content alignment setting", "gutestrap"),
 	},
 	{
 		name: "center",
 		icon: <AlignItemsCenterIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Align %ITEMS% center", "Block flex content alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Align %ITEMS% center", "Block flex content alignment setting", "gutestrap"),
 	},
 	{
 		name: "end",
 		icon: <AlignItemsBottomIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Align %ITEMS% bottom", "Block flex content alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Align %ITEMS% bottom", "Block flex content alignment setting", "gutestrap"),
 	},
 	{
 		name: "baseline",
 		icon: <AlignItemsBaselineIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Align %ITEMS% on baseline", "Block flex content alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Align %ITEMS% on baseline", "Block flex content alignment setting", "gutestrap"),
 	},
 	{
 		name: "stretch",
 		icon: <AlignItemsStretchIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Stretch %ITEMS% to fill", "Block flex content alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Stretch %ITEMS% to fill", "Block flex content alignment setting", "gutestrap"),
 	},
 ];
 
@@ -72,7 +71,7 @@ export function BlockFlexItemsAlignmentToolbar({
 	onChange,
 	controls = ["start", "center", "end", "baseline", "stretch"],
 	isCollapsed = true,
-	label = _x("items", "Block items reference for alignment labels", GUTESTRAP_TEXT_DOMAIN),
+	label = _x("items", "Block items reference for alignment labels", "gutestrap"),
 }) {
 	function applyOrUnset(align) {
 		return () => onChange(value === align ? undefined : align);
@@ -86,7 +85,7 @@ export function BlockFlexItemsAlignmentToolbar({
 			popoverProps={POPOVER_PROPS}
 			isCollapsed={isCollapsed}
 			icon={activeAlignment ? activeAlignment.icon : defaultAlignmentControl.icon}
-			label={_x("Change %ITEMS% alignment", "Block items alignment setting label", GUTESTRAP_TEXT_DOMAIN).replace(
+			label={_x("Change %ITEMS% alignment", "Block items alignment setting label", "gutestrap").replace(
 				"%ITEMS%",
 				label
 			)}
@@ -108,32 +107,32 @@ export const FLEX_ALIGN_SELF_OPTIONS = {
 	none: {
 		name: "none",
 		icon: <AlignSelfNoneIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Inherit alignment", "Block flex self alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Inherit alignment", "Block flex self alignment setting", "gutestrap"),
 	},
 	start: {
 		name: "start",
 		icon: <AlignSelfTopIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Align %ITEM% top", "Block flex self alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Align %ITEM% top", "Block flex self alignment setting", "gutestrap"),
 	},
 	center: {
 		name: "center",
 		icon: <AlignSelfCenterIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Align %ITEM% center", "Block flex self alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Align %ITEM% center", "Block flex self alignment setting", "gutestrap"),
 	},
 	end: {
 		name: "end",
 		icon: <AlignSelfBottomIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Align %ITEM% bottom", "Block flex self alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Align %ITEM% bottom", "Block flex self alignment setting", "gutestrap"),
 	},
 	baseline: {
 		name: "baseline",
 		icon: <AlignSelfBaselineIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Align %ITEM% on baseline", "Block flex self alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Align %ITEM% on baseline", "Block flex self alignment setting", "gutestrap"),
 	},
 	stretch: {
 		name: "stretch",
 		icon: <AlignSelfStretchIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Stretch %ITEM% to fill", "Block flex self alignment setting", GUTESTRAP_TEXT_DOMAIN),
+		title: _x("Stretch %ITEM% to fill", "Block flex self alignment setting", "gutestrap"),
 	},
 };
 
@@ -158,7 +157,7 @@ export function BlockFlexItemAlignmentToolbar({
 	onChange,
 	controls = ["none", "start", "center", "end", "baseline", "stretch"],
 	isCollapsed = true,
-	label = _x("item", "Block self reference for alignment labels", GUTESTRAP_TEXT_DOMAIN),
+	label = _x("item", "Block self reference for alignment labels", "gutestrap"),
 }) {
 	function applyOrUnset(align) {
 		return () => onChange(value === align ? undefined : align);
@@ -172,7 +171,7 @@ export function BlockFlexItemAlignmentToolbar({
 			popoverProps={POPOVER_PROPS}
 			isCollapsed={isCollapsed}
 			icon={activeAlignment ? activeAlignment.icon : defaultAlignmentControl.icon}
-			label={_x("Change %ITEM% alignment", "Block item self alignment setting label", GUTESTRAP_TEXT_DOMAIN).replace(
+			label={_x("Change %ITEM% alignment", "Block item self alignment setting label", "gutestrap").replace(
 				"%ITEM%",
 				label
 			)}

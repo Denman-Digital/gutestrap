@@ -171,46 +171,20 @@ add_action('admin_enqueue_scripts', 'gutenberg_custom_scss_codemirror_assets');
 
 function gutestrap_block_categories($categories, $post)
 {
-	// if ($post->post_type !== 'post') {
-	// 	return $categories;
-	// }
 	return array_merge(
 		[
 			[
 				"slug" => "bootstrap-grid",
-				"title" => __("Bootstrap Grid", GUTESTRAP_TEXT_DOMAIN),
+				"title" => __("Bootstrap Grid", "gutestrap"),
 			],
 		],
 		$categories,
 		[
 			[
 				'slug' => 'advanced',
-				'title' => __('Advanced', GUTESTRAP_TEXT_DOMAIN),
+				'title' => __('Advanced', "gutestrap"),
 			]
 		]
 	);
 }
 add_filter('block_categories', 'gutestrap_block_categories', 10, 2);
-
-
-// $scssphp = new ScssPhp\Compiler();
-// if (WP_DEBUG) {
-// 	$scssphp->setOutputStyle(ScssPhp\OutputStyle::EXPANDED);
-// } else {
-// 	$scssphp->setOutputStyle(ScssPhp\OutputStyle::COMPRESSED);
-// }
-// // Set up SCSS compiler (2) - import paths
-// $scssphp->setImportPaths(dirname(__FILE__));
-// // Compile SCSS -> CSS
-// // $css = "scrambled eggs";
-// $css = $scssphp->compile('@import "common.scss"; @import "style.scss";');
-// // $css = $scssphp->compile('');
-// // if (WP_DEBUG && WP_DEBUG_LOG) {
-// // 	error_log(print_r([
-// // 		"name" => "gutestrap_compile_custom_scss",
-// // 		"input" => $raw_scss,
-// // 		"output" => $css
-// // 	], true));
-// // }
-
-// file_put_contents(plugin_dir_path(__DIR__) . "test.css", $css);

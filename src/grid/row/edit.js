@@ -30,14 +30,12 @@ import { BlockControlsBlockAppender } from "../../components/block-controls-bloc
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { BlockFlexItemsAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
 import { BlockContentJustificationToolbar } from "../../components/alignment/flex-content-justification";
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
-
 import { rowClassNames } from "./render";
 import { DEFAULT_ATTRIBUTES } from "./index";
 import { name as rowBreakBlockName } from "./row-break";
 import { name as columnBlockName } from "../column";
 
-const ROW_CHILDREN_LABEL = __("columns", GUTESTRAP_TEXT_DOMAIN);
+const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
 
 const generateRowColumnsOptions = (gridRowCols = 6) => {
 	const opts = [];
@@ -52,56 +50,52 @@ const generateRowColumnsOptions = (gridRowCols = 6) => {
 const ROW_COLS_OPTIONS = generateRowColumnsOptions();
 
 const INHERIT_OPTION = {
-	label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
+	label: __("Inherit from smaller (default)", "gutestrap"),
 	value: 0,
 };
 
 const COLS_AUTO_OPTION = {
-	label: __("Equal-width (default)", GUTESTRAP_TEXT_DOMAIN),
+	label: __("Equal-width (default)", "gutestrap"),
 	value: 0,
 };
 
 const ROW_JUSTIFICATION_OPTIONS = [
 	{
-		label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Inherit from smaller (default)", "gutestrap"),
 		value: "inherit",
 	},
 	{
-		label: _x("Pack columns to the left", "Row columns justification setting", GUTESTRAP_TEXT_DOMAIN),
+		label: _x("Pack columns to the left", "Row columns justification setting", "gutestrap"),
 		value: "start",
 	},
 	{
-		label: _x("Pack columns in the centre", "Row columns justification setting", GUTESTRAP_TEXT_DOMAIN),
+		label: _x("Pack columns in the centre", "Row columns justification setting", "gutestrap"),
 		value: "center",
 	},
 	{
-		label: _x("Pack columns to the right", "Row columns justification setting", GUTESTRAP_TEXT_DOMAIN),
+		label: _x("Pack columns to the right", "Row columns justification setting", "gutestrap"),
 		value: "end",
 	},
 	{
-		label: _x("Distribute columns horizontally", "Row columns justification setting", GUTESTRAP_TEXT_DOMAIN),
+		label: _x("Distribute columns horizontally", "Row columns justification setting", "gutestrap"),
 		value: "between",
 	},
 	{
-		label: _x(
-			"Distribute columns with equal spacing on each end",
-			"Row columns justification setting",
-			GUTESTRAP_TEXT_DOMAIN
-		),
+		label: _x("Distribute columns with equal spacing on each end", "Row columns justification setting", "gutestrap"),
 		value: "evenly",
 	},
 	{
 		label: _x(
 			"Distribute columns with half-size spacing on each end",
 			"Row columns justification setting",
-			GUTESTRAP_TEXT_DOMAIN
+			"gutestrap"
 		),
 		value: "around",
 	},
 ];
 const ROW_JUSTIFICATION_OPTIONS_XS = [
 	{
-		label: _x("Pack columns to the left (default)", "Row columns justification setting", GUTESTRAP_TEXT_DOMAIN),
+		label: _x("Pack columns to the left (default)", "Row columns justification setting", "gutestrap"),
 		value: "start",
 	},
 	...ROW_JUSTIFICATION_OPTIONS.slice(2),
@@ -109,34 +103,34 @@ const ROW_JUSTIFICATION_OPTIONS_XS = [
 
 const ROW_ALIGNMENT_OPTIONS = [
 	{
-		label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Inherit from smaller (default)", "gutestrap"),
 		value: "inherit",
 	},
 	{
-		label: __("Stretch", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Stretch", "gutestrap"),
 		value: "stretch",
 	},
 	{
-		label: __("Top", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Top", "gutestrap"),
 		value: "start",
 	},
 	{
-		label: __("Center", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Center", "gutestrap"),
 		value: "center",
 	},
 	{
-		label: __("Bottom", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Bottom", "gutestrap"),
 		value: "end",
 	},
 	{
-		label: __("Baseline", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Baseline", "gutestrap"),
 		value: "baseline",
 	},
 ];
 
 const ROW_ALIGNMENT_OPTIONS_XS = [
 	{
-		label: __("Stretch (default)", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Stretch (default)", "gutestrap"),
 		value: "stretch",
 	},
 	...ROW_ALIGNMENT_OPTIONS.slice(2),
@@ -144,15 +138,15 @@ const ROW_ALIGNMENT_OPTIONS_XS = [
 
 const ROW_DIRECTION_OPTIONS = [
 	{
-		label: __("Inherit from smaller (default)", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Inherit from smaller (default)", "gutestrap"),
 		value: "inherit",
 	},
 	{
-		label: __("Normal", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Normal", "gutestrap"),
 		value: "row",
 	},
 	{
-		label: __("Reversed", GUTESTRAP_TEXT_DOMAIN),
+		label: __("Reversed", "gutestrap"),
 		value: "row-reverse",
 	},
 ];
@@ -222,7 +216,7 @@ export const RowEdit = (props) => {
 							<PanelBody>
 								<p>{`${label} layout`}</p>
 								<SelectControl
-									label={__("Default column width", GUTESTRAP_TEXT_DOMAIN)}
+									label={__("Default column width", "gutestrap")}
 									options={[canInherit ? INHERIT_OPTION : COLS_AUTO_OPTION, ...ROW_COLS_OPTIONS]}
 									value={
 										defaultColWidth[breakpoint] != null
@@ -235,7 +229,7 @@ export const RowEdit = (props) => {
 									}}
 								/>
 								<SelectControl
-									label={__("Distribute columns", GUTESTRAP_TEXT_DOMAIN)}
+									label={__("Distribute columns", "gutestrap")}
 									options={canInherit ? ROW_JUSTIFICATION_OPTIONS : ROW_JUSTIFICATION_OPTIONS_XS}
 									value={
 										justification[breakpoint] != null
@@ -248,7 +242,7 @@ export const RowEdit = (props) => {
 									}}
 								/>
 								<SelectControl
-									label={__("Align columns", GUTESTRAP_TEXT_DOMAIN)}
+									label={__("Align columns", "gutestrap")}
 									options={canInherit ? ROW_ALIGNMENT_OPTIONS : ROW_ALIGNMENT_OPTIONS_XS}
 									value={
 										alignment[breakpoint] != null ? alignment[breakpoint] : DEFAULT_ATTRIBUTES.alignment[breakpoint]
@@ -259,13 +253,13 @@ export const RowEdit = (props) => {
 									}}
 								/>
 								<SelectControl
-									label={__("Row direction", GUTESTRAP_TEXT_DOMAIN)}
+									label={__("Row direction", "gutestrap")}
 									options={
 										canInherit
 											? ROW_DIRECTION_OPTIONS
 											: [
 													{
-														label: __("Normal (Default)", GUTESTRAP_TEXT_DOMAIN),
+														label: __("Normal (Default)", "gutestrap"),
 														value: "row",
 													},
 													ROW_DIRECTION_OPTIONS[2],
@@ -284,11 +278,11 @@ export const RowEdit = (props) => {
 					}}
 				</ResponsiveTabs>
 				<PanelBody
-					title={__("Spacing", GUTESTRAP_TEXT_DOMAIN)}
+					title={__("Spacing", "gutestrap")}
 					initialOpen={!!(parseFloat(padding?.top) || parseFloat(padding?.bottom))}
 				>
 					<BaseControl
-						label={__("Padding", GUTESTRAP_TEXT_DOMAIN)}
+						label={__("Padding", "gutestrap")}
 						className={isPaddingLinked ? "spacing-linked" : "spacing-not-linked"}
 					>
 						<Flex align={"flex-end"}>
@@ -297,9 +291,7 @@ export const RowEdit = (props) => {
 									<FlexItem>
 										<UnitControl
 											className="spacing-unit-control"
-											label={
-												isPaddingLinked ? __("Top and bottom", GUTESTRAP_TEXT_DOMAIN) : __("Top", GUTESTRAP_TEXT_DOMAIN)
-											}
+											label={isPaddingLinked ? __("Top and bottom", "gutestrap") : __("Top", "gutestrap")}
 											size="small"
 											value={padding?.top}
 											onChange={(value) => {
@@ -315,7 +307,7 @@ export const RowEdit = (props) => {
 										<FlexItem>
 											<UnitControl
 												className="spacing-unit-control"
-												label={__("Bottom", GUTESTRAP_TEXT_DOMAIN)}
+												label={__("Bottom", "gutestrap")}
 												size="small"
 												value={padding?.bottom}
 												onChange={(value) => {
@@ -328,13 +320,7 @@ export const RowEdit = (props) => {
 								</Flex>
 							</FlexItem>
 							<FlexItem style={{ marginLeft: "auto" }}>
-								<Tooltip
-									text={
-										isPaddingLinked
-											? __("Unlink sides", GUTESTRAP_TEXT_DOMAIN)
-											: __("Link sides", GUTESTRAP_TEXT_DOMAIN)
-									}
-								>
+								<Tooltip text={isPaddingLinked ? __("Unlink sides", "gutestrap") : __("Link sides", "gutestrap")}>
 									<span>
 										<Button
 											onClick={() => setIsPaddingLinked((state) => !state)}
@@ -351,19 +337,19 @@ export const RowEdit = (props) => {
 						</Flex>
 					</BaseControl>
 				</PanelBody>
-				<PanelBody title={__("Gutters", GUTESTRAP_TEXT_DOMAIN)} initialOpen={false}>
+				<PanelBody title={__("Gutters", "gutestrap")} initialOpen={false}>
 					<ToggleControl
 						checked={!noGutters}
-						// help={__("Add gutters between the columns of this row.", GUTESTRAP_TEXT_DOMAIN)}
-						label={__("Horizontal gutters", GUTESTRAP_TEXT_DOMAIN)}
+						// help={__("Add gutters between the columns of this row.", "gutestrap")}
+						label={__("Horizontal gutters", "gutestrap")}
 						onChange={(checked) => {
 							setAttributes({ noGutters: !checked });
 						}}
 					/>
 					<ToggleControl
 						checked={!!verticalGutters}
-						// help={__("Add gutters between the lines of columns of this row.", GUTESTRAP_TEXT_DOMAIN)}
-						label={__("Vertical gutters", GUTESTRAP_TEXT_DOMAIN)}
+						// help={__("Add gutters between the lines of columns of this row.", "gutestrap")}
+						label={__("Vertical gutters", "gutestrap")}
 						onChange={(checked) => {
 							setAttributes({ verticalGutters: !!checked });
 						}}
@@ -372,8 +358,8 @@ export const RowEdit = (props) => {
 			</InspectorControls>
 			<InspectorAdvancedControls>
 				<ToggleControl
-					label={__("Disable block", GUTESTRAP_TEXT_DOMAIN)}
-					help={__("Prevent this block and its contents from rendering.", GUTESTRAP_TEXT_DOMAIN)}
+					label={__("Disable block", "gutestrap")}
+					help={__("Prevent this block and its contents from rendering.", "gutestrap")}
 					checked={disabled}
 					onChange={(checked) => {
 						setAttributes({ disabled: !!checked });

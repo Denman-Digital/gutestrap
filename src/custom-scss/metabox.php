@@ -165,7 +165,7 @@ function gutestrap_add_custom_scss_metabox()
 {
 	add_meta_box(
 		"gutestrap_custom_scss", //id
-		__("Custom SCSS", GUTESTRAP_TEXT_DOMAIN), // title
+		__("Custom SCSS", "gutestrap"), // title
 		"gutestrap_custom_scss_metabox_render", // callback
 		"post",
 		"normal",

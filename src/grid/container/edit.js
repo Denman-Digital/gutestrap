@@ -1,5 +1,3 @@
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
-
 import classNames from "classnames";
 
 const { __ } = wp.i18n;
@@ -44,45 +42,42 @@ function ContainerEdit({
 	return (
 		<Fragment>
 			<InspectorControls>
-				<PanelBody title={__("Responsive Max-Width", GUTESTRAP_TEXT_DOMAIN)}>
+				<PanelBody title={__("Responsive Max-Width", "gutestrap")}>
 					<ToggleControl
-						label={__("Enable fluid-width", GUTESTRAP_TEXT_DOMAIN)}
-						help={__("Allow this container to stretch to full-width for certain breakpoints.", GUTESTRAP_TEXT_DOMAIN)}
+						label={__("Enable fluid-width", "gutestrap")}
+						help={__("Allow this container to stretch to full-width for certain breakpoints.", "gutestrap")}
 						checked={fluid}
 						onChange={(checked) => {
 							setAttributes({ fluid: !!checked });
 						}}
 					/>
 					<SelectControl
-						label={__("Max-width breakpoint", GUTESTRAP_TEXT_DOMAIN)}
-						help={__(
-							"Choose the viewport width at which this container should set a max-width.",
-							GUTESTRAP_TEXT_DOMAIN
-						)}
+						label={__("Max-width breakpoint", "gutestrap")}
+						help={__("Choose the viewport width at which this container should set a max-width.", "gutestrap")}
 						disabled={!fluid}
 						options={[
 							{
-								label: __("576px and up (landscape smartphone, default)", GUTESTRAP_TEXT_DOMAIN),
+								label: __("576px and up (landscape smartphone, default)", "gutestrap"),
 								value: "",
 							},
 							{
-								label: __("768px and up (tablet)", GUTESTRAP_TEXT_DOMAIN),
+								label: __("768px and up (tablet)", "gutestrap"),
 								value: "md",
 							},
 							{
-								label: __("992px and up (landscape tablet)", GUTESTRAP_TEXT_DOMAIN),
+								label: __("992px and up (landscape tablet)", "gutestrap"),
 								value: "lg",
 							},
 							{
-								label: __("1200px and up (laptop)", GUTESTRAP_TEXT_DOMAIN),
+								label: __("1200px and up (laptop)", "gutestrap"),
 								value: "xl",
 							},
 							{
-								label: __("1440px and up (desktop)", GUTESTRAP_TEXT_DOMAIN),
+								label: __("1440px and up (desktop)", "gutestrap"),
 								value: "xxl",
 							},
 							{
-								label: __("No max-width", GUTESTRAP_TEXT_DOMAIN),
+								label: __("No max-width", "gutestrap"),
 								value: "fluid",
 							},
 						]}
@@ -97,7 +92,7 @@ function ContainerEdit({
 					initialOpen={!!background?.image}
 				/>
 				{/* <PanelColorSettings
-					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
+					title={__("Colour Settings", "gutestrap")}
 					initialOpen={false}
 					disableCustomColors={false}
 					disableCustomGradients={true}
@@ -105,13 +100,13 @@ function ContainerEdit({
 						{
 							value: backgroundColor.color,
 							onChange: setBackgroundColor,
-							label: __("Background", GUTESTRAP_TEXT_DOMAIN),
+							label: __("Background", "gutestrap"),
 						},
-						{ value: textColor.color, onChange: setTextColor, label: __("Text", GUTESTRAP_TEXT_DOMAIN) },
+						{ value: textColor.color, onChange: setTextColor, label: __("Text", "gutestrap") },
 					]}
 				/> */}
 				<PanelColorGradientSettings
-					title={__("Colour Settings", GUTESTRAP_TEXT_DOMAIN)}
+					title={__("Colour Settings", "gutestrap")}
 					initialOpen={false}
 					disableCustomColors={!!config.disableCustomColors}
 					disableCustomGradients={!!config.disableCustomGradients}
@@ -121,20 +116,20 @@ function ContainerEdit({
 							gradientValue: gradientValue,
 							onColorChange: setBackgroundColor,
 							onGradientChange: setGradient,
-							label: __("Background", GUTESTRAP_TEXT_DOMAIN),
+							label: __("Background", "gutestrap"),
 						},
 						{
 							colorValue: textColor.color,
 							onColorChange: setTextColor,
-							label: __("Text", GUTESTRAP_TEXT_DOMAIN),
+							label: __("Text", "gutestrap"),
 						},
 					]}
 				/>
 			</InspectorControls>
 			<InspectorAdvancedControls>
 				<ToggleControl
-					label={__("Disable block", GUTESTRAP_TEXT_DOMAIN)}
-					help={__("Prevent this block and its contents from rendering.", GUTESTRAP_TEXT_DOMAIN)}
+					label={__("Disable block", "gutestrap")}
+					help={__("Prevent this block and its contents from rendering.", "gutestrap")}
 					checked={disabled}
 					onChange={(checked) => {
 						setAttributes({ disabled: !!checked });

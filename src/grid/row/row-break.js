@@ -5,23 +5,18 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
-import { __ } from "@wordpress/i18n";
-import { createHigherOrderComponent } from "@wordpress/compose";
+const { __ } = wp.i18n;
+const { createHigherOrderComponent } = wp.compose;
 import classNames from "classnames";
 
 import { ReactComponent as BreakIcon } from "./break-icon.svg";
-
-import { GUTESTRAP_TEXT_DOMAIN } from "../../const";
 import { name as rowBlockName } from "./index";
 
 export const name = "gutestrap/row-break";
 
-export const title = __("Row Break", GUTESTRAP_TEXT_DOMAIN);
+export const title = __("Row Break", "gutestrap");
 
-export const description = __(
-	"Row breaks will cause any following columns to start on a new line.",
-	GUTESTRAP_TEXT_DOMAIN
-);
+export const description = __("Row breaks will cause any following columns to start on a new line.", "gutestrap");
 
 /** @type {string[]} Allowed parent blocks. */
 export const parent = [rowBlockName];
