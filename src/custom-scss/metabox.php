@@ -16,7 +16,7 @@ if (!defined("WP_DEBUG_LOG")) {
  * @param string[] $import_paths Optional. Paths of other Sass files to import before compiling.
  * @return string
  */
-function gutestrap_compile_custom_scss($raw_scss, $import_paths = [])
+function gutestrap_compile_custom_scss(string $raw_scss, array $import_paths = []): string
 {
 	$scssphp = new ScssPhp\Compiler();
 	if (WP_DEBUG) {
@@ -27,7 +27,7 @@ function gutestrap_compile_custom_scss($raw_scss, $import_paths = [])
 	// Set up SCSS compiler (2) - import paths
 	$scssphp->setImportPaths($import_paths);
 	// Compile SCSS -> CSS
-	$css = $scssphp->compileString($raw_scss);
+	$css = $scssphp->compileString($raw_scss)->getCss();
 	if (WP_DEBUG && WP_DEBUG_LOG) {
 		error_log(print_r([
 			"name" => "gutestrap_compile_custom_scss",
@@ -136,7 +136,7 @@ add_action('init', 'gutestrap_register_custom_scss_meta');
  * @param string[] $keys
  * @return string[]
  */
-function gutestrap_add_meta_keys_to_revision($keys)
+function gutestrap_add_meta_keys_to_revision(array $keys): array
 {
 	$keys[] = '_custom_css';
 	$keys[] = '_custom_scss';
@@ -149,11 +149,11 @@ add_filter('wp_post_revision_meta_keys', 'gutestrap_add_meta_keys_to_revision');
  */
 function gutestrap_print_custom_scss_compiled()
 {
-	if (is_admin() || !is_singular()) {
+	if (is_admin() || !apply_filters("gutestrap_print_custom_scss_compiled", is_singular())) {
 		return;
 	}
-	global $post;
-	$css = get_post_meta(get_the_ID(), '_custom_css', true);
+	$post_id = apply_filters("gutestrap_print_custom_scss_compiled_id", get_the_ID());
+	$css = get_post_meta($post_id, '_custom_css', true);
 	echo "<style>$css</style>";
 }
 add_action("wp_print_scripts", "gutestrap_print_custom_scss_compiled", 1);
@@ -163,11 +163,12 @@ add_action("wp_print_scripts", "gutestrap_print_custom_scss_compiled", 1);
  */
 function gutestrap_add_custom_scss_metabox()
 {
+	$post_types = apply_filters("gutestrap_custom_scss_post_types", ["post", "page"]);
 	add_meta_box(
 		"gutestrap_custom_scss", //id
 		__("Custom SCSS", "gutestrap"), // title
 		"gutestrap_custom_scss_metabox_render", // callback
-		apply_filters("gutestrap_add_custom_scss_metabox_screens", null),
+		$post_types,
 		"normal",
 		"default",
 		[
@@ -182,13 +183,15 @@ add_action('add_meta_boxes', 'gutestrap_add_custom_scss_metabox');
  * @param WP_Post $post
  * @return void
  */
-function gutestrap_custom_scss_metabox_render($post)
+function gutestrap_custom_scss_metabox_render(WP_Post $post)
 {
 	$scss = get_post_meta($post->ID, '_custom_scss', true);
 	wp_nonce_field('gutestrap_update_post_scss_metabox', 'gutestrap_update_custom_scss_nonce');
 ?>
 	<textarea name="custom_scss" id="gutestrap_custom_scss_metabox" cols="80" rows="15"><?= esc_textarea($scss); ?></textarea>
-	<script>jQuery(document).trigger("gutestrap_custom_scss_metabox");</script>
+	<script>
+		jQuery(document).trigger("gutestrap_custom_scss_metabox");
+	</script>
 <?php
 }
 
@@ -199,7 +202,7 @@ function gutestrap_custom_scss_metabox_render($post)
  * @param WP_Post $post
  * @return void
  */
-function gutestrap_save_custom_scss_metabox($post_id, $post)
+function gutestrap_save_custom_scss_metabox(int $post_id, WP_Post $post)
 {
 	// Verify user capabilities
 	$edit_cap = get_post_type_object($post->post_type)->cap->edit_post;
@@ -212,7 +215,7 @@ function gutestrap_save_custom_scss_metabox($post_id, $post)
 	}
 	if (array_key_exists('custom_scss', $_POST)) {
 		// Get raw data
-		$raw = $_POST['custom_scss'];
+		$raw = (string) $_POST['custom_scss'];
 		$import_paths = apply_filters("gutestrap_custom_scss_import_paths", [], $post_id, $post);
 		// compile
 		$css = gutestrap_compile_custom_scss($raw, $import_paths);

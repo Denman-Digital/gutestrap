@@ -124,7 +124,7 @@ function gutestrap_block_assets()
 }
 add_action('init', 'gutestrap_block_assets');
 
-function gutestrap_disabled_block_render($block_content, $block)
+function gutestrap_disabled_block_render(string $block_content, array $block): string
 {
 	$blockName = $block["blockName"];
 	$attributes = $block["attrs"];
@@ -166,7 +166,7 @@ function gutenberg_custom_scss_codemirror_assets()
 }
 add_action('admin_enqueue_scripts', 'gutenberg_custom_scss_codemirror_assets');
 
-function gutestrap_block_categories($categories, $post)
+function gutestrap_block_categories(array $categories, $post): array
 {
 	return array_merge(
 		[
