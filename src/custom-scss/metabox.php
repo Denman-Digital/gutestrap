@@ -18,22 +18,21 @@ if (!defined("WP_DEBUG_LOG")) {
  */
 function gutestrap_compile_custom_scss(string $raw_scss, array $import_paths = []): string
 {
-	$scssphp = new ScssPhp\Compiler();
-	if (WP_DEBUG) {
-		$scssphp->setOutputStyle(ScssPhp\OutputStyle::EXPANDED);
-	} else {
-		$scssphp->setOutputStyle(ScssPhp\OutputStyle::COMPRESSED);
-	}
-	// Set up SCSS compiler (2) - import paths
-	$scssphp->setImportPaths($import_paths);
 	// Compile SCSS -> CSS
-	$css = $scssphp->compileString($raw_scss)->getCss();
-	if (WP_DEBUG && WP_DEBUG_LOG) {
-		error_log(print_r([
-			"name" => "gutestrap_compile_custom_scss",
-			"input" => $raw_scss,
-			"output" => $css
-		], true));
+	try {
+		$scssphp = new ScssPhp\Compiler();
+		if (WP_DEBUG) {
+			$scssphp->setOutputStyle(ScssPhp\OutputStyle::EXPANDED);
+		} else {
+			$scssphp->setOutputStyle(ScssPhp\OutputStyle::COMPRESSED);
+		}
+		$scssphp->setImportPaths($import_paths);
+		$css = $scssphp->compileString($raw_scss)->getCss();
+	} catch (\Exception $_e) {
+		$css = "/* " . __("Unable to compile content", "gutestrap") . " */";
+		if (WP_DEBUG && WP_DEBUG_LOG) {
+			error_log(__("gutestrap: scssphp: Unable to compile content", "gutestrap"));
+		}
 	}
 	return $css;
 }
