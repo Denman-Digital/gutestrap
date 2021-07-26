@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '7ab013952eeee44df4d1348d7214cbc1a9cadd92',
+    'reference' => '6bc494c0ecc418744f4c528d6aa20e8c8343ef27',
     'name' => 'paulthewalton/gutestrap',
   ),
   'versions' => 
@@ -27,7 +27,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '7ab013952eeee44df4d1348d7214cbc1a9cadd92',
+      'reference' => '6bc494c0ecc418744f4c528d6aa20e8c8343ef27',
     ),
     'scssphp/scssphp' => 
     array (
