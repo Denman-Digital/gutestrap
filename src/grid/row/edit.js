@@ -1,18 +1,18 @@
 import classNames from "classnames";
-import { __, _x } from "@wordpress/i18n";
-import { Fragment, useState } from "@wordpress/element";
-import { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
-import {
+const { __, _x } = wp.i18n;
+const { Fragment, useState } = wp.element;
+const { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } = wp.blockEditor;
+const {
 	PanelBody,
 	SelectControl,
 	ToggleControl,
-	__experimentalUnitControl as UnitControl,
+	__experimentalUnitControl: UnitControl,
 	Flex,
 	FlexItem,
 	Button,
 	Tooltip,
 	BaseControl,
-} from "@wordpress/components";
+} = wp.components;
 
 // import { toNumber } from "js-utils";
 function toNumber(value, fallback = 0) {

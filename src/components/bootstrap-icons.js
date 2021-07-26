@@ -1,6 +1,5 @@
-import { __ } from "@wordpress/i18n";
-
-import { Fragment } from "@wordpress/element";
+const { __ } = wp.i18n;
+const { Fragment } = wp.element;
 
 import { ReactComponent as PhonePortraitIcon } from "bootstrap-icons/icons/phone.svg";
 import { ReactComponent as PhoneLandscapeIcon } from "bootstrap-icons/icons/phone-landscape.svg";

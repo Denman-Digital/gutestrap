@@ -37,15 +37,8 @@ function gutestrap_block_assets()
 	wp_register_style(
 		'gutestrap-style-css',
 		plugins_url('dist/blocks.style.build.css', dirname(__FILE__)),
-		is_admin() ? ['wp-editor', "gutestrap-fontawesome"] : ["gutestrap-fontawesome"],
+		null,
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css') // Version: File modification time.
-	);
-
-	wp_register_style(
-		'gutestrap-fontawesome',
-		plugins_url('assets/fontawesome-pro@5.15.1/css/all.css', dirname(__FILE__)), // Block style CSS.
-		is_admin() ? ['wp-editor'] : null, // Dependency to include the CSS after it.
-		"5.15.1"
 	);
 
 	// Register block editor script for backend.
@@ -56,10 +49,8 @@ function gutestrap_block_assets()
 			'wp-blocks',
 			'wp-i18n',
 			'wp-element',
-			'wp-editor',
 			"wp-components",
 			"wp-plugins",
-			"wp-edit-post",
 			"wp-theme-plugin-editor",
 			"lodash"
 		],
@@ -71,7 +62,7 @@ function gutestrap_block_assets()
 	wp_register_style(
 		'gutestrap-block-editor-css',
 		plugins_url('dist/blocks.editor.build.css', dirname(__FILE__)), // Block editor CSS.
-		['wp-edit-blocks'], // Dependency to include the CSS after it.
+		null, // Dependency to include the CSS after it.
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.editor.build.css') // Version: File modification time.
 	);
 
@@ -166,7 +157,7 @@ function gutenberg_custom_scss_codemirror_assets()
 }
 add_action('admin_enqueue_scripts', 'gutenberg_custom_scss_codemirror_assets');
 
-function gutestrap_block_categories(array $categories, $post): array
+function gutestrap_block_categories(array $categories): array
 {
 	return array_merge(
 		[
@@ -184,4 +175,4 @@ function gutestrap_block_categories(array $categories, $post): array
 		]
 	);
 }
-add_filter('block_categories', 'gutestrap_block_categories', 10, 2);
+add_filter('block_categories_all', 'gutestrap_block_categories', 10);

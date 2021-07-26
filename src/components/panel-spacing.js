@@ -1,7 +1,5 @@
 const { __ } = wp.i18n;
-const { PanelBody } = wp.components;
-
-import { __experimentalBoxControl as BoxControl } from "@wordpress/components";
+const { PanelBody, __experimentalBoxControl: BoxControl } = wp.components;
 
 export const PanelSpacing = ({ initialOpen = true, spacingSettings = [] }) => {
 	return (

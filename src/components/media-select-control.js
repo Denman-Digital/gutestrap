@@ -6,11 +6,11 @@ import classnames from "classnames";
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from "@wordpress/i18n";
-import { MediaUpload, MediaUploadCheck } from "@wordpress/block-editor";
-import { Button, BaseControl, Flex, FlexItem } from "@wordpress/components";
+const { __, sprintf } = wp.i18n;
+const { MediaUpload, MediaUploadCheck } = wp.blockEditor;
+const { Button, BaseControl, Flex, FlexItem } = wp.components;
 const { Fragment } = wp.element;
-import { withInstanceId } from "@wordpress/compose";
+const { withInstanceId } = wp.compose;
 
 let MediaSelectControl = function ({
 	label,

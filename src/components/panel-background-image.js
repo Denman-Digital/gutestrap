@@ -1,5 +1,4 @@
-import { sprintf } from "sprintf-js";
-const { __ } = wp.i18n;
+const { __, sprintf } = wp.i18n;
 const { SelectControl, ToggleControl, PanelBody } = wp.components;
 const { Fragment, useEffect } = wp.element;
 import { MediaSelectControl } from "./media-select-control";

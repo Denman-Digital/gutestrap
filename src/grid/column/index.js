@@ -5,7 +5,7 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
-import { __ } from "@wordpress/i18n";
+const { __ } = wp.i18n;
 import { ColumnEdit as edit } from "./edit";
 import { ColumnRender as save, deprecated } from "./render";
 import { ReactComponent as icon } from "./icon.svg";

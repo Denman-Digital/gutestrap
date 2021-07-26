@@ -1,9 +1,8 @@
-import { __, _n } from "@wordpress/i18n";
-import { sprintf } from "sprintf-js";
 import classNames from "classnames";
-import { select } from "@wordpress/data";
-import { Fragment, useState } from "@wordpress/element";
-import {
+const { __, _n, sprintf } = wp.i18n;
+const { select } = wp.data;
+const { Fragment, useState } = wp.element;
+const {
 	SelectControl,
 	PanelBody,
 	ToolbarButton,
@@ -13,21 +12,20 @@ import {
 	Flex,
 	FlexItem,
 	Button,
-	__experimentalBoxControl as BoxControl,
-	__experimentalUnitControl as UnitControl,
-} from "@wordpress/components";
-import { link, linkOff } from "@wordpress/icons";
-
-import {
+	__experimentalBoxControl: BoxControl,
+	__experimentalUnitControl: UnitControl,
+} = wp.components;
+const {
 	InspectorControls,
 	InnerBlocks,
 	BlockControls,
 	withColors,
-	__experimentalBlockAlignmentMatrixToolbar as BlockAlignmentMatrixToolbar,
-	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
-	__experimentalUseGradient as useGradient,
-} from "@wordpress/block-editor";
-import { createHigherOrderComponent } from "@wordpress/compose";
+	__experimentalBlockAlignmentMatrixControl: BlockAlignmentMatrixControl,
+	__experimentalPanelColorGradientSettings: PanelColorGradientSettings,
+	__experimentalUseGradient: useGradient,
+} = wp.blockEditor;
+const { createHigherOrderComponent } = wp.compose;
+import { link, linkOff } from "@wordpress/icons";
 
 function toNumber(value, fallback = 0) {
 	const number = Number(value);
@@ -336,24 +334,6 @@ function ColumnEdit({
 					disableCustomGradients={!!config.disableCustomGradients}
 					settings={colorSettings}
 				/>
-				{/* <PanelSpacing
-					initialOpen={
-						!!(
-							parseFloat(padding?.top) ||
-							parseFloat(padding?.right) ||
-							parseFloat(padding?.bottom) ||
-							parseFloat(padding?.left)
-						)
-					}
-					spacingSettings={[
-						{
-							values: padding,
-							onChange: (value) => setAttributes({ padding: value }),
-							label: __("Padding", "gutestrap"),
-						},
-					]}
-				/> */}
-
 				<PanelBody
 					title={__("Spacing", "gutestrap")}
 					initialOpen={
@@ -457,7 +437,7 @@ function ColumnEdit({
 						icon={() => <ExpandIcon className={BOOTSTRAP_ICON_CLASSES} />}
 					/>
 				</ToolbarGroup>
-				<BlockAlignmentMatrixToolbar
+				<BlockAlignmentMatrixControl
 					label={__("Change content alignment", "gutestrap")}
 					value={contentAlignment.xs}
 					onChange={(value) => {

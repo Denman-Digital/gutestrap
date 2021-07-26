@@ -61,16 +61,16 @@ class Gutestrap_Settings
 	 *
 	 * @since 1.2.0
 	 */
-	public static function add_admin_menu()
-	{
-		add_menu_page(
-			esc_html__("Gutestrap Settings", "gutestrap"),
-			esc_html__("Gutestrap Settings", "gutestrap"),
-			"manage_options",
-			self::MENU_SLUG,
-			array("Gutestrap_Settings", "render")
-		);
-	}
+	// public static function add_admin_menu()
+	// {
+	// 	add_menu_page(
+	// 		esc_html__("Gutestrap Settings", "gutestrap"),
+	// 		esc_html__("Gutestrap Settings", "gutestrap"),
+	// 		"manage_options",
+	// 		self::MENU_SLUG,
+	// 		array("Gutestrap_Settings", "render")
+	// 	);
+	// }
 
 	/**
 	 * Register a setting and its sanitization callback.
@@ -82,81 +82,81 @@ class Gutestrap_Settings
 	 */
 	public static function register_settings()
 	{
-		register_setting(self::MENU_SLUG, self::SETTING_KEY, [
-			"type" => "array",
-			"description" => "",
-			"sanitize_callback" => ["Gutestrap_Settings", "sanitize"],
-			"default" => []
-		]);
+		// register_setting(self::MENU_SLUG, self::SETTING_KEY, [
+		// 	"type" => "array",
+		// 	"description" => "",
+		// 	"sanitize_callback" => ["Gutestrap_Settings", "sanitize"],
+		// 	"default" => []
+		// ]);
 
-		add_settings_section(
-			"gutestrap_section_developers",
-			__("The Matrix has you.", "gutestrap"),
-			array("Gutestrap_Settings", "gutestrap_section_developers_callback"),
-			self::MENU_SLUG
-		);
+		// add_settings_section(
+		// 	"gutestrap_section_developers",
+		// 	__("The Matrix has you.", "gutestrap"),
+		// 	array("Gutestrap_Settings", "gutestrap_section_developers_callback"),
+		// 	self::MENU_SLUG
+		// );
 
-		self::add_settings_field(
-			'example_text',
-			'gutestrap_section_developers',
-			__('Text', "gutestrap"),
-			['wporg_custom_data' => 'custom'],
-		);
+		// self::add_settings_field(
+		// 	'example_text',
+		// 	'gutestrap_section_developers',
+		// 	__('Text', "gutestrap"),
+		// 	['wporg_custom_data' => 'custom'],
+		// );
 
-		self::add_settings_field(
-			'example_select',
-			'gutestrap_section_developers',
-			__('Select', "gutestrap"),
-			[
-				"type" => "select",
-				'options' => [
-					"Sally" => "fields",
-					"Billy" => "pastures",
-					"Tommy" => [
-						"Monkey" => "monkey",
-						"chunky"
-					]
-				],
-				"multiple"
-			],
-		);
+		// self::add_settings_field(
+		// 	'example_select',
+		// 	'gutestrap_section_developers',
+		// 	__('Select', "gutestrap"),
+		// 	[
+		// 		"type" => "select",
+		// 		'options' => [
+		// 			"Sally" => "fields",
+		// 			"Billy" => "pastures",
+		// 			"Tommy" => [
+		// 				"Monkey" => "monkey",
+		// 				"chunky"
+		// 			]
+		// 		],
+		// 		"multiple"
+		// 	],
+		// );
 
-		self::add_settings_field(
-			'example_textarea',
-			'gutestrap_section_developers',
-			__('TextArea', "gutestrap"),
-			[
-				"type" => "textarea",
-			],
-		);
-		self::add_settings_field(
-			'example_radio',
-			'gutestrap_section_developers',
-			__('Radios', "gutestrap"),
-			[
-				"type" => "radio",
-				'options' => [
-					"Sally" => "fields",
-					"Billy" => "pastures",
-					"Monkey" => "monkey",
-					"chunky"
-				]
-			],
-		);
-		self::add_settings_field(
-			'example_checkbox',
-			'gutestrap_section_developers',
-			__('Checkboxes', "gutestrap"),
-			[
-				"type" => "checkbox",
-				'options' => [
-					"Sally" => "fields",
-					"Billy" => "pastures",
-					"Monkey" => "monkey",
-					"chunky"
-				]
-			],
-		);
+		// self::add_settings_field(
+		// 	'example_textarea',
+		// 	'gutestrap_section_developers',
+		// 	__('TextArea', "gutestrap"),
+		// 	[
+		// 		"type" => "textarea",
+		// 	],
+		// );
+		// self::add_settings_field(
+		// 	'example_radio',
+		// 	'gutestrap_section_developers',
+		// 	__('Radios', "gutestrap"),
+		// 	[
+		// 		"type" => "radio",
+		// 		'options' => [
+		// 			"Sally" => "fields",
+		// 			"Billy" => "pastures",
+		// 			"Monkey" => "monkey",
+		// 			"chunky"
+		// 		]
+		// 	],
+		// );
+		// self::add_settings_field(
+		// 	'example_checkbox',
+		// 	'gutestrap_section_developers',
+		// 	__('Checkboxes', "gutestrap"),
+		// 	[
+		// 		"type" => "checkbox",
+		// 		'options' => [
+		// 			"Sally" => "fields",
+		// 			"Billy" => "pastures",
+		// 			"Monkey" => "monkey",
+		// 			"chunky"
+		// 		]
+		// 	],
+		// );
 	}
 
 	private static function add_settings_field($name, $section, $title, $args = [])

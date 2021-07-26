@@ -1,7 +1,6 @@
 const { registerPlugin } = wp.plugins;
 const { PluginDocumentSettingPanel } = wp.editPost;
 const { useState } = wp.element;
-const { __ } = wp.i18n;
 const { Button, Modal, Flex, FlexItem } = wp.components;
 // const { initialize: initializeCodeMirror } = wp.codeEditor;
 const { useSelect } = wp.data;

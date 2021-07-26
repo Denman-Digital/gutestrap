@@ -1,4 +1,4 @@
-import { __ } from "@wordpress/i18n";
+const { __ } = wp.i18n;
 import { ContainerEdit as edit } from "./edit";
 import { ContainerRender as save, deprecated } from "./render";
 import { ReactComponent as icon } from "bootstrap-icons/icons/view-list.svg";

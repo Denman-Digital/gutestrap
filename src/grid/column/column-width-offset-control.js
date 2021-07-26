@@ -1,8 +1,5 @@
-const { __, _n } = wp.i18n;
-
-import { sprintf } from "sprintf-js";
 import classnames from "classnames";
-
+const { __, _n, sprintf } = wp.i18n;
 const { useState, useEffect, useRef } = wp.element;
 const { BaseControl, SelectControl } = wp.components;
 
