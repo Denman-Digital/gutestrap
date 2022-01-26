@@ -1,7 +1,7 @@
 import { _x } from "@wordpress/i18n";
 import { ToolbarGroup } from "@wordpress/components";
 
-import "./editor.scss";
+//
 
 import { ReactComponent as AlignItemsTopIcon } from "./align-items-top.svg";
 import { ReactComponent as AlignItemsCenterIcon } from "./align-items-center.svg";

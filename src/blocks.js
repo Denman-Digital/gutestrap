@@ -9,9 +9,6 @@
  * Webpack is compiling as the input file.
  */
 
-import "./editor.scss";
-import "./style.scss";
-
 import "./grid/";
 import "./block-clear/";
 import "./custom-scss/";

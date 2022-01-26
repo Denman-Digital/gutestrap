@@ -5,6 +5,8 @@
  * which makes it higher in priority.
  */
 
+@use "common" as *;
+
 html {
 	box-sizing: border-box;
 	-ms-overflow-style: scrollbar;
@@ -19,6 +21,19 @@ html {
 .gutestrap-enabled #editor .wp-block {
 	max-width: unset;
 }
+
+$include-column-box-sizing: true !default;
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+@import "../node_modules/bootstrap/scss/mixins/lists";
+@import "../node_modules/bootstrap/scss/mixins/breakpoints";
+@import "../node_modules/bootstrap/scss/mixins/container";
+@import "../node_modules/bootstrap/scss/mixins/grid";
+@import "../node_modules/bootstrap/scss/mixins/utilities";
+
+@import "../node_modules/bootstrap/scss/vendor/rfs";
 
 // Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
 // Makes the @content apply to the given breakpoint and wider.
@@ -51,21 +66,76 @@ html {
 	}
 }
 
+// @import "../node_modules/bootstrap/scss/root";
+
+@import "../node_modules/bootstrap/scss/containers";
 @import "../node_modules/bootstrap/scss/grid";
 
+@import "../node_modules/bootstrap/scss/utilities";
+// Only use the utilities we need
+// stylelint-disable-next-line scss/dollar-variable-default
+$utilities: map-get-multiple(
+	$utilities,
+	(
+		// "display",
+		"order",
+		"flex",
+		"flex-direction",
+		"flex-grow",
+		"flex-shrink",
+		"flex-wrap",
+		"justify-content",
+		"align-items",
+		"align-content",
+		"align-self",
+		// "margin",
+		// "margin-x",
+		// "margin-y",
+		// "margin-top",
+		// "margin-end",
+		// "margin-bottom",
+		// "margin-start",
+		// "negative-margin",
+		// "negative-margin-x",
+		// "negative-margin-y",
+		// "negative-margin-top",
+		// "negative-margin-end",
+		// "negative-margin-bottom",
+		// "negative-margin-start",
+		// "padding",
+		// "padding-x",
+		// "padding-y",
+		// "padding-top",
+		// "padding-end",
+		// "padding-bottom",
+		// "padding-start",
+	)
+);
+
+@import "../node_modules/bootstrap/scss/utilities/api";
+
 // Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
-.vertical-gutters {
-	margin-top: -($grid-gutter-width / 2);
-	margin-bottom: -($grid-gutter-width / 2);
+.row.no-gutters {
+	margin-left: 0;
+	margin-right: 0;
 
 	> .col,
 	> [class*="col-"] {
-		padding-top: ($grid-gutter-width / 2);
-		padding-bottom: ($grid-gutter-width / 2);
+		padding-left: 0;
+		padding-right: 0;
 	}
 }
 
-@import "../node_modules/bootstrap/scss/utilities/flex";
+.vertical-gutters {
+	margin-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+	margin-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+
+	> .col,
+	> [class*="col-"] {
+		padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+		padding-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+	}
+}
 
 @each $breakpoint in map-keys($grid-breakpoints) {
 	@include media-breakpoint-up($breakpoint) {
@@ -326,7 +396,7 @@ html {
 			@include make-row();
 
 			> .block-list-appender {
-				padding-left: $grid-gutter-width / 2;
+				padding-left: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 				width: 100%;
 				max-width: 100%;
 				flex-basis: 100%;
@@ -350,13 +420,13 @@ html {
 		}
 		// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 		&.vertical-gutters > * > .block-editor-block-list__layout {
-			margin-top: -($grid-gutter-width / 2);
-			margin-bottom: -($grid-gutter-width / 2);
+			margin-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+			margin-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
 
 			> .col,
 			> [class*="col-"] {
-				padding-top: ($grid-gutter-width / 2);
-				padding-bottom: ($grid-gutter-width / 2);
+				padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 			}
 		}
 	}
@@ -370,8 +440,8 @@ html {
 			@for $count from 1 through $grid-row-columns {
 				.row-cols#{$infix}-#{$count} > * > .block-editor-block-list__layout {
 					> * {
-						flex: 0 0 100% / $count;
-						max-width: 100% / $count;
+						flex: 0 0 calc(100% / #{$count});
+						max-width: calc(100% / #{$count});
 					}
 				}
 			}
@@ -418,6 +488,80 @@ html {
 			&.flex#{$infix}-row-reverse > * > .block-editor-block-list__layout {
 				flex-direction: row-reverse !important;
 			}
+		}
+	}
+}
+
+//==============================================================================
+// Components
+//==============================================================================
+.bi {
+	&-block-control-icon {
+		font-size: 1.25rem;
+		flex: 0 0 auto;
+	}
+}
+
+.components-dropdown-menu__popover.popover-align-text-start {
+	.components-dropdown-menu__menu > button {
+		text-align: left;
+		text-align: start;
+	}
+}
+
+//==============================================================================
+// Block Clear
+//==============================================================================
+hr.gutestrap-block-clear-placeholder {
+	color: grey;
+
+	&::after {
+		content: "\f314";
+		font-family: dashicons;
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		padding: 0 0.5em;
+		background-color: white;
+	}
+}
+
+.wp-block[data-type="gutestrap/clear"] {
+	clear: both !important;
+}
+
+//==============================================================================
+// Custom SCSS
+//==============================================================================
+.block-editor-block-list__block[data-title] {
+	&[data-type="gutestrap/custom-scss"] {
+		font-size: initial;
+		margin: auto;
+		border: thin dashed lightgrey;
+		padding: 0.5em;
+		padding-left: 0;
+		border-radius: 0.5em;
+		background: whitesmoke;
+		max-width: 120ch !important;
+
+		&::before {
+			padding: 0 0 0.75em 1em;
+		}
+	}
+}
+
+.gutestrap-custom-scss-editor {
+	font-size: initial;
+
+	.components-modal__frame & {
+		textarea,
+		.CodeMirror {
+			width: 80vw;
+			height: 50vh;
+			min-height: 10em;
+			max-width: 120ch;
 		}
 	}
 }

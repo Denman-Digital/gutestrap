@@ -1,7 +1,6 @@
 import { __, _x } from "@wordpress/i18n";
 import { ToolbarGroup } from "@wordpress/components";
 
-import "./editor.scss";
 
 import { ReactComponent as JustifyStartIcon } from "./justify-start.svg";
 import { ReactComponent as JustifyCenterIcon } from "./justify-center.svg";

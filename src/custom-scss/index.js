@@ -7,7 +7,6 @@ const { useSelect } = wp.data;
 const { useEntityProp } = wp.coreData;
 
 import { CustomScssEditor } from "./block";
-import "./editor.scss";
 
 const AdvancedDocumentSettingPanel = () => {
 	const postType = useSelect((select) => select("core/editor").getCurrentPostType(), []);
