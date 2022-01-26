@@ -1,42 +1,56 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-main',
-    'version' => 'dev-main',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'type' => 'project',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => '57ed34808e55caccf316322f2e9274facf0b8433',
+        'name' => 'paulthewalton/gutestrap',
+        'dev' => true,
     ),
-    'reference' => '6bc494c0ecc418744f4c528d6aa20e8c8343ef27',
-    'name' => 'paulthewalton/gutestrap',
-  ),
-  'versions' => 
-  array (
-    'denman-digital/wp-utils' => 
-    array (
-      'pretty_version' => '1.0.6',
-      'version' => '1.0.6.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'c8a9af6fcd6f95a6ca62266b098c524e9f7fd606',
+    'versions' => array(
+        'denman-digital/wp-utils' => array(
+            'pretty_version' => '1.0.6',
+            'version' => '1.0.6.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../denman-digital/wp-utils',
+            'aliases' => array(),
+            'reference' => 'c8a9af6fcd6f95a6ca62266b098c524e9f7fd606',
+            'dev_requirement' => false,
+        ),
+        'giacocorsiglia/wordpress-stubs' => array(
+            'dev_requirement' => true,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
+        'paulthewalton/gutestrap' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '57ed34808e55caccf316322f2e9274facf0b8433',
+            'dev_requirement' => false,
+        ),
+        'php-stubs/wordpress-stubs' => array(
+            'pretty_version' => 'v5.9.0',
+            'version' => '5.9.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-stubs/wordpress-stubs',
+            'aliases' => array(),
+            'reference' => '0fa8dd9a1bd2a1b60e85afc6c798fca1f599cc1b',
+            'dev_requirement' => true,
+        ),
+        'scssphp/scssphp' => array(
+            'pretty_version' => 'v1.10.0',
+            'version' => '1.10.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../scssphp/scssphp',
+            'aliases' => array(),
+            'reference' => '9699a52a862da4efb43985943afa17150155dd3d',
+            'dev_requirement' => false,
+        ),
     ),
-    'paulthewalton/gutestrap' => 
-    array (
-      'pretty_version' => 'dev-main',
-      'version' => 'dev-main',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '6bc494c0ecc418744f4c528d6aa20e8c8343ef27',
-    ),
-    'scssphp/scssphp' => 
-    array (
-      'pretty_version' => 'v1.5.2',
-      'version' => '1.5.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '6fe16f169f55f5e793474fb210aac0a4481619e5',
-    ),
-  ),
 );
