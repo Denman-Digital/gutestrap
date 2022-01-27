@@ -390,10 +390,18 @@ $utilities: map-get-multiple(
 
 		> .block-editor-inner-blocks {
 			max-width: 100%;
+			padding-right: 0;
+			padding-left: 0;
 		}
 
 		> * > .block-editor-block-list__layout {
 			@include make-row();
+
+			> .col,
+			> [class*="col-"] {
+				padding-left: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-right: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+			}
 
 			> .block-list-appender {
 				padding-left: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
