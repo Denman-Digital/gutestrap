@@ -1,22 +1,20 @@
-import { _x } from "@wordpress/i18n";
-import { ToolbarGroup } from "@wordpress/components";
+const { _x } = wp.i18n;
+const { ToolbarGroup } = wp.components;
 
-//
+import { BOOTSTRAP_ICON_CLASSES } from "../../_common";
 
-import { ReactComponent as AlignItemsTopIcon } from "./align-items-top.svg";
-import { ReactComponent as AlignItemsCenterIcon } from "./align-items-center.svg";
-import { ReactComponent as AlignItemsBottomIcon } from "./align-items-bottom.svg";
-import { ReactComponent as AlignItemsBaselineIcon } from "./align-items-baseline.svg";
-import { ReactComponent as AlignItemsStretchIcon } from "./align-items-stretch.svg";
+import AlignItemsTopIcon from "./align-items-top.svg";
+import AlignItemsCenterIcon from "./align-items-center.svg";
+import AlignItemsBottomIcon from "./align-items-bottom.svg";
+import AlignItemsBaselineIcon from "./align-items-baseline.svg";
+import AlignItemsStretchIcon from "./align-items-stretch.svg";
 
-import { ReactComponent as AlignSelfNoneIcon } from "./align-self-none.svg";
-import { ReactComponent as AlignSelfBaselineIcon } from "./align-self-baseline.svg";
-import { ReactComponent as AlignSelfStretchIcon } from "./align-self-stretch.svg";
-import { ReactComponent as AlignSelfTopIcon } from "bootstrap-icons/icons/align-top.svg";
-import { ReactComponent as AlignSelfCenterIcon } from "bootstrap-icons/icons/align-middle.svg";
-import { ReactComponent as AlignSelfBottomIcon } from "bootstrap-icons/icons/align-bottom.svg";
-
-export const BOOTSTRAP_ICON_CLASSES = "bi bi-block-control-icon";
+import AlignSelfNoneIcon from "./align-self-none.svg";
+import AlignSelfBaselineIcon from "./align-self-baseline.svg";
+import AlignSelfStretchIcon from "./align-self-stretch.svg";
+import AlignSelfTopIcon from "bootstrap-icons/icons/align-top.svg";
+import AlignSelfCenterIcon from "bootstrap-icons/icons/align-middle.svg";
+import AlignSelfBottomIcon from "bootstrap-icons/icons/align-bottom.svg";
 
 export const FLEX_ALIGN_ITEMS_OPTIONS = [
 	{

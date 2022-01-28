@@ -16,7 +16,7 @@ import "./custom-scss/";
 const { excludedPostTypes } = gutestrapGlobal.config;
 
 const { select } = wp.data;
-const { getBlockTypes, unregisterBlockType } = wp.blocks;
+const { getBlockTypes, unregisterBlockType, unregisterBlockVariation } = wp.blocks;
 const { debounce } = lodash;
 
 /**
@@ -39,8 +39,14 @@ wp.data.subscribe(() => {
 		if (excludedPostTypes[postType]) {
 			wp.domReady(clearBlockTypes);
 		} else {
-			wp.domReady(() => document.body.classList.add("gutestrap-enabled"));
+			wp.domReady(() => {
+				document.body.classList.add("gutestrap-enabled");
+			});
 		}
 	}
 	currentPostType = postType;
+});
+
+wp.domReady(() => {
+	unregisterBlockVariation("core/group", "group-row");
 });

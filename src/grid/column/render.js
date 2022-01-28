@@ -267,15 +267,8 @@ const v6 = {
 		_isExample: { type: "boolean" },
 	},
 	save: ({ attributes, className }) => {
-		const {
-			background,
-			textColor,
-			customTextColor,
-			backgroundColor,
-			customBackgroundColor,
-			padding,
-			margin,
-		} = attributes;
+		const { background, textColor, customTextColor, backgroundColor, customBackgroundColor, padding, margin } =
+			attributes;
 		const innerStyle = {
 			paddingTop: padding?.top,
 			paddingRight: padding?.right,

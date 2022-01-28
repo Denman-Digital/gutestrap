@@ -1,47 +1,45 @@
-/* eslint-disable valid-jsdoc */
-/**
- * Tasks for Gulp task runner.
+/** * Tasks for Gulp task runner.
  * @module Tasks
  * @author Paul Walton
  */
 
-/* eslint-env node, es6 */
 /* jshint ignore:start */
 
-const glob = require("glob");
-const path = require("path");
-const through2 = require("through2");
+import glob from "glob";
+import path from "path";
+import through2 from "through2";
 
 // Gulp
-const gulp = require("gulp");
-const ifThen = require("gulp-if");
-const plumber = require("gulp-plumber");
-const lazypipe = require("lazypipe");
-const rename = require("gulp-rename");
-const gulpReplace = require("gulp-replace");
+import gulp from "gulp";
+import ifThen from "gulp-if";
+import plumber from "gulp-plumber";
+import lazypipe from "lazypipe";
+import rename from "gulp-rename";
 
 // Console & Logging
-const log = require("fancy-log");
-const chalk = require("chalk");
-const size = require("gulp-size");
-const humanize = require("humanize-duration");
+import log from "fancy-log";
+import chalk from "chalk";
+import size from "gulp-size";
+import humanize from "humanize-duration";
 
 // CSS
-const sass = require("gulp-sass")(require("sass"));
-const postCSS = require("gulp-postcss");
-const autoprefixer = require("autoprefixer");
-const cleanCSS = require("gulp-clean-css");
+import dartSass from "sass";
+import gulpSass from "gulp-sass";
+const sass = gulpSass(dartSass);
+import postCSS from "gulp-postcss";
+import autoprefixer from "autoprefixer";
+import cleanCSS from "gulp-clean-css";
 
 // JS
-const eslint = require("gulp-eslint");
-const rollup = require("rollup");
-const { babel } = require("@rollup/plugin-babel");
-const { nodeResolve } = require("@rollup/plugin-node-resolve");
-const json = require("@rollup/plugin-json");
-const commonjs = require("@rollup/plugin-commonjs");
-const replace = require("@rollup/plugin-replace");
-const terser = require("gulp-terser-js");
-const svgr = require("@svgr/rollup");
+import eslint from "gulp-eslint";
+import { rollup, watch as rollupWatch } from "rollup";
+import { babel } from "@rollup/plugin-babel";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import json from "@rollup/plugin-json";
+import commonjs from "@rollup/plugin-commonjs";
+import replace from "@rollup/plugin-replace";
+import { terser } from "rollup-plugin-terser";
+import svgr from "@svgr/rollup";
 
 const env = process.env.NODE_ENV;
 
@@ -86,7 +84,6 @@ if (isProductionMode) {
 }
 
 let isWatching = false;
-const imgExts = "png|jpeg|jpg|gif|svg";
 
 /**
  * Preprocess CSS.
@@ -94,21 +91,18 @@ const imgExts = "png|jpeg|jpg|gif|svg";
  * @global
  */
 export function styles() {
-	return (
-		gulp
-			.src(["style.scss", "editor.scss"], { cwd: "src", sourcemaps: true })
-			.pipe(pipelines.errorHandler())
-			.pipe(sass({ errLogToConsole: true }))
-			.pipe(postCSS([autoprefixer()]))
-			.pipe(pipelines.updateFileMTime())
-			.pipe(
-				cleanCSS({ compatibility: "*" }) // ~= IE 10+
-			)
-			.pipe(rename({ prefix: "blocks.", suffix: ".build" }))
-			.pipe(size({ showFiles: true, showTotal: false, title: "Clean CSS ->" }))
-			// .pipe(gulp.dest("dist", { sourcemaps: true }))
-			.pipe(gulp.dest("dist", { sourcemaps: "." }))
-	);
+	return gulp
+		.src(["style.scss", "editor.scss"], { cwd: "src", sourcemaps: true })
+		.pipe(pipelines.errorHandler())
+		.pipe(sass({ errLogToConsole: true }))
+		.pipe(postCSS([autoprefixer()]))
+		.pipe(pipelines.updateFileMTime())
+		.pipe(
+			cleanCSS({ compatibility: "*" }) // ~= IE 10+
+		)
+		.pipe(rename({ prefix: "blocks.", suffix: ".build" }))
+		.pipe(size({ showFiles: true, showTotal: false, title: "Clean CSS ->" }))
+		.pipe(gulp.dest("dist", { sourcemaps: isProductionMode }));
 }
 
 /**
@@ -174,12 +168,20 @@ const rollupOptions = {
 	output: {
 		format: "iife",
 		dir: "dist",
-		sourcemap: "inline",
+		entryFileNames: "[name].build.js",
+		sourcemap: !isProductionMode && "inline",
 		sourcemapExcludeSources: true,
 		globals: {
 			jquery: "jQuery",
 			wp: "wp",
 		},
+		compact: isProductionMode,
+		plugins: [
+			terser({
+				compress: { passes: 2 },
+				mangle: isProductionMode,
+			}),
+		],
 	},
 };
 
@@ -193,17 +195,16 @@ const rollupOptions = {
 export function bundleScripts() {
 	return Promise.all(
 		glob.sync("!(_)*.@(js|jsx)", { cwd: "src" }).map((file) => {
-			return rollup
-				.rollup({
-					input: `src/${file}`,
-					...rollupOptions.input,
-				})
-				.then((bundle) => {
-					return bundle.write({
-						name: camelCase(path.basename(file)).replace(/\.js/i, "Js"),
-						...rollupOptions.output,
-					});
+			return rollup({
+				input: `src/${file}`,
+				...rollupOptions.input,
+			}).then((bundle) => {
+				return bundle.write({
+					name: camelCase(file).replace(/\.js/i, "Js"),
+					...rollupOptions.output,
 				});
+			});
+			// .then((x) => console.dir(x));
 		})
 	);
 }
@@ -217,11 +218,11 @@ export function bundleScripts() {
  */
 export function watchScripts() {
 	glob.sync("!(_)*.@(js|jsx)", { cwd: "src" }).map((file) => {
-		const watcher = rollup.watch({
+		const watcher = rollupWatch({
 			input: `src/${file}`,
 			...rollupOptions.input,
 			output: {
-				name: camelCase(path.basename(file)).replace(/\.js/i, "Js"),
+				name: camelCase(file).replace(/\.js/i, "Js"),
 				...rollupOptions.output,
 			},
 		});
@@ -234,6 +235,9 @@ export function watchScripts() {
 					break;
 				case "BUNDLE_END":
 					log.info(`Rolled up '${chalk.cyan(event.input)}' after ${chalk.magenta(humanize(event.duration))}`);
+					if (event.result) {
+						event.result.close();
+					}
 					break;
 				case "END":
 					break;
@@ -247,38 +251,13 @@ export function watchScripts() {
 }
 
 /**
- * Minify JavaScript with Terser.
- * * Ignores any file with `.min.js` identifier.
- * @example gulp minifyScripts
- * @global
- */
-export function minifyScripts() {
-	return gulp
-		.src("!(*.min).js", {
-			cwd: "dist",
-			since: gulp.lastRun(minifyScripts),
-			sourcemaps: true,
-		})
-		.pipe(
-			terser({
-				compress: {
-					passes: 2,
-				},
-				mangle: true,
-			})
-		)
-		.pipe(rename({ suffix: ".min" }))
-		.pipe(size({ showFiles: true, showTotal: true, title: `minifyScripts ->` }))
-		.pipe(gulp.dest("dist", { sourcemaps: "." }));
-}
-
-/**
  * Runs all script-related tasks.
  * @function scripts
  * @example gulp scripts
  * @global
  */
-export const scripts = gulp.series(lint, bundleScripts, minifyScripts);
+// export const scripts = gulp.series(lint, bundleScripts, minifyScripts);
+export const scripts = gulp.series(lint, bundleScripts);
 
 /**
  * Compile & process all assets.
@@ -295,15 +274,14 @@ export const build = gulp.parallel(scripts, styles);
  */
 export function watch() {
 	isWatching = true;
-	gulp.watch(`src/**/*.scss`, compileStyles);
+	gulp.watch(`src/**/*.scss`, styles);
 	gulp.watch(`src/**/*.@(js|jsx)`, lint);
-	gulp.watch(`dist/**/!(*.min).js`, minifyScripts);
 	watchScripts();
 }
 
 export function watchStyles() {
 	isWatching = true;
-	gulp.watch(`src/**/*.scss`, compileStyles);
+	gulp.watch(`src/**/*.scss`, styles);
 }
 
 /**

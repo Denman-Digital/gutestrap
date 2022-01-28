@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment } from "@wordpress/element";
+const { Fragment } = wp.element;
 import PropTypes from "prop-types";
 
 export const Icon = ({

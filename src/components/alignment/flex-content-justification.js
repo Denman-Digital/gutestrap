@@ -1,15 +1,14 @@
-import { __, _x } from "@wordpress/i18n";
-import { ToolbarGroup } from "@wordpress/components";
+const { __, _x } = wp.i18n;
+const { ToolbarGroup } = wp.components;
 
+import JustifyStartIcon from "./justify-start.svg";
+import JustifyCenterIcon from "./justify-center.svg";
+import JustifyEndIcon from "./justify-end.svg";
+import JustifySpaceBetweenIcon from "./justify-space-between.svg";
+import JustifySpaceEvenlyIcon from "./justify-space-evenly.svg";
+import JustifySpaceAroundIcon from "./justify-space-around.svg";
 
-import { ReactComponent as JustifyStartIcon } from "./justify-start.svg";
-import { ReactComponent as JustifyCenterIcon } from "./justify-center.svg";
-import { ReactComponent as JustifyEndIcon } from "./justify-end.svg";
-import { ReactComponent as JustifySpaceBetweenIcon } from "./justify-space-between.svg";
-import { ReactComponent as JustifySpaceEvenlyIcon } from "./justify-space-evenly.svg";
-import { ReactComponent as JustifySpaceAroundIcon } from "./justify-space-around.svg";
-
-const BOOTSTRAP_ICON_CLASSES = "bi bi-block-control-icon";
+import { BOOTSTRAP_ICON_CLASSES } from "../../_common";
 
 export const FLEX_JUSTIFY_CONTENT_OPTIONS = [
 	{

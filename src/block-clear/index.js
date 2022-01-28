@@ -1,12 +1,12 @@
 /**
  * WordPress dependencies
  */
-import { __ } from "@wordpress/i18n";
-import { registerBlockType, createBlock } from "@wordpress/blocks";
-import { InspectorControls } from "@wordpress/block-editor";
-import { Fragment } from "@wordpress/element";
-import { PanelBody, BaseControl } from "@wordpress/components";
-import { withInstanceId } from "@wordpress/compose";
+const { __ } = wp.i18n;
+const { registerBlockType, createBlock } = wp.blocks;
+const { InspectorControls } = wp.blockEditor;
+const { Fragment } = wp.element;
+const { PanelBody, BaseControl } = wp.components;
+const { withInstanceId } = wp.compose;
 
 /**
  * Register a Gutenberg Block.

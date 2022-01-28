@@ -1,141 +1,20 @@
 ---
 root: true
-parser: babel-eslint
-extends:
-  - plugin:compat/recommended
-  - plugin:react/recommended
-  - plugin:jsx-a11y/recommended
-  - plugin:jest/recommended
-  - plugin:prettier/recommended
-  - prettier
-  - prettier/react
 env:
   browser: false
   es6: true
   node: true
   mocha: true
   jest/globals: true
+parser: babel-eslint
 parserOptions:
-  sourceType: module
+  ecmaVersion: 6
   ecmaFeatures:
     jsx: true
-globals:
-  jQuery: true
-  wp: true
-  lodash: true
-  wpApiSettings: true
-  window: true
-  document: true
-  gutestrapGlobal: true
-  gutestrapCodeMirrorSettings: true
+extends:
+  - plugin:prettier/recommended
+  - plugin:jest/recommended
+  - plugin:prettier/recommended
+  - prettier
 plugins:
-  - react
-  - jsx-a11y
   - jest
-settings:
-  react:
-    pragma: wp
-    version: detect
-rules:
-  constructor-super: error
-  dot-notation: error
-  eol-last: error
-  eqeqeq:
-    - error
-    - smart
-  jsx-a11y/label-has-for:
-    - error
-    - required: id
-  no-alert: error
-  no-bitwise: error
-  no-caller: error
-  no-console: "off"
-  no-const-assign: error
-  no-debugger: warn
-  no-dupe-args: error
-  no-dupe-class-members: error
-  no-dupe-keys: error
-  no-duplicate-case: error
-  no-duplicate-imports: error
-  no-else-return: error
-  no-eval: error
-  no-extra-semi: error
-  no-fallthrough: error
-  no-lonely-if: error
-  no-mixed-spaces-and-tabs: "off"
-  no-multi-spaces: error
-  no-multi-str: "off"
-  no-multiple-empty-lines:
-    - warn
-    - max: 1
-  no-nested-ternary: error
-  no-redeclare: error
-  no-restricted-syntax:
-    - error
-    - selector: ImportDeclaration[source.value=/^@wordpress\u002F.+\u002F/]
-      message: Path access on WordPress dependencies is not allowed.
-    - selector: ImportDeclaration[source.value=/^blocks$/]
-      message: Use @wordpress/blocks as import path instead.
-    - selector: ImportDeclaration[source.value=/^components$/]
-      message: Use @wordpress/components as import path instead.
-    - selector: ImportDeclaration[source.value=/^date$/]
-      message: Use @wordpress/date as import path instead.
-    - selector: ImportDeclaration[source.value=/^editor$/]
-      message: Use @wordpress/editor as import path instead.
-    - selector: ImportDeclaration[source.value=/^element$/]
-      message: Use @wordpress/element as import path instead.
-    - selector: ImportDeclaration[source.value=/^i18n$/]
-      message: Use @wordpress/i18n as import path instead.
-    - selector: ImportDeclaration[source.value=/^data$/]
-      message: Use @wordpress/data as import path instead.
-    - selector: ImportDeclaration[source.value=/^utils$/]
-      message: Use @wordpress/utils as import path instead.
-    - selector: CallExpression[callee.name=/^__|_n|_x$/]:not([arguments.0.type=/^Literal|BinaryExpression$/])
-      message: Translate function arguments must be string literals.
-    - selector: CallExpression[callee.name=/^_n|_x$/]:not([arguments.1.type=/^Literal|BinaryExpression$/])
-      message: Translate function arguments must be string literals.
-    - selector: CallExpression[callee.name=_nx]:not([arguments.2.type=/^Literal|BinaryExpression$/])
-      message: Translate function arguments must be string literals.
-  no-shadow: warn
-  no-undef-init: error
-  no-undef: error
-  no-unreachable: error
-  no-unsafe-negation: error
-  no-unused-expressions: warn
-  no-unused-vars:
-    - warn
-    - argsIgnorePattern: "^_"
-  no-useless-computed-key: error
-  no-useless-constructor: error
-  no-useless-return: error
-  no-whitespace-before-property: error
-  prefer-const: "off"
-  semi: error
-  react/prop-types: "off"
-  react/display-name: "off"
-  react/jsx-curly-spacing:
-    - error
-    - when: never
-      children: true
-  valid-jsdoc:
-    - error
-    - requireReturn: false
-  valid-typeof: error
-  yoda:
-    - warn
-    - never
-    - exceptRange: true
-  # object-curly-spacing:
-  # - error
-  # - always
-  # padded-blocks:
-  # - error
-  # - never
-  # quote-props:
-  # - error
-  # - as-needed
-  # react/jsx-key: error
-  # react/jsx-tag-spacing: error
-  # react/no-children-prop: 'off'
-  # react/no-find-dom-node: warn
-  # react/prop-types: 'off'

@@ -1,11 +1,19 @@
 import classNames from "classnames";
 
-import { __ } from "@wordpress/i18n";
-import { TabPanel, Dashicon } from "@wordpress/components";
+const { __ } = wp.i18n;
+const { TabPanel } = wp.components;
 
-import "./editor.scss";
+import PhonePortraitIcon from "bootstrap-icons/icons/phone.svg";
+import PhoneLandscapeIcon from "bootstrap-icons/icons/phone-landscape.svg";
+import TabletPortraitIcon from "bootstrap-icons/icons/tablet.svg";
+import TabletLandscapeIcon from "bootstrap-icons/icons/tablet-landscape.svg";
+import LaptopIcon from "bootstrap-icons/icons/laptop.svg";
+import DesktopSmallIcon from "bootstrap-icons/icons/display.svg";
+import DesktopLargeIcon from "bootstrap-icons/icons/tv.svg";
 
-const breakpoints = ["xs", "sm", "md", "lg", "xl", "xxl"];
+import { GRID_BREAKPOINTS } from "../../_common";
+
+const breakpoints = Object.keys(GRID_BREAKPOINTS);
 
 export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, hasNotification = () => false }) => {
 	let haveNotifications = breakpoints.filter(hasNotification);
@@ -14,6 +22,14 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 	if (haveNotifications.length === 0) {
 		haveNotifications = false;
 	}
+
+	const iconAttributes = {
+		viewBox: "0 0 16 16",
+		width: null,
+		height: null,
+		style: { width: "1.5em", height: "1.5em" },
+	};
+
 	return (
 		<TabPanel
 			className={classNames("gutestrap-responsive-tabs", className)}
@@ -24,7 +40,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					// title: <span>{__("Base", "gutestrap")}</span>,
 					title: (
 						<span>
-							<Dashicon icon="smartphone" />
+							<PhonePortraitIcon {...iconAttributes} />
 						</span>
 					),
 					label: __("Mobile", "gutestrap"),
@@ -38,7 +54,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					name: "sm",
 					title: (
 						<span>
-							<Dashicon icon="smartphone" style={{ transform: "scale(-1, 1) rotate(90deg)" }} />
+							<PhoneLandscapeIcon {...iconAttributes} />
 						</span>
 					),
 					className: classNames("has-icon-title", {
@@ -52,7 +68,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					name: "md",
 					title: (
 						<span>
-							<Dashicon icon="tablet" />
+							<TabletPortraitIcon {...iconAttributes} />
 						</span>
 					),
 					className: classNames("has-icon-title", {
@@ -66,7 +82,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					name: "lg",
 					title: (
 						<span>
-							<Dashicon icon="tablet" style={{ transform: "scale(-1, 1) rotate(90deg)" }} />
+							<TabletLandscapeIcon {...iconAttributes} />
 						</span>
 					),
 					className: classNames("has-icon-title", {
@@ -80,7 +96,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					name: "xl",
 					title: (
 						<span>
-							<Dashicon icon="laptop" />
+							<LaptopIcon {...iconAttributes} />
 						</span>
 					),
 					className: classNames("has-icon-title", {
@@ -94,15 +110,29 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 					name: "xxl",
 					title: (
 						<span>
-							<Dashicon icon="desktop" />
+							<DesktopSmallIcon {...iconAttributes} />
 						</span>
 					),
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xxl"),
 					}),
-					label: __("Desktop", "gutestrap"),
-					description: __("Settings for desktop devices and larger. 1200px wide and up.", "gutestrap"),
+					label: __("Compact desktop", "gutestrap"),
+					description: __("Settings for compact desktop devices and larger. 1440px wide and up.", "gutestrap"),
 					breakpoint: "xxl",
+				},
+				{
+					name: "xxxl",
+					title: (
+						<span>
+							<DesktopLargeIcon {...iconAttributes} />
+						</span>
+					),
+					className: classNames("has-icon-title", {
+						"has-notification": haveNotifications && haveNotifications.includes("xxxl"),
+					}),
+					label: __("Desktop", "gutestrap"),
+					description: __("Settings for large desktop devices and larger. 1680px wide and up.", "gutestrap"),
+					breakpoint: "xxxl",
 				},
 			]}
 		>

@@ -1,8 +1,8 @@
 const { __ } = wp.i18n;
 const { BlockControls, Inserter } = wp.blockEditor;
 const { ToolbarGroup, Tooltip, ToolbarButton } = wp.components;
-import { BOOTSTRAP_ICON_CLASSES } from "./alignment/flex-items-alignment";
-import { ReactComponent as AddBlockIcon } from "bootstrap-icons/icons/plus-square.svg";
+import { BOOTSTRAP_ICON_CLASSES } from "../_common";
+import AddBlockIcon from "bootstrap-icons/icons/plus-square.svg";
 
 export function BlockControlsBlockAppender({ rootClientId, label, className, icon }) {
 	return (

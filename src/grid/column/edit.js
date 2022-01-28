@@ -1,4 +1,6 @@
 import classNames from "classnames";
+import { link, linkOff } from "@wordpress/icons";
+
 const { __, _n, sprintf } = wp.i18n;
 const { select } = wp.data;
 const { Fragment, useState } = wp.element;
@@ -25,26 +27,19 @@ const {
 	__experimentalUseGradient: useGradient,
 } = wp.blockEditor;
 const { createHigherOrderComponent } = wp.compose;
-import { link, linkOff } from "@wordpress/icons";
 
-function toNumber(value, fallback = 0) {
-	const number = Number(value);
-	if (isNaN(number)) {
-		return toNumber(fallback);
-	}
-	return number;
-}
-
-const { config } = gutestrapGlobal;
+import { toNumber, BOOTSTRAP_ICON_CLASSES } from "../../_common";
 
 import { Visualizer } from "../../components/panel-spacing";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
-import { BlockFlexItemAlignmentToolbar, BOOTSTRAP_ICON_CLASSES } from "../../components/alignment/flex-items-alignment";
+import { BlockFlexItemAlignmentToolbar } from "../../components/alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { columnClassNames, columnInnerClassNames } from "./render";
 
-import { ReactComponent as ExpandIcon } from "bootstrap-icons/icons/arrows-angle-expand.svg";
+const { config } = gutestrapGlobal;
+
+import ExpandIcon from "bootstrap-icons/icons/arrows-angle-expand.svg";
 
 export const COLUMN_OPTION_WIDTH_FIT_VALUE = "auto";
 export const COLUMN_OPTION_WIDTH_DEFAULT_VALUE = "default";

@@ -103,6 +103,7 @@ export const registerCustomSCSSBlock = () => {
 		 * @returns {Mixed} JSX Frontend HTML.
 		 */
 		save: ({ attributes }) => {
+			// eslint-disable-next-line no-unused-vars
 			const { css, raw } = attributes;
 			return <style dangerouslySetInnerHTML={{ __html: css }} />;
 		},

@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { link, linkOff } from "@wordpress/icons";
 const { __, _x } = wp.i18n;
 const { Fragment, useState } = wp.element;
 const { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } = wp.blockEditor;
@@ -14,26 +15,16 @@ const {
 	BaseControl,
 } = wp.components;
 
-// import { toNumber } from "js-utils";
-function toNumber(value, fallback = 0) {
-	const number = Number(value);
-	if (isNaN(number)) {
-		return toNumber(fallback);
-	}
-	return number;
-}
-
-import { link, linkOff } from "@wordpress/icons";
-
 import { Visualizer } from "../../components/panel-spacing";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
-import { BlockFlexItemsAlignmentToolbar } from "../../components/alignment/flex-items-alignment";
-import { BlockContentJustificationToolbar } from "../../components/alignment/flex-content-justification";
+import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from "../../components/alignment";
+import { toNumber } from "../../_common";
+
 import { rowClassNames } from "./render";
-import { DEFAULT_ATTRIBUTES } from "./index";
+import { DEFAULT_ATTRIBUTES } from "./metadata";
 import { name as rowBreakBlockName } from "./row-break";
-import { name as columnBlockName } from "../column";
+import { name as columnBlockName } from "../column/metadata";
 
 const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
 
