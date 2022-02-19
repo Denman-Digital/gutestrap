@@ -55,6 +55,10 @@ export const ContainerRender = ({ attributes, className }) => {
 	);
 };
 
+//==============================================================================
+// DEPRECATED VERSIONS
+//
+
 const v4 = {
 	attributes: {
 		fluid: { type: "boolean" },

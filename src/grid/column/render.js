@@ -32,6 +32,7 @@ export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) =>
 		lg: width.lg != null && width.lg !== COLUMN_OPTION_INHERIT,
 		xl: width.xl != null && width.xl !== COLUMN_OPTION_INHERIT,
 		xxl: width.xxl != null && width.xxl !== COLUMN_OPTION_INHERIT,
+		xxxl: width.xxxl != null && width.xxxl !== COLUMN_OPTION_INHERIT,
 	};
 	return classNames({
 		[`col${columnWidthSuffix(width.xs || 12)}`]: true,
@@ -40,18 +41,21 @@ export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) =>
 		[`col-lg${columnWidthSuffix(width.lg)}`]: hasWidth.lg,
 		[`col-xl${columnWidthSuffix(width.xl)}`]: hasWidth.xl,
 		[`col-xxl${columnWidthSuffix(width.xxl)}`]: hasWidth.xxl,
+		[`col-xxxl${columnWidthSuffix(width.xxxl)}`]: hasWidth.xxxl,
 		[`offset-${offset.xs}`]: !!offset.xs,
 		[`offset-sm-${offset.sm}`]: offset.sm != null && offset.sm !== COLUMN_OPTION_INHERIT,
 		[`offset-md-${offset.md}`]: offset.md != null && offset.md !== COLUMN_OPTION_INHERIT,
 		[`offset-lg-${offset.lg}`]: offset.lg != null && offset.lg !== COLUMN_OPTION_INHERIT,
 		[`offset-xl-${offset.xl}`]: offset.xl != null && offset.xl !== COLUMN_OPTION_INHERIT,
 		[`offset-xxl-${offset.xxl}`]: offset.xxl != null && offset.xxl !== COLUMN_OPTION_INHERIT,
+		[`offset-xxxl-${offset.xxxl}`]: offset.xxxl != null && offset.xxxl !== COLUMN_OPTION_INHERIT,
 		[`align-self-${alignment.xs}`]: !!alignment.xs,
 		[`align-self-sm-${alignment.sm}`]: alignment.sm != null && alignment.sm !== COLUMN_OPTION_INHERIT,
 		[`align-self-md-${alignment.md}`]: alignment.md != null && alignment.md !== COLUMN_OPTION_INHERIT,
 		[`align-self-lg-${alignment.lg}`]: alignment.lg != null && alignment.lg !== COLUMN_OPTION_INHERIT,
 		[`align-self-xl-${alignment.xl}`]: alignment.xl != null && alignment.xl !== COLUMN_OPTION_INHERIT,
 		[`align-self-xxl-${alignment.xxl}`]: alignment.xxl != null && alignment.xxl !== COLUMN_OPTION_INHERIT,
+		[`align-self-xxxl-${alignment.xxxl}`]: alignment.xxxl != null && alignment.xxxl !== COLUMN_OPTION_INHERIT,
 	});
 };
 
@@ -178,6 +182,10 @@ export const ColumnRender = ({ attributes, className }) => {
 		</div>
 	);
 };
+
+//==============================================================================
+// DEPRECATED VERSIONS
+//
 
 const v7 = {
 	attributes: {

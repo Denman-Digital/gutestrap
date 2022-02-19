@@ -26,6 +26,7 @@ export const rowColumnWidthClassNames = ({ defaultColWidth = {} }) => {
 		[`row-cols-lg-${defaultColWidth.lg}`]: !!defaultColWidth.lg,
 		[`row-cols-xl-${defaultColWidth.xl}`]: !!defaultColWidth.xl,
 		[`row-cols-xxl-${defaultColWidth.xxl}`]: !!defaultColWidth.xxl,
+		[`row-cols-xxxl-${defaultColWidth.xxxl}`]: !!defaultColWidth.xxxl,
 	});
 };
 export const rowAlignmentClassNames = ({ alignment = {} }) => {
@@ -36,6 +37,7 @@ export const rowAlignmentClassNames = ({ alignment = {} }) => {
 		[`align-items-lg-${alignment.lg}`]: !!alignment.lg && alignment.lg !== "inherit",
 		[`align-items-xl-${alignment.xl}`]: !!alignment.xl && alignment.xl !== "inherit",
 		[`align-items-xxl-${alignment.xxl}`]: !!alignment.xxl && alignment.xxl !== "inherit",
+		[`align-items-xxxl-${alignment.xxxl}`]: !!alignment.xxxl && alignment.xxxl !== "inherit",
 	});
 };
 export const rowJustificationClassNames = ({ justification = {} }) => {
@@ -46,6 +48,7 @@ export const rowJustificationClassNames = ({ justification = {} }) => {
 		[`justify-content-lg-${justification.lg}`]: !!justification.lg && justification.lg !== "inherit",
 		[`justify-content-xl-${justification.xl}`]: !!justification.xl && justification.xl !== "inherit",
 		[`justify-content-xxl-${justification.xxl}`]: !!justification.xxl && justification.xxl !== "inherit",
+		[`justify-content-xxxl-${justification.xxxl}`]: !!justification.xxxl && justification.xxxl !== "inherit",
 	});
 };
 export const rowDirectionClassNames = ({ direction = {} }) => {
@@ -56,6 +59,7 @@ export const rowDirectionClassNames = ({ direction = {} }) => {
 		[`flex-lg-${direction.lg}`]: !!direction.lg && direction.lg !== "inherit",
 		[`flex-xl-${direction.xl}`]: !!direction.xl && direction.xl !== "inherit",
 		[`flex-xxl-${direction.xxl}`]: !!direction.xxl && direction.xxl !== "inherit",
+		[`flex-xxxl-${direction.xxxl}`]: !!direction.xxxl && direction.xxxl !== "inherit",
 	});
 };
 export const rowWrapClassNames = ({ direction = {} }) => {
@@ -66,6 +70,7 @@ export const rowWrapClassNames = ({ direction = {} }) => {
 		[`flex-lg-${direction.lg?.replace("row", "wrap")}`]: !!direction.lg && direction.lg !== "inherit",
 		[`flex-xl-${direction.xl?.replace("row", "wrap")}`]: !!direction.xl && direction.xl !== "inherit",
 		[`flex-xxl-${direction.xxl?.replace("row", "wrap")}`]: !!direction.xxl && direction.xxl !== "inherit",
+		[`flex-xxxl-${direction.xxxl?.replace("row", "wrap")}`]: !!direction.xxxl && direction.xxxl !== "inherit",
 	});
 };
 
@@ -94,6 +99,10 @@ export const RowRender = ({ attributes, className }) => {
 		</div>
 	);
 };
+
+//==============================================================================
+// DEPRECATED VERSIONS
+//
 
 const v3 = {
 	attributes: {
