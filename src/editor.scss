@@ -450,6 +450,9 @@ $utilities: map-get-multiple(
 	@include media-breakpoint-up($breakpoint, $grid-breakpoints) {
 		@if $grid-row-columns > 0 {
 			@for $count from 1 through $grid-row-columns {
+				.row-cols#{$infix}-#{$count} > * {
+					width: 100%;
+				}
 				.row-cols#{$infix}-#{$count} > * > .block-editor-block-list__layout {
 					> * {
 						flex: 0 0 calc(100% / #{$count});
