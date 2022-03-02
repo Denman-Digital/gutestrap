@@ -48,7 +48,7 @@ export const ContainerRender = ({ attributes, className }) => {
 			})}
 			style={style}
 		>
-			<div className={`container${breakpoint ? "-" + breakpoint : ""}`}>
+			<div className={`container${breakpoint ? `-${breakpoint}` : ""}`}>
 				<InnerBlocks.Content />
 			</div>
 		</div>

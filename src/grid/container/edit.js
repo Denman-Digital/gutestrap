@@ -54,6 +54,7 @@ function ContainerEdit({
 						label={__("Max-width breakpoint", "gutestrap")}
 						help={__("Choose the viewport width at which this container should set a max-width.", "gutestrap")}
 						disabled={!fluid}
+						value={breakpoint}
 						options={[
 							{
 								label: __("576px and up (landscape smartphone, default)", "gutestrap"),
@@ -72,8 +73,12 @@ function ContainerEdit({
 								value: "xl",
 							},
 							{
-								label: __("1440px and up (desktop)", "gutestrap"),
+								label: __("1440px and up (compact desktop)", "gutestrap"),
 								value: "xxl",
+							},
+							{
+								label: __("1680px and up (desktop)", "gutestrap"),
+								value: "xxxl",
 							},
 							{
 								label: __("No max-width", "gutestrap"),
@@ -155,7 +160,7 @@ function ContainerEdit({
 			>
 				<div
 					className={classNames(className, {
-						container: !fluid,
+						container: !fluid || !breakpoint,
 						[`container-${breakpoint}`]: fluid && breakpoint,
 					})}
 				>
