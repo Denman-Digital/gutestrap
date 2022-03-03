@@ -20,6 +20,11 @@ const AdvancedDocumentSettingPanel = () => {
 
 	const [meta, setMeta] = useEntityProp("postType", postType, "meta");
 
+	if (!meta) {
+		// No meta (widget block?) -> abort!
+		return null;
+	}
+
 	function updateCustomScss(value) {
 		// eslint-disable-next-line camelcase
 		setMeta({ ...meta, _custom_scss: value });
