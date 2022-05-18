@@ -84,7 +84,7 @@ function gutestrap_block_assets()
 		"public" => true,
 	]);
 	foreach ($post_types as $post_type_name) {
-		$js_globals["config"]["excludedPostTypes"][$post_type_name] = current_theme_supports("gutestrap-post-type-disabled", $post_type_name);
+		$js_globals["config"]["excludedPostTypes"][$post_type_name] = apply_filters("gutestrap_enable_for_post_type", true, $post_type_name);
 	}
 
 	wp_localize_script(
