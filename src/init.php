@@ -66,32 +66,6 @@ function gutestrap_block_assets()
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.editor.build.css') // Version: File modification time.
 	);
 
-	// WP Localized globals. Use dynamic PHP stuff in JavaScript via `gutestrapGlobal` object.
-
-	$js_globals = [
-		"pluginDirPath" => plugin_dir_path(__DIR__),
-		"pluginDirUrl"  => plugin_dir_url(__DIR__),
-		// Add more data here that you want to access from `gutestrapGlobal` object.
-		"config" => [
-			"enableBorderColors" => current_theme_supports("gutestrap-border-colors"),
-			"disableCustomColors" => current_theme_supports("disable-custom-colors"),
-			"disableCustomGradients" => current_theme_supports("disable-custom-gradients"),
-			"excludedPostTypes" => [],
-		]
-	];
-
-	$post_types = get_post_types([
-		"public" => true,
-	]);
-	foreach ($post_types as $post_type_name) {
-		$js_globals["config"]["excludedPostTypes"][$post_type_name] = apply_filters("gutestrap_enable_for_post_type", true, $post_type_name);
-	}
-
-	wp_localize_script(
-		'gutestrap-block-js',
-		'gutestrapGlobal', // Array containing dynamic data for a JS Global.
-		$js_globals,
-	);
 
 	$block_assets = [
 		'style' => 'gutestrap-style-css',
@@ -128,7 +102,38 @@ function gutestrap_disabled_block_render(string $block_content, array $block): s
 }
 add_filter("render_block", "gutestrap_disabled_block_render", 10, 2);
 
-function gutenberg_custom_scss_codemirror_assets()
+function gutestrap_setup_js_globals()
+{
+	// WP Localized globals. Use dynamic PHP stuff in JavaScript via `gutestrapGlobal` object.
+
+	$js_globals = [
+		"pluginDirPath" => plugin_dir_path(__DIR__),
+		"pluginDirUrl"  => plugin_dir_url(__DIR__),
+		// Add more data here that you want to access from `gutestrapGlobal` object.
+		"config" => [
+			"enableBorderColors" => current_theme_supports("gutestrap-border-colors"),
+			"disableCustomColors" => current_theme_supports("disable-custom-colors"),
+			"disableCustomGradients" => current_theme_supports("disable-custom-gradients"),
+			"excludedPostTypes" => [],
+		]
+	];
+
+	$post_types = get_post_types([
+		"public" => true,
+	]);
+	foreach ($post_types as $post_type_name) {
+		$js_globals["config"]["excludedPostTypes"][$post_type_name] = !apply_filters("gutestrap_enable_for_post_type", true, $post_type_name);
+	}
+
+	wp_localize_script(
+		'gutestrap-block-js',
+		'gutestrapGlobal', // Array containing dynamic data for a JS Global.
+		$js_globals,
+	);
+}
+add_action('admin_enqueue_scripts', 'gutestrap_setup_js_globals');
+
+function gutestrap_custom_scss_codemirror_assets()
 {
 	$screen = get_current_screen();
 	$codemirror_settings['codeEditor'] = wp_enqueue_code_editor([
@@ -155,7 +160,7 @@ function gutenberg_custom_scss_codemirror_assets()
 
 	wp_localize_script('gutestrap-classic-js', 'gutestrapCodeMirrorSettings', $codemirror_settings);
 }
-add_action('admin_enqueue_scripts', 'gutenberg_custom_scss_codemirror_assets');
+add_action('admin_enqueue_scripts', 'gutestrap_custom_scss_codemirror_assets');
 
 function gutestrap_block_categories(array $categories): array
 {
