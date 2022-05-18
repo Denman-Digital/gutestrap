@@ -42,3 +42,21 @@ $container-max-widths: (
 
 $grid-gutter-width: 30px;
 ```
+
+<br>
+
+## Configuration
+
+### Enable/Disable Gutestrap Blocks for Post Types
+
+```php
+add_filter("gutestrap_enable_for_post_type", function (bool $current_status, string $post_type_name): bool {
+	return $post_type_name === "my_cpt" ? false : $current_status;
+}, 10, 2);
+```
+
+### Enable Border Colors (experimental)
+
+```php
+add_theme_support("gutestrap-border-colors"),
+```
