@@ -69,6 +69,7 @@ $include-column-box-sizing: true !default;
 // @import "../node_modules/bootstrap/scss/root";
 
 @import "../node_modules/bootstrap/scss/containers";
+
 @import "../node_modules/bootstrap/scss/grid";
 
 @import "../node_modules/bootstrap/scss/utilities";
@@ -480,10 +481,24 @@ $utilities: map-merge(
 				.row-cols#{$infix}-#{$count} > * {
 					width: 100%;
 				}
-				.row-cols#{$infix}-#{$count} > * > .block-editor-block-list__layout {
-					> * {
-						flex: 0 0 calc(100% / #{$count});
-						max-width: calc(100% / #{$count});
+				.row-cols#{$infix}-#{$count} > * > * > * {
+					// flex: 0 0 calc(100% / #{$count});
+					// max-width: calc(100% / #{$count});
+					flex: 0 0 auto;
+					width: calc(100% / #{$count});
+				}
+			}
+
+			[class*="row-cols-"] > * > * {
+				> .col#{$infix}-auto {
+					@include make-col-auto();
+				}
+
+				@if $grid-columns > 0 {
+					@for $i from 1 through $grid-columns {
+						> .col#{$infix}-#{$i} {
+							@include make-col($i, $grid-columns);
+						}
 					}
 				}
 			}
