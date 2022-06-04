@@ -39,7 +39,8 @@ import { columnClassNames, columnInnerClassNames } from "./render";
 
 const { config } = gutestrapGlobal;
 
-import ExpandIcon from "bootstrap-icons/icons/arrows-angle-expand.svg";
+// import ExpandIcon from "bootstrap-icons/icons/arrows-angle-expand.svg";
+import ExpandIcon from "./expand-contents.svg";
 
 export const COLUMN_OPTION_WIDTH_FIT_VALUE = "auto";
 export const COLUMN_OPTION_WIDTH_DEFAULT_VALUE = "default";

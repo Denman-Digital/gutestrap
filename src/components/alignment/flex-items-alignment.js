@@ -12,9 +12,9 @@ import AlignItemsStretchIcon from "./align-items-stretch.svg";
 import AlignSelfNoneIcon from "./align-self-none.svg";
 import AlignSelfBaselineIcon from "./align-self-baseline.svg";
 import AlignSelfStretchIcon from "./align-self-stretch.svg";
-import AlignSelfTopIcon from "bootstrap-icons/icons/align-top.svg";
-import AlignSelfCenterIcon from "bootstrap-icons/icons/align-middle.svg";
-import AlignSelfBottomIcon from "bootstrap-icons/icons/align-bottom.svg";
+import AlignSelfTopIcon from "./align-self-top.svg";
+import AlignSelfCenterIcon from "./align-self-middle.svg";
+import AlignSelfBottomIcon from "./align-self-bottom.svg";
 
 export const FLEX_ALIGN_ITEMS_OPTIONS = [
 	{

@@ -2,7 +2,7 @@ const { __ } = wp.i18n;
 const { BlockControls, Inserter } = wp.blockEditor;
 const { ToolbarGroup, Tooltip, ToolbarButton } = wp.components;
 import { BOOTSTRAP_ICON_CLASSES } from "../_common";
-import AddBlockIcon from "bootstrap-icons/icons/plus-square.svg";
+import AddBlockIcon from "./plus-square.svg";
 
 export function BlockControlsBlockAppender({ rootClientId, label, className, icon }) {
 	return (
