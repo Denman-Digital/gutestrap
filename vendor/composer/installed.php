@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.3.12',
-        'version' => '1.3.12.0',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => 'ae5231f3495b4f5a2c2ae57524001cc3aa06b763',
         'name' => 'paulthewalton/gutestrap',
         'dev' => false,
     ),
@@ -20,12 +20,12 @@
             'dev_requirement' => false,
         ),
         'paulthewalton/gutestrap' => array(
-            'pretty_version' => '1.3.12',
-            'version' => '1.3.12.0',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => 'ae5231f3495b4f5a2c2ae57524001cc3aa06b763',
             'dev_requirement' => false,
         ),
         'scssphp/scssphp' => array(
