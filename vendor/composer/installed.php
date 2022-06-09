@@ -1,7 +1,7 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.3.11',
-        'version' => '1.3.11.0',
+        'pretty_version' => '1.3.12',
+        'version' => '1.3.12.0',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -20,8 +20,8 @@
             'dev_requirement' => false,
         ),
         'paulthewalton/gutestrap' => array(
-            'pretty_version' => '1.3.11',
-            'version' => '1.3.11.0',
+            'pretty_version' => '1.3.12',
+            'version' => '1.3.12.0',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

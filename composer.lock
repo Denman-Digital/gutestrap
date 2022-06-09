@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "27298cf6306c0f87817c6306a3e0a7ce",
+    "content-hash": "06f8d1159856d6f9df15ffd20888a531",
     "packages": [
         {
             "name": "denman-digital/wp-utils",
