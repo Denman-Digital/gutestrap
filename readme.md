@@ -24,7 +24,7 @@ Bootstrap layout blocks for Gutenberg.
 
 ## Grid values
 
-> Last changed in v1.3.1
+> Last changed in v1.3.13-bsv4
 
 ```scss
 $grid-breakpoints: (
