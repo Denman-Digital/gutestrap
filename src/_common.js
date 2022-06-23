@@ -8,6 +8,7 @@ export const GRID_BREAKPOINTS = {
 	xl: 1200,
 	xxl: 1440,
 	xxxl: 1680,
+	xxxxl: 1900,
 };
 
 export const CONTAINER_MAX_WIDTHS = {
@@ -17,6 +18,7 @@ export const CONTAINER_MAX_WIDTHS = {
 	xl: 1140,
 	xxl: 1320,
 	xxxl: 1440,
+	xxxxl: 1700,
 };
 
 export const GRID_GUTTER_WIDTH = 30;
