@@ -22,22 +22,22 @@ Bootstrap layout blocks for Gutenberg
 
 ```scss
 $grid-breakpoints: (
-	xs: 0,
-	sm: 576px,
-	md: 768px,
-	lg: 992px,
-	xl: 1200px,
-	xxl: 1440px,
-	xxxl: 1680px,
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1440px,
+  xxxl: 1680px,
 );
 
 $container-max-widths: (
-	sm: 540px,
-	md: 720px,
-	lg: 960px,
-	xl: 1140px,
-	xxl: 1320px,
-	xxxl: 1440px,
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px,
+  xxxl: 1440px,
 );
 
 $grid-gutter-width: 30px;
@@ -50,9 +50,11 @@ $grid-gutter-width: 30px;
 ### Enable/Disable Gutestrap Blocks for Post Types
 
 ```php
-add_filter("gutestrap_enable_for_post_type", function (bool $current_status, string $post_type_name): bool {
-	return $post_type_name === "my_cpt" ? false : $current_status;
-}, 10, 2);
+function my_project_enable_gutestrap(bool $current_status, string $post_type_name): bool 
+{
+  return $post_type_name === "my_cpt" ? false : $current_status;
+}
+add_filter("gutestrap_enable_for_post_type", "my_project_enable_gutestrap", 10, 2);
 ```
 
 ### Enable Border Colors (experimental)
