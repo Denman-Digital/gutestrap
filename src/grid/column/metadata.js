@@ -15,6 +15,7 @@ export const attributes = {
 	offset: { type: "object" },
 	alignment: { type: "object" },
 	contentAlignment: { type: "object" },
+	// order: { type: "object" },
 	background: { type: "object" },
 	textColor: { type: "string" },
 	backgroundColor: { type: "string" },

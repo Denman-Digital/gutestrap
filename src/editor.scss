@@ -18,7 +18,7 @@ html {
 	box-sizing: inherit;
 }
 
-.gutestrap-enabled #editor .wp-block {
+.gutestrap-enabled #editor .wp-block:not(.gutestrap-block-col) {
 	max-width: unset;
 }
 
@@ -305,25 +305,31 @@ html {
 	}
 }
 
-@each $breakpoint in map-keys($grid-breakpoints) {
-	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-	@include media-breakpoint-up($breakpoint) {
-		.hide#{$infix},
-		.hide#{$infix}-up {
-			display: none !important;
-		}
-	}
-	@include media-breakpoint-down($breakpoint) {
-		.hide#{$infix}-down {
-			display: none !important;
-		}
-	}
-	@include media-breakpoint-only($breakpoint) {
-		.hide#{$infix}-only {
-			display: none !important;
-		}
-	}
-}
+// @each $breakpoint in map-keys($grid-breakpoints) {
+// 	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+// 	@include media-breakpoint-up($breakpoint) {
+// 		.hide#{$infix},
+// 		.hide#{$infix}-up {
+// 			// display: none !important;
+// 			opacity: 0.5 !important;
+// 			filter: grayscale(0.25) !important;
+// 		}
+// 	}
+// 	@include media-breakpoint-down($breakpoint) {
+// 		.hide#{$infix}-down {
+// 			// display: none !important;
+// 			opacity: 0.5 !important;
+// 			filter: grayscale(0.25) !important;
+// 		}
+// 	}
+// 	@include media-breakpoint-only($breakpoint) {
+// 		.hide#{$infix}-only {
+// 			// display: none !important;
+// 			opacity: 0.5 !important;
+// 			filter: grayscale(0.25) !important;
+// 		}
+// 	}
+// }
 
 .block-editor-block-list__block[data-title] {
 	&[data-type="core/group"] {
@@ -427,6 +433,17 @@ html {
 			}
 		}
 
+		@if $grid-columns > 0 {
+			.block-editor-block-list__layout .gutestrap-block-col {
+				@for $i from 1 through $grid-columns {
+					$offset: $i - 1;
+					&.offset#{$infix}-#{$offset} {
+						@include make-col-offset($offset, $grid-columns);
+					}
+				}
+			}
+		}
+
 		.wp-block-gutestrap-row {
 			&.justify-content#{$infix}-start > * > .block-editor-block-list__layout {
 				justify-content: flex-start !important;
@@ -471,6 +488,9 @@ html {
 		}
 	}
 }
+
+// TODO: offset classes in editor
+// * each col width, each breakpoint
 
 //==============================================================================
 // Components
