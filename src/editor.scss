@@ -427,13 +427,13 @@ $utilities: map-merge(
 
 			> .col,
 			> [class*="col-"] {
-				padding-left: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-				padding-right: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-right: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 			}
 
 			> .block-list-appender {
 				position: relative;
-				padding-left: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 				width: 100%;
 				max-width: 100%;
 				flex-basis: 100%;
@@ -457,16 +457,16 @@ $utilities: map-merge(
 		}
 		// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 		&.vertical-gutters > * > .block-editor-block-list__layout {
-			margin-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-			margin-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+			margin-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+			margin-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
 
 			> .col,
 			> [class*="col-"] {
-				padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-				padding-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 			}
 			> .block-list-appender {
-				padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 			}
 		}
 	}
