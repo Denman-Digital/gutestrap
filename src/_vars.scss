@@ -24,4 +24,17 @@ $container-max-widths: (
 	xxxl: 1440px,
 );
 
-$grid-gutter-width: 30px;
+$grid-columns: 12;
+$grid-gutter-width: 1.875rem;
+$grid-row-columns: 6;
+$gutters: (
+	x: $grid-gutter-width,
+	y: $grid-gutter-width,
+);
+$prefix: gs-;
+
+// 👇 not used, just defined here to make Bootstrap happy
+$negative-spacers: ();
+$utilities-border-colors: ();
+$utilities-text-colors: ();
+$utilities-bg-colors: ();
