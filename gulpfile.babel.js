@@ -94,7 +94,7 @@ export function styles() {
 	return gulp
 		.src(["style.scss", "editor.scss"], { cwd: "src", sourcemaps: true })
 		.pipe(pipelines.errorHandler())
-		.pipe(sass({ errLogToConsole: true }))
+		.pipe(sass.sync().on("error", sass.logError))
 		.pipe(postCSS([autoprefixer()]))
 		.pipe(pipelines.updateFileMTime())
 		.pipe(
@@ -102,7 +102,7 @@ export function styles() {
 		)
 		.pipe(rename({ prefix: "blocks.", suffix: ".build" }))
 		.pipe(size({ showFiles: true, showTotal: false, title: "Clean CSS ->" }))
-		.pipe(gulp.dest("dist", { sourcemaps: isProductionMode }));
+		.pipe(gulp.dest("dist", { sourcemaps: isProductionMode && "." }));
 }
 
 /**
