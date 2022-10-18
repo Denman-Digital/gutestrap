@@ -31,12 +31,12 @@ const clearBlockTypes = debounce(() => {
 	});
 }, 50);
 
-const getPostType = () => select("core/editor").getCurrentPostType();
+const getPostType = () => select("core/editor")?.getCurrentPostType();
 let currentPostType = getPostType();
 wp.data.subscribe(() => {
 	const postType = getPostType();
 	if (currentPostType !== postType) {
-		if (excludedPostTypes[postType]) {
+		if (postType && excludedPostTypes[postType]) {
 			wp.domReady(clearBlockTypes);
 		} else {
 			wp.domReady(() => {
