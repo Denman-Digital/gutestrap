@@ -46,7 +46,9 @@ function gutestrap_block_assets()
 		'gutestrap-block-js',
 		plugins_url('/dist/blocks.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
 		[
+			'wp-polyfills',
 			'wp-blocks',
+			'wp-block-editor',
 			'wp-i18n',
 			'wp-element',
 			"wp-components",
