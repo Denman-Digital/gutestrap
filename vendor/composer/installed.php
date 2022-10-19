@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'fe5caf6df348228e67b2fa5863e3f91462e5b18f',
+        'reference' => 'bcf70519b0a4172dd2feb10e0a4d93e56dd0f477',
         'name' => 'paulthewalton/gutestrap',
         'dev' => false,
     ),
@@ -25,7 +25,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'fe5caf6df348228e67b2fa5863e3f91462e5b18f',
+            'reference' => 'bcf70519b0a4172dd2feb10e0a4d93e56dd0f477',
             'dev_requirement' => false,
         ),
         'scssphp/scssphp' => array(

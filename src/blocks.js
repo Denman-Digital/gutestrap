@@ -31,8 +31,8 @@ const clearBlockTypes = debounce(() => {
 	});
 }, 50);
 
-const getPostType = () => select("core/editor")?.getCurrentPostType();
-let currentPostType = getPostType();
+const getPostType = () => select("core/editor")?.getCurrentPostType?.();
+let currentPostType = null;
 wp.data.subscribe(() => {
 	const postType = getPostType();
 	if (currentPostType !== postType) {

@@ -1,12 +1,17 @@
 const { registerPlugin } = wp.plugins;
-const { PluginDocumentSettingPanel } = wp.editPost;
 const { useState } = wp.element;
 const { Button, Modal, Flex, FlexItem } = wp.components;
 // const { initialize: initializeCodeMirror } = wp.codeEditor;
+const { InnerBlocks } = wp.blockEditor;
+
 const { useSelect } = wp.data;
 const { useEntityProp } = wp.coreData;
 
 import { CustomScssEditor } from "./block";
+
+const NOOP_JSX = () => <InnerBlocks />;
+
+const PluginDocumentSettingPanel = wp.editPost?.PluginDocumentSettingPanel || NOOP_JSX;
 
 const AdvancedDocumentSettingPanel = () => {
 	const postType = useSelect((select) => select("core/editor").getCurrentPostType(), []);
