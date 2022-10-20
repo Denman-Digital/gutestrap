@@ -14,7 +14,7 @@ const NOOP_JSX = () => <InnerBlocks />;
 const PluginDocumentSettingPanel = wp.editPost?.PluginDocumentSettingPanel || NOOP_JSX;
 
 const AdvancedDocumentSettingPanel = () => {
-	const postType = useSelect((select) => select("core/editor").getCurrentPostType(), []);
+	const postType = useSelect((select) => select("core/editor")?.getCurrentPostType(), []);
 	if (postType === "wp_block") {
 		// Re-usable blocks -> abort!
 		return null;

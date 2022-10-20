@@ -54,6 +54,8 @@ function gutestrap_block_assets()
 			"wp-components",
 			"wp-plugins",
 			"wp-theme-plugin-editor",
+			"wp-data",
+			"wp-core-data",
 			"lodash"
 		],
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.build.js'), // Version: filemtime — Gets file modification time.
