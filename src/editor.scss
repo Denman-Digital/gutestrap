@@ -5,6 +5,7 @@
  * which makes it higher in priority.
  */
 @use "sass:list";
+@use "sass:math";
 @use "common" as *;
 
 html {
@@ -31,6 +32,18 @@ $include-column-box-sizing: true !default;
 @import "../node_modules/bootstrap/scss/mixins/breakpoints";
 @import "../node_modules/bootstrap/scss/mixins/container";
 @import "../node_modules/bootstrap/scss/mixins/grid";
+
+@mixin make-col($size: false, $columns: $grid-columns) {
+  @if $size {
+    flex: 0 0 auto;
+    width: math.percentage(math.div($size, $columns));
+    max-width: math.percentage(math.div($size, $columns));
+  } @else {
+    flex: 1 1 0;
+    max-width: 100%;
+  }
+}
+
 @import "../node_modules/bootstrap/scss/mixins/utilities";
 
 @import "../node_modules/bootstrap/scss/vendor/rfs";
