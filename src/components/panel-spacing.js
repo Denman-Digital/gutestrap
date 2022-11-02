@@ -13,4 +13,4 @@ export const PanelSpacing = ({ initialOpen = true, spacingSettings = [] }) => {
 
 export default PanelSpacing;
 
-export const Visualizer = BoxControl.__Visualizer;
+// export const Visualizer = BoxControl.__Visualizer;

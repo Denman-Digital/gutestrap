@@ -30,7 +30,7 @@ const { createHigherOrderComponent } = wp.compose;
 
 import { toNumber, BOOTSTRAP_ICON_CLASSES } from "../../_common";
 
-import { Visualizer } from "../../components/panel-spacing";
+// import { Visualizer } from "../../components/panel-spacing";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment";
@@ -442,50 +442,50 @@ function ColumnEdit({
 					}}
 				/>
 			</BlockControls>
-			<Visualizer values={margin} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-margin" />
-			<Visualizer values={padding} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-padding">
-				<div
-					className={classNames(className, columnInnerClassNames(attributes), {
-						"has-color": textColor?.color,
-						[textColor?.class]: textColor?.class,
-						"has-background-color": backgroundColor?.color,
-						[backgroundColor?.class]: backgroundColor?.class,
-						"has-border-color": borderColor?.color,
-						[borderColor?.class]: borderColor?.class,
-						"has-gradient-background": !!gradientValue,
-						[gradientClass]: !!gradientClass,
-					})}
-					style={{
-						backgroundImage: backgroundImageCSS || null,
-						backgroundPosition: background?.position || "center",
-						backgroundSize: background?.size || "cover",
-						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-						paddingTop: padding?.top,
-						paddingRight: padding?.right,
-						paddingBottom: padding?.bottom,
-						paddingLeft: padding?.left,
-						marginTop: margin?.top,
-						marginBottom: margin?.bottom,
-						color: textColor?.color,
-						backgroundColor: backgroundColor?.color,
-						borderColor: borderColor?.color,
-					}}
-				>
-					<div className="col__content">
-						<InnerBlocks
-							renderAppender={() => {
-								const block = select("core/block-editor").getBlock(clientId);
-								return (
-									<Fragment>
-										<BlockControlsBlockAppender rootClientId={clientId} />
-										{!block?.innerBlocks?.length ? <InnerBlocks.ButtonBlockAppender /> : null}
-									</Fragment>
-								);
-							}}
-						/>
-					</div>
+			{/* <Visualizer values={margin} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-margin" />
+			<Visualizer values={padding} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-padding"> */}
+			<div
+				className={classNames(className, columnInnerClassNames(attributes), {
+					"has-color": textColor?.color,
+					[textColor?.class]: textColor?.class,
+					"has-background-color": backgroundColor?.color,
+					[backgroundColor?.class]: backgroundColor?.class,
+					"has-border-color": borderColor?.color,
+					[borderColor?.class]: borderColor?.class,
+					"has-gradient-background": !!gradientValue,
+					[gradientClass]: !!gradientClass,
+				})}
+				style={{
+					backgroundImage: backgroundImageCSS || null,
+					backgroundPosition: background?.position || "center",
+					backgroundSize: background?.size || "cover",
+					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+					paddingTop: padding?.top,
+					paddingRight: padding?.right,
+					paddingBottom: padding?.bottom,
+					paddingLeft: padding?.left,
+					marginTop: margin?.top,
+					marginBottom: margin?.bottom,
+					color: textColor?.color,
+					backgroundColor: backgroundColor?.color,
+					borderColor: borderColor?.color,
+				}}
+			>
+				<div className="col__content">
+					<InnerBlocks
+						renderAppender={() => {
+							const block = select("core/block-editor").getBlock(clientId);
+							return (
+								<Fragment>
+									<BlockControlsBlockAppender rootClientId={clientId} />
+									{!block?.innerBlocks?.length ? <InnerBlocks.ButtonBlockAppender /> : null}
+								</Fragment>
+							);
+						}}
+					/>
 				</div>
-			</Visualizer>
+			</div>
+			{/* </Visualizer> */}
 		</Fragment>
 	);
 }

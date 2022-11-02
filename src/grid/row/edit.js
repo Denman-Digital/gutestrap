@@ -15,7 +15,7 @@ const {
 	BaseControl,
 } = wp.components;
 
-import { Visualizer } from "../../components/panel-spacing";
+// import { Visualizer } from "../../components/panel-spacing";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from "../../components/alignment";
@@ -347,6 +347,7 @@ export const RowEdit = (props) => {
 					/>
 				</PanelBody>
 			</InspectorControls>
+
 			<InspectorAdvancedControls>
 				<ToggleControl
 					label={__("Disable block", "gutestrap")}
@@ -357,28 +358,29 @@ export const RowEdit = (props) => {
 					}}
 				/>
 			</InspectorAdvancedControls>
-			<Visualizer values={padding}>
-				<div
-					className={classNames(className, rowClassNames(attributes))}
-					style={{
-						paddingTop: padding?.top,
-						paddingBottom: padding?.bottom,
+
+			{/* <Visualizer values={padding}> */}
+			<div
+				className={classNames(className, rowClassNames(attributes))}
+				style={{
+					paddingTop: padding?.top,
+					paddingBottom: padding?.bottom,
+				}}
+			>
+				<InnerBlocks
+					allowedBlocks={[rowBreakBlockName, columnBlockName]}
+					orientation="horizontal"
+					renderAppender={() => {
+						return (
+							<Fragment>
+								<BlockControlsBlockAppender rootClientId={clientId} />
+								<InnerBlocks.ButtonBlockAppender />
+							</Fragment>
+						);
 					}}
-				>
-					<InnerBlocks
-						allowedBlocks={[rowBreakBlockName, columnBlockName]}
-						orientation="horizontal"
-						renderAppender={() => {
-							return (
-								<Fragment>
-									<BlockControlsBlockAppender rootClientId={clientId} />
-									<InnerBlocks.ButtonBlockAppender />
-								</Fragment>
-							);
-						}}
-					/>
-				</div>
-			</Visualizer>
+				/>
+			</div>
+			{/* </Visualizer> */}
 		</Fragment>
 	);
 };
