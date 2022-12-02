@@ -1,19 +1,19 @@
 import classNames from "classnames";
 import { link, linkOff } from "@wordpress/icons";
-const { __, _x } = wp.i18n;
-const { Fragment, useState } = wp.element;
-const { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } = wp.blockEditor;
-const {
+import { __, _x } from "@wordpress/i18n";
+import { Fragment, useState } from "@wordpress/element";
+import { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
+import {
 	PanelBody,
 	SelectControl,
 	ToggleControl,
-	__experimentalUnitControl: UnitControl,
+	__experimentalUnitControl as UnitControl,
 	Flex,
 	FlexItem,
 	Button,
 	Tooltip,
 	BaseControl,
-} = wp.components;
+} from "@wordpress/components";
 
 // import { Visualizer } from "../../components/panel-spacing";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";

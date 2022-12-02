@@ -1,11 +1,11 @@
 import classNames from "classnames";
-const {
+import {
 	InnerBlocks,
 	getColorClassName,
 	getGradientValueBySlug,
 	validateThemeGradients,
-	__experimentalGetGradientClass: getGradientClass,
-} = wp.blockEditor;
+	__experimentalGetGradientClass as getGradientClass,
+} from "@wordpress/block-editor";
 
 import {
 	COLUMN_OPTION_INHERIT,

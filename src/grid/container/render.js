@@ -1,11 +1,11 @@
 import classNames from "classnames";
-const {
+import {
 	InnerBlocks,
 	getColorClassName,
 	validateThemeGradients,
 	getGradientValueBySlug,
-	__experimentalGetGradientClass: getGradientClass,
-} = wp.blockEditor;
+	__experimentalGetGradientClass as getGradientClass,
+} from "@wordpress/block-editor";
 
 export const ContainerRender = ({ attributes, className }) => {
 	const {

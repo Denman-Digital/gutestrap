@@ -13,11 +13,12 @@ import "./grid/";
 import "./block-clear/";
 import "./custom-scss/";
 
-const { excludedPostTypes } = gutestrapGlobal.config;
+import { select } from "@wordpress/data";
+import { getBlockTypes, unregisterBlockType, unregisterBlockVariation } from "@wordpress/blocks";
 
-const { select } = wp.data;
-const { getBlockTypes, unregisterBlockType, unregisterBlockVariation } = wp.blocks;
 const { debounce } = lodash;
+
+const { excludedPostTypes } = gutestrapGlobal.config;
 
 /**
  * Unregister selected blocktypes.

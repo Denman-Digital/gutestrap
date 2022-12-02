@@ -5,8 +5,8 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
-const { registerBlockType } = wp.blocks;
-const { createHigherOrderComponent } = wp.compose;
+import { registerBlockType } from "@wordpress/blocks";
+import { createHigherOrderComponent } from "@wordpress/compose";
 import classNames from "classnames";
 
 import ContainerBlock from "./container";

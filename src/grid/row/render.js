@@ -1,5 +1,5 @@
 import classNames from "classnames";
-const { InnerBlocks } = wp.blockEditor;
+import { InnerBlocks } from "@wordpress/block-editor";
 
 export const rowClassNames = (attributes) => {
 	return classNames(

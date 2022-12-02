@@ -5,8 +5,8 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
-const { __ } = wp.i18n;
-const { createHigherOrderComponent } = wp.compose;
+import { __ } from "@wordpress/i18n";
+import { createHigherOrderComponent } from "@wordpress/compose";
 import classNames from "classnames";
 
 import BreakIcon from "./break-icon.svg";

@@ -139,7 +139,11 @@ export function lint() {
 
 const rollupOptions = {
 	input: {
-		external: ["jquery", "wp"],
+		// external: ["jquery", "wp", /@wordpress\/(.*)/],
+		external: (id) => {
+			if (["jquery", "wp"].includes(id)) return true;
+			return /^@wordpress\/(.*)$/.test(id) && "@wordpress/icons" !== id;
+		},
 		plugins: [
 			replace({
 				values: {
@@ -174,6 +178,18 @@ const rollupOptions = {
 		globals: {
 			jquery: "jQuery",
 			wp: "wp",
+		},
+		globals: (id) => {
+			switch (id) {
+				case "jquery":
+					return "jQuery";
+				case "wp":
+					return "wp";
+				default:
+					return id.replace(/^@wordpress\/(.*)$/, (_match, pkg) => {
+						return `wp.${camelCase(pkg)}`;
+					});
+			}
 		},
 		compact: isProductionMode,
 		plugins: [

@@ -1,4 +1,4 @@
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 
 import { name, title, description, attributes, supports } from "./metadata";
 import { ColumnEdit as edit } from "./edit";

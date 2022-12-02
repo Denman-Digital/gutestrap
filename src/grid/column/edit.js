@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { link, linkOff } from "@wordpress/icons";
 
-const { __, _n, sprintf } = wp.i18n;
-const { select } = wp.data;
-const { Fragment, useState } = wp.element;
-const {
+import { __, _n, sprintf } from "@wordpress/i18n";
+import { select } from "@wordpress/data";
+import { Fragment, useState } from "@wordpress/element";
+import {
 	SelectControl,
 	PanelBody,
 	ToolbarButton,
@@ -14,19 +14,23 @@ const {
 	Flex,
 	FlexItem,
 	Button,
-	__experimentalBoxControl: BoxControl,
-	__experimentalUnitControl: UnitControl,
-} = wp.components;
-const {
+	__experimentalBoxControl as BoxControl,
+	__experimentalUnitControl as UnitControl,
+} from "@wordpress/components";
+import {
 	InspectorControls,
 	InnerBlocks,
 	BlockControls,
 	withColors,
-	__experimentalBlockAlignmentMatrixControl: BlockAlignmentMatrixControl,
-	__experimentalPanelColorGradientSettings: PanelColorGradientSettings,
-	__experimentalUseGradient: useGradient,
-} = wp.blockEditor;
-const { createHigherOrderComponent } = wp.compose;
+	// __experimentalBorderRadiusControl as BorderRadiusControl,
+	__experimentalBlockAlignmentMatrixControl as BlockAlignmentMatrixControl,
+	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
+	__experimentalUseGradient as useGradient,
+	// __experimentalUseBorderProps as useBorderProps,
+	// useBlockProps,
+} from "@wordpress/block-editor";
+
+import { createHigherOrderComponent } from "@wordpress/compose";
 
 import { toNumber, BOOTSTRAP_ICON_CLASSES } from "../../_common";
 
@@ -175,8 +179,8 @@ function ColumnEdit({
 	setTextColor,
 	backgroundColor,
 	setBackgroundColor,
-	borderColor,
-	setBorderColor,
+	// borderColor,
+	// setBorderColor,
 }) {
 	const {
 		width = {},
@@ -211,13 +215,13 @@ function ColumnEdit({
 		},
 	];
 
-	if (config.enableBorderColors) {
-		colorSettings.push({
-			value: borderColor.color,
-			onChange: setBorderColor,
-			label: __("Border colour", "gutestrap"),
-		});
-	}
+	// if (config.enableBorderColors) {
+	// 	colorSettings.push({
+	// 		colorValue: borderColor.color,
+	// 		onColorChange: setBorderColor,
+	// 		label: __("Border colour", "gutestrap"),
+	// 	});
+	// }
 
 	let backgroundImageCSS = "";
 	if (background?.image?.url) {
@@ -445,15 +449,17 @@ function ColumnEdit({
 			{/* <Visualizer values={margin} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-margin" />
 			<Visualizer values={padding} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-padding"> */}
 			<div
+				// {...blockProps}
 				className={classNames(className, columnInnerClassNames(attributes), {
 					"has-color": textColor?.color,
 					[textColor?.class]: textColor?.class,
 					"has-background-color": backgroundColor?.color,
 					[backgroundColor?.class]: backgroundColor?.class,
-					"has-border-color": borderColor?.color,
-					[borderColor?.class]: borderColor?.class,
+					// "has-border-color": borderColor?.color,
+					// [borderColor?.class]: borderColor?.class,
 					"has-gradient-background": !!gradientValue,
 					[gradientClass]: !!gradientClass,
+					// [borderProps.className]: !!borderProps.className,
 				})}
 				style={{
 					backgroundImage: backgroundImageCSS || null,
@@ -468,7 +474,8 @@ function ColumnEdit({
 					marginBottom: margin?.bottom,
 					color: textColor?.color,
 					backgroundColor: backgroundColor?.color,
-					borderColor: borderColor?.color,
+					// borderColor: borderColor?.color,
+					// ...borderProps.style,
 				}}
 			>
 				<div className="col__content">

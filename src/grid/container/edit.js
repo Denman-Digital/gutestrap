@@ -1,16 +1,16 @@
 import classNames from "classnames";
-const { __ } = wp.i18n;
-const { Fragment } = wp.element;
-const {
+import { __ } from "@wordpress/i18n";
+import { Fragment } from "@wordpress/element";
+import {
 	InspectorControls,
 	InspectorAdvancedControls,
 	InnerBlocks,
 	// PanelColorSettings,
 	withColors,
-	__experimentalPanelColorGradientSettings: PanelColorGradientSettings,
-	__experimentalUseGradient: useGradient,
-} = wp.blockEditor;
-const { PanelBody, SelectControl, ToggleControl } = wp.components;
+	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
+	__experimentalUseGradient as useGradient,
+} from "@wordpress/block-editor";
+import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 
 const { config } = gutestrapGlobal;
