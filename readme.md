@@ -57,8 +57,8 @@ function my_project_enable_gutestrap(bool $current_status, string $post_type_nam
 add_filter("gutestrap_enable_for_post_type", "my_project_enable_gutestrap", 10, 2);
 ```
 
-### Enable Border Colors (experimental)
+### ~~Enable Border Colors (experimental)~~ (disabled)
 
 ```php
-add_theme_support("gutestrap-border-colors"),
+// add_theme_support("gutestrap-border-colors"), // disabled
 ```
