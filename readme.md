@@ -41,6 +41,10 @@ $container-max-widths: (
 );
 
 $grid-gutter-width: 30px;
+
+:root {
+	--gs-gutter-x: #{$grid-gutter-width};
+}
 ```
 
 <br>
