@@ -9,11 +9,12 @@
 		}
 	],
 	"require": {
-		"denman-digital/wp-utils": "^1.0",
+		"php": ">=7.4",
+		"denman-digital/wp-utils": "^1.1",
 		"scssphp/scssphp": "^1.4"
 	},
 	"require-dev": {
-		"php-stubs/wordpress-stubs": "^5.7"
+		"php-stubs/wordpress-stubs": "^6.1"
 	},
 	"repositories": [
 		{

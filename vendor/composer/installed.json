@@ -2,29 +2,29 @@
     "packages": [
         {
             "name": "denman-digital/wp-utils",
-            "version": "1.0.6",
-            "version_normalized": "1.0.6.0",
+            "version": "1.1.0",
+            "version_normalized": "1.1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Denman-Digital/wp-utils.git",
-                "reference": "c8a9af6fcd6f95a6ca62266b098c524e9f7fd606"
+                "reference": "6c2b1427c4bc9ca646193f480b59ee446e04a3e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/c8a9af6fcd6f95a6ca62266b098c524e9f7fd606",
-                "reference": "c8a9af6fcd6f95a6ca62266b098c524e9f7fd606",
+                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/6c2b1427c4bc9ca646193f480b59ee446e04a3e2",
+                "reference": "6c2b1427c4bc9ca646193f480b59ee446e04a3e2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.3"
+                "php": ">=7.4"
             },
             "require-dev": {
                 "paulthewalton/acf-pro-stubs": "5.8.9.1",
                 "php-parallel-lint/php-console-highlighter": "^0.5.0",
                 "php-parallel-lint/php-parallel-lint": "^1.2.0",
-                "php-stubs/wordpress-stubs": "^5.6"
+                "php-stubs/wordpress-stubs": "^6.0"
             },
-            "time": "2021-03-25T22:04:47+00:00",
+            "time": "2022-12-04T04:42:05+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {

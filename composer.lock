@@ -4,30 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9d731be65563611a2a3c025cc61a95b",
+    "content-hash": "a87dd151a0cbe7f57ae4ba79024bb104",
     "packages": [
         {
             "name": "denman-digital/wp-utils",
-            "version": "1.0.6",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Denman-Digital/wp-utils.git",
-                "reference": "c8a9af6fcd6f95a6ca62266b098c524e9f7fd606"
+                "reference": "6c2b1427c4bc9ca646193f480b59ee446e04a3e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/c8a9af6fcd6f95a6ca62266b098c524e9f7fd606",
-                "reference": "c8a9af6fcd6f95a6ca62266b098c524e9f7fd606",
+                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/6c2b1427c4bc9ca646193f480b59ee446e04a3e2",
+                "reference": "6c2b1427c4bc9ca646193f480b59ee446e04a3e2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.3"
+                "php": ">=7.4"
             },
             "require-dev": {
                 "paulthewalton/acf-pro-stubs": "5.8.9.1",
                 "php-parallel-lint/php-console-highlighter": "^0.5.0",
                 "php-parallel-lint/php-parallel-lint": "^1.2.0",
-                "php-stubs/wordpress-stubs": "^5.6"
+                "php-stubs/wordpress-stubs": "^6.0"
             },
             "type": "library",
             "autoload": {
@@ -60,7 +60,7 @@
                 "issues": "https://github.com/denman-digital/wp-utils/issues",
                 "source": "https://github.com/denman-digital/wp-utils"
             },
-            "time": "2021-03-25T22:04:47+00:00"
+            "time": "2022-12-04T04:42:05+00:00"
         },
         {
             "name": "scssphp/scssphp",
@@ -146,16 +146,16 @@
     "packages-dev": [
         {
             "name": "php-stubs/wordpress-stubs",
-            "version": "v5.9.4",
+            "version": "v6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "3e481f4c8195fb3ca9e3e4e52e5305bf59c74cdb"
+                "reference": "19e7966c8e70a99a4824b3e5d1526680a151f13b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/3e481f4c8195fb3ca9e3e4e52e5305bf59c74cdb",
-                "reference": "3e481f4c8195fb3ca9e3e4e52e5305bf59c74cdb",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/19e7966c8e70a99a4824b3e5d1526680a151f13b",
+                "reference": "19e7966c8e70a99a4824b3e5d1526680a151f13b",
                 "shasum": ""
             },
             "replace": {
@@ -187,9 +187,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v5.9.4"
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.1.0"
             },
-            "time": "2022-09-30T17:45:35+00:00"
+            "time": "2022-11-09T05:33:25+00:00"
         }
     ],
     "aliases": [],
@@ -197,7 +197,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.4"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
 }
