@@ -2,10 +2,13 @@
 /**
  * Plugin Name: Gutestrap
  * Plugin URI: https://github.com/Denman-Digital/gutestrap
+ * Update URI: https://github.com/Denman-Digital/gutestrap/archive/main.zip
  * Description: Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies).
  * Author: Denman Digital
  * Author URI: https://denman.digital
- * Version: 1.3.23
+ * Version: 1.3.24
+ * Requires at least: 6.0
+ * Requires PHP: 7.4
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  *

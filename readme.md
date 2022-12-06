@@ -18,26 +18,26 @@ Bootstrap layout blocks for Gutenberg
 
 ## Grid values
 
-> Last changed in v1.3.1
+> Last changed in v1.3.24
 
 ```scss
 $grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1440px,
-  xxxl: 1680px,
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1420px,
+	xxxl: 1680px,
 );
 
 $container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1320px,
-  xxxl: 1440px,
+	sm: 540px,
+	md: 720px,
+	lg: 960px,
+	xl: 1140px,
+	xxl: 1320px,
+	xxxl: 1440px,
 );
 
 $grid-gutter-width: 30px;
