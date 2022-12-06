@@ -6,7 +6,7 @@ export const GRID_BREAKPOINTS = {
 	md: 768,
 	lg: 992,
 	xl: 1200,
-	xxl: 1440,
+	xxl: 1420,
 	xxxl: 1680,
 };
 
