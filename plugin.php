@@ -26,6 +26,10 @@ if (!defined("WP_DEBUG_LOG")) {
 	define("WP_DEBUG_LOG", false);
 }
 
+define("GUTESTRAP_PLUGIN_BASENAME", plugin_basename(__FILE__));
+
+define("GUTESTRAP_PLUGIN_FILE", basename(__FILE__));
+
 /**
  * PHP Dependencies
  */
@@ -36,3 +40,7 @@ require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
  */
 require_once plugin_dir_path(__FILE__) . 'src/init.php';
 
+/**
+ * Update Check
+ */
+require_once plugin_dir_path(__FILE__) . 'src/update.php';
