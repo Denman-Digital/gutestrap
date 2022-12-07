@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Plugin Name: Gutestrap
  * Plugin URI: https://github.com/Denman-Digital/gutestrap
- * Update URI: https://github.com/Denman-Digital/gutestrap/archive/main.zip
+ * Update URI: gutestrap
  * Description: Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies).
  * Author: Denman Digital
  * Author URI: https://denman.digital
- * Version: 1.3.24
+ * Version: 1.3.21
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * License: GPL2+
@@ -16,7 +17,7 @@
  */
 
 // Exit if accessed directly.
-defined( 'ABSPATH' ) ||	exit;
+defined('ABSPATH') ||	exit;
 
 if (!defined("WP_DEBUG")) {
 	define("WP_DEBUG", false);
@@ -28,10 +29,10 @@ if (!defined("WP_DEBUG_LOG")) {
 /**
  * PHP Dependencies
  */
-require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 
 /**
  * Block Initializer.
  */
-require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
+require_once plugin_dir_path(__FILE__) . 'src/init.php';
 
