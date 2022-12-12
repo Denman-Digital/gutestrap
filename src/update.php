@@ -20,8 +20,9 @@ class Gutestrap_Update
 	private function __construct()
 	{
 		add_filter("update_plugins_gutestrap", [$this, "update_plugins_gutestrap_data"], 10, 1);
-		add_filter('pre_set_site_transient_update_plugins', [$this, "modify_plugins_transient"], 10, 1);
-		add_filter('plugins_api', [$this, 'modify_plugin_details'], 99999, 3);
+		add_filter("pre_set_site_transient_update_plugins", [$this, "modify_plugins_transient"], 10, 1);
+		add_filter("plugins_api", [$this, "modify_plugin_details"], 99999, 3);
+		add_filter("upgrader_post_install",  [$this, "post_install"], 10, 3);
 	}
 
 	public static function instance(): Gutestrap_Update
@@ -52,6 +53,10 @@ class Gutestrap_Update
 				"1x" => $this->remote_plugin_endpoint_base . "assets/icon-128x128.png",
 				"svg" => $this->remote_plugin_endpoint_base . "assets/icon.svg",
 			],
+			"banners" => [
+				"high" => $this->remote_plugin_endpoint_base . "assets/banner-1544x500.jpg",
+				"low" => $this->remote_plugin_endpoint_base . "assets/banner-772x250.jpg",
+			]
 		];
 	}
 
@@ -114,10 +119,41 @@ class Gutestrap_Update
 				esc_url("https://github.com/Denman-Digital/gutestrap/releases"),
 				__("Full list of releases", "gutestrap"),
 			),
-			// 'upgrade_notice' => '',
 		);
 		$result->sections = $sections;
 		return $result;
+	}
+
+
+	/**
+	 * Finalize install
+	 * @param bool $_response
+	 * @param array $_hook_extra
+	 * @param array $result
+	 * @return bool
+	 */
+	public function post_install(bool $response, array $_hook_extra, array $result): bool
+	{
+		// Remember if our plugin was previously activated
+		$wasActivated = is_plugin_active(GUTESTRAP_PLUGIN_BASENAME);
+
+		error_log(print_r([
+			$response,
+			$_hook_extra,
+			$result
+		], true));
+
+		if (isset($_hook_extra["plugin"]) && $_hook_extra["plugin"] === GUTESTRAP_PLUGIN_BASENAME) {
+			global $wp_filesystem;
+			$pluginFolder = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . dirname(GUTESTRAP_PLUGIN_BASENAME);
+			$wp_filesystem->move($result['destination'], $pluginFolder);
+			$result['destination'] = $pluginFolder;
+
+			if ($wasActivated) {
+				$activate = activate_plugin(GUTESTRAP_PLUGIN_BASENAME);
+			}
+		}
+		return $response;
 	}
 }
 
