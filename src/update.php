@@ -137,12 +137,6 @@ class Gutestrap_Update
 		// Remember if our plugin was previously activated
 		$wasActivated = is_plugin_active(GUTESTRAP_PLUGIN_BASENAME);
 
-		error_log(print_r([
-			$response,
-			$_hook_extra,
-			$result
-		], true));
-
 		if (isset($_hook_extra["plugin"]) && $_hook_extra["plugin"] === GUTESTRAP_PLUGIN_BASENAME) {
 			global $wp_filesystem;
 			$pluginFolder = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . dirname(GUTESTRAP_PLUGIN_BASENAME);
