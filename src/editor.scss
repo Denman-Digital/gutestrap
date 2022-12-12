@@ -6,6 +6,7 @@
  */
 @use "sass:list";
 @use "sass:math";
+@use "sass:map";
 @use "common" as *;
 
 html {
@@ -53,7 +54,8 @@ $include-column-box-sizing: true !default;
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
 	$min: breakpoint-min($name, $breakpoints);
 	@if $min {
-		$min: $min + 280px;
+		// $min: $min + 280px;
+		$min: $min + 17.5em;
 		@media (min-width: $min) {
 			.gutestrap-enabled #editor {
 				@if $name == sm or $name == md {
@@ -708,6 +710,22 @@ hr.gutestrap-block-clear-placeholder {
 					box-shadow: inset 2px 2px 2px -1px tomato;
 				}
 			}
+		}
+	}
+}
+
+:root {
+	--#{$prefix}gutter-x: #{$grid-gutter-width};
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@if $breakpoint == xs {
+			--#{$prefix}container-w-#{$breakpoint}: initial;
+		} @else {
+			--#{$prefix}container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
+		}
+	}
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@include media-breakpoint-up($breakpoint) {
+			--#{$prefix}container-w: var(--#{$prefix}container-w-#{$breakpoint});
 		}
 	}
 }

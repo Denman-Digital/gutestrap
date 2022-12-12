@@ -4,6 +4,7 @@
  * CSS for Frontend.
  */
 
+@use "sass:map";
 @use "common" as *;
 
 // @import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
@@ -236,3 +237,19 @@ $utilities: map-merge(
 // 		}
 // 	}
 // }
+
+:root {
+	--#{$prefix}gutter-x: #{$grid-gutter-width};
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@if $breakpoint == xs {
+			--#{$prefix}container-w-#{$breakpoint}: initial;
+		} @else {
+			--#{$prefix}container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
+		}
+	}
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@include media-breakpoint-up($breakpoint) {
+			--#{$prefix}container-w: var(--#{$prefix}container-w-#{$breakpoint});
+		}
+	}
+}

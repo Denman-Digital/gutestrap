@@ -40,10 +40,20 @@ $container-max-widths: (
 	xxxl: 1440px,
 );
 
-$grid-gutter-width: 30px;
+$grid-gutter-width: 1.875rem;
 
 :root {
 	--gs-gutter-x: #{$grid-gutter-width};
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@if $breakpoint == xs {
+			--gs-container-w-#{$breakpoint}: initial;
+		} @else {
+			--gs-container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
+		}
+		@include media-breakpoint-up($breakpoint) {
+			--gs-container-w: var(--gs-container-w-#{$breakpoint});
+		}
+	}
 }
 ```
 
