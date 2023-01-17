@@ -1,19 +1,20 @@
 ---
-parser: babel-eslint
+parser: "@babel/eslint-parser"
 extends:
   - plugin:compat/recommended
   - plugin:react/recommended
   - plugin:jsx-a11y/recommended
-  - plugin:jest/recommended
   - plugin:prettier/recommended
   - prettier
-  - prettier/react
+plugins:
+  - react
+  - jsx-a11y
+  - prettier
 env:
   browser: false
   es6: true
   node: true
   mocha: true
-  jest/globals: true
 parserOptions:
   sourceType: module
   ecmaFeatures:
@@ -27,10 +28,6 @@ globals:
   document: true
   gutestrapGlobal: true
   gutestrapCodeMirrorSettings: true
-plugins:
-  - react
-  - jsx-a11y
-  - jest
 settings:
   react:
     pragma: wp

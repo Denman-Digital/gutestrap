@@ -31,14 +31,14 @@ import autoprefixer from "autoprefixer";
 import cleanCSS from "gulp-clean-css";
 
 // JS
-import eslint from "gulp-eslint";
+import eslint from "gulp-eslint-new";
 import { rollup, watch as rollupWatch } from "rollup";
 import { babel } from "@rollup/plugin-babel";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import json from "@rollup/plugin-json";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import svgr from "@svgr/rollup";
 
 const env = process.env.NODE_ENV;
