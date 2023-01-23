@@ -98,7 +98,7 @@ class Gutestrap_Update
 
 	function modify_plugin_details($result, $action = null, $args = null)
 	{
-		if ($args->slug !== "gutestrap" || $action !== 'plugin_information') {
+		if (!isset($args->slug) || $args->slug !== "gutestrap" || $action !== 'plugin_information') {
 			return $result;
 		}
 		$result = $this->get_remote_plugin_data();
