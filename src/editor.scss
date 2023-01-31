@@ -157,26 +157,26 @@ $utilities: map-merge(
 
 @import "../node_modules/bootstrap/scss/utilities/api";
 
-// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 .row.no-gutters {
 	margin-left: 0;
 	margin-right: 0;
 
 	> .col,
 	> [class*="col-"] {
-		padding-left: 0;
-		padding-right: 0;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
 	}
 }
 
+// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 .vertical-gutters {
 	margin-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
 	margin-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
 
 	> .col,
 	> [class*="col-"] {
-		padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-		padding-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+		padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
+		padding-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
 	}
 }
 
@@ -226,7 +226,7 @@ $utilities: map-merge(
 		&.has-child-selected,
 		&.has-inner-blocks {
 			&::before {
-				margin-bottom: -28px;
+				// margin-bottom: -28px;
 			}
 		}
 	}
@@ -276,12 +276,29 @@ $utilities: map-merge(
 			align-self: stretch;
 		}
 
+		// &::before {
+		// 	content: "Column";
+		// 	display: block;
+		// 	font-size: 0.75rem;
+		// 	font-family: sans-serif;
+		// 	color: gray;
+		// 	padding-left: 0.25rem;
+		// 	width: 100%;
+		// 	flex: 1 0 100%;
+		// }
+
+		flex-wrap: wrap;
+		outline-offset: -1px;
+
+		// &:not(.has-inner-blocks) {
+		// 	outline: 1px dashed grey;
+		// }
+
 		&.has-child-selected,
 		&.is-selected,
 		&.is-hovered {
 			outline: 1px dashed dodgerblue;
 		}
-		outline-offset: -1px;
 
 		&.block-editor-block-list__block {
 			margin-top: unset;
@@ -442,8 +459,10 @@ $utilities: map-merge(
 
 			> .col,
 			> [class*="col-"] {
-				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-				padding-right: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				margin-top: 0 !important;
+				margin-bottom: 0 !important;
+				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
+				padding-right: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
 			}
 
 			> .block-list-appender {
@@ -466,8 +485,15 @@ $utilities: map-merge(
 
 			> .col,
 			> [class*="col-"] {
-				padding-right: 0;
-				padding-left: 0;
+				padding-right: 0 !important;
+				padding-left: 0 !important;
+			}
+		}
+		&:not(.vertical-gutters) > * > .block-editor-block-list__layout {
+			> .col,
+			> [class*="col-"] {
+				padding-top: 0 !important;
+				padding-bottom: 0 !important;
 			}
 		}
 		// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
@@ -477,8 +503,8 @@ $utilities: map-merge(
 
 			> .col,
 			> [class*="col-"] {
-				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-				padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
+				padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
 			}
 			> .block-list-appender {
 				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
