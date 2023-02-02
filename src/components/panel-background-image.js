@@ -11,23 +11,23 @@ const instructions = (attr) => (
 const positionOptions = [
 	{
 		label: __("Center (default)", "gutestrap"),
-		value: "center",
+		value: "center center",
 	},
 	{
 		label: __("Top", "gutestrap"),
-		value: "top",
+		value: "top center",
 	},
 	{
 		label: __("Bottom", "gutestrap"),
-		value: "bottom",
+		value: "bottom center",
 	},
 	{
 		label: __("Left", "gutestrap"),
-		value: "left",
+		value: "center left",
 	},
 	{
 		label: __("Right", "gutestrap"),
-		value: "right",
+		value: "center right",
 	},
 	{
 		label: __("Top left", "gutestrap"),
