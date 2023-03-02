@@ -15,30 +15,12 @@ export const attributes = {
 		type: "object",
 		default: {
 			xs: 12,
-			md: "default",
 		},
 	},
 	offset: { type: "object" },
 	alignment: { type: "object" },
 	contentAlignment: { type: "object" },
 	background: { type: "object" },
-	textColor: { type: "string" },
-	backgroundColor: { type: "string" },
-	// borderColor: { type: "string" },
-	gradient: { type: "string" },
-	customTextColor: { type: "string" },
-	customBackgroundColor: { type: "string" },
-	// customBorderColor: { type: "string" },
-	// border: {
-	// 	type: "object",
-	// 	default: {
-	// 		color: "transparent",
-	// 		width: "2px",
-	// 		style: "solid",
-	// 		radius: 0,
-	// 	},
-	// },
-	customGradient: { type: "string" },
 	padding: { type: "object" },
 	margin: { type: "object" },
 	_isExample: { type: "boolean" },
@@ -48,20 +30,15 @@ export const attributes = {
 export const supports = {
 	anchor: true,
 	alignWide: false,
-	// border: {
-	// 	radius: true,
-	// },
-	// __experimentalBorder: {
-	// 	color: true,
-	// 	radius: true,
-	// 	style: true,
-	// 	width: true,
-	// 	// __experimentalSkipSerialization: true,
-	// 	__experimentalDefaultControls: {
-	// 		color: true,
-	// 		radius: true,
-	// 		style: true,
-	// 		width: true,
-	// 	},
+	color: {
+		gradients: true,
+		background: true,
+		text: true,
+	},
+	// spacing: {
+	// 	margin: ["top", "bottom"], // Enable vertical margins.
+	// 	padding: true, // Enable padding for all sides.
 	// },
 };
+
+export const template = [["core/paragraph"]];

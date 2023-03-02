@@ -11,9 +11,7 @@ import LaptopIcon from "bootstrap-icons/icons/laptop.svg";
 import DesktopSmallIcon from "bootstrap-icons/icons/display.svg";
 import DesktopLargeIcon from "bootstrap-icons/icons/tv.svg";
 
-import { GRID_BREAKPOINTS } from "../../_common";
-
-const breakpoints = Object.keys(GRID_BREAKPOINTS);
+const breakpoints = ["xs", "sm", "md", "lg", "xl", "xxl", "xxxl"];
 
 export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, hasNotification = () => false }) => {
 	let haveNotifications = breakpoints.filter(hasNotification);

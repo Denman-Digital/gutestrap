@@ -118,6 +118,8 @@ function gutestrap_setup_js_globals()
 			"enableBorderColors" => current_theme_supports("gutestrap-border-colors"),
 			"disableCustomColors" => current_theme_supports("disable-custom-colors"),
 			"disableCustomGradients" => current_theme_supports("disable-custom-gradients"),
+			"enableLayeredGridBackgrounds" => current_theme_supports("gutestrap-layered-grid-backgrounds"),
+			// "enableResponsiveSpacing" => current_theme_supports("gutestrap-rfs-spacing"),
 			"excludedPostTypes" => [],
 		]
 	];

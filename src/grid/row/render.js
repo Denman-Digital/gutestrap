@@ -78,8 +78,6 @@ export const rowWrapClassNames = ({ direction = {} }) => {
  * The save function defines the way in which the different attributes should be combined
  * into the final markup, which is then serialized by Gutenberg into post_content.
  *
- * The "save" property must be specified and must be a valid function.
- *
  * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
  *
  * @param {Object} props Props.
@@ -87,14 +85,18 @@ export const rowWrapClassNames = ({ direction = {} }) => {
  */
 export const RowRender = ({ attributes, className }) => {
 	const { padding, anchor } = attributes;
-	const style = {
-		paddingTop: padding?.top,
-		paddingRight: padding?.right,
-		paddingBottom: padding?.bottom,
-		paddingLeft: padding?.left,
-	};
+	// const { style = {}, anchor } = attributes;
+	// const { spacing = {} } = style;
+	// const { padding } = spacing;
 	return (
-		<div id={anchor || null} className={classNames(className, rowClassNames(attributes))} style={style}>
+		<div
+			id={anchor || null}
+			className={classNames(className, rowClassNames(attributes))}
+			style={{
+				paddingTop: padding?.top || null,
+				paddingBottom: padding?.bottom || null,
+			}}
+		>
 			<InnerBlocks.Content />
 		</div>
 	);
@@ -103,6 +105,47 @@ export const RowRender = ({ attributes, className }) => {
 //==============================================================================
 // DEPRECATED VERSIONS
 //
+
+const v4 = {
+	attributes: {
+		noGutters: { type: "boolean" },
+		verticalGutters: { type: "boolean" },
+		alignment: { type: "object" },
+		justification: { type: "object" },
+		defaultColWidth: { type: "object" },
+		direction: { type: "object" },
+		disabled: { type: "boolean" },
+		anchor: { type: "string" },
+		padding: { type: "object" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+	},
+	// migrate: (attributes, innerBlocks) => {
+	// 	const { padding, ...attrs } = attributes;
+	// 	attrs.style = attrs.style || {};
+	// 	attrs.style.spacing = attrs.style.spacing || {};
+	// 	if (padding) {
+	// 		attrs.style.spacing.padding = padding;
+	// 	}
+	// 	return [attrs, innerBlocks];
+	// },
+	save: ({ attributes, className }) => {
+		const { padding, anchor } = attributes;
+		const style = {
+			paddingTop: padding?.top,
+			paddingRight: padding?.right,
+			paddingBottom: padding?.bottom,
+			paddingLeft: padding?.left,
+		};
+		return (
+			<div id={anchor || null} className={classNames(className, rowClassNames(attributes))} style={style}>
+				<InnerBlocks.Content />
+			</div>
+		);
+	},
+};
 
 const v3 = {
 	attributes: {
@@ -170,6 +213,7 @@ const v2 = {
 		);
 	},
 };
+
 const v1 = {
 	attributes: {
 		noGutters: { type: "boolean" },
@@ -190,4 +234,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v3, v2, v1];
+export const deprecated = [v4, v3, v2, v1];

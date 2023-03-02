@@ -18,26 +18,30 @@ Bootstrap layout blocks for Gutenberg
 
 ## Grid values
 
-> Last changed in v1.3.24
+> Last changed in v1.4.1
+
+**NOTE:** We have switched to responsive units in the so that the breakpoints will also scale with user browser settings. The breakpoints use em values instead of rem values because (a) Safari does weird stuff with rem breakpoints, and (b) media queries aren't scoped to elements, so in media query `1em` is equal to `1rem`.
 
 ```scss
 $grid-breakpoints: (
 	xs: 0,
-	sm: 576px,
-	md: 768px,
-	lg: 992px,
-	xl: 1200px,
-	xxl: 1420px,
-	xxxl: 1680px,
+	sm: 36em, // 576px,
+	md: 48em, // 768px,
+	lg: 62em, // 992px,
+	xl: 75em, // 1200px,
+	xxl: 88.75em, // 1420px,
+	xxxl: 105em, // 1680px,
+	xxxl: 118.75em // 1680px,
 );
 
 $container-max-widths: (
-	sm: 540px,
-	md: 720px,
-	lg: 960px,
-	xl: 1140px,
-	xxl: 1320px,
-	xxxl: 1440px,
+	sm: 33.75rem, // 540px,
+	md: 45rem, // 720px,
+	lg: 60rem, // 960px,
+	xl: 71.25rem, // 1140px,
+	xxl: 82.5rem, // 1320px,
+	xxxl: 90rem, // 1440px,
+	xxxxl: 108.75rem, // 1740px,
 );
 
 $grid-gutter-width: 1.875rem;

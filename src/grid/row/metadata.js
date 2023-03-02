@@ -65,4 +65,8 @@ export const DEFAULT_ATTRIBUTES = {
 /** Supported WordPress/Gutenberg features. */
 export const supports = {
 	anchor: true,
+	alignWide: false,
+	// spacing: {
+	// 	padding: ["top", "bottom"], // Enable vertical padding.
+	// },
 };

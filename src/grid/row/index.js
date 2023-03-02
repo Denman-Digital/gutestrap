@@ -3,7 +3,6 @@ import { RowEdit as edit } from "./edit";
 import { RowRender as save, deprecated } from "./render";
 import icon from "bootstrap-icons/icons/layout-three-columns.svg";
 
-// import { name as colBlockName } from "../column";
 import RowBreakBlock from "./row-break";
 export { RowBreakBlock };
 

@@ -2,8 +2,6 @@ import classNames from "classnames";
 import {
 	InnerBlocks,
 	getColorClassName,
-	getGradientValueBySlug,
-	validateThemeGradients,
 	__experimentalGetGradientClass as getGradientClass,
 } from "@wordpress/block-editor";
 
@@ -12,6 +10,8 @@ import {
 	COLUMN_OPTION_WIDTH_DEFAULT,
 	COLUMN_OPTION_WIDTH_FIT,
 } from "./column-width-offset-control";
+
+const { config } = gutestrapGlobal;
 
 const columnWidthSuffix = (width) => {
 	switch (width) {
@@ -24,38 +24,31 @@ const columnWidthSuffix = (width) => {
 	}
 };
 
+const hasOption = (optionVal) => optionVal != null && optionVal !== COLUMN_OPTION_INHERIT;
+
 export const columnClassNames = ({ width = {}, offset = {}, alignment = {} }) => {
-	const hasWidth = {
-		xs: width.xs != null,
-		sm: width.sm != null && width.sm !== COLUMN_OPTION_INHERIT,
-		md: width.md != null && width.md !== COLUMN_OPTION_INHERIT,
-		lg: width.lg != null && width.lg !== COLUMN_OPTION_INHERIT,
-		xl: width.xl != null && width.xl !== COLUMN_OPTION_INHERIT,
-		xxl: width.xxl != null && width.xxl !== COLUMN_OPTION_INHERIT,
-		xxxl: width.xxxl != null && width.xxxl !== COLUMN_OPTION_INHERIT,
-	};
 	return classNames({
 		[`col${columnWidthSuffix(width.xs || 12)}`]: true,
-		[`col-sm${columnWidthSuffix(width.sm)}`]: hasWidth.sm,
-		[`col-md${columnWidthSuffix(width.md)}`]: hasWidth.md,
-		[`col-lg${columnWidthSuffix(width.lg)}`]: hasWidth.lg,
-		[`col-xl${columnWidthSuffix(width.xl)}`]: hasWidth.xl,
-		[`col-xxl${columnWidthSuffix(width.xxl)}`]: hasWidth.xxl,
-		[`col-xxxl${columnWidthSuffix(width.xxxl)}`]: hasWidth.xxxl,
+		[`col-sm${columnWidthSuffix(width.sm)}`]: hasOption(width.sm),
+		[`col-md${columnWidthSuffix(width.md)}`]: hasOption(width.md),
+		[`col-lg${columnWidthSuffix(width.lg)}`]: hasOption(width.lg),
+		[`col-xl${columnWidthSuffix(width.xl)}`]: hasOption(width.xl),
+		[`col-xxl${columnWidthSuffix(width.xxl)}`]: hasOption(width.xxl),
+		[`col-xxxl${columnWidthSuffix(width.xxxl)}`]: hasOption(width.xxxl),
 		[`offset-${offset.xs}`]: !!offset.xs,
-		[`offset-sm-${offset.sm}`]: offset.sm != null && offset.sm !== COLUMN_OPTION_INHERIT,
-		[`offset-md-${offset.md}`]: offset.md != null && offset.md !== COLUMN_OPTION_INHERIT,
-		[`offset-lg-${offset.lg}`]: offset.lg != null && offset.lg !== COLUMN_OPTION_INHERIT,
-		[`offset-xl-${offset.xl}`]: offset.xl != null && offset.xl !== COLUMN_OPTION_INHERIT,
-		[`offset-xxl-${offset.xxl}`]: offset.xxl != null && offset.xxl !== COLUMN_OPTION_INHERIT,
-		[`offset-xxxl-${offset.xxxl}`]: offset.xxxl != null && offset.xxxl !== COLUMN_OPTION_INHERIT,
+		[`offset-sm-${offset.sm}`]: hasOption(offset.sm),
+		[`offset-md-${offset.md}`]: hasOption(offset.md),
+		[`offset-lg-${offset.lg}`]: hasOption(offset.lg),
+		[`offset-xl-${offset.xl}`]: hasOption(offset.xl),
+		[`offset-xxl-${offset.xxl}`]: hasOption(offset.xxl),
+		[`offset-xxxl-${offset.xxxl}`]: hasOption(offset.xxxl),
 		[`align-self-${alignment.xs}`]: !!alignment.xs,
-		[`align-self-sm-${alignment.sm}`]: alignment.sm != null && alignment.sm !== COLUMN_OPTION_INHERIT,
-		[`align-self-md-${alignment.md}`]: alignment.md != null && alignment.md !== COLUMN_OPTION_INHERIT,
-		[`align-self-lg-${alignment.lg}`]: alignment.lg != null && alignment.lg !== COLUMN_OPTION_INHERIT,
-		[`align-self-xl-${alignment.xl}`]: alignment.xl != null && alignment.xl !== COLUMN_OPTION_INHERIT,
-		[`align-self-xxl-${alignment.xxl}`]: alignment.xxl != null && alignment.xxl !== COLUMN_OPTION_INHERIT,
-		[`align-self-xxxl-${alignment.xxxl}`]: alignment.xxxl != null && alignment.xxxl !== COLUMN_OPTION_INHERIT,
+		[`align-self-sm-${alignment.sm}`]: hasOption(alignment.sm),
+		[`align-self-md-${alignment.md}`]: hasOption(alignment.md),
+		[`align-self-lg-${alignment.lg}`]: hasOption(alignment.lg),
+		[`align-self-xl-${alignment.xl}`]: hasOption(alignment.xl),
+		[`align-self-xxl-${alignment.xxl}`]: hasOption(alignment.xxl),
+		[`align-self-xxxl-${alignment.xxxl}`]: hasOption(alignment.xxxl),
 	});
 };
 
@@ -114,63 +107,62 @@ export const columnInnerClassNames = ({ contentAlignment = {} }) => {
  * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
  *
  * @param {Object} props Props.
+ * @param {Object} props.attributes Attributes.
+ * @param {string} props.className Class name.
  * @returns {Mixed} JSX Frontend HTML.
  */
-export const ColumnRender = ({ attributes, className }) => {
-	const {
-		background,
-		textColor,
-		customTextColor,
-		backgroundColor,
-		customBackgroundColor,
-		borderColor,
-		customBorderColor,
-		gradient,
-		customGradient,
-		padding,
-		margin,
-	} = attributes;
+export const ColumnRender = ({ attributes, className = "" }) => {
+	const { width, anchor, background, textColor, backgroundColor, gradient, padding, margin, style = {} } = attributes;
+	const { color = {} /*, spacing = {} */ } = style;
+	// const { padding, margin } = spacing;
+	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+
+	/** @type {CSSStyleDeclaration} */
 	const innerStyle = {
-		paddingTop: padding?.top,
-		paddingRight: padding?.right,
-		paddingBottom: padding?.bottom,
-		paddingLeft: padding?.left,
+		paddingTop: padding?.top || null,
+		paddingRight: padding?.right || null,
+		paddingBottom: padding?.bottom || null,
+		paddingLeft: padding?.left || null,
 		color: customTextColor || null,
 		backgroundColor: customBackgroundColor || null,
-		borderColor: customBorderColor || null,
 	};
-	if (background?.image?.url) {
-		innerStyle.backgroundImage = `url(${background.image.url})`;
-		innerStyle.backgroundPosition = background.position || "center";
-		innerStyle.backgroundSize = background.size || "cover";
-		innerStyle.backgroundRepeat = background.repeat ? "repeat" : "no-repeat";
+
+	if (!hasOption(width?.lg)) {
+		className = className.replace(/col-lg(?:-(?:\d{1,2}|auto))?/g, "");
 	}
-	if (customGradient || (gradient && background?.image?.url)) {
-		if (innerStyle.backgroundImage) {
-			innerStyle.backgroundImage += ", ";
-		} else {
-			innerStyle.backgroundImage = "";
-		}
-		innerStyle.backgroundImage += customGradient || getGradientValueBySlug(validateThemeGradients(), gradient);
+	if (!hasOption(width?.md)) {
+		className = className.replace(/col-md(?:-(?:\d{1,2}|auto))?/g, "");
+	}
+
+	if (background?.image?.url) {
+		innerStyle.backgroundPosition = background?.position || "center center";
+		innerStyle.backgroundSize = background?.size || "cover";
+		innerStyle.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+		innerStyle.backgroundImage = `url(${background.image.url})`;
+	}
+
+	if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+		if (innerStyle.backgroundImage) innerStyle.backgroundImage += ", ";
+		innerStyle.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+	} else if (customGradient) {
+		innerStyle.backgroundImage = customGradient;
 	}
 
 	return (
 		<div
+			id={anchor || null}
 			className={classNames(className, columnClassNames(attributes))}
 			style={{
-				marginTop: margin?.top,
-				marginBottom: margin?.bottom,
+				marginTop: margin?.top || null,
+				marginBottom: margin?.bottom || null,
 			}}
 		>
 			<div
 				className={classNames(columnInnerClassNames(attributes), {
 					"has-text-color": textColor || customTextColor,
-					"has-background-color": backgroundColor || customBackgroundColor,
-					"has-border-color": borderColor || customBorderColor,
-					"has-background-gradient": gradient || customGradient,
+					"has-background": backgroundColor || customBackgroundColor || innerStyle.backgroundImage,
 					[getColorClassName("color", textColor)]: textColor,
 					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
-					[getColorClassName("border-color", borderColor)]: borderColor,
 					[getGradientClass(gradient)]: gradient,
 				})}
 				style={innerStyle}
@@ -186,6 +178,117 @@ export const ColumnRender = ({ attributes, className }) => {
 //==============================================================================
 // DEPRECATED VERSIONS
 //
+
+export const v8 = {
+	attributes: {
+		width: { type: "object" },
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		contentAlignment: { type: "object" },
+		background: { type: "object" },
+		textColor: { type: "string" },
+		backgroundColor: { type: "string" },
+		gradient: { type: "string" },
+		customTextColor: { type: "string" },
+		customBackgroundColor: { type: "string" },
+		customGradient: { type: "string" },
+		padding: { type: "object" },
+		margin: { type: "object" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+	},
+	migrate: (attributes, innerBlocks) => {
+		const { /* padding, margin, */ customTextColor, customBackgroundColor, customGradient, ...attrs } = attributes;
+		attrs.style = attrs.style || {};
+		// attrs.style.spacing = attrs.style.spacing || {};
+		attrs.style.color = attrs.style.color || {};
+		// if (padding) {
+		// 	attrs.style.spacing.padding = padding;
+		// }
+		// if (margin) {
+		// 	attrs.style.spacing.margin = margin;
+		// }
+		if (customTextColor) {
+			attrs.style.color.text = customTextColor;
+		}
+		if (customBackgroundColor) {
+			attrs.style.color.background = customBackgroundColor;
+		}
+		if (customGradient) {
+			attrs.style.color.gradient = customGradient;
+		}
+		return [attrs, innerBlocks];
+	},
+	save: ({ attributes, className }) => {
+		const {
+			background,
+			textColor,
+			customTextColor,
+			backgroundColor,
+			customBackgroundColor,
+			borderColor,
+			customBorderColor,
+			gradient,
+			customGradient,
+			padding,
+			margin,
+		} = attributes;
+		const innerStyle = {
+			paddingTop: padding?.top,
+			paddingRight: padding?.right,
+			paddingBottom: padding?.bottom,
+			paddingLeft: padding?.left,
+			color: customTextColor || null,
+			backgroundColor: customBackgroundColor || null,
+			borderColor: customBorderColor || null,
+		};
+		if (background?.image?.url) {
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+			innerStyle.backgroundPosition = background.position || "center";
+			innerStyle.backgroundSize = background.size || "cover";
+			innerStyle.backgroundRepeat = background.repeat ? "repeat" : "no-repeat";
+		}
+		if (customGradient || (gradient && background?.image?.url)) {
+			if (innerStyle.backgroundImage) {
+				innerStyle.backgroundImage += ", ";
+			} else {
+				innerStyle.backgroundImage = "";
+			}
+			innerStyle.backgroundImage += customGradient;
+		}
+
+		return (
+			<div
+				className={classNames(className, columnClassNames(attributes))}
+				style={{
+					marginTop: margin?.top,
+					marginBottom: margin?.bottom,
+				}}
+			>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						"has-text-color": textColor || customTextColor,
+						"has-background-color": backgroundColor || customBackgroundColor,
+						"has-border-color": borderColor || customBorderColor,
+						"has-background-gradient": gradient || customGradient,
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+						[getColorClassName("border-color", borderColor)]: borderColor,
+						[getGradientClass(gradient)]: gradient,
+					})}
+					style={innerStyle}
+				>
+					<div className="col__content">
+						<InnerBlocks.Content />
+					</div>
+				</div>
+			</div>
+		);
+	},
+};
 
 const v7 = {
 	attributes: {
@@ -530,4 +633,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v7, v6, v5, v4, v3, v2, v1];
+export const deprecated = [v8, v7, v6, v5, v4, v3, v2, v1];
