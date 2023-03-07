@@ -1,42 +1,31 @@
 import classNames from "classnames";
-const { __ } = wp.i18n;
-const { Fragment } = wp.element;
-const {
+import { __ } from "@wordpress/i18n";
+import { Fragment } from "@wordpress/element";
+import {
 	InspectorControls,
 	InspectorAdvancedControls,
 	InnerBlocks,
-	// PanelColorSettings,
-	withColors,
-	__experimentalPanelColorGradientSettings: PanelColorGradientSettings,
-	__experimentalUseGradient: useGradient,
-} = wp.blockEditor;
-const { PanelBody, SelectControl, ToggleControl } = wp.components;
+	__experimentalGetGradientClass as getGradientClass,
+} from "@wordpress/block-editor";
+import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 
 const { config } = gutestrapGlobal;
 
-function ContainerEdit({
-	attributes,
-	className,
-	setAttributes,
-	textColor,
-	setTextColor,
-	backgroundColor,
-	setBackgroundColor,
-}) {
-	const { breakpoint, fluid, disabled, background } = attributes;
-	const { gradientClass, gradientValue, setGradient } = useGradient({
-		gradientAttribute: "gradient",
-		customGradientAttribute: "customGradient",
-	});
+function ContainerEdit({ attributes, className, setAttributes, textColor, backgroundColor }) {
+	const { breakpoint, fluid, disabled, background, gradient, style = {} } = attributes;
+	const { color = {} } = style;
+	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
 
 	let backgroundImageCSS = "";
 	if (background?.image?.url) {
 		backgroundImageCSS += `url(${background.image.url})`;
 	}
-	if (gradientValue) {
+	if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
 		if (backgroundImageCSS) backgroundImageCSS += ", ";
-		backgroundImageCSS += gradientValue;
+		backgroundImageCSS += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+	} else if (customGradient) {
+		backgroundImageCSS = customGradient;
 	}
 	return (
 		<Fragment>
@@ -95,40 +84,6 @@ function ContainerEdit({
 					}}
 					initialOpen={!!background?.image}
 				/>
-				{/* <PanelColorSettings
-					title={__("Colour Settings", "gutestrap")}
-					initialOpen={false}
-					disableCustomColors={false}
-					disableCustomGradients={true}
-					colorSettings={[
-						{
-							value: backgroundColor.color,
-							onChange: setBackgroundColor,
-							label: __("Background", "gutestrap"),
-						},
-						{ value: textColor.color, onChange: setTextColor, label: __("Text", "gutestrap") },
-					]}
-				/> */}
-				<PanelColorGradientSettings
-					title={__("Colour Settings", "gutestrap")}
-					initialOpen={false}
-					disableCustomColors={!!config.disableCustomColors}
-					disableCustomGradients={!!config.disableCustomGradients}
-					settings={[
-						{
-							colorValue: backgroundColor.color,
-							gradientValue: gradientValue,
-							onColorChange: setBackgroundColor,
-							onGradientChange: setGradient,
-							label: __("Background", "gutestrap"),
-						},
-						{
-							colorValue: textColor.color,
-							onColorChange: setTextColor,
-							label: __("Text", "gutestrap"),
-						},
-					]}
-				/>
 			</InspectorControls>
 			<InspectorAdvancedControls>
 				<ToggleControl
@@ -142,17 +97,16 @@ function ContainerEdit({
 			</InspectorAdvancedControls>
 			<div
 				className={classNames({
-					"has-text-color": textColor?.color,
+					"has-text-color": textColor?.color || customTextColor,
 					[textColor?.class]: textColor?.class,
-					"has-background-color": backgroundColor?.color,
+					"has-background": backgroundColor?.color || customBackgroundColor,
 					[backgroundColor?.class]: backgroundColor?.class,
-					"has-gradient-background": !!gradientValue,
-					[gradientClass]: !!gradientClass,
+					[getGradientClass(gradient)]: gradient,
 				})}
 				style={{
 					backgroundImage: backgroundImageCSS || null,
-					backgroundPosition: background?.position || null,
-					backgroundSize: background?.size || null,
+					backgroundPosition: background?.position || "center center",
+					backgroundSize: background?.size || "cover",
 					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
 					color: textColor?.color,
 					backgroundColor: backgroundColor?.color,
@@ -170,8 +124,6 @@ function ContainerEdit({
 		</Fragment>
 	);
 }
-
-ContainerEdit = withColors({ textColor: "color", backgroundColor: "background-color" })(ContainerEdit);
 
 export { ContainerEdit };
 export default ContainerEdit;

@@ -1,4 +1,4 @@
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 
 /** Block name. */
 export const name = "gutestrap/row";
@@ -65,4 +65,8 @@ export const DEFAULT_ATTRIBUTES = {
 /** Supported WordPress/Gutenberg features. */
 export const supports = {
 	anchor: true,
+	alignWide: false,
+	// spacing: {
+	// 	padding: ["top", "bottom"], // Enable vertical padding.
+	// },
 };

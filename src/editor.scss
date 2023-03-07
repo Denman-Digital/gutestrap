@@ -5,6 +5,8 @@
  * which makes it higher in priority.
  */
 @use "sass:list";
+@use "sass:math";
+@use "sass:map";
 @use "common" as *;
 
 html {
@@ -27,7 +29,8 @@ html {
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
 	$min: breakpoint-min($name, $breakpoints);
 	@if $min {
-		$min: $min + 280px;
+		// $min: $min + 280px;
+		$min: $min + 17.5em;
 		@media (min-width: $min) {
 			.gutestrap-enabled #editor {
 				@if $name == sm or $name == md {
@@ -61,8 +64,8 @@ html {
 
 	> .col,
 	> [class*="col-"] {
-		padding-left: 0;
-		padding-right: 0;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
 	}
 }
 
@@ -72,8 +75,8 @@ html {
 	margin-bottom: calc(#{$grid-gutter-width} * -0.5);
 
 	@supports (width: var(--supports-width, 100%)) {
-		margin-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-		margin-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+		margin-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+		margin-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
 	}
 
 	> .col,
@@ -82,8 +85,8 @@ html {
 		padding-bottom: calc(#{$grid-gutter-width} * 0.5);
 
 		@supports (width: var(--supports-width, 100%)) {
-			padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-			padding-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+			padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+			padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 		}
 	}
 }
@@ -134,7 +137,7 @@ html {
 		&.has-child-selected,
 		&.has-inner-blocks {
 			&::before {
-				margin-bottom: -28px;
+				// margin-bottom: -28px;
 			}
 		}
 	}
@@ -145,7 +148,8 @@ html {
 
 		&.has-child-selected,
 		&.is-selected,
-		&.is-hovered {
+		&.is-hovered,
+		&:hover {
 			outline: 1px dashed limegreen;
 		}
 
@@ -184,30 +188,36 @@ html {
 			align-self: stretch;
 		}
 
+		> .col__inner {
+			outline-offset: -1px;
+		}
+
 		&.has-child-selected,
 		&.is-selected,
-		&.is-hovered {
-			outline: 1px dashed dodgerblue;
+		&.is-hovered,
+		&:hover {
+			> .col__inner {
+				outline: 1px dashed dodgerblue;
+			}
 		}
-		outline-offset: -1px;
 
 		&.block-editor-block-list__block {
 			margin-top: unset;
 			margin-bottom: unset;
 		}
 
-		& > &-visualizer > .col__inner > .block-editor-inner-blocks {
+		& > .col__inner > .col__content > .block-editor-inner-blocks {
 			min-width: 1em;
 		}
 		&
-			> &-visualizer
 			> .col__inner
+			> .col__content
 			> .block-editor-inner-blocks
 			> .block-editor-block-list__layout
 			> p[aria-label^="Empty block"] {
 			min-width: 5em;
 		}
-		&:not(.has-inner-blocks) > &-visualizer > .col__inner > .block-editor-inner-blocks {
+		&:not(.has-inner-blocks) > .col__inner > .col__content > .block-editor-inner-blocks {
 			width: 100%;
 		}
 
@@ -218,7 +228,7 @@ html {
 		}
 	}
 
-	&-row.is-selected &-col {
+	&-row.is-selected > .row > .block-editor-inner-blocks > .block-editor-block-list__layout > &-col > .col__inner {
 		outline: 1px dashed gray;
 	}
 
@@ -356,13 +366,13 @@ html {
 
 			> .col,
 			> [class*="col-"] {
-				padding-left: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-				padding-right: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-right: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 			}
 
 			> .block-list-appender {
 				position: relative;
-				padding-left: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 				width: 100%;
 				max-width: 100%;
 				flex-basis: 100%;
@@ -380,22 +390,29 @@ html {
 
 			> .col,
 			> [class*="col-"] {
-				padding-right: 0;
-				padding-left: 0;
+				padding-right: 0 !important;
+				padding-left: 0 !important;
+			}
+		}
+		&:not(.vertical-gutters) > * > .block-editor-block-list__layout {
+			> .col,
+			> [class*="col-"] {
+				padding-top: 0 !important;
+				padding-bottom: 0 !important;
 			}
 		}
 		// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 		&.vertical-gutters > * > .block-editor-block-list__layout {
-			margin-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-			margin-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+			margin-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+			margin-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
 
 			> .col,
 			> [class*="col-"] {
-				padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-				padding-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
+				padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
 			}
 			> .block-list-appender {
-				padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
 			}
 		}
 	}

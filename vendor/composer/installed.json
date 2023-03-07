@@ -2,29 +2,29 @@
     "packages": [
         {
             "name": "denman-digital/wp-utils",
-            "version": "1.0.6",
-            "version_normalized": "1.0.6.0",
+            "version": "1.1.2",
+            "version_normalized": "1.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Denman-Digital/wp-utils.git",
-                "reference": "c8a9af6fcd6f95a6ca62266b098c524e9f7fd606"
+                "reference": "43ffc8364bea835abec30dad095615267d14956b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/c8a9af6fcd6f95a6ca62266b098c524e9f7fd606",
-                "reference": "c8a9af6fcd6f95a6ca62266b098c524e9f7fd606",
+                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/43ffc8364bea835abec30dad095615267d14956b",
+                "reference": "43ffc8364bea835abec30dad095615267d14956b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.3"
+                "php": ">=7.4"
             },
             "require-dev": {
-                "paulthewalton/acf-pro-stubs": "5.8.9.1",
                 "php-parallel-lint/php-console-highlighter": "^0.5.0",
                 "php-parallel-lint/php-parallel-lint": "^1.2.0",
-                "php-stubs/wordpress-stubs": "^5.6"
+                "php-stubs/acf-pro-stubs": "^6.0",
+                "php-stubs/wordpress-stubs": "^6.0"
             },
-            "time": "2021-03-25T22:04:47+00:00",
+            "time": "2023-02-09T19:48:08+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -61,17 +61,17 @@
         },
         {
             "name": "scssphp/scssphp",
-            "version": "v1.10.3",
-            "version_normalized": "1.10.3.0",
+            "version": "v1.11.0",
+            "version_normalized": "1.11.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scssphp/scssphp.git",
-                "reference": "0f1e1516ed2412ad43e42a6a319e77624ba1f713"
+                "reference": "33749d12c2569bb24071f94e9af828662dabb068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/0f1e1516ed2412ad43e42a6a319e77624ba1f713",
-                "reference": "0f1e1516ed2412ad43e42a6a319e77624ba1f713",
+                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/33749d12c2569bb24071f94e9af828662dabb068",
+                "reference": "33749d12c2569bb24071f94e9af828662dabb068",
                 "shasum": ""
             },
             "require": {
@@ -94,11 +94,17 @@
                 "ext-iconv": "Can be used as fallback when ext-mbstring is not available",
                 "ext-mbstring": "For best performance, mbstring should be installed as it is faster than ext-iconv"
             },
-            "time": "2022-05-16T07:22:18+00:00",
+            "time": "2022-09-02T21:24:55+00:00",
             "bin": [
                 "bin/pscss"
             ],
             "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "forward-command": false,
+                    "bin-links": false
+                }
+            },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
@@ -132,7 +138,7 @@
             ],
             "support": {
                 "issues": "https://github.com/scssphp/scssphp/issues",
-                "source": "https://github.com/scssphp/scssphp/tree/v1.10.3"
+                "source": "https://github.com/scssphp/scssphp/tree/v1.11.0"
             },
             "install-path": "../scssphp/scssphp"
         }

@@ -1,21 +1,20 @@
 import classNames from "classnames";
 import { link, linkOff } from "@wordpress/icons";
-const { __, _x } = wp.i18n;
-const { Fragment, useState } = wp.element;
-const { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } = wp.blockEditor;
-const {
+import { __, _x } from "@wordpress/i18n";
+import { Fragment, useState } from "@wordpress/element";
+import { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
+import {
 	PanelBody,
 	SelectControl,
 	ToggleControl,
-	__experimentalUnitControl: UnitControl,
+	__experimentalUnitControl as UnitControl,
 	Flex,
 	FlexItem,
 	Button,
 	Tooltip,
 	BaseControl,
-} = wp.components;
+} from "@wordpress/components";
 
-// import { Visualizer } from "../../components/panel-spacing";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from "../../components/alignment";
@@ -25,7 +24,6 @@ import { rowClassNames } from "./render";
 import { DEFAULT_ATTRIBUTES } from "./metadata";
 import { name as rowBreakBlockName } from "./row-break";
 import { name as columnBlockName } from "../column/metadata";
-
 const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
 
 const generateRowColumnsOptions = (gridRowCols = 6) => {
@@ -146,7 +144,6 @@ const ROW_DIRECTION_OPTIONS = [
  * The edit function describes the structure of your block in the context of the editor.
  * This represents what the editor will render when the block is used.
  *
- * The "edit" property must be a valid function.
  *
  * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
  *
@@ -166,6 +163,9 @@ export const RowEdit = (props) => {
 		disabled,
 	} = attributes;
 	const [isPaddingLinked, setIsPaddingLinked] = useState(padding?.top === padding?.bottom);
+
+	// const { spacing = {} } = style;
+	// const { padding } = spacing;
 
 	return (
 		<Fragment>
@@ -331,7 +331,6 @@ export const RowEdit = (props) => {
 				<PanelBody title={__("Gutters", "gutestrap")} initialOpen={false}>
 					<ToggleControl
 						checked={!noGutters}
-						// help={__("Add gutters between the columns of this row.", "gutestrap")}
 						label={__("Horizontal gutters", "gutestrap")}
 						onChange={(checked) => {
 							setAttributes({ noGutters: !checked });
@@ -339,7 +338,6 @@ export const RowEdit = (props) => {
 					/>
 					<ToggleControl
 						checked={!!verticalGutters}
-						// help={__("Add gutters between the lines of columns of this row.", "gutestrap")}
 						label={__("Vertical gutters", "gutestrap")}
 						onChange={(checked) => {
 							setAttributes({ verticalGutters: !!checked });
@@ -347,6 +345,7 @@ export const RowEdit = (props) => {
 					/>
 				</PanelBody>
 			</InspectorControls>
+
 			<InspectorAdvancedControls>
 				<ToggleControl
 					label={__("Disable block", "gutestrap")}
@@ -357,12 +356,12 @@ export const RowEdit = (props) => {
 					}}
 				/>
 			</InspectorAdvancedControls>
-			{/* <Visualizer values={padding}> */}
+
 			<div
 				className={classNames(className, rowClassNames(attributes))}
 				style={{
-					paddingTop: padding?.top,
-					paddingBottom: padding?.bottom,
+					paddingTop: padding?.top || null,
+					paddingBottom: padding?.bottom || null,
 				}}
 			>
 				<InnerBlocks
@@ -378,7 +377,6 @@ export const RowEdit = (props) => {
 					}}
 				/>
 			</div>
-			{/* </Visualizer> */}
 		</Fragment>
 	);
 };

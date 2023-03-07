@@ -46,12 +46,16 @@ function gutestrap_block_assets()
 		'gutestrap-block-js',
 		plugins_url('/dist/blocks.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
 		[
+			// 'wp-polyfills',
 			'wp-blocks',
+			'wp-block-editor',
 			'wp-i18n',
 			'wp-element',
 			"wp-components",
 			"wp-plugins",
 			"wp-theme-plugin-editor",
+			"wp-data",
+			"wp-core-data",
 			"lodash"
 		],
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.build.js'), // Version: filemtime — Gets file modification time.
@@ -114,6 +118,8 @@ function gutestrap_setup_js_globals()
 			"enableBorderColors" => current_theme_supports("gutestrap-border-colors"),
 			"disableCustomColors" => current_theme_supports("disable-custom-colors"),
 			"disableCustomGradients" => current_theme_supports("disable-custom-gradients"),
+			"enableLayeredGridBackgrounds" => current_theme_supports("gutestrap-layered-grid-backgrounds"),
+			// "enableResponsiveSpacing" => current_theme_supports("gutestrap-rfs-spacing"),
 			"excludedPostTypes" => [],
 		]
 	];

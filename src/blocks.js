@@ -13,11 +13,12 @@ import "./grid/";
 import "./block-clear/";
 import "./custom-scss/";
 
-const { excludedPostTypes } = gutestrapGlobal.config;
+import { select } from "@wordpress/data";
+import { getBlockTypes, unregisterBlockType, unregisterBlockVariation } from "@wordpress/blocks";
 
-const { select } = wp.data;
-const { getBlockTypes, unregisterBlockType, unregisterBlockVariation } = wp.blocks;
 const { debounce } = lodash;
+
+const { excludedPostTypes } = gutestrapGlobal.config;
 
 /**
  * Unregister selected blocktypes.
@@ -31,12 +32,12 @@ const clearBlockTypes = debounce(() => {
 	});
 }, 50);
 
-const getPostType = () => select("core/editor").getCurrentPostType();
-let currentPostType = getPostType();
+const getPostType = () => select("core/editor")?.getCurrentPostType?.();
+let currentPostType = null;
 wp.data.subscribe(() => {
 	const postType = getPostType();
 	if (currentPostType !== postType) {
-		if (excludedPostTypes[postType]) {
+		if (postType && excludedPostTypes[postType]) {
 			wp.domReady(clearBlockTypes);
 		} else {
 			wp.domReady(() => {

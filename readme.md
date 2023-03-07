@@ -1,8 +1,8 @@
-# Gutestrap BSv4
+# Gutestrap Compat
  
 > ⚠️ **Important** ⚠️
 > 
->   Gutestrap BSv4 uses the layout styles from Bootstrap version 4. Version 5 of Bootstrap dropped support for a number of older browsers, and leans hard into using CSS variables. This version of Gutestrap exists only for projects where supporting legacy(ish) browsers is crucial. In all other cases, use the latest version of regular [Gutestrap](https://github.com/Denman-Digital/gutestrap).
+>   Gutestrap Compat uses the layout styles from Bootstrap version 4. Version 5 of Bootstrap dropped support for a number of older browsers, and leans hard into using CSS variables. This version of Gutestrap exists only for projects where supporting legacy(ish) browsers is crucial. In all other cases, use the latest version of regular [Gutestrap](https://github.com/Denman-Digital/gutestrap).
 
 Bootstrap layout blocks for Gutenberg.
 
@@ -16,6 +16,11 @@ Bootstrap layout blocks for Gutenberg.
 - Use to build production code for your block inside `dist` folder.
 - Runs once and reports back the gzip file sizes of the produced code.
 
+## 👉  `npm run build:dist`
+- Use to build production code for your block inside `dist` folder.
+- Also installs non-dev composer packages, and removes dev ones
+- Runs once and reports back the gzip file sizes of the produced code.
+
 <br>
 
 ---
@@ -24,31 +29,33 @@ Bootstrap layout blocks for Gutenberg.
 
 ## Grid values
 
-> Last changed in v1.3.13-bsv4
+> Last changed in v2.0.0-compat
+
+**NOTE:** We have switched to responsive units in the so that the breakpoints will also scale with user browser settings. The breakpoints use em values instead of rem values because (a) Safari does weird stuff with rem breakpoints, and (b) media queries aren't scoped to elements, so in media query `1em` is equal to `1rem`.
 
 ```scss
 $grid-breakpoints: (
 	xs: 0,
-	sm: 576px,
-	md: 768px,
-	lg: 992px,
-	xl: 1200px,
-	xxl: 1440px,
-	xxxl: 1680px,
-	xxxxl: 1900px,
+	sm: 36em, // 576px,
+	md: 48em, // 768px,
+	lg: 62em, // 992px,
+	xl: 75em, // 1200px,
+	xxl: 88.75em, // 1420px,
+	xxxl: 105em, // 1680px,
+	xxxxl: 118.75em // 1680px,
 );
 
 $container-max-widths: (
-	sm: 540px,
-	md: 720px,
-	lg: 960px,
-	xl: 1140px,
-	xxl: 1320px,
-	xxxl: 1440px,
-	xxxxl: 1700px,
+	sm: 33.75rem, // 540px,
+	md: 45rem, // 720px,
+	lg: 60rem, // 960px,
+	xl: 71.25rem, // 1140px,
+	xxl: 82.5rem, // 1320px,
+	xxxl: 90rem, // 1440px,
+	xxxxl: 108.75rem, // 1740px,
 );
 
-$grid-gutter-width: 30px;
+$grid-gutter-width: 1.875rem; // 30px
 ```
 
 <br>
@@ -58,13 +65,15 @@ $grid-gutter-width: 30px;
 ### Enable/Disable Gutestrap Blocks for Post Types
 
 ```php
-add_filter("gutestrap_enable_for_post_type", function (bool $current_status, string $post_type_name): bool {
-	return $post_type_name === "my_cpt" ? false : $current_status;
-}, 10, 2);
+function my_project_enable_gutestrap(bool $current_status, string $post_type_name): bool 
+{
+  return $post_type_name === "my_cpt" ? false : $current_status;
+}
+add_filter("gutestrap_enable_for_post_type", "my_project_enable_gutestrap", 10, 2);
 ```
 
-### Enable Border Colors (experimental)
+### ~~Enable Border Colors (experimental)~~ (disabled)
 
 ```php
-add_theme_support("gutestrap-border-colors"),
+// add_theme_support("gutestrap-border-colors"), // disabled
 ```

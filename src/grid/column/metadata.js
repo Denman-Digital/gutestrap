@@ -1,4 +1,4 @@
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 
 /** Block name. */
 export const name = "gutestrap/col";
@@ -11,20 +11,17 @@ export const description = __("Row columns are the building blocks of responsive
 
 /** Block attributes. */
 export const attributes = {
-	width: { type: "object" },
+	width: {
+		type: "object",
+		default: {
+			xs: 12,
+		},
+	},
 	offset: { type: "object" },
 	alignment: { type: "object" },
 	contentAlignment: { type: "object" },
 	// order: { type: "object" },
 	background: { type: "object" },
-	textColor: { type: "string" },
-	backgroundColor: { type: "string" },
-	borderColor: { type: "string" },
-	gradient: { type: "string" },
-	customTextColor: { type: "string" },
-	customBackgroundColor: { type: "string" },
-	customBorderColor: { type: "string" },
-	customGradient: { type: "string" },
 	padding: { type: "object" },
 	margin: { type: "object" },
 	_isExample: { type: "boolean" },
@@ -34,4 +31,15 @@ export const attributes = {
 export const supports = {
 	anchor: true,
 	alignWide: false,
+	color: {
+		gradients: true,
+		background: true,
+		text: true,
+	},
+	// spacing: {
+	// 	margin: ["top", "bottom"], // Enable vertical margins.
+	// 	padding: true, // Enable padding for all sides.
+	// },
 };
+
+export const template = [["core/paragraph"]];

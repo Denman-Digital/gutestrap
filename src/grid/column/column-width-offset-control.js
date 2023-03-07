@@ -1,7 +1,7 @@
 import classnames from "classnames";
-const { __, _n, sprintf } = wp.i18n;
-const { useState, useEffect, useRef } = wp.element;
-const { BaseControl, SelectControl } = wp.components;
+import { __, _n, sprintf } from "@wordpress/i18n";
+import { useState, useEffect, useRef } from "@wordpress/element";
+import { BaseControl, SelectControl } from "@wordpress/components";
 
 export const COLUMN_OPTION_WIDTH_FIT = "auto";
 export const COLUMN_OPTION_WIDTH_DEFAULT = "default";

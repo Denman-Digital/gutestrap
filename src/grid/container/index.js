@@ -1,4 +1,4 @@
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 import { ContainerEdit as edit } from "./edit";
 import { ContainerRender as save, deprecated } from "./render";
 import icon from "bootstrap-icons/icons/view-list.svg";
@@ -15,12 +15,6 @@ export const attributes = {
 	breakpoint: { type: "string" },
 	disabled: { type: "boolean" },
 	background: { type: "object" },
-	textColor: { type: "string" },
-	backgroundColor: { type: "string" },
-	gradient: { type: "string" },
-	customTextColor: { type: "string" },
-	customBackgroundColor: { type: "string" },
-	customGradient: { type: "string" },
 };
 
 /** Block Description. */
@@ -33,8 +27,16 @@ export const description = __(
 export const supports = {
 	anchor: true,
 	alignWide: false,
+	color: {
+		gradients: true,
+		background: true,
+		text: true,
+	},
 };
 
 export { icon, edit, save };
 
-export default { name, settings: { title, icon, attributes, description, supports, edit, save, deprecated } };
+export default {
+	name,
+	settings: { title, icon, attributes, description, supports, edit, save, deprecated },
+};

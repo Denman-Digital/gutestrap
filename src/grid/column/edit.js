@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { link, linkOff } from "@wordpress/icons";
 
-const { __, _n, sprintf } = wp.i18n;
-const { select } = wp.data;
-const { Fragment, useState } = wp.element;
-const {
+import { __, _n, sprintf } from "@wordpress/i18n";
+import { select } from "@wordpress/data";
+import { Fragment, useState } from "@wordpress/element";
+import {
 	SelectControl,
 	PanelBody,
 	ToolbarButton,
@@ -14,33 +14,30 @@ const {
 	Flex,
 	FlexItem,
 	Button,
-	__experimentalBoxControl: BoxControl,
-	__experimentalUnitControl: UnitControl,
-} = wp.components;
-const {
+	__experimentalBoxControl as BoxControl,
+	__experimentalUnitControl as UnitControl,
+} from "@wordpress/components";
+import {
 	InspectorControls,
 	InnerBlocks,
 	BlockControls,
-	withColors,
-	__experimentalBlockAlignmentMatrixControl: BlockAlignmentMatrixControl,
-	__experimentalPanelColorGradientSettings: PanelColorGradientSettings,
-	__experimentalUseGradient: useGradient,
-} = wp.blockEditor;
-const { createHigherOrderComponent } = wp.compose;
+	__experimentalGetGradientClass as getGradientClass,
+	__experimentalBlockAlignmentMatrixControl as BlockAlignmentMatrixControl,
+} from "@wordpress/block-editor";
+
+import { createHigherOrderComponent } from "@wordpress/compose";
 
 import { toNumber, BOOTSTRAP_ICON_CLASSES } from "../../_common";
 
-// import { Visualizer } from "../../components/panel-spacing";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { columnClassNames, columnInnerClassNames } from "./render";
 
-const { config } = gutestrapGlobal;
-
-// import ExpandIcon from "bootstrap-icons/icons/arrows-angle-expand.svg";
 import ExpandIcon from "./expand-contents.svg";
+
+const { config } = gutestrapGlobal;
 
 export const COLUMN_OPTION_WIDTH_FIT_VALUE = "auto";
 export const COLUMN_OPTION_WIDTH_DEFAULT_VALUE = "default";
@@ -166,23 +163,17 @@ const COL_CONTENT_ALIGN_OPTIONS = [
  * @param {Object} props Props.
  * @returns {Mixed} JSX Component.
  */
-function ColumnEdit({
-	attributes,
-	className,
-	setAttributes,
-	clientId,
-	textColor,
-	setTextColor,
-	backgroundColor,
-	setBackgroundColor,
-	borderColor,
-	setBorderColor,
-}) {
+function ColumnEdit(props) {
+	const { attributes, className, setAttributes, clientId, textColor, backgroundColor } = props;
+
 	const {
+		anchor = "",
 		width = {},
 		offset = {},
 		alignment = {},
 		background = {},
+		gradient,
+		style = {},
 		padding = {},
 		margin = {},
 		contentAlignment = {},
@@ -191,42 +182,20 @@ function ColumnEdit({
 	const [isMarginLinked, setIsMarginLinked] = useState(margin?.top === margin?.bottom);
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
 
-	const { gradientClass, gradientValue, setGradient } = useGradient({
-		gradientAttribute: "gradient",
-		customGradientAttribute: "customGradient",
-	});
-
-	const colorSettings = [
-		{
-			colorValue: backgroundColor.color,
-			onColorChange: setBackgroundColor,
-			gradientValue,
-			onGradientChange: setGradient,
-			label: __("Background", "gutestrap"),
-		},
-		{
-			colorValue: textColor.color,
-			onColorChange: setTextColor,
-			label: __("Text", "gutestrap"),
-		},
-	];
-
-	if (config.enableBorderColors) {
-		colorSettings.push({
-			value: borderColor.color,
-			onChange: setBorderColor,
-			label: __("Border colour", "gutestrap"),
-		});
-	}
-
+	const { /* spacing = {}, */ color = {} } = style;
+	// const { padding, margin } = spacing;
+	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
 	let backgroundImageCSS = "";
 	if (background?.image?.url) {
 		backgroundImageCSS += `url(${background.image.url})`;
 	}
-	if (gradientValue) {
+	if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
 		if (backgroundImageCSS) backgroundImageCSS += ", ";
-		backgroundImageCSS += gradientValue;
+		backgroundImageCSS += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+	} else if (customGradient) {
+		backgroundImageCSS = customGradient;
 	}
+
 	return (
 		<Fragment>
 			<InspectorControls>
@@ -322,13 +291,6 @@ function ColumnEdit({
 						setAttributes({ background: value });
 					}}
 					initialOpen={!!background.image}
-				/>
-				<PanelColorGradientSettings
-					title={__("Colour Settings", "gutestrap")}
-					initialOpen={false}
-					disableCustomColors={!!config.disableCustomColors}
-					disableCustomGradients={!!config.disableCustomGradients}
-					settings={colorSettings}
 				/>
 				<PanelBody
 					title={__("Spacing", "gutestrap")}
@@ -442,37 +404,34 @@ function ColumnEdit({
 					}}
 				/>
 			</BlockControls>
-			{/* <Visualizer values={margin} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-margin" />
-			<Visualizer values={padding} className="gutestrap-block-col-visualizer gutestrap-block-col-visualizer-padding"> */}
 			<div
+				id={anchor || null}
 				className={classNames(className, columnInnerClassNames(attributes), {
-					"has-color": textColor?.color,
+					"has-text-color": textColor?.color || customTextColor,
 					[textColor?.class]: textColor?.class,
-					"has-background-color": backgroundColor?.color,
+					"has-background":
+						backgroundColor?.color || customBackgroundColor || backgroundImageCSS || gradient || customGradient,
 					[backgroundColor?.class]: backgroundColor?.class,
-					"has-border-color": borderColor?.color,
-					[borderColor?.class]: borderColor?.class,
-					"has-gradient-background": !!gradientValue,
-					[gradientClass]: !!gradientClass,
+					[getGradientClass(gradient)]: gradient,
 				})}
 				style={{
 					backgroundImage: backgroundImageCSS || null,
-					backgroundPosition: background?.position || "center",
+					backgroundPosition: background?.position || "center center",
 					backgroundSize: background?.size || "cover",
 					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-					paddingTop: padding?.top,
-					paddingRight: padding?.right,
-					paddingBottom: padding?.bottom,
-					paddingLeft: padding?.left,
-					marginTop: margin?.top,
-					marginBottom: margin?.bottom,
-					color: textColor?.color,
-					backgroundColor: backgroundColor?.color,
-					borderColor: borderColor?.color,
+					paddingTop: padding?.top || null,
+					paddingRight: padding?.right || null,
+					paddingBottom: padding?.bottom || null,
+					paddingLeft: padding?.left || null,
+					marginTop: margin?.top || null,
+					marginBottom: margin?.bottom || null,
+					color: textColor?.color || customTextColor,
+					backgroundColor: backgroundColor?.color || customBackgroundColor,
 				}}
 			>
 				<div className="col__content">
 					<InnerBlocks
+						template={[["core/paragraph"]]}
 						renderAppender={() => {
 							const block = select("core/block-editor").getBlock(clientId);
 							return (
@@ -485,7 +444,6 @@ function ColumnEdit({
 					/>
 				</div>
 			</div>
-			{/* </Visualizer> */}
 		</Fragment>
 	);
 }
@@ -518,10 +476,6 @@ wp.hooks.addFilter(
 		};
 		return gutestrapColumnBlockListBlockClasses;
 	}, "withGutestrapColumnBlockListBlockClasses")
-);
-
-ColumnEdit = withColors({ textColor: "color", backgroundColor: "background-color", borderColor: "border-color" })(
-	ColumnEdit
 );
 
 export { ColumnEdit };
