@@ -27,7 +27,7 @@ import {
 
 import { createHigherOrderComponent } from "@wordpress/compose";
 
-import { toNumber, BOOTSTRAP_ICON_CLASSES, RFS } from "../../_common";
+import { toNumber, BOOTSTRAP_ICON_CLASSES } from "../../_common";
 
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
@@ -38,8 +38,6 @@ import { columnClassNames, columnInnerClassNames } from "./render";
 import ExpandIcon from "./expand-contents.svg";
 
 const { config } = gutestrapGlobal;
-
-const rfs = new RFS();
 
 export const COLUMN_OPTION_WIDTH_FIT_VALUE = "auto";
 export const COLUMN_OPTION_WIDTH_DEFAULT_VALUE = "default";
@@ -421,12 +419,12 @@ function ColumnEdit(props) {
 					backgroundPosition: background?.position || "center center",
 					backgroundSize: background?.size || "cover",
 					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-					paddingTop: padding?.top ? rfs.calculate(padding.top) : null,
-					paddingRight: padding?.right ? rfs.calculate(padding.right) : null,
-					paddingBottom: padding?.bottom ? rfs.calculate(padding.bottom) : null,
-					paddingLeft: padding?.left ? rfs.calculate(padding.left) : null,
-					marginTop: margin?.top ? rfs.calculate(margin.top) : null,
-					marginBottom: margin?.bottom ? rfs.calculate(margin.bottom) : null,
+					paddingTop: padding?.top || null,
+					paddingRight: padding?.right || null,
+					paddingBottom: padding?.bottom || null,
+					paddingLeft: padding?.left || null,
+					marginTop: margin?.top || null,
+					marginBottom: margin?.bottom || null,
 					color: textColor?.color || customTextColor,
 					backgroundColor: backgroundColor?.color || customBackgroundColor,
 				}}

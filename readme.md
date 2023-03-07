@@ -31,7 +31,7 @@ $grid-breakpoints: (
 	xl: 75em, // 1200px,
 	xxl: 88.75em, // 1420px,
 	xxxl: 105em, // 1680px,
-	xxxl: 118.75em // 1680px,
+	xxxxl: 118.75em // 1680px,
 );
 
 $container-max-widths: (
@@ -44,7 +44,7 @@ $container-max-widths: (
 	xxxxl: 108.75rem, // 1740px,
 );
 
-$grid-gutter-width: 1.875rem;
+$grid-gutter-width: 1.875rem; // 30px
 
 :root {
 	--gs-gutter-x: #{$grid-gutter-width};
