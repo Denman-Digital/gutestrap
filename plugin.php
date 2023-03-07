@@ -2,9 +2,9 @@
 
 /**
  * Plugin Name: Gutestrap
- * Plugin URI: https://github.com/Denman-Digital/gutestrap
+ * Plugin URI: https://github.com/Denman-Digital/gutestrap/tree/compat
  * Update URI: gutestrap
- * Description: Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies).
+ * Description: Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies). The Compat version limits and polyfills modern features to provide greater support for older devices/browsers.
  * Author: Denman Digital
  * Author URI: https://denman.digital
  * Version: 2.0.0-compat

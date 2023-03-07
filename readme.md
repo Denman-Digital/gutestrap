@@ -14,12 +14,16 @@ Bootstrap layout blocks for Gutenberg.
 
 ## 👉  `npm run build`
 - Use to build production code for your block inside `dist` folder.
-- Runs once and reports back the gzip file sizes of the produced code.
 
 ## 👉  `npm run build:dist`
 - Use to build production code for your block inside `dist` folder.
 - Also installs non-dev composer packages, and removes dev ones
-- Runs once and reports back the gzip file sizes of the produced code.
+
+## 👉  `npm run build:styles`
+- Use to build production CSS for your block inside `dist` folder.
+
+## 👉  `npm run build:scripts`
+- Use to build production JS for your block inside `dist` folder.
 
 <br>
 
