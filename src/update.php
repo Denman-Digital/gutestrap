@@ -13,12 +13,15 @@ class Gutestrap_Update
 {
 	private static $instance = null;
 
-	private $remote_plugin_endpoint_base = "https://raw.githubusercontent.com/Denman-Digital/gutestrap/gutestrap/";
+	private $repo_version_branch = "main";
+
+	private $remote_plugin_endpoint_base = "";
 
 	private $did_fetch_remote_data = false;
 
 	private function __construct()
 	{
+		$this->remote_plugin_endpoint_base = "https://raw.githubusercontent.com/Denman-Digital/gutestrap/{$this->repo_version_branch}/";
 		add_filter("update_plugins_gutestrap", [$this, "update_plugins_gutestrap_data"], 10, 1);
 		add_filter("pre_set_site_transient_update_plugins", [$this, "modify_plugins_transient"], 10, 1);
 		add_filter("plugins_api", [$this, "modify_plugin_details"], 99999, 3);
@@ -44,7 +47,7 @@ class Gutestrap_Update
 			"version" => $remote_plugin_data["Version"],
 			"new_version" => $remote_plugin_data["Version"],
 			"url" => $remote_plugin_data["PluginURI"],
-			"package" => "https://github.com/Denman-Digital/gutestrap/archive/gutestrap.zip",
+			"package" => "https://github.com/Denman-Digital/gutestrap/archive/{$this->repo_version_branch}.zip",
 			"requires" => $remote_plugin_data["RequiresWP"],
 			"require_php" => $remote_plugin_data["RequiresPHP"],
 			"author" => $remote_plugin_data["Author"],
@@ -112,7 +115,7 @@ class Gutestrap_Update
 			'description'    => 'Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies).',
 			'installation'   => sprintf(
 				'<a href="%s" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder.',
-				esc_url("https://github.com/Denman-Digital/gutestrap/archive/gutestrap.zip")
+				esc_url("https://github.com/Denman-Digital/gutestrap/archive/{$this->repo_version_branch}.zip")
 			),
 			'changelog'      => sprintf(
 				'<a href="%s">%s</a>',
