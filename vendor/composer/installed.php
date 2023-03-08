@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'paulthewalton/gutestrap',
-        'pretty_version' => 'dev-gutestrap',
-        'version' => 'dev-gutestrap',
-        'reference' => 'cefadabe373b964a78e6c7069ae2e20dca35cb62',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '088cbc328d5b35317e58b4f98503cea24b9e83dd',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -20,9 +20,9 @@
             'dev_requirement' => false,
         ),
         'paulthewalton/gutestrap' => array(
-            'pretty_version' => 'dev-gutestrap',
-            'version' => 'dev-gutestrap',
-            'reference' => 'cefadabe373b964a78e6c7069ae2e20dca35cb62',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '088cbc328d5b35317e58b4f98503cea24b9e83dd',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
