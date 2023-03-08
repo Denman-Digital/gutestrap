@@ -1,22 +1,8 @@
 import classNames from "classnames";
-import { link, linkOff } from "@wordpress/icons";
-
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
-import { Fragment, useState } from "@wordpress/element";
-import {
-	SelectControl,
-	PanelBody,
-	ToolbarButton,
-	ToolbarGroup,
-	Tooltip,
-	BaseControl,
-	Flex,
-	FlexItem,
-	Button,
-	__experimentalBoxControl as BoxControl,
-	__experimentalUnitControl as UnitControl,
-} from "@wordpress/components";
+import { Fragment } from "@wordpress/element";
+import { SelectControl, PanelBody, ToolbarButton, ToolbarGroup } from "@wordpress/components";
 import {
 	InspectorControls,
 	InnerBlocks,
@@ -174,16 +160,15 @@ function ColumnEdit(props) {
 		background = {},
 		gradient,
 		style = {},
-		padding = {},
-		margin = {},
 		contentAlignment = {},
 	} = attributes;
 
-	const [isMarginLinked, setIsMarginLinked] = useState(margin?.top === margin?.bottom);
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
 
-	const { /* spacing = {}, */ color = {} } = style;
-	// const { padding, margin } = spacing;
+	const { spacing = {}, color = {} } = style;
+
+	const { padding, margin } = spacing;
+
 	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
 	let backgroundImageCSS = "";
 	if (background?.image?.url) {
@@ -292,87 +277,6 @@ function ColumnEdit(props) {
 					}}
 					initialOpen={!!background.image}
 				/>
-				<PanelBody
-					title={__("Spacing", "gutestrap")}
-					initialOpen={
-						!!(
-							parseFloat(padding?.top) ||
-							parseFloat(padding?.right) ||
-							parseFloat(padding?.bottom) ||
-							parseFloat(padding?.left) ||
-							parseFloat(margin?.top) ||
-							parseFloat(margin?.bottom)
-						)
-					}
-				>
-					<BaseControl>
-						<BoxControl
-							values={padding}
-							onChange={(value) => setAttributes({ padding: value })}
-							label={__("Padding", "gutestrap")}
-						/>
-					</BaseControl>
-					<BaseControl
-						label={__("Margin", "gutestrap")}
-						className={isMarginLinked ? "spacing-linked" : "spacing-not-linked"}
-						// help={__("Add margin above or below the column.")}
-					>
-						<Flex align={"flex-end"}>
-							<FlexItem>
-								<Flex>
-									<FlexItem>
-										<UnitControl
-											className="spacing-unit-control"
-											label={isMarginLinked ? __("Top and bottom", "gutestrap") : __("Top", "gutestrap")}
-											size={"small"}
-											value={margin?.top}
-											onChange={(value) => {
-												margin.top = value;
-												if (isMarginLinked) {
-													margin.bottom = value;
-												}
-												setAttributes({ margin: { ...margin } });
-											}}
-										/>
-									</FlexItem>
-									{!isMarginLinked && (
-										<FlexItem>
-											<UnitControl
-												className="spacing-unit-control"
-												label={__("Bottom", "gutestrap")}
-												size={"small"}
-												value={margin?.bottom}
-												onChange={(value) => {
-													margin.bottom = value;
-													setAttributes({ margin: { ...margin } });
-												}}
-											/>
-										</FlexItem>
-									)}
-								</Flex>
-							</FlexItem>
-							<FlexItem style={{ marginLeft: "auto" }}>
-								<Tooltip text={isMarginLinked ? __("Unlink sides", "gutestrap") : __("Link sides", "gutestrap")}>
-									<span>
-										<Button
-											onClick={() => {
-												setIsMarginLinked((state) => !state);
-												margin.bottom = margin.top;
-												setAttributes({ margin: { ...margin } });
-											}}
-											className="spacing-linked-button"
-											isPrimary={isMarginLinked}
-											isSecondary={!isMarginLinked}
-											isSmall
-											icon={isMarginLinked ? link : linkOff}
-											iconSize={16}
-										/>
-									</span>
-								</Tooltip>
-							</FlexItem>
-						</Flex>
-					</BaseControl>
-				</PanelBody>
 			</InspectorControls>
 			<BlockControls>
 				<BlockFlexItemAlignmentToolbar
@@ -419,12 +323,12 @@ function ColumnEdit(props) {
 					backgroundPosition: background?.position || "center center",
 					backgroundSize: background?.size || "cover",
 					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-					paddingTop: padding?.top || null,
-					paddingRight: padding?.right || null,
-					paddingBottom: padding?.bottom || null,
-					paddingLeft: padding?.left || null,
-					marginTop: margin?.top || null,
-					marginBottom: margin?.bottom || null,
+					paddingTop: padding?.top,
+					paddingRight: padding?.right,
+					paddingBottom: padding?.bottom,
+					paddingLeft: padding?.left,
+					marginTop: margin?.top,
+					marginBottom: margin?.bottom,
 					color: textColor?.color || customTextColor,
 					backgroundColor: backgroundColor?.color || customBackgroundColor,
 				}}

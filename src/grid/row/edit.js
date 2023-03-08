@@ -1,19 +1,8 @@
 import classNames from "classnames";
-import { link, linkOff } from "@wordpress/icons";
 import { __, _x } from "@wordpress/i18n";
-import { Fragment, useState } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
-import {
-	PanelBody,
-	SelectControl,
-	ToggleControl,
-	__experimentalUnitControl as UnitControl,
-	Flex,
-	FlexItem,
-	Button,
-	Tooltip,
-	BaseControl,
-} from "@wordpress/components";
+import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
@@ -157,15 +146,14 @@ export const RowEdit = (props) => {
 		alignment = {},
 		direction = {},
 		justification = {},
-		padding = {},
 		noGutters,
 		verticalGutters,
 		disabled,
+		style = {},
 	} = attributes;
-	const [isPaddingLinked, setIsPaddingLinked] = useState(padding?.top === padding?.bottom);
 
-	// const { spacing = {} } = style;
-	// const { padding } = spacing;
+	const { spacing = {} } = style;
+	const { padding } = spacing;
 
 	return (
 		<Fragment>
@@ -268,66 +256,6 @@ export const RowEdit = (props) => {
 						);
 					}}
 				</ResponsiveTabs>
-				<PanelBody
-					title={__("Spacing", "gutestrap")}
-					initialOpen={!!(parseFloat(padding?.top) || parseFloat(padding?.bottom))}
-				>
-					<BaseControl
-						label={__("Padding", "gutestrap")}
-						className={isPaddingLinked ? "spacing-linked" : "spacing-not-linked"}
-					>
-						<Flex align={"flex-end"}>
-							<FlexItem>
-								<Flex>
-									<FlexItem>
-										<UnitControl
-											className="spacing-unit-control"
-											label={isPaddingLinked ? __("Top and bottom", "gutestrap") : __("Top", "gutestrap")}
-											size="small"
-											value={padding?.top}
-											onChange={(value) => {
-												padding.top = value;
-												if (isPaddingLinked) {
-													padding.bottom = value;
-												}
-												setAttributes({ padding: { ...padding } });
-											}}
-										/>
-									</FlexItem>
-									{!isPaddingLinked && (
-										<FlexItem>
-											<UnitControl
-												className="spacing-unit-control"
-												label={__("Bottom", "gutestrap")}
-												size="small"
-												value={padding?.bottom}
-												onChange={(value) => {
-													padding.bottom = value;
-													setAttributes({ padding: { ...padding } });
-												}}
-											/>
-										</FlexItem>
-									)}
-								</Flex>
-							</FlexItem>
-							<FlexItem style={{ marginLeft: "auto" }}>
-								<Tooltip text={isPaddingLinked ? __("Unlink sides", "gutestrap") : __("Link sides", "gutestrap")}>
-									<span>
-										<Button
-											onClick={() => setIsPaddingLinked((state) => !state)}
-											className="spacing-linked-button"
-											isPrimary={isPaddingLinked}
-											isSecondary={!isPaddingLinked}
-											isSmall
-											icon={isPaddingLinked ? link : linkOff}
-											iconSize={16}
-										/>
-									</span>
-								</Tooltip>
-							</FlexItem>
-						</Flex>
-					</BaseControl>
-				</PanelBody>
 				<PanelBody title={__("Gutters", "gutestrap")} initialOpen={false}>
 					<ToggleControl
 						checked={!noGutters}
@@ -360,8 +288,8 @@ export const RowEdit = (props) => {
 			<div
 				className={classNames(className, rowClassNames(attributes))}
 				style={{
-					paddingTop: padding?.top || null,
-					paddingBottom: padding?.bottom || null,
+					paddingTop: padding?.top,
+					paddingBottom: padding?.bottom,
 				}}
 			>
 				<InnerBlocks

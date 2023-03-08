@@ -18,7 +18,6 @@ export const attributes = {
 	defaultColWidth: { type: "object" },
 	direction: { type: "object" },
 	disabled: { type: "boolean" },
-	padding: { type: "object" },
 	anchor: { type: "string" },
 	_isExample: { type: "boolean" },
 };
@@ -66,7 +65,7 @@ export const DEFAULT_ATTRIBUTES = {
 export const supports = {
 	anchor: true,
 	alignWide: false,
-	// spacing: {
-	// 	padding: ["top", "bottom"], // Enable vertical padding.
-	// },
+	spacing: {
+		padding: ["top", "bottom"], // Enable vertical padding.
+	},
 };

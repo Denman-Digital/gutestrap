@@ -21,14 +21,14 @@ const example = {
 				text: "#1a1a1a",
 				background: "#e0e0e0",
 			},
-			// spacing: {
-			// 	padding: {
-			// 		top: "1rem",
-			// 		right: "1rem",
-			// 		bottom: "1rem",
-			// 		left: "1rem",
-			// 	},
-			// },
+			spacing: {
+				padding: {
+					top: "1rem",
+					right: "1rem",
+					bottom: "1rem",
+					left: "1rem",
+				},
+			},
 		},
 		_isExample: true,
 	},

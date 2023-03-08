@@ -112,17 +112,17 @@ export const columnInnerClassNames = ({ contentAlignment = {} }) => {
  * @returns {Mixed} JSX Frontend HTML.
  */
 export const ColumnRender = ({ attributes, className = "" }) => {
-	const { width, anchor, background, textColor, backgroundColor, gradient, padding, margin, style = {} } = attributes;
-	const { color = {} /*, spacing = {} */ } = style;
-	// const { padding, margin } = spacing;
+	const { width, anchor, background, textColor, backgroundColor, gradient, style = {} } = attributes;
+	const { color = {}, spacing = {} } = style;
+	const { padding, margin } = spacing;
 	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
 
 	/** @type {CSSStyleDeclaration} */
 	const innerStyle = {
-		paddingTop: padding?.top || null,
-		paddingRight: padding?.right || null,
-		paddingBottom: padding?.bottom || null,
-		paddingLeft: padding?.left || null,
+		paddingTop: padding?.top,
+		paddingRight: padding?.right,
+		paddingBottom: padding?.bottom,
+		paddingLeft: padding?.left,
 		color: customTextColor || null,
 		backgroundColor: customBackgroundColor || null,
 	};
@@ -153,8 +153,8 @@ export const ColumnRender = ({ attributes, className = "" }) => {
 			id={anchor || null}
 			className={classNames(className, columnClassNames(attributes))}
 			style={{
-				marginTop: margin?.top || null,
-				marginBottom: margin?.bottom || null,
+				marginTop: margin?.top,
+				marginBottom: margin?.bottom,
 			}}
 		>
 			<div
@@ -179,6 +179,123 @@ export const ColumnRender = ({ attributes, className = "" }) => {
 // DEPRECATED VERSIONS
 //
 
+function migrateColumnAttributes(attributes, innerBlocks) {
+	const { padding, margin, customTextColor, customBackgroundColor, customGradient, ...attrs } = attributes;
+	attrs.style = attrs.style || {};
+	attrs.style.spacing = attrs.style.spacing || {};
+	attrs.style.color = attrs.style.color || {};
+	if (padding) {
+		attrs.style.spacing.padding = padding;
+	}
+	if (margin) {
+		attrs.style.spacing.margin = margin;
+	}
+
+	attrs.style.color = attrs.style.color || {};
+	if (customTextColor) {
+		attrs.style.color.text = customTextColor;
+	}
+	if (customBackgroundColor) {
+		attrs.style.color.background = customBackgroundColor;
+	}
+	if (customGradient) {
+		attrs.style.color.gradient = customGradient;
+	}
+
+	console.log("Gutestrap Column migration:", { old: attributes, new: attrs });
+	return [attrs, innerBlocks];
+}
+
+export const v9 = {
+	attributes: {
+		width: {
+			type: "object",
+			default: {
+				xs: 12,
+			},
+		},
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		contentAlignment: { type: "object" },
+		background: { type: "object" },
+		padding: { type: "object" },
+		margin: { type: "object" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			gradients: true,
+			background: true,
+			text: true,
+		},
+	},
+	migrate: migrateColumnAttributes,
+	save: ({ attributes, className = "" }) => {
+		const { width, anchor, background, textColor, backgroundColor, gradient, padding, margin, style = {} } = attributes;
+		const { color = {} } = style;
+		const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+
+		/** @type {CSSStyleDeclaration} */
+		const innerStyle = {
+			paddingTop: padding?.top || null,
+			paddingRight: padding?.right || null,
+			paddingBottom: padding?.bottom || null,
+			paddingLeft: padding?.left || null,
+			color: customTextColor || null,
+			backgroundColor: customBackgroundColor || null,
+		};
+
+		if (!hasOption(width?.lg)) {
+			className = className.replace(/col-lg(?:-(?:\d{1,2}|auto))?/g, "");
+		}
+		if (!hasOption(width?.md)) {
+			className = className.replace(/col-md(?:-(?:\d{1,2}|auto))?/g, "");
+		}
+
+		if (background?.image?.url) {
+			innerStyle.backgroundPosition = background?.position || "center center";
+			innerStyle.backgroundSize = background?.size || "cover";
+			innerStyle.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+		}
+
+		if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+			if (innerStyle.backgroundImage) innerStyle.backgroundImage += ", ";
+			innerStyle.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+		} else if (customGradient) {
+			innerStyle.backgroundImage = customGradient;
+		}
+
+		return (
+			<div
+				id={anchor || null}
+				className={classNames(className, columnClassNames(attributes))}
+				style={{
+					marginTop: margin?.top || null,
+					marginBottom: margin?.bottom || null,
+				}}
+			>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						"has-text-color": textColor || customTextColor,
+						"has-background": backgroundColor || customBackgroundColor || innerStyle.backgroundImage,
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+						[getGradientClass(gradient)]: gradient,
+					})}
+					style={innerStyle}
+				>
+					<div className="col__content">
+						<InnerBlocks.Content />
+					</div>
+				</div>
+			</div>
+		);
+	},
+};
+
 export const v8 = {
 	attributes: {
 		width: { type: "object" },
@@ -200,28 +317,7 @@ export const v8 = {
 		anchor: true,
 		alignWide: false,
 	},
-	migrate: (attributes, innerBlocks) => {
-		const { /* padding, margin, */ customTextColor, customBackgroundColor, customGradient, ...attrs } = attributes;
-		attrs.style = attrs.style || {};
-		// attrs.style.spacing = attrs.style.spacing || {};
-		attrs.style.color = attrs.style.color || {};
-		// if (padding) {
-		// 	attrs.style.spacing.padding = padding;
-		// }
-		// if (margin) {
-		// 	attrs.style.spacing.margin = margin;
-		// }
-		if (customTextColor) {
-			attrs.style.color.text = customTextColor;
-		}
-		if (customBackgroundColor) {
-			attrs.style.color.background = customBackgroundColor;
-		}
-		if (customGradient) {
-			attrs.style.color.gradient = customGradient;
-		}
-		return [attrs, innerBlocks];
-	},
+	migrate: migrateColumnAttributes,
 	save: ({ attributes, className }) => {
 		const {
 			background,
@@ -633,4 +729,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v8, v7, v6, v5, v4, v3, v2, v1];
+export const deprecated = [v9, v8, v7, v6, v5, v4, v3, v2, v1];

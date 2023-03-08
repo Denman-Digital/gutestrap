@@ -21,8 +21,6 @@ export const attributes = {
 	alignment: { type: "object" },
 	contentAlignment: { type: "object" },
 	background: { type: "object" },
-	padding: { type: "object" },
-	margin: { type: "object" },
 	_isExample: { type: "boolean" },
 };
 
@@ -35,10 +33,10 @@ export const supports = {
 		background: true,
 		text: true,
 	},
-	// spacing: {
-	// 	margin: ["top", "bottom"], // Enable vertical margins.
-	// 	padding: true, // Enable padding for all sides.
-	// },
+	spacing: {
+		margin: ["top", "bottom"], // Enable vertical margins.
+		padding: true, // Enable padding for all sides.
+	},
 };
 
 export const template = [["core/paragraph"]];

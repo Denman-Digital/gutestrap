@@ -84,17 +84,16 @@ export const rowWrapClassNames = ({ direction = {} }) => {
  * @returns {Mixed} JSX Frontend HTML.
  */
 export const RowRender = ({ attributes, className }) => {
-	const { padding, anchor } = attributes;
-	// const { style = {}, anchor } = attributes;
-	// const { spacing = {} } = style;
-	// const { padding } = spacing;
+	const { style = {}, anchor } = attributes;
+	const { spacing = {} } = style;
+	const { padding } = spacing;
 	return (
 		<div
 			id={anchor || null}
 			className={classNames(className, rowClassNames(attributes))}
 			style={{
-				paddingTop: padding?.top || null,
-				paddingBottom: padding?.bottom || null,
+				paddingTop: padding?.top,
+				paddingBottom: padding?.bottom,
 			}}
 		>
 			<InnerBlocks.Content />
@@ -122,22 +121,20 @@ const v4 = {
 	supports: {
 		anchor: true,
 	},
-	// migrate: (attributes, innerBlocks) => {
-	// 	const { padding, ...attrs } = attributes;
-	// 	attrs.style = attrs.style || {};
-	// 	attrs.style.spacing = attrs.style.spacing || {};
-	// 	if (padding) {
-	// 		attrs.style.spacing.padding = padding;
-	// 	}
-	// 	return [attrs, innerBlocks];
-	// },
+	migrate: (attributes, innerBlocks) => {
+		const { padding, ...attrs } = attributes;
+		attrs.style = attrs.style || {};
+		attrs.style.spacing = attrs.style.spacing || {};
+		if (padding) {
+			attrs.style.spacing.padding = padding;
+		}
+		return [attrs, innerBlocks];
+	},
 	save: ({ attributes, className }) => {
 		const { padding, anchor } = attributes;
 		const style = {
 			paddingTop: padding?.top,
-			paddingRight: padding?.right,
 			paddingBottom: padding?.bottom,
-			paddingLeft: padding?.left,
 		};
 		return (
 			<div id={anchor || null} className={classNames(className, rowClassNames(attributes))} style={style}>
