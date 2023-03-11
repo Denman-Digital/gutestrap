@@ -31,7 +31,7 @@ $grid-breakpoints: (
 	xl: 75em, // 1200px,
 	xxl: 88.75em, // 1420px,
 	xxxl: 105em, // 1680px,
-	xxxxl: 118.75em // 1680px,
+	xxxxl: 118.75em // 1900px,
 );
 
 $container-max-widths: (
@@ -47,7 +47,7 @@ $container-max-widths: (
 $grid-gutter-width: 1.875rem; // 30px
 
 :root {
-	--gs-gutter-x: #{$grid-gutter-width};
+	--gs-gutter: #{$grid-gutter-width};
 	@each $breakpoint in map.keys($grid-breakpoints) {
 		@if $breakpoint == xs {
 			--gs-container-w-#{$breakpoint}: initial;
@@ -73,10 +73,4 @@ function my_project_enable_gutestrap(bool $current_status, string $post_type_nam
   return $post_type_name === "my_cpt" ? false : $current_status;
 }
 add_filter("gutestrap_enable_for_post_type", "my_project_enable_gutestrap", 10, 2);
-```
-
-### ~~Enable Border Colors (experimental)~~ (disabled)
-
-```php
-// add_theme_support("gutestrap-border-colors"), // disabled
 ```
