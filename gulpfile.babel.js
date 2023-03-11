@@ -92,7 +92,7 @@ let isWatching = false;
  */
 export function styles() {
 	return gulp
-		.src(["style.scss", "editor.scss"], { cwd: "src", sourcemaps: true })
+		.src(["style.scss", "editor.scss", "compat.scss"], { cwd: "src", sourcemaps: true })
 		.pipe(pipelines.errorHandler())
 		.pipe(sass.sync().on("error", sass.logError))
 		.pipe(postCSS([autoprefixer()]))

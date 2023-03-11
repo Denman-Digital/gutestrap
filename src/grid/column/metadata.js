@@ -38,5 +38,3 @@ export const supports = {
 		padding: true, // Enable padding for all sides.
 	},
 };
-
-export const template = [["core/paragraph"]];

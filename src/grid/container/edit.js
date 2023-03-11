@@ -1,32 +1,18 @@
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import {
-	InspectorControls,
-	InspectorAdvancedControls,
-	InnerBlocks,
-	__experimentalGetGradientClass as getGradientClass,
-} from "@wordpress/block-editor";
+import { InspectorControls, InspectorAdvancedControls, InnerBlocks } from "@wordpress/block-editor";
+
+import { select } from "@wordpress/data";
+import { createHigherOrderComponent } from "@wordpress/compose";
 import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 
 const { config } = gutestrapGlobal;
 
-function ContainerEdit({ attributes, className, setAttributes, textColor, backgroundColor }) {
-	const { breakpoint, fluid, disabled, background, gradient, style = {} } = attributes;
-	const { color = {} } = style;
-	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+function ContainerEdit({ attributes, className, setAttributes }) {
+	const { breakpoint, fluid, disabled, background, insetVertical, insetExpand, insetConditional } = attributes;
 
-	let backgroundImageCSS = "";
-	if (background?.image?.url) {
-		backgroundImageCSS += `url(${background.image.url})`;
-	}
-	if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
-		if (backgroundImageCSS) backgroundImageCSS += ", ";
-		backgroundImageCSS += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
-	} else if (customGradient) {
-		backgroundImageCSS = customGradient;
-	}
 	return (
 		<Fragment>
 			<InspectorControls>
@@ -77,6 +63,39 @@ function ContainerEdit({ attributes, className, setAttributes, textColor, backgr
 						onChange={(value) => setAttributes({ breakpoint: value })}
 					/>
 				</PanelBody>
+				<PanelBody title={__("Container Inset", "gutestrap")} initialOpen={false}>
+					<p>
+						By default, containers apply a horizontal inset to their contents equal to half of the gutter between row
+						columns.
+					</p>
+					<ToggleControl
+						label={__("Add vertical container inset", "gutestrap")}
+						help={__("Inset container contents vertically as well as horizontally.", "gutestrap")}
+						checked={!!insetVertical}
+						onChange={(checked) => {
+							setAttributes({ insetVertical: !!checked });
+						}}
+					/>
+					<ToggleControl
+						label={__("Expand insets", "gutestrap")}
+						help={__("Double the size of the container inset to match the gutter between row columns.", "gutestrap")}
+						checked={!!insetExpand}
+						onChange={(checked) => {
+							setAttributes({ insetExpand: !!checked });
+						}}
+					/>
+					<ToggleControl
+						label={__("Prevent nested inset", "gutestrap")}
+						help={__(
+							"Remove the container inset (horizantal & vertical) when this container is the child of another container.",
+							"gutestrap"
+						)}
+						checked={!!insetConditional}
+						onChange={(checked) => {
+							setAttributes({ insetConditional: !!checked });
+						}}
+					/>
+				</PanelBody>
 				<PanelBackgroundImage
 					value={background}
 					onChange={(value) => {
@@ -96,34 +115,69 @@ function ContainerEdit({ attributes, className, setAttributes, textColor, backgr
 				/>
 			</InspectorAdvancedControls>
 			<div
-				className={classNames({
-					"has-text-color": textColor?.color || customTextColor,
-					[textColor?.class]: textColor?.class,
-					"has-background": backgroundColor?.color || customBackgroundColor,
-					[backgroundColor?.class]: backgroundColor?.class,
-					[getGradientClass(gradient)]: gradient,
+				className={classNames(className, {
+					container: !fluid || !breakpoint,
+					[`container-${breakpoint}`]: fluid || breakpoint,
+					"contain-inset-vert": insetVertical,
+					"contain-inset-wide": insetExpand,
+					"uncontain-nested": insetConditional,
 				})}
-				style={{
-					backgroundImage: backgroundImageCSS || null,
-					backgroundPosition: background?.position || "center center",
-					backgroundSize: background?.size || "cover",
-					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-					color: textColor?.color,
-					backgroundColor: backgroundColor?.color,
-				}}
 			>
-				<div
-					className={classNames(className, {
-						container: !fluid || !breakpoint,
-						[`container-${breakpoint}`]: fluid && breakpoint,
-					})}
-				>
-					<InnerBlocks />
-				</div>
+				<InnerBlocks />
 			</div>
 		</Fragment>
 	);
 }
 
+wp.hooks.addFilter(
+	"editor.BlockListBlock",
+	"gutestrap/with-column-block-list-block-classes",
+	createHigherOrderComponent((BlockListBlock) => {
+		/**
+		 * @arg {Object} props - Props.
+		 * @arg {Object} props.attributes - Block attributes.
+		 * @arg {Object} props.block - Block properties.
+		 * @arg {string} props.block.name - Block name.
+		 * @returns {*} JSX
+		 */
+		const gutestrapColumnBlockListBlockClasses = ({ className, ...props }) => {
+			const { attributes, block, clientId } = props;
+			const extraClasses = [];
+			const wrapperProps = {};
+
+			if (block.name === "gutestrap/container") {
+				const _block = select("core/block-editor").getBlock(clientId);
+				if (_block?.innerBlocks?.length) {
+					extraClasses.push("has-inner-blocks");
+				}
+
+				const { background, gradient, style = {} } = attributes;
+				const { color = {} } = style;
+				const { gradient: customGradient } = color;
+				let backgroundImage = "";
+				if (background?.image?.url) {
+					backgroundImage += `url(${background.image.url})`;
+				}
+				if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+					if (backgroundImage) backgroundImage += ", ";
+					backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+				}
+
+				if (backgroundImage) {
+					const backgroundStyles = {
+						backgroundImage,
+						backgroundPosition: background?.position || "center center",
+						backgroundSize: background?.size || "cover",
+						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+					};
+					wrapperProps.style = { ...backgroundStyles };
+				}
+			}
+			className = classNames(className, ...extraClasses);
+			return <BlockListBlock {...props} className={className} wrapperProps={wrapperProps} />;
+		};
+		return gutestrapColumnBlockListBlockClasses;
+	}, "withGutestrapColumnBlockListBlockClasses")
+);
 export { ContainerEdit };
 export default ContainerEdit;

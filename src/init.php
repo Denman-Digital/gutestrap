@@ -187,3 +187,28 @@ function gutestrap_block_categories(array $categories): array
 	);
 }
 add_filter('block_categories_all', 'gutestrap_block_categories', 10);
+
+/**
+ * Add script to check for and include compat styles if needed.
+ * @return void
+ */
+function gutestrap_compat_styles_logic()
+{
+	$stylesheet_link_html = sprintf(
+		'<link rel="stylesheet" id="gutestrap-compat-css" href="%s?v=%s" media="all" />',
+		esc_url(plugins_url('dist/blocks.compat.build.css', dirname(__FILE__))),
+		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.compat.build.css')
+	);
+?>
+	<script type='text/javascript'>
+		(function() {
+			var gutestrapStyles = document.getElementById("gutestrap-style-css");
+			if (gutestrapStyles && !CSS.supports("(top:var(--x))")) {
+				console.warn("Gutestrap: custom properties not supported, compat stylesheet being added");
+				gutestrapStyles.insertAdjacentHTML("afterEnd", '<?= $stylesheet_link_html; ?>');
+			}
+		})();
+	</script>
+<?php
+}
+add_action('wp_print_footer_scripts', 'gutestrap_compat_styles_logic');

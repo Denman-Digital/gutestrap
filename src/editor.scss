@@ -31,17 +31,37 @@ $include-column-box-sizing: true !default;
 
 @import "../node_modules/bootstrap/scss/mixins/lists";
 @import "../node_modules/bootstrap/scss/mixins/breakpoints";
-@import "../node_modules/bootstrap/scss/mixins/container";
+
 @import "../node_modules/bootstrap/scss/mixins/grid";
+
+@mixin make-row($gutter: $grid-gutter-width) {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: calc(var(--gs-gutter) / -2);
+	margin-left: calc(var(--gs-gutter) / -2);
+}
+
+@mixin make-col-ready() {
+	// Add box sizing if only the grid is loaded
+	box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
+	// Prevent columns from becoming too narrow when at smaller grid tiers by
+	// always setting `width: 100%;`. This works because we set the width
+	// later on to override this initial width.
+	flex-shrink: 0;
+	width: 100%;
+	max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
+	padding-right: calc(var(--gs-gutter) / 2);
+	padding-left: calc(var(--gs-gutter) / 2);
+}
 
 @mixin make-col($size: false, $columns: $grid-columns) {
 	@if $size {
-		flex: 0 0 auto;
-		width: math.percentage(math.div($size, $columns));
-		max-width: math.percentage(math.div($size, $columns));
+		flex: 0 0 auto !important;
+		width: math.percentage(math.div($size, $columns)) !important;
+		max-width: math.percentage(math.div($size, $columns)) !important;
 	} @else {
-		flex: 1 1 0;
-		max-width: 100%;
+		flex: 1 1 0 !important;
+		max-width: 100% !important;
 	}
 }
 
@@ -54,7 +74,6 @@ $include-column-box-sizing: true !default;
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
 	$min: breakpoint-min($name, $breakpoints);
 	@if $min {
-		// $min: $min + 280px;
 		$min: $min + 17.5em;
 		@media (min-width: $min) {
 			.gutestrap-enabled #editor {
@@ -81,9 +100,42 @@ $include-column-box-sizing: true !default;
 	}
 }
 
-// @import "../node_modules/bootstrap/scss/root";
+:root {
+	// --gs-gutter: #{$grid-gutter-width};
+	// @each $breakpoint in map.keys($grid-breakpoints) {
+	// 	@if $breakpoint == xs {
+	// 		--gs-container-w-#{$breakpoint}: initial;
+	// 	} @else {
+	// 		--gs-container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
+	// 	}
+	// }
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@include media-breakpoint-up($breakpoint) {
+			--gs-container-w: var(--gs-container-w-#{$breakpoint}) !important;
+		}
+	}
+}
 
-@import "../node_modules/bootstrap/scss/containers";
+// // Single container class with breakpoint max-widths
+// .container,
+// // 100% wide container at all breakpoints
+// .container-fluid {
+// 	width: 100%;
+// 	margin-right: auto;
+// 	margin-left: auto;
+// 	padding-right: calc(var(--gs-gutter) / 2);
+// 	padding-left: calc(var(--gs-gutter) / 2);
+// }
+
+// Responsive containers that are 100% wide until a breakpoint
+@each $breakpoint, $container-max-width in $container-max-widths {
+	.container-#{$breakpoint} {
+		// @extend .container-fluid;
+		@include media-breakpoint-up($breakpoint) {
+			max-width: var(--gs-container-w) !important;
+		}
+	}
+}
 
 @import "../node_modules/bootstrap/scss/grid";
 
@@ -93,8 +145,6 @@ $include-column-box-sizing: true !default;
 $utilities: map-get-multiple(
 	$utilities,
 	(
-		// "display",
-		// "order",
 		"flex",
 		"flex-direction",
 		"flex-grow",
@@ -103,28 +153,7 @@ $utilities: map-get-multiple(
 		"justify-content",
 		"align-items",
 		"align-content",
-		"align-self",
-		// "margin",
-		// "margin-x",
-		// "margin-y",
-		// "margin-top",
-		// "margin-end",
-		// "margin-bottom",
-		// "margin-start",
-		// "negative-margin",
-		// "negative-margin-x",
-		// "negative-margin-y",
-		// "negative-margin-top",
-		// "negative-margin-end",
-		// "negative-margin-bottom",
-		// "negative-margin-start",
-		// "padding",
-		// "padding-x",
-		// "padding-y",
-		// "padding-top",
-		// "padding-end",
-		// "padding-bottom",
-		// "padding-start",
+		"align-self"
 	)
 );
 
@@ -157,29 +186,6 @@ $utilities: map-merge(
 
 @import "../node_modules/bootstrap/scss/utilities/api";
 
-.row.no-gutters {
-	margin-left: 0;
-	margin-right: 0;
-
-	> .col,
-	> [class*="col-"] {
-		padding-left: 0 !important;
-		padding-right: 0 !important;
-	}
-}
-
-// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
-.vertical-gutters {
-	margin-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-	margin-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-
-	> .col,
-	> [class*="col-"] {
-		padding-top: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
-		padding-bottom: calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
-	}
-}
-
 @each $breakpoint in map-keys($grid-breakpoints) {
 	@include media-breakpoint-up($breakpoint) {
 		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
@@ -207,6 +213,9 @@ $utilities: map-merge(
 		outline: 1px dashed gray;
 		outline-offset: -1px;
 		min-height: 1.25rem;
+		// padding: 0 !important;
+		// color: inherit !important;
+		// background: transparent !important;
 
 		&:hover,
 		&:is(.has-child-selected, .is-selected, .is-hovered) {
@@ -221,23 +230,17 @@ $utilities: map-merge(
 			color: gray;
 			padding-left: 0.25rem;
 		}
-		&.is-selected,
-		&.has-child-selected,
-		&.has-inner-blocks {
-			&::before {
-				// margin-bottom: -28px;
-			}
-		}
 	}
 
 	&-row {
 		outline: 1px dashed gray;
 		outline-offset: -1px;
 
-		&.has-child-selected,
-		&.is-selected,
-		&.is-hovered,
-		&:hover {
+		> * > .block-editor-inner-blocks {
+			overflow: hidden auto;
+		}
+
+		&:is(.has-child-selected, .is-selected, .is-hovered, :hover) {
 			outline: 1px dashed limegreen;
 		}
 
@@ -280,10 +283,7 @@ $utilities: map-merge(
 			outline-offset: -1px;
 		}
 
-		&.has-child-selected,
-		&.is-selected,
-		&.is-hovered,
-		&:hover {
+		&:is(.has-child-selected, .is-selected, .is-hovered, :hover) {
 			> .col__inner {
 				outline: 1px dashed dodgerblue;
 			}
@@ -403,26 +403,6 @@ $utilities: map-merge(
 	}
 }
 
-// @each $breakpoint in map-keys($grid-breakpoints) {
-// 	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-// 	@include media-breakpoint-up($breakpoint) {
-// 		.hide#{$infix},
-// 		.hide#{$infix}-up {
-// 			display: none !important;
-// 		}
-// 	}
-// 	@include media-breakpoint-down($breakpoint) {
-// 		.hide#{$infix}-down {
-// 			display: none !important;
-// 		}
-// 	}
-// 	@include media-breakpoint-only($breakpoint) {
-// 		.hide#{$infix}-only {
-// 			display: none !important;
-// 		}
-// 	}
-// }
-
 .block-editor-block-list__block[data-title] {
 	&[data-type="core/group"] {
 		&:not(.has-background) {
@@ -450,13 +430,13 @@ $utilities: map-merge(
 			> [class*="col-"] {
 				margin-top: 0 !important;
 				margin-bottom: 0 !important;
-				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
-				padding-right: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
+				padding-left: calc(var(--gs-gutter) / 2) !important;
+				padding-right: calc(var(--gs-gutter) / 2) !important;
 			}
 
 			> .block-list-appender {
 				position: relative;
-				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-left: calc(var(--gs-gutter) / 2);
 				width: 100%;
 				max-width: 100%;
 				flex-basis: 100%;
@@ -487,16 +467,16 @@ $utilities: map-merge(
 		}
 		// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 		&.vertical-gutters > * > .block-editor-block-list__layout {
-			margin-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-			margin-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+			// margin-top: calc(var(--gs-gutter, #{$grid-gutter-width}) * -0.5);
+			// margin-bottom: calc(var(--gs-gutter, #{$grid-gutter-width}) * -0.5);
 
 			> .col,
 			> [class*="col-"] {
-				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
-				padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
+				padding-top: calc(var(--gs-gutter, #{$grid-gutter-width}) * 0.5) !important;
+				padding-bottom: calc(var(--gs-gutter, #{$grid-gutter-width}) * 0.5) !important;
 			}
 			> .block-list-appender {
-				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-top: calc(var(--gs-gutter, #{$grid-gutter-width}) * 0.5);
 			}
 		}
 	}
@@ -725,22 +705,6 @@ hr.gutestrap-block-clear-placeholder {
 					box-shadow: inset 2px 2px 2px -1px tomato;
 				}
 			}
-		}
-	}
-}
-
-:root {
-	--#{$prefix}gutter-x: #{$grid-gutter-width};
-	@each $breakpoint in map.keys($grid-breakpoints) {
-		@if $breakpoint == xs {
-			--#{$prefix}container-w-#{$breakpoint}: initial;
-		} @else {
-			--#{$prefix}container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
-		}
-	}
-	@each $breakpoint in map.keys($grid-breakpoints) {
-		@include media-breakpoint-up($breakpoint) {
-			--#{$prefix}container-w: var(--#{$prefix}container-w-#{$breakpoint});
 		}
 	}
 }

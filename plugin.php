@@ -30,6 +30,10 @@ define("GUTESTRAP_PLUGIN_BASENAME", plugin_basename(__FILE__));
 
 define("GUTESTRAP_PLUGIN_FILE", basename(__FILE__));
 
+define("GUTESTRAP_PLUGIN_URI", plugin_dir_url(__FILE__));
+
+define("GUTESTRAP_PLUGIN_PATH", plugin_dir_path(__FILE__));
+
 /**
  * PHP Dependencies
  */

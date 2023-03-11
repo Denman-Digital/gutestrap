@@ -366,13 +366,11 @@ wp.hooks.addFilter(
 		const gutestrapColumnBlockListBlockClasses = ({ className, ...props }) => {
 			const { attributes, block, clientId } = props;
 			const extraClasses = [];
-			if (block.name === "gutestrap/col" || block.name === "gutestrap/container") {
+			if (block.name === "gutestrap/col") {
 				const _block = select("core/block-editor").getBlock(clientId);
 				if (_block?.innerBlocks?.length) {
 					extraClasses.push("has-inner-blocks");
 				}
-			}
-			if (block.name === "gutestrap/col") {
 				extraClasses.push(columnClassNames(attributes));
 			}
 			className = classNames(className, ...extraClasses);

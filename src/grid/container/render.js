@@ -10,15 +10,23 @@ import {
 const { config } = gutestrapGlobal;
 
 export const ContainerRender = ({ attributes, className }) => {
-	const { breakpoint, background, textColor, backgroundColor, gradient, style = {} } = attributes;
-	const { color = {} } = style;
+	const {
+		breakpoint,
+		background,
+		textColor,
+		backgroundColor,
+		gradient,
+		insetVertical,
+		insetExpand,
+		insetConditional,
+		style = {},
+	} = attributes;
+	const { color = {}, spacing = {} } = style;
+	const { padding, margin } = spacing;
 	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
 
 	/** @type {CSSStyleDeclaration} */
-	const styles = {
-		color: customTextColor || null,
-		backgroundColor: customBackgroundColor || null,
-	};
+	const styles = {};
 	if (background?.image?.url) {
 		styles.backgroundImage = `url(${background.image.url})`;
 		styles.backgroundPosition = background?.position || "center center";
@@ -41,9 +49,24 @@ export const ContainerRender = ({ attributes, className }) => {
 				[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 				[getGradientClass(gradient)]: gradient,
 			})}
-			style={styles}
+			style={{
+				paddingTop: padding?.top,
+				paddingBottom: padding?.bottom,
+				marginTop: margin?.top,
+				marginBottom: margin?.bottom,
+				color: customTextColor || null,
+				backgroundColor: customBackgroundColor || null,
+				...styles,
+			}}
 		>
-			<div className={`container${breakpoint ? `-${breakpoint}` : ""}`}>
+			<div
+				className={classNames({
+					[`container${breakpoint ? `-${breakpoint}` : ""}`]: true,
+					"contain-inset-vert": insetVertical,
+					"contain-inset-wide": insetExpand,
+					"uncontain-nested": insetConditional,
+				})}
+			>
 				<InnerBlocks.Content />
 			</div>
 		</div>
@@ -53,6 +76,91 @@ export const ContainerRender = ({ attributes, className }) => {
 //==============================================================================
 // DEPRECATED VERSIONS
 //
+
+function migrateContainer(attributes, innerBlocks) {
+	const { customTextColor, customBackgroundColor, customGradient, ...attrs } = attributes;
+	attrs.style = attrs.style || {};
+	attrs.style.color = attrs.style.color || {};
+	if (customTextColor) {
+		attrs.style.color.text = customTextColor;
+	}
+	if (customBackgroundColor) {
+		attrs.style.color.background = customBackgroundColor;
+	}
+	if (customGradient) {
+		attrs.style.color.gradient = customGradient;
+	}
+	console.log("Migrate Container:", { old: attributes, new: attrs });
+	return [attrs, innerBlocks];
+}
+
+const v6 = {
+	attributes: {
+		fluid: { type: "boolean" },
+		breakpoint: { type: "string" },
+		disabled: { type: "boolean" },
+		background: { type: "object" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			gradients: true,
+			background: true,
+			text: true,
+		},
+		spacing: {
+			padding: ["top", "bottom"],
+			margin: ["top", "bottom"],
+		},
+	},
+	save: ({ attributes, className }) => {
+		const { breakpoint, background, textColor, backgroundColor, gradient, style = {} } = attributes;
+		const { color = {}, spacing = {} } = style;
+		const { padding, margin } = spacing;
+		const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+
+		/** @type {CSSStyleDeclaration} */
+		const styles = {};
+		if (background?.image?.url) {
+			styles.backgroundImage = `url(${background.image.url})`;
+			styles.backgroundPosition = background?.position || "center center";
+			styles.backgroundSize = background?.size || "cover";
+			styles.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+		}
+		if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+			if (styles.backgroundImage) styles.backgroundImage += ", ";
+			styles.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+		} else if (customGradient) {
+			styles.backgroundImage = customGradient;
+		}
+
+		return (
+			<div
+				className={classNames(className, {
+					"has-text-color": textColor || customTextColor,
+					"has-background": backgroundColor || customBackgroundColor || styles.backgroundImage,
+					[getColorClassName("color", textColor)]: textColor,
+					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+					[getGradientClass(gradient)]: gradient,
+				})}
+				style={{
+					paddingTop: padding?.top,
+					paddingBottom: padding?.bottom,
+					marginTop: margin?.top,
+					marginBottom: margin?.bottom,
+					color: customTextColor || null,
+					backgroundColor: customBackgroundColor || null,
+					...styles,
+				}}
+			>
+				<div className={`container${breakpoint ? `-${breakpoint}` : ""}`}>
+					<InnerBlocks.Content />
+				</div>
+			</div>
+		);
+	},
+};
 
 const v5 = {
 	attributes: {
@@ -67,22 +175,7 @@ const v5 = {
 		customBackgroundColor: { type: "string" },
 		customGradient: { type: "string" },
 	},
-	migrate: (attributes, innerBlocks) => {
-		const { customTextColor, customBackgroundColor, customGradient, ...attrs } = attributes;
-		attrs.style = attrs.style || {};
-		attrs.style.color = attrs.style.color || {};
-		if (customTextColor) {
-			attrs.style.color.text = customTextColor;
-		}
-		if (customBackgroundColor) {
-			attrs.style.color.background = customBackgroundColor;
-		}
-		if (customGradient) {
-			attrs.style.color.gradient = customGradient;
-		}
-		console.log("Migrate Container:", { old: attributes, new: attrs });
-		return [attrs, innerBlocks];
-	},
+	migrate: migrateContainer,
 	supports: {
 		anchor: true,
 		alignWide: false,
@@ -267,4 +360,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v5, v4, v3, v2, v1];
+export const deprecated = [v6, v5, v4, v3, v2, v1];

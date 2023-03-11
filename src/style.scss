@@ -4,6 +4,7 @@
  * CSS for Frontend.
  */
 
+@use "sass:list";
 @use "sass:map";
 @use "common" as *;
 
@@ -16,38 +17,13 @@ $include-column-box-sizing: true !default;
 @import "../node_modules/bootstrap/scss/mixins/lists";
 @import "../node_modules/bootstrap/scss/mixins/breakpoints";
 
-@mixin if-custom-props-not-supported {
-	@supports not (top: var(--x, 0px)) {
-		@content;
-	}
-}
-
-// @import "../node_modules/bootstrap/scss/mixins/container";
-@mixin make-container($gutter: $container-padding-x) {
-	width: 100%;
-	margin-right: auto;
-	margin-left: auto;
-	padding-right: calc(0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-	padding-left: calc(0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-
-	@include if-custom-props-not-supported {
-		padding-right: calc(0.5 * #{$gutter});
-		padding-left: calc(0.5 * #{$gutter});
-	}
-}
-
 @import "../node_modules/bootstrap/scss/mixins/grid";
 
 @mixin make-row($gutter: $grid-gutter-width) {
 	display: flex;
 	flex-wrap: wrap;
-	margin-right: calc(-0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-	margin-left: calc(-0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-
-	@include if-custom-props-not-supported {
-		margin-right: calc(-0.5 * #{$gutter});
-		margin-left: calc(-0.5 * #{$gutter});
-	}
+	margin-right: calc(var(--gs-gutter) / -2);
+	margin-left: calc(var(--gs-gutter) / -2);
 }
 
 @mixin make-col-ready($gutter: $grid-gutter-width) {
@@ -59,20 +35,61 @@ $include-column-box-sizing: true !default;
 	flex-shrink: 0;
 	width: 100%;
 	max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
-	padding-right: calc(0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-	padding-left: calc(0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-
-	@include if-custom-props-not-supported {
-		padding-right: calc(0.5 * #{$gutter});
-		padding-left: calc(0.5 * #{$gutter});
-	}
+	padding-right: calc(var(--gs-gutter) / 2);
+	padding-left: calc(var(--gs-gutter) / 2);
 }
 
 @import "../node_modules/bootstrap/scss/mixins/utilities";
 
 @import "../node_modules/bootstrap/scss/vendor/rfs";
 
-@import "../node_modules/bootstrap/scss/containers";
+// @import "../node_modules/bootstrap/scss/containers";
+
+:root {
+	--gs-gutter: #{$grid-gutter-width};
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@if $breakpoint == xs {
+			--gs-container-w-#{$breakpoint}: initial;
+		} @else {
+			--gs-container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
+		}
+	}
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@include media-breakpoint-up($breakpoint) {
+			--gs-container-w: var(--gs-container-w-#{$breakpoint});
+		}
+	}
+}
+
+.gutter-reset {
+	--gs-gutter: #{$grid-gutter-width};
+}
+
+// Single container class with breakpoint max-widths
+.container,
+// 100% wide container at all breakpoints
+.container-fluid {
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: calc(var(--gs-gutter) / 2);
+	padding-left: calc(var(--gs-gutter) / 2);
+}
+
+.container {
+	max-width: var(--gs-container-w);
+}
+
+// Responsive containers that are 100% wide until a breakpoint
+@each $breakpoint, $container-max-width in $container-max-widths {
+	.container-#{$breakpoint} {
+		@extend .container-fluid;
+		@include media-breakpoint-up($breakpoint) {
+			max-width: var(--gs-container-w);
+		}
+	}
+}
+
 @import "../node_modules/bootstrap/scss/grid";
 
 @import "../node_modules/bootstrap/scss/utilities";
@@ -81,8 +98,6 @@ $include-column-box-sizing: true !default;
 $utilities: map-get-multiple(
 	$utilities,
 	(
-		// "display",
-		// "order",
 		"flex",
 		"flex-direction",
 		"flex-grow",
@@ -91,28 +106,7 @@ $utilities: map-get-multiple(
 		"justify-content",
 		"align-items",
 		"align-content",
-		"align-self",
-		// "margin",
-		// "margin-x",
-		// "margin-y",
-		// "margin-top",
-		// "margin-end",
-		// "margin-bottom",
-		// "margin-start",
-		// "negative-margin",
-		// "negative-margin-x",
-		// "negative-margin-y",
-		// "negative-margin-top",
-		// "negative-margin-end",
-		// "negative-margin-bottom",
-		// "negative-margin-start",
-		// "padding",
-		// "padding-x",
-		// "padding-y",
-		// "padding-top",
-		// "padding-end",
-		// "padding-bottom",
-		// "padding-start",
+		"align-self"
 	)
 );
 
@@ -158,24 +152,13 @@ $utilities: map-merge(
 }
 
 .row.vertical-gutters {
-	margin-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-	margin-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+	margin-top: calc(var(--gs-gutter) / -2);
+	margin-bottom: calc(var(--gs-gutter) / -2);
 
 	> .col,
 	> [class*="col-"] {
-		padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-		padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-	}
-
-	@include if-custom-props-not-supported {
-		margin-top: calc(-0.5 * #{$grid-gutter-width});
-		margin-bottom: calc(-0.5 * #{$grid-gutter-width});
-
-		> .col,
-		> [class*="col-"] {
-			padding-top: calc(0.5 * #{$grid-gutter-width});
-			padding-bottom: calc(0.5 * #{$grid-gutter-width});
-		}
+		padding-top: calc(var(--gs-gutter) / 2);
+		padding-bottom: calc(var(--gs-gutter) / 2);
 	}
 }
 
@@ -202,6 +185,27 @@ $utilities: map-merge(
 	}
 }
 
+$container-classes: (".container-fluid");
+@each $breakpoint in map.keys($grid-breakpoints) {
+	$container-classes: list.append($container-classes, ".container#{breakpoint-infix($breakpoint)}", $separator: comma);
+}
+
+.contain-inset-vert:is(#{$container-classes}) {
+	padding-top: calc(var(--gs-gutter) / 2);
+	padding-bottom: calc(var(--gs-gutter) / 2);
+}
+
+.contain-inset-wide:is(#{$container-classes}) {
+	--gs-gutter: calc(#{$grid-gutter-width} * 2);
+	> * {
+		--gs-gutter: #{$grid-gutter-width};
+	}
+}
+
+[class*="container"]:is(#{$container-classes}) .uncontain-nested:is(#{$container-classes}) {
+	padding: 0 !important;
+}
+
 .wp-block-gutestrap {
 	&-col {
 		display: flex;
@@ -214,42 +218,6 @@ $utilities: map-merge(
 			> .col__content {
 				max-width: 100%;
 			}
-		}
-	}
-}
-
-// @each $breakpoint in map-keys($grid-breakpoints) {
-// 	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-// 	@include media-breakpoint-up($breakpoint) {
-// 		.hide#{$infix},
-// 		.hide#{$infix}-up {
-// 			display: none !important;
-// 		}
-// 	}
-// 	@include media-breakpoint-down($breakpoint) {
-// 		.hide#{$infix}-down {
-// 			display: none !important;
-// 		}
-// 	}
-// 	@include media-breakpoint-only($breakpoint) {
-// 		.hide#{$infix}-only {
-// 			display: none !important;
-// 		}
-// 	}
-// }
-
-:root {
-	--#{$prefix}gutter-x: #{$grid-gutter-width};
-	@each $breakpoint in map.keys($grid-breakpoints) {
-		@if $breakpoint == xs {
-			--#{$prefix}container-w-#{$breakpoint}: initial;
-		} @else {
-			--#{$prefix}container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
-		}
-	}
-	@each $breakpoint in map.keys($grid-breakpoints) {
-		@include media-breakpoint-up($breakpoint) {
-			--#{$prefix}container-w: var(--#{$prefix}container-w-#{$breakpoint});
 		}
 	}
 }
