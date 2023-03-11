@@ -3,7 +3,7 @@
         'name' => 'paulthewalton/gutestrap',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '4255bf193ef11471b658e3db6f3edc02d9ebcb48',
+        'reference' => '903f1d2c2b71e938d49f6aa23b593bfc61a08b13',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'paulthewalton/gutestrap' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '4255bf193ef11471b658e3db6f3edc02d9ebcb48',
+            'reference' => '903f1d2c2b71e938d49f6aa23b593bfc61a08b13',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
