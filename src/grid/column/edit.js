@@ -7,6 +7,7 @@ import {
 	InspectorControls,
 	InnerBlocks,
 	BlockControls,
+	getColorClassName,
 	__experimentalGetGradientClass as getGradientClass,
 	__experimentalBlockAlignmentMatrixControl as BlockAlignmentMatrixControl,
 } from "@wordpress/block-editor";
@@ -150,7 +151,7 @@ const COL_CONTENT_ALIGN_OPTIONS = [
  * @returns {Mixed} JSX Component.
  */
 function ColumnEdit(props) {
-	const { attributes, className, setAttributes, clientId, textColor, backgroundColor } = props;
+	const { attributes, className, setAttributes, clientId } = props;
 
 	const {
 		anchor = "",
@@ -158,6 +159,8 @@ function ColumnEdit(props) {
 		offset = {},
 		alignment = {},
 		background = {},
+		textColor,
+		backgroundColor,
 		gradient,
 		style = {},
 		contentAlignment = {},
@@ -311,11 +314,11 @@ function ColumnEdit(props) {
 			<div
 				id={anchor || null}
 				className={classNames(className, columnInnerClassNames(attributes), {
-					"has-text-color": textColor?.color || customTextColor,
-					[textColor?.class]: textColor?.class,
+					"has-text-color": textColor || customTextColor,
+					[getColorClassName("color", textColor)]: textColor,
 					"has-background":
-						backgroundColor?.color || customBackgroundColor || backgroundImageCSS || gradient || customGradient,
-					[backgroundColor?.class]: backgroundColor?.class,
+						backgroundColor || customBackgroundColor || backgroundImageCSS || gradient || customGradient,
+					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 					[getGradientClass(gradient)]: gradient,
 				})}
 				style={{
@@ -327,10 +330,8 @@ function ColumnEdit(props) {
 					paddingRight: padding?.right,
 					paddingBottom: padding?.bottom,
 					paddingLeft: padding?.left,
-					marginTop: margin?.top,
-					marginBottom: margin?.bottom,
-					color: textColor?.color || customTextColor,
-					backgroundColor: backgroundColor?.color || customBackgroundColor,
+					color: customTextColor,
+					backgroundColor: customBackgroundColor,
 				}}
 			>
 				<div className="col__content">

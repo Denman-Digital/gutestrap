@@ -127,6 +127,7 @@ export const ColumnRender = ({ attributes, className = "" }) => {
 		backgroundColor: customBackgroundColor || null,
 	};
 
+	// Check for phantom lg & md classes
 	if (!hasOption(width?.lg)) {
 		className = className.replace(/col-lg(?:-(?:\d{1,2}|auto))?/g, "");
 	}
