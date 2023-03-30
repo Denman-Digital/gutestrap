@@ -219,7 +219,7 @@ $utilities: map-merge(
 
 		&:hover,
 		&:is(.has-child-selected, .is-selected, .is-hovered) {
-			outline: 1px dashed tomato;
+			outline: 1px dashed black;
 		}
 
 		&::before {
@@ -241,7 +241,7 @@ $utilities: map-merge(
 		}
 
 		&:is(.has-child-selected, .is-selected, .is-hovered, :hover) {
-			outline: 1px dashed limegreen;
+			outline: 1px dashed grey;
 		}
 
 		&::before {
@@ -285,7 +285,7 @@ $utilities: map-merge(
 
 		&:is(.has-child-selected, .is-selected, .is-hovered, :hover) {
 			> .col__inner {
-				outline: 1px dashed dodgerblue;
+				outline: 1px dashed lightgrey;
 			}
 		}
 
@@ -428,8 +428,8 @@ $utilities: map-merge(
 
 			> .col,
 			> [class*="col-"] {
-				margin-top: 0 !important;
-				margin-bottom: 0 !important;
+				// margin-top: 0 !important;
+				// margin-bottom: 0 !important;
 				padding-left: calc(var(--gs-gutter) / 2) !important;
 				padding-right: calc(var(--gs-gutter) / 2) !important;
 			}
