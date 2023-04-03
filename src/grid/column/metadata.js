@@ -1,5 +1,7 @@
 import { __ } from "@wordpress/i18n";
 
+export const apiVersion = 2;
+
 /** Block name. */
 export const name = "gutestrap/col";
 
@@ -37,4 +39,7 @@ export const supports = {
 		margin: ["top", "bottom"], // Enable vertical margins.
 		padding: true, // Enable padding for all sides.
 	},
+	// dimensions: {
+	// 	minHeight: true, // Enable min height control.
+	// },
 };

@@ -1,4 +1,4 @@
-import { name, title, description, attributes, supports } from "./metadata";
+import { name, title, description, attributes, supports, apiVersion } from "./metadata";
 import { ColumnEdit as edit } from "./edit";
 import { ColumnRender as save, deprecated } from "./render";
 import icon from "./icon.svg";
@@ -48,9 +48,9 @@ const example = {
 	],
 };
 
-export { name, title, description, icon, parent, attributes, supports, edit, save, deprecated, example };
+export { name, title, description, icon, parent, attributes, supports, edit, save, deprecated, example, apiVersion };
 
 export default {
 	name,
-	settings: { title, description, icon, parent, attributes, supports, edit, save, deprecated, example },
+	settings: { title, description, icon, parent, attributes, supports, edit, save, deprecated, example, apiVersion },
 };

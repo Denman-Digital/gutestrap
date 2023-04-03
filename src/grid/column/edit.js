@@ -8,6 +8,7 @@ import {
 	InnerBlocks,
 	BlockControls,
 	getColorClassName,
+	useBlockProps,
 	__experimentalGetGradientClass as getGradientClass,
 	__experimentalBlockAlignmentMatrixControl as BlockAlignmentMatrixControl,
 } from "@wordpress/block-editor";
@@ -20,7 +21,7 @@ import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
-import { columnClassNames, columnInnerClassNames } from "./render";
+import { columnClassNames, columnInnerClassNames, classRegexs } from "./render";
 
 import ExpandIcon from "./expand-contents.svg";
 
@@ -151,10 +152,19 @@ const COL_CONTENT_ALIGN_OPTIONS = [
  * @returns {Mixed} JSX Component.
  */
 function ColumnEdit(props) {
-	const { attributes, className, setAttributes, clientId } = props;
+	const { attributes, setAttributes, clientId } = props;
+	let { className } = props;
+
+	if (className) {
+		className = className.replace(classRegexs.backgroundColor, "");
+		className = className.replace(classRegexs.baseCols, "");
+		className = className.replace(classRegexs.responsiveCols, "");
+		className = className.replace(classRegexs.offsets, "");
+		className = className.replace(classRegexs.alignments, "");
+	}
 
 	const {
-		anchor = "",
+		anchor,
 		width = {},
 		offset = {},
 		alignment = {},
@@ -166,11 +176,24 @@ function ColumnEdit(props) {
 		contentAlignment = {},
 	} = attributes;
 
+	const blockProps = useBlockProps({ id: anchor, className: classNames(className, columnClassNames(attributes)) });
+	/** @type {CSSStyleDeclaration} */
+	let innerStyle = {};
+
+	if (blockProps.style) {
+		const { paddingTop, paddingRight, paddingBottom, paddingLeft } = blockProps.style;
+		innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft };
+		delete blockProps.style.paddingTop;
+		delete blockProps.style.paddingRight;
+		delete blockProps.style.paddingBottom;
+		delete blockProps.style.paddingLeft;
+		delete blockProps.style.color;
+		delete blockProps.style.backgroundColor;
+	}
+
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
 
-	const { spacing = {}, color = {} } = style;
-
-	const { padding, margin } = spacing;
+	const { color = {} } = style;
 
 	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
 	let backgroundImageCSS = "";
@@ -186,6 +209,42 @@ function ColumnEdit(props) {
 
 	return (
 		<Fragment>
+			<div {...blockProps}>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						"has-text-color": textColor || customTextColor,
+						[getColorClassName("color", textColor)]: textColor,
+						"has-background":
+							backgroundColor || customBackgroundColor || backgroundImageCSS || gradient || customGradient,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+						[getGradientClass(gradient)]: gradient,
+					})}
+					style={{
+						...innerStyle,
+						backgroundImage: backgroundImageCSS || null,
+						backgroundPosition: background?.position || "center center",
+						backgroundSize: background?.size || "cover",
+						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+						color: customTextColor,
+						backgroundColor: customBackgroundColor,
+					}}
+				>
+					<div className="col__content">
+						<InnerBlocks
+							template={[["core/paragraph"]]}
+							renderAppender={() => {
+								const block = select("core/block-editor").getBlock(clientId);
+								return (
+									<Fragment>
+										<BlockControlsBlockAppender rootClientId={clientId} />
+										{!block?.innerBlocks?.length ? <InnerBlocks.ButtonBlockAppender /> : null}
+									</Fragment>
+								);
+							}}
+						/>
+					</div>
+				</div>
+			</div>
 			<InspectorControls>
 				<ResponsiveTabs
 					hasNotification={(bp) => {
@@ -311,73 +370,47 @@ function ColumnEdit(props) {
 					}}
 				/>
 			</BlockControls>
-			<div
-				id={anchor || null}
-				className={classNames(className, columnInnerClassNames(attributes), {
-					"has-text-color": textColor || customTextColor,
-					[getColorClassName("color", textColor)]: textColor,
-					"has-background":
-						backgroundColor || customBackgroundColor || backgroundImageCSS || gradient || customGradient,
-					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
-					[getGradientClass(gradient)]: gradient,
-				})}
-				style={{
-					backgroundImage: backgroundImageCSS || null,
-					backgroundPosition: background?.position || "center center",
-					backgroundSize: background?.size || "cover",
-					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-					paddingTop: padding?.top,
-					paddingRight: padding?.right,
-					paddingBottom: padding?.bottom,
-					paddingLeft: padding?.left,
-					color: customTextColor,
-					backgroundColor: customBackgroundColor,
-				}}
-			>
-				<div className="col__content">
-					<InnerBlocks
-						template={[["core/paragraph"]]}
-						renderAppender={() => {
-							const block = select("core/block-editor").getBlock(clientId);
-							return (
-								<Fragment>
-									<BlockControlsBlockAppender rootClientId={clientId} />
-									{!block?.innerBlocks?.length ? <InnerBlocks.ButtonBlockAppender /> : null}
-								</Fragment>
-							);
-						}}
-					/>
-				</div>
-			</div>
 		</Fragment>
 	);
 }
+
+/**
+ *
+ * @param {{className: ?string}} blockAttributes Block attributes.
+ * @param {{name: string}} blockType Block type settings.
+ * @returns {Object} blockAttributes
+ */
+function filterEditorCustomClasses(blockAttributes, blockType) {
+	if (blockType?.name === "gutestrap/col") {
+		let { className } = blockAttributes;
+		if (className) {
+			className = className.replace(classRegexs.backgroundColor, "");
+			className = className.replace(classRegexs.baseCols, "");
+			className = className.replace(classRegexs.responsiveCols, "");
+			className = className.replace(classRegexs.offsets, "");
+			className = className.replace(classRegexs.alignments, "");
+			blockAttributes.className = className;
+		}
+	}
+	return blockAttributes;
+}
+
+wp.hooks.addFilter("blocks.getBlockAttributes", "gutestrap/col/allowed-custom-classes", filterEditorCustomClasses);
 
 wp.hooks.addFilter(
 	"editor.BlockListBlock",
 	"gutestrap/with-column-block-list-block-classes",
 	createHigherOrderComponent((BlockListBlock) => {
-		/**
-		 * @arg {Object} props - Props.
-		 * @arg {Object} props.attributes - Block attributes.
-		 * @arg {Object} props.block - Block properties.
-		 * @arg {string} props.block.name - Block name.
-		 * @returns {*} JSX
-		 */
-		const gutestrapColumnBlockListBlockClasses = ({ className, ...props }) => {
-			const { attributes, block, clientId } = props;
-			const extraClasses = [];
+		return function ({ className, ...props }) {
+			const { block, clientId } = props;
 			if (block.name === "gutestrap/col") {
 				const _block = select("core/block-editor").getBlock(clientId);
 				if (_block?.innerBlocks?.length) {
-					extraClasses.push("has-inner-blocks");
+					className = classNames(className, ["has-inner-blocks"]);
 				}
-				extraClasses.push(columnClassNames(attributes));
 			}
-			className = classNames(className, ...extraClasses);
 			return <BlockListBlock {...props} className={className} />;
 		};
-		return gutestrapColumnBlockListBlockClasses;
 	}, "withGutestrapColumnBlockListBlockClasses")
 );
 

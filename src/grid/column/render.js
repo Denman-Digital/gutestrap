@@ -2,6 +2,7 @@ import classNames from "classnames";
 import {
 	InnerBlocks,
 	getColorClassName,
+	useBlockProps,
 	__experimentalGetGradientClass as getGradientClass,
 } from "@wordpress/block-editor";
 
@@ -98,6 +99,14 @@ export const columnInnerClassNames = ({ contentAlignment = {} }) => {
 	return classNames("col__inner", contentAlignClasses);
 };
 
+export const classRegexs = {
+	backgroundColor: /\bhas-[\w-]+-background-color\b/gi,
+	baseCols: /\bcol-(\d{1,2}|auto)\b/gi,
+	responsiveCols: /\bcol(-(xs|sm|md|lg|x{1,3}l))(-(\d{1,2}|auto))?\b/gi,
+	offsets: /\boffset(-(xs|sm|md|lg|x{1,3}l))?-\d{1,2}\b/gi,
+	alignments: /\balign-self(-(xs|sm|md|lg|x{1,3}l))?-(stretch|start|end|center|baseline|none)\b/gi,
+};
+
 /**
  * The save function defines the way in which the different attributes should be combined
  * into the final markup, which is then serialized by Gutenberg into post_content.
@@ -111,29 +120,41 @@ export const columnInnerClassNames = ({ contentAlignment = {} }) => {
  * @param {string} props.className Class name.
  * @returns {Mixed} JSX Frontend HTML.
  */
-export const ColumnRender = ({ attributes, className = "" }) => {
-	const { width, anchor, background, textColor, backgroundColor, gradient, style = {} } = attributes;
-	const { color = {}, spacing = {} } = style;
-	const { padding, margin } = spacing;
+export const ColumnRender = (props) => {
+	// Check for phantom lg & md classes
+	const { attributes } = props;
+	let { className = "" } = attributes;
+	if (className) {
+		className = className.replace(classRegexs.backgroundColor, "");
+		className = className.replace(classRegexs.baseCols, "");
+		className = className.replace(classRegexs.responsiveCols, "");
+		className = className.replace(classRegexs.offsets, "");
+		className = className.replace(classRegexs.alignments, "");
+	}
+
+	const blockProps = useBlockProps.save({
+		className: classNames(className, columnClassNames(attributes)),
+	});
+	/** @type {CSSStyleDeclaration} */
+	let innerStyle = {};
+
+	if (blockProps?.style) {
+		const { paddingTop, paddingRight, paddingBottom, paddingLeft } = blockProps.style;
+		innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft };
+		delete blockProps.style.paddingTop;
+		delete blockProps.style.paddingRight;
+		delete blockProps.style.paddingBottom;
+		delete blockProps.style.paddingLeft;
+		delete blockProps.style.color;
+		delete blockProps.style.backgroundColor;
+	}
+
+	const { background, textColor, backgroundColor, gradient, style = {} } = attributes;
+	const { color = {} } = style;
 	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
 
-	/** @type {CSSStyleDeclaration} */
-	const innerStyle = {
-		paddingTop: padding?.top,
-		paddingRight: padding?.right,
-		paddingBottom: padding?.bottom,
-		paddingLeft: padding?.left,
-		color: customTextColor || null,
-		backgroundColor: customBackgroundColor || null,
-	};
-
-	// Check for phantom lg & md classes
-	if (!hasOption(width?.lg)) {
-		className = className.replace(/col-lg(?:-(?:\d{1,2}|auto))?/g, "");
-	}
-	if (!hasOption(width?.md)) {
-		className = className.replace(/col-md(?:-(?:\d{1,2}|auto))?/g, "");
-	}
+	innerStyle.color = customTextColor || null;
+	innerStyle.backgroundColor = customBackgroundColor || null;
 
 	if (background?.image?.url) {
 		innerStyle.backgroundPosition = background?.position || "center center";
@@ -150,14 +171,7 @@ export const ColumnRender = ({ attributes, className = "" }) => {
 	}
 
 	return (
-		<div
-			id={anchor || null}
-			className={classNames(className, columnClassNames(attributes))}
-			style={{
-				marginTop: margin?.top,
-				marginBottom: margin?.bottom,
-			}}
-		>
+		<div {...blockProps}>
 			<div
 				className={classNames(columnInnerClassNames(attributes), {
 					"has-text-color": textColor || customTextColor,
@@ -169,12 +183,38 @@ export const ColumnRender = ({ attributes, className = "" }) => {
 				style={innerStyle}
 			>
 				<div className="col__content">
+					{/* <pre style={{ whiteSpace: "pre" }}>{JSON.stringify(props, null, 2)}</pre>
+					<pre style={{ whiteSpace: "pre" }}>{JSON.stringify(blockProps, null, 2)}</pre> */}
 					<InnerBlocks.Content />
 				</div>
 			</div>
 		</div>
 	);
 };
+
+function stripBadClassesOnSave(props, block, attributes) {
+	if (block.name === "gutestrap/col") {
+		/** @type {{className: string}} className */
+		let { className } = props;
+
+		if (className) {
+			className = className.replace(classRegexs.backgroundColor, "");
+			className = className.replace(classRegexs.baseCols, "");
+			className = className.replace(classRegexs.responsiveCols, "");
+			className = className.replace(classRegexs.offsets, "");
+			className = className.replace(classRegexs.alignments, "");
+			className = className.replace(/\s{2,}/g, " ");
+		}
+		props.className = classNames(className.trim(), columnClassNames(attributes));
+	}
+	return props;
+}
+
+wp.hooks.addFilter(
+	"blocks.getSaveContent.extraProps",
+	"gutestrap/col/strip-bad-classes-on-save",
+	stripBadClassesOnSave
+);
 
 //==============================================================================
 // DEPRECATED VERSIONS
@@ -206,6 +246,96 @@ function migrateColumnAttributes(attributes, innerBlocks) {
 	console.log("Gutestrap Column migration:", { old: attributes, new: attrs });
 	return [attrs, innerBlocks];
 }
+
+export const v10 = {
+	attributes: {
+		width: {
+			type: "object",
+			default: {
+				xs: 12,
+			},
+		},
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		contentAlignment: { type: "object" },
+		background: { type: "object" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			gradients: true,
+			background: true,
+			text: true,
+		},
+		spacing: {
+			margin: ["top", "bottom"], // Enable vertical margins.
+			padding: true, // Enable padding for all sides.
+		},
+	},
+	save: ({ attributes, className = "" }) => {
+		const { width, anchor, background, textColor, backgroundColor, gradient, style = {} } = attributes;
+		const { color = {}, spacing = {} } = style;
+		const { padding, margin } = spacing;
+		const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+
+		const innerStyle = {
+			paddingTop: padding?.top,
+			paddingRight: padding?.right,
+			paddingBottom: padding?.bottom,
+			paddingLeft: padding?.left,
+			color: customTextColor || null,
+			backgroundColor: customBackgroundColor || null,
+		};
+		if (!hasOption(width?.lg)) {
+			className = className.replace(/col-lg(?:-(?:\d{1,2}|auto))?/g, "");
+		}
+		if (!hasOption(width?.md)) {
+			className = className.replace(/col-md(?:-(?:\d{1,2}|auto))?/g, "");
+		}
+
+		if (background?.image?.url) {
+			innerStyle.backgroundPosition = background?.position || "center center";
+			innerStyle.backgroundSize = background?.size || "cover";
+			innerStyle.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+		}
+
+		if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+			if (innerStyle.backgroundImage) innerStyle.backgroundImage += ", ";
+			innerStyle.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+		} else if (customGradient) {
+			innerStyle.backgroundImage = customGradient;
+		}
+
+		return (
+			<div
+				id={anchor || null}
+				className={classNames(className, columnClassNames(attributes))}
+				style={{
+					marginTop: margin?.top,
+					marginBottom: margin?.bottom,
+				}}
+			>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						"has-text-color": textColor || customTextColor,
+						"has-background": backgroundColor || customBackgroundColor || innerStyle.backgroundImage,
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+						[getGradientClass(gradient)]: gradient,
+					})}
+					style={innerStyle}
+				>
+					<div className="col__content">
+						<InnerBlocks.Content />
+					</div>
+				</div>
+			</div>
+		);
+	},
+};
 
 export const v9 = {
 	attributes: {
@@ -730,4 +860,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v9, v8, v7, v6, v5, v4, v3, v2, v1];
+export const deprecated = [v10, v9, v8, v7, v6, v5, v4, v3, v2, v1];
