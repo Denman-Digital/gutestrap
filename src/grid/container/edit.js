@@ -15,6 +15,17 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 
 	return (
 		<Fragment>
+			<div
+				className={classNames(className, {
+					container: !fluid || !breakpoint,
+					[`container-${breakpoint}`]: fluid || breakpoint,
+					"contain-inset-vert": insetVertical,
+					"contain-inset-wide": insetExpand,
+					"uncontain-nested": insetConditional,
+				})}
+			>
+				<InnerBlocks />
+			</div>
 			<InspectorControls>
 				<PanelBody title={__("Responsive Max-Width", "gutestrap")}>
 					<ToggleControl
@@ -114,17 +125,6 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 					}}
 				/>
 			</InspectorAdvancedControls>
-			<div
-				className={classNames(className, {
-					container: !fluid || !breakpoint,
-					[`container-${breakpoint}`]: fluid || breakpoint,
-					"contain-inset-vert": insetVertical,
-					"contain-inset-wide": insetExpand,
-					"uncontain-nested": insetConditional,
-				})}
-			>
-				<InnerBlocks />
-			</div>
 		</Fragment>
 	);
 }
