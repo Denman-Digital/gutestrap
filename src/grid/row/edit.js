@@ -1,13 +1,19 @@
 import classNames from "classnames";
 import { __, _x } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
+import {
+	InspectorControls,
+	InspectorAdvancedControls,
+	InnerBlocks,
+	BlockControls,
+	useBlockProps,
+} from "@wordpress/block-editor";
 import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from "../../components/alignment";
-import { toNumber } from "../../_common";
+// import { toNumber } from "../../_common";
 
 import { rowClassNames } from "./render";
 import { DEFAULT_ATTRIBUTES } from "./metadata";
@@ -15,27 +21,27 @@ import { name as rowBreakBlockName } from "./row-break";
 import { name as columnBlockName } from "../column/metadata";
 const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
 
-const generateRowColumnsOptions = (gridRowCols = 6) => {
-	const opts = [];
-	for (let count = 1; count <= gridRowCols; count++) {
-		opts.push({
-			label: `1/${count}`,
-			value: count,
-		});
-	}
-	return opts;
-};
-const ROW_COLS_OPTIONS = generateRowColumnsOptions();
+// const generateRowColumnsOptions = (gridRowCols = 6) => {
+// 	const opts = [];
+// 	for (let count = 1; count <= gridRowCols; count++) {
+// 		opts.push({
+// 			label: `1/${count}`,
+// 			value: count,
+// 		});
+// 	}
+// 	return opts;
+// };
+// const ROW_COLS_OPTIONS = generateRowColumnsOptions();
 
-const INHERIT_OPTION = {
-	label: __("Inherit from smaller (default)", "gutestrap"),
-	value: 0,
-};
+// const INHERIT_OPTION = {
+// 	label: __("Inherit from smaller (default)", "gutestrap"),
+// 	value: 0,
+// };
 
-const COLS_AUTO_OPTION = {
-	label: __("Equal-width (default)", "gutestrap"),
-	value: 0,
-};
+// const COLS_AUTO_OPTION = {
+// 	label: __("Equal-width (default)", "gutestrap"),
+// 	value: 0,
+// };
 
 const ROW_JUSTIFICATION_OPTIONS = [
 	{
@@ -141,6 +147,7 @@ const ROW_DIRECTION_OPTIONS = [
  */
 export const RowEdit = (props) => {
 	const { attributes, className, setAttributes, clientId } = props;
+
 	const {
 		defaultColWidth = {},
 		alignment = {},
@@ -149,14 +156,28 @@ export const RowEdit = (props) => {
 		noGutters,
 		verticalGutters,
 		disabled,
-		style = {},
+		anchor,
 	} = attributes;
 
-	const { spacing = {} } = style;
-	const { padding } = spacing;
+	const blockProps = useBlockProps({ id: anchor, className: classNames(className, rowClassNames(attributes)) });
 
 	return (
 		<Fragment>
+			<div {...blockProps}>
+				<InnerBlocks
+					allowedBlocks={[rowBreakBlockName, columnBlockName]}
+					orientation="horizontal"
+					renderAppender={() => {
+						return (
+							<Fragment>
+								<BlockControlsBlockAppender rootClientId={clientId} />
+								<InnerBlocks.ButtonBlockAppender />
+							</Fragment>
+						);
+					}}
+				/>
+			</div>
+
 			<BlockControls>
 				<BlockContentJustificationToolbar
 					label={ROW_CHILDREN_LABEL}
@@ -194,7 +215,7 @@ export const RowEdit = (props) => {
 						return (
 							<PanelBody>
 								<p>{`${label} layout`}</p>
-								<SelectControl
+								{/* <SelectControl
 									label={__("Default column width", "gutestrap")}
 									options={[canInherit ? INHERIT_OPTION : COLS_AUTO_OPTION, ...ROW_COLS_OPTIONS]}
 									value={
@@ -206,7 +227,7 @@ export const RowEdit = (props) => {
 										defaultColWidth[breakpoint] = toNumber(value);
 										setAttributes({ defaultColWidth: { ...defaultColWidth } });
 									}}
-								/>
+								/> */}
 								<SelectControl
 									label={__("Distribute columns", "gutestrap")}
 									options={canInherit ? ROW_JUSTIFICATION_OPTIONS : ROW_JUSTIFICATION_OPTIONS_XS}
@@ -284,27 +305,6 @@ export const RowEdit = (props) => {
 					}}
 				/>
 			</InspectorAdvancedControls>
-
-			<div
-				className={classNames(className, rowClassNames(attributes))}
-				style={{
-					paddingTop: padding?.top,
-					paddingBottom: padding?.bottom,
-				}}
-			>
-				<InnerBlocks
-					allowedBlocks={[rowBreakBlockName, columnBlockName]}
-					orientation="horizontal"
-					renderAppender={() => {
-						return (
-							<Fragment>
-								<BlockControlsBlockAppender rootClientId={clientId} />
-								<InnerBlocks.ButtonBlockAppender />
-							</Fragment>
-						);
-					}}
-				/>
-			</div>
 		</Fragment>
 	);
 };

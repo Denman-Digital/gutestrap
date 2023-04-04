@@ -1,5 +1,7 @@
 import { __ } from "@wordpress/i18n";
 
+export const apiVersion = 2;
+
 /** Block name. */
 export const name = "gutestrap/row";
 
@@ -15,7 +17,6 @@ export const attributes = {
 	verticalGutters: { type: "boolean" },
 	alignment: { type: "object" },
 	justification: { type: "object" },
-	defaultColWidth: { type: "object" },
 	direction: { type: "object" },
 	disabled: { type: "boolean" },
 	anchor: { type: "string" },
@@ -43,14 +44,6 @@ export const DEFAULT_ATTRIBUTES = {
 		xl: "inherit",
 		xxl: "inherit",
 	},
-	defaultColWidth: {
-		xs: 0,
-		sm: 0,
-		md: 0,
-		lg: 0,
-		xl: 0,
-		xxl: 0,
-	},
 	direction: {
 		xs: "row",
 		sm: "inherit",
@@ -67,5 +60,6 @@ export const supports = {
 	alignWide: false,
 	spacing: {
 		padding: ["top", "bottom"], // Enable vertical padding.
+		margin: ["top", "bottom"], // Enable vertical margin.
 	},
 };

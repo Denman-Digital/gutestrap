@@ -1,4 +1,4 @@
-import { name, title, description, attributes, supports } from "./metadata";
+import { name, title, description, attributes, supports, apiVersion } from "./metadata";
 import { RowEdit as edit } from "./edit";
 import { RowRender as save, deprecated } from "./render";
 import icon from "bootstrap-icons/icons/layout-three-columns.svg";
@@ -91,6 +91,9 @@ export const example = {
 	// ],
 };
 
-export { name, title, description, attributes, icon, edit, save, supports, deprecated };
+export { name, title, description, attributes, icon, edit, save, supports, deprecated, apiVersion };
 
-export default { name, settings: { title, description, icon, attributes, example, edit, save, supports, deprecated } };
+export default {
+	name,
+	settings: { title, description, icon, attributes, example, edit, save, supports, deprecated, apiVersion },
+};

@@ -419,8 +419,9 @@ $utilities: map-merge(
 
 		> .block-editor-inner-blocks {
 			max-width: 100%;
-			padding-right: 0;
-			padding-left: 0;
+			padding-right: 0 !important;
+			padding-left: 0 !important;
+			overflow: hidden;
 		}
 
 		> * > .block-editor-block-list__layout {

@@ -1,10 +1,9 @@
 import classNames from "classnames";
-import { InnerBlocks } from "@wordpress/block-editor";
+import { InnerBlocks, useBlockProps } from "@wordpress/block-editor";
 
 export const rowClassNames = (attributes) => {
 	return classNames(
 		rowBasicClassNames(attributes),
-		rowColumnWidthClassNames(attributes),
 		rowAlignmentClassNames(attributes),
 		rowJustificationClassNames(attributes),
 		rowDirectionClassNames(attributes),
@@ -83,20 +82,14 @@ export const rowWrapClassNames = ({ direction = {} }) => {
  * @param {Object} props Props.
  * @returns {Mixed} JSX Frontend HTML.
  */
-export const RowRender = ({ attributes, className }) => {
-	const { style = {}, anchor } = attributes;
-	const { spacing = {} } = style;
-	const { padding } = spacing;
+export const RowRender = ({ attributes }) => {
+	const blockProps = useBlockProps.save();
+
 	return (
-		<div
-			id={anchor || null}
-			className={classNames(className, rowClassNames(attributes))}
-			style={{
-				paddingTop: padding?.top,
-				paddingBottom: padding?.bottom,
-			}}
-		>
-			<InnerBlocks.Content />
+		<div {...blockProps}>
+			<div className={classNames(rowClassNames(attributes))}>
+				<InnerBlocks.Content />
+			</div>
 		</div>
 	);
 };
@@ -104,6 +97,37 @@ export const RowRender = ({ attributes, className }) => {
 //==============================================================================
 // DEPRECATED VERSIONS
 //
+
+const v5 = {
+	attributes: {
+		noGutters: { type: "boolean" },
+		verticalGutters: { type: "boolean" },
+		alignment: { type: "object" },
+		justification: { type: "object" },
+		defaultColWidth: { type: "object" },
+		direction: { type: "object" },
+		disabled: { type: "boolean" },
+		anchor: { type: "string" },
+		_isExample: { type: "boolean" },
+	},
+	save: ({ attributes, className }) => {
+		const { style = {}, anchor } = attributes;
+		const { spacing = {} } = style;
+		const { padding } = spacing;
+		return (
+			<div
+				id={anchor || null}
+				className={classNames(className, rowClassNames(attributes), rowColumnWidthClassNames(attributes))}
+				style={{
+					paddingTop: padding?.top,
+					paddingBottom: padding?.bottom,
+				}}
+			>
+				<InnerBlocks.Content />
+			</div>
+		);
+	},
+};
 
 const v4 = {
 	attributes: {
@@ -231,4 +255,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v4, v3, v2, v1];
+export const deprecated = [v5, v4, v3, v2, v1];

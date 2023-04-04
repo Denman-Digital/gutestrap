@@ -205,6 +205,9 @@ $container-classes: (".container-fluid");
 }
 
 .wp-block-gutestrap {
+	&-row {
+		overflow: hidden;
+	}
 	&-row > &-col {
 		background-image: none !important;
 		background-color: transparent !important;
