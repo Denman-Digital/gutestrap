@@ -5,60 +5,39 @@ import {
 	validateThemeGradients,
 	getGradientValueBySlug,
 	__experimentalGetGradientClass as getGradientClass,
+	useBlockProps,
 } from "@wordpress/block-editor";
 
 const { config } = gutestrapGlobal;
 
-export const ContainerRender = ({ attributes, className }) => {
-	const {
-		breakpoint,
-		background,
-		textColor,
-		backgroundColor,
-		gradient,
-		insetVertical,
-		insetExpand,
-		insetConditional,
-		style = {},
-	} = attributes;
-	const { color = {}, spacing = {} } = style;
-	const { padding, margin } = spacing;
-	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+export const ContainerRender = ({ attributes }) => {
+	const { breakpoint, background, gradient, insetVertical, insetExpand, insetConditional, style = {} } = attributes;
+	const { color = {} } = style;
+	const { gradient: customGradient } = color;
 
-	/** @type {CSSStyleDeclaration} */
-	const styles = {};
+	const blockProps = useBlockProps.save();
+
+	if (!blockProps.style) {
+		/** @type {CSSStyleDeclaration} */
+		blockProps.style = {};
+	}
+
 	if (background?.image?.url) {
-		styles.backgroundImage = `url(${background.image.url})`;
-		styles.backgroundPosition = background?.position || "center center";
-		styles.backgroundSize = background?.size || "cover";
-		styles.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+		blockProps.style.backgroundImage = `url(${background.image.url})`;
+		blockProps.style.backgroundPosition = background?.position || "center center";
+		blockProps.style.backgroundSize = background?.size || "cover";
+		blockProps.style.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
 	}
 	if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
-		if (styles.backgroundImage) styles.backgroundImage += ", ";
-		styles.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+		if (blockProps.style.backgroundImage) blockProps.style.backgroundImage += ", ";
+		blockProps.style.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
 	} else if (customGradient) {
-		styles.backgroundImage = customGradient;
+		blockProps.style.backgroundImage = customGradient;
+		delete blockProps.style.background;
 	}
 
 	return (
-		<div
-			className={classNames(className, {
-				"has-text-color": textColor || customTextColor,
-				"has-background": backgroundColor || customBackgroundColor || styles.backgroundImage,
-				[getColorClassName("color", textColor)]: textColor,
-				[getColorClassName("background-color", backgroundColor)]: backgroundColor,
-				[getGradientClass(gradient)]: gradient,
-			})}
-			style={{
-				paddingTop: padding?.top,
-				paddingBottom: padding?.bottom,
-				marginTop: margin?.top,
-				marginBottom: margin?.bottom,
-				color: customTextColor || null,
-				backgroundColor: customBackgroundColor || null,
-				...styles,
-			}}
-		>
+		<div {...blockProps}>
 			<div
 				className={classNames({
 					[`container${breakpoint ? `-${breakpoint}` : ""}`]: true,

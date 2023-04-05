@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import { InspectorControls, InspectorAdvancedControls, InnerBlocks } from "@wordpress/block-editor";
+import { InspectorControls, InspectorAdvancedControls, InnerBlocks, useBlockProps } from "@wordpress/block-editor";
 
 import { select } from "@wordpress/data";
 import { createHigherOrderComponent } from "@wordpress/compose";
@@ -11,20 +11,27 @@ import { PanelBackgroundImage } from "../../components/panel-background-image";
 const { config } = gutestrapGlobal;
 
 function ContainerEdit({ attributes, className, setAttributes }) {
-	const { breakpoint, fluid, disabled, background, insetVertical, insetExpand, insetConditional } = attributes;
+	const { breakpoint, fluid, anchor, disabled, background, insetVertical, insetExpand, insetConditional } = attributes;
+
+	const blockProps = useBlockProps({
+		id: anchor,
+		className,
+	});
 
 	return (
 		<Fragment>
-			<div
-				className={classNames(className, {
-					container: !fluid || !breakpoint,
-					[`container-${breakpoint}`]: fluid || breakpoint,
-					"contain-inset-vert": insetVertical,
-					"contain-inset-wide": insetExpand,
-					"uncontain-nested": insetConditional,
-				})}
-			>
-				<InnerBlocks />
+			<div {...blockProps}>
+				<div
+					className={classNames(className, {
+						container: !fluid || !breakpoint,
+						[`container-${breakpoint || "fluid"}`]: fluid || breakpoint,
+						"contain-inset-vert": insetVertical,
+						"contain-inset-wide": insetExpand,
+						"uncontain-nested": insetConditional,
+					})}
+				>
+					<InnerBlocks />
+				</div>
 			</div>
 			<InspectorControls>
 				<PanelBody title={__("Responsive Max-Width", "gutestrap")}>

@@ -1,4 +1,4 @@
-import { name, title, description, attributes, supports } from "./metadata";
+import { name, title, description, attributes, supports, apiVersion } from "./metadata";
 
 import { ContainerEdit as edit } from "./edit";
 import { ContainerRender as save, deprecated } from "./render";
@@ -8,5 +8,5 @@ export { icon, edit, save };
 
 export default {
 	name,
-	settings: { title, icon, attributes, description, supports, edit, save, deprecated },
+	settings: { title, icon, attributes, description, supports, edit, save, deprecated, apiVersion },
 };

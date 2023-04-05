@@ -1,5 +1,7 @@
 import { __ } from "@wordpress/i18n";
 
+export const apiVersion = 2;
+
 /** Block name. */
 export const name = "gutestrap/container";
 
