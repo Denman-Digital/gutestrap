@@ -35,8 +35,8 @@ $include-column-box-sizing: true !default;
 	flex-shrink: 0;
 	width: 100%;
 	max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
-	padding: 0 calc(var(--gs-gutter) / 2) !important;
-	// padding-left: calc(var(--gs-gutter) / 2) !important;
+	padding-left: calc(var(--gs-gutter) / 2) !important;
+	padding-right: calc(var(--gs-gutter) / 2) !important;
 }
 
 @import "../node_modules/bootstrap/scss/mixins/utilities";
@@ -139,22 +139,24 @@ $utilities: map-merge(
 
 @import "../node_modules/bootstrap/scss/utilities/api";
 
-// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 .row.no-gutters {
 	margin-left: 0;
 	margin-right: 0;
 
-	> .wp-block-gutestrap-col {
+	> .col,
+	> [class*="col-"] {
 		padding-left: 0 !important;
 		padding-right: 0 !important;
 	}
 }
 
+// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 .row.vertical-gutters {
 	margin-top: calc(var(--gs-gutter) / -2);
 	margin-bottom: calc(var(--gs-gutter) / -2);
 
-	> .wp-block-gutestrap-col {
+	> .col,
+	> [class*="col-"] {
 		padding-top: calc(var(--gs-gutter) / 2) !important;
 		padding-bottom: calc(var(--gs-gutter) / 2) !important;
 	}
