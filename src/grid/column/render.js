@@ -99,13 +99,21 @@ export const columnInnerClassNames = ({ contentAlignment = {} }) => {
 	return classNames("col__inner", contentAlignClasses);
 };
 
-export const classRegexs = {
-	backgroundColor: /\bhas-[\w-]+-background-color\b/gi,
-	baseCols: /\bcol-(\d{1,2}|auto)\b/gi,
-	responsiveCols: /\bcol(-(xs|sm|md|lg|x{1,3}l))(-(\d{1,2}|auto))?\b/gi,
-	offsets: /\boffset(-(xs|sm|md|lg|x{1,3}l))?-\d{1,2}\b/gi,
-	alignments: /\balign-self(-(xs|sm|md|lg|x{1,3}l))?-(stretch|start|end|center|baseline|none)\b/gi,
-};
+export function stripColClassNames(className = "") {
+	if (className) {
+		className = className
+			.replace(/^(.*\s)?col-(?:\d{1,2}|auto)(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?col(?:-(?:xs|sm|md|lg|x{1,3}l))(?:-(?:\d{1,2}|auto))?(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?offset(?:-(?:xs|sm|md|lg|x{1,3}l))?-\d{1,2}(\s.*)?$/gi, "$1$2")
+			.replace(
+				/^(.*\s)?align-self(?:-(?:xs|sm|md|lg|x{1,3}l))?-(?:stretch|start|end|center|baseline|none)(\s.*)?$/gi,
+				"$1$2"
+			)
+			.replace(/^(.*\s)?has-[\w-]+-background-color(\s.*)?$/gi, "$1$2")
+			.replace(/\s{2,}/g, " ");
+	}
+	return className.trim();
+}
 
 /**
  * The save function defines the way in which the different attributes should be combined
@@ -121,20 +129,13 @@ export const classRegexs = {
  * @returns {Mixed} JSX Frontend HTML.
  */
 export const ColumnRender = (props) => {
-	// Check for phantom lg & md classes
 	const { attributes } = props;
-	let { className = "" } = attributes;
-	if (className) {
-		className = className.replace(classRegexs.backgroundColor, "");
-		className = className.replace(classRegexs.baseCols, "");
-		className = className.replace(classRegexs.responsiveCols, "");
-		className = className.replace(classRegexs.offsets, "");
-		className = className.replace(classRegexs.alignments, "");
-	}
+	const { className = "" } = attributes;
 
 	const blockProps = useBlockProps.save({
-		className: classNames(className, columnClassNames(attributes)),
+		className: classNames(stripColClassNames(className), columnClassNames(attributes)),
 	});
+
 	/** @type {CSSStyleDeclaration} */
 	let innerStyle = {};
 
@@ -183,8 +184,6 @@ export const ColumnRender = (props) => {
 				style={innerStyle}
 			>
 				<div className="col__content">
-					{/* <pre style={{ whiteSpace: "pre" }}>{JSON.stringify(props, null, 2)}</pre>
-					<pre style={{ whiteSpace: "pre" }}>{JSON.stringify(blockProps, null, 2)}</pre> */}
 					<InnerBlocks.Content />
 				</div>
 			</div>
@@ -192,28 +191,15 @@ export const ColumnRender = (props) => {
 	);
 };
 
-function stripBadClassesOnSave(props, block, attributes) {
-	if (block.name === "gutestrap/col") {
-		/** @type {{className: string}} className */
-		let { className } = props;
-
-		if (className) {
-			className = className.replace(classRegexs.backgroundColor, "");
-			className = className.replace(classRegexs.baseCols, "");
-			className = className.replace(classRegexs.responsiveCols, "");
-			className = className.replace(classRegexs.offsets, "");
-			className = className.replace(classRegexs.alignments, "");
-			className = className.replace(/\s{2,}/g, " ");
-		}
-		props.className = classNames(className.trim(), columnClassNames(attributes));
-	}
-	return props;
-}
-
 wp.hooks.addFilter(
 	"blocks.getSaveContent.extraProps",
 	"gutestrap/col/strip-bad-classes-on-save",
-	stripBadClassesOnSave
+	function stripBadClassesOnSave(props, blockType, attributes) {
+		if (blockType.name === "gutestrap/col" && props.className) {
+			props.className = classNames(stripColClassNames(props.className), columnClassNames(attributes));
+		}
+		return props;
+	}
 );
 
 //==============================================================================

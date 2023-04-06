@@ -74,6 +74,30 @@ export const rowWrapClassNames = ({ direction = {} }) => {
 };
 
 /**
+ * Used to prevent critical classes from being used in the custom classname field.
+ * @param {string} className Custom className attribute.
+ * @returns {string} filtered class name
+ */
+export function stripRowClassNames(className = "") {
+	if (className) {
+		className = className
+			.replace(/^(.*\s)?row(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?(?:no|vertical)-gutters(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?flex(?:-(?:xs|sm|md|lg|x{1,3}l))?-row(?:-reverse)?(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?flex(?:-(?:xs|sm|md|lg|x{1,3}l))?-wrap(?:-reverse)?(\s.*)?$/gi, "$1$2")
+			.replace(
+				/^(.*\s)?align-items(?:-(?:xs|sm|md|lg|x{1,3}l))?-(?:stretch|start|end|center|baseline|none)(\s.*)?$/gi,
+				"$1$2"
+			)
+			.replace(
+				/^(.*\s)?justify-content(?:-(?:xs|sm|md|lg|x{1,3}l))?-(?:stretch|start|end|center|between|evenly|around|none)(\s.*)?$/gi,
+				"$1$2"
+			);
+	}
+	return className.trim();
+}
+
+/**
  * The save function defines the way in which the different attributes should be combined
  * into the final markup, which is then serialized by Gutenberg into post_content.
  *
@@ -83,7 +107,8 @@ export const rowWrapClassNames = ({ direction = {} }) => {
  * @returns {Mixed} JSX Frontend HTML.
  */
 export const RowRender = ({ attributes }) => {
-	const blockProps = useBlockProps.save();
+	const { className = "" } = attributes;
+	const blockProps = useBlockProps.save({ className: stripRowClassNames(className) });
 
 	return (
 		<div {...blockProps}>
@@ -94,9 +119,66 @@ export const RowRender = ({ attributes }) => {
 	);
 };
 
+// function stripBadClassesOnSave(props, block, attributes) {
+// 	if (block.name === "gutestrap/row") {
+// 		/** @type {{className: string}} className */
+// 		let { className } = props;
+
+// 		if (className) {
+// 			className = className.replace(/^(.*?\s)?row(\s.*)?$/gi, "$1$2");
+// 			className = className.replace(classRegexs.gutters, "");
+// 			className = className.replace(classRegexs.alignment, "");
+// 			className = className.replace(classRegexs.justification, "");
+// 			className = className.replace(classRegexs.direction, "");
+// 			className = className.replace(classRegexs.wrap, "");
+// 			className = className.replace(/\s{2,}/g, " ");
+// 		}
+// 		props.className = classNames(className.trim());
+// 	}
+// 	return props;
+// }
+
+// // wp.hooks.addFilter(
+// // 	"blocks.getSaveContent.extraProps",
+// // 	"gutestrap/row/strip-bad-classes-on-save",
+// // 	stripBadClassesOnSave
+// // );
+
 //==============================================================================
 // DEPRECATED VERSIONS
 //
+
+const v6 = {
+	attributes: {
+		noGutters: { type: "boolean" },
+		verticalGutters: { type: "boolean" },
+		alignment: { type: "object" },
+		justification: { type: "object" },
+		direction: { type: "object" },
+		disabled: { type: "boolean" },
+		anchor: { type: "string" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		spacing: {
+			padding: ["top", "bottom"], // Enable vertical padding.
+			margin: ["top", "bottom"], // Enable vertical margin.
+		},
+	},
+	save: ({ attributes }) => {
+		const { className } = attributes;
+		const blockProps = useBlockProps.save({
+			className: classNames(className, rowClassNames(attributes)),
+		});
+		return (
+			<div {...blockProps}>
+				<InnerBlocks.Content />
+			</div>
+		);
+	},
+};
 
 const v5 = {
 	attributes: {
@@ -255,4 +337,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v5, v4, v3, v2, v1];
+export const deprecated = [v6, v5, v4, v3, v2, v1];

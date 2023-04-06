@@ -15,7 +15,7 @@ import { ResponsiveTabs } from "../../components/responsive-tabs";
 import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from "../../components/alignment";
 // import { toNumber } from "../../_common";
 
-import { rowClassNames } from "./render";
+import { rowClassNames, stripRowClassNames } from "./render";
 import { DEFAULT_ATTRIBUTES } from "./metadata";
 import { name as rowBreakBlockName } from "./row-break";
 import { name as columnBlockName } from "../column/metadata";
@@ -308,3 +308,20 @@ export const RowEdit = (props) => {
 		</Fragment>
 	);
 };
+
+wp.hooks.addFilter(
+	"blocks.getBlockAttributes",
+	"gutestrap/row/allowed-custom-classes",
+	/**
+	 *
+	 * @param {{className: ?string}} blockAttributes Block attributes.
+	 * @param {{name: string}} blockType Block type settings.
+	 * @returns {Object} blockAttributes
+	 */
+	function filterRowCustomClasses(blockAttributes, blockType) {
+		if (blockType?.name === "gutestrap/row" && blockAttributes.className) {
+			blockAttributes.className = stripRowClassNames(blockAttributes.className);
+		}
+		return blockAttributes;
+	}
+);

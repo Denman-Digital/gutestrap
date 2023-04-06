@@ -21,7 +21,7 @@ import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment";
 import { ResponsiveTabs } from "../../components/responsive-tabs";
-import { columnClassNames, columnInnerClassNames, classRegexs } from "./render";
+import { columnClassNames, columnInnerClassNames, stripColClassNames } from "./render";
 
 import ExpandIcon from "./expand-contents.svg";
 
@@ -153,16 +153,6 @@ const COL_CONTENT_ALIGN_OPTIONS = [
  */
 function ColumnEdit(props) {
 	const { attributes, setAttributes, clientId } = props;
-	let { className } = props;
-
-	if (className) {
-		className = className.replace(classRegexs.backgroundColor, "");
-		className = className.replace(classRegexs.baseCols, "");
-		className = className.replace(classRegexs.responsiveCols, "");
-		className = className.replace(classRegexs.offsets, "");
-		className = className.replace(classRegexs.alignments, "");
-	}
-
 	const {
 		anchor,
 		width = {},
@@ -174,9 +164,13 @@ function ColumnEdit(props) {
 		gradient,
 		style = {},
 		contentAlignment = {},
+		className,
 	} = attributes;
 
-	const blockProps = useBlockProps({ id: anchor, className: classNames(className, columnClassNames(attributes)) });
+	const blockProps = useBlockProps({
+		id: anchor,
+		className: classNames(stripColClassNames(className), columnClassNames(attributes)),
+	});
 	/** @type {CSSStyleDeclaration} */
 	let innerStyle = {};
 
@@ -374,28 +368,24 @@ function ColumnEdit(props) {
 	);
 }
 
-/**
- *
- * @param {{className: ?string}} blockAttributes Block attributes.
- * @param {{name: string}} blockType Block type settings.
- * @returns {Object} blockAttributes
- */
-function filterEditorCustomClasses(blockAttributes, blockType) {
-	if (blockType?.name === "gutestrap/col") {
-		let { className } = blockAttributes;
-		if (className) {
-			className = className.replace(classRegexs.backgroundColor, "");
-			className = className.replace(classRegexs.baseCols, "");
-			className = className.replace(classRegexs.responsiveCols, "");
-			className = className.replace(classRegexs.offsets, "");
-			className = className.replace(classRegexs.alignments, "");
-			blockAttributes.className = className;
+wp.hooks.addFilter(
+	"blocks.getBlockAttributes",
+	"gutestrap/col/filter-block-attributes",
+	/**
+	 *
+	 * @param {Object} blockAttributes Parsed attributes.
+	 * @param {Object} blockType Block metadata.
+	 * @param {string} _innerHTML Saved content.
+	 * @param {Object} _knownAttributes Attributes from delimiters.
+	 * @returns {Object} Parsed attributes.
+	 */
+	function filterColBlockAttributes(blockAttributes, blockType, _innerHTML, _knownAttributes) {
+		if (blockType.name === "gutestrap/col" && blockAttributes.className) {
+			blockAttributes.className = stripColClassNames(blockAttributes.className);
 		}
+		return blockAttributes;
 	}
-	return blockAttributes;
-}
-
-wp.hooks.addFilter("blocks.getBlockAttributes", "gutestrap/col/allowed-custom-classes", filterEditorCustomClasses);
+);
 
 wp.hooks.addFilter(
 	"editor.BlockListBlock",
