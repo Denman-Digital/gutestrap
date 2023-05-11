@@ -118,7 +118,7 @@
 		"cover 99.75% in CA",
 		">= 0.5%",
 		"last 2 major versions",
-		"last 5 versions",
+		"last 5 versions and not IE < 11",
 		"last 3 Chrome major versions",
 		"last 3 Safari major versions",
 		"last 3 Firefox major versions",
