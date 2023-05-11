@@ -115,11 +115,19 @@
 		"map": false
 	},
 	"browserslist": [
-		">= 0.5% in CA",
-		">= 1%",
-		"Last 2 versions",
-		"last 5 iOS versions",
-		"not IE <= 11"
+		"cover 99.5% in CA and >= 0.1% in CA",
+		">= 1% and not dead",
+		"last 1 major version and not dead",
+		"last 3 versions and not dead",
+		"last 2 Chrome major versions",
+		"last 2 Safari major versions",
+		"last 2 Firefox major versions",
+		"last 2 Edge major versions",
+		"last 5 ChromeAndroid major versions",
+		"last 5 iOS major versions",
+		"last 5 FirefoxAndroid major versions",
+		"last 5 Samsung major versions",
+		"Firefox ESR"
 	],
 	"scripts": {
 		"lint": "gulp lint --color",
