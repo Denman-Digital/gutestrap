@@ -10,7 +10,7 @@ export const title = __("Container", "gutestrap");
 
 /** Block Description. */
 export const description = __(
-	"Containers are used to contain, pad, and (sometimes) center the content within them",
+	"Containers are used to contain, pad, and (sometimes) align the content within them",
 	"gutestrap"
 );
 
@@ -37,5 +37,8 @@ export const supports = {
 	spacing: {
 		padding: ["top", "bottom"], // Enable vertical padding.
 		margin: ["top", "bottom"], // Enable vertical margin.
+	},
+	dimensions: {
+		minHeight: true,
 	},
 };

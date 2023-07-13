@@ -207,6 +207,14 @@ $container-classes: (".container-fluid");
 }
 
 .wp-block-gutestrap {
+	&-container {
+		&.has-min-height {
+			display: flex;
+			flex-flow: column;
+			justify-content: center;
+		}
+	}
+
 	&-row {
 		overflow: hidden;
 	}

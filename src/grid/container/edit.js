@@ -15,7 +15,10 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 
 	const blockProps = useBlockProps({
 		id: anchor,
-		className,
+		className: classNames(className, {
+			"has-min-height":
+				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+		}),
 	});
 
 	return (

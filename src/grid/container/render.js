@@ -15,7 +15,12 @@ export const ContainerRender = ({ attributes }) => {
 	const { color = {} } = style;
 	const { gradient: customGradient } = color;
 
-	const blockProps = useBlockProps.save();
+	const blockProps = useBlockProps.save({
+		className: classNames({
+			"has-min-height":
+				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+		}),
+	});
 
 	if (!blockProps.style) {
 		/** @type {CSSStyleDeclaration} */

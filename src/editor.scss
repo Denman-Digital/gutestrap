@@ -230,6 +230,16 @@ $utilities: map-merge(
 			color: gray;
 			padding-left: 0.25rem;
 		}
+
+		&.has-min-height {
+			display: grid;
+			grid-template-rows: auto 1fr;
+			justify-content: unset;
+
+			> * {
+				align-self: center;
+			}
+		}
 	}
 
 	&-row {
