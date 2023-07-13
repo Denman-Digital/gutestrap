@@ -1,9 +1,15 @@
-/** * Tasks for Gulp task runner.
+/**
+ * Tasks for Gulp task runner.
  * @module Tasks
  * @author Paul Walton
  */
 
-/* jshint ignore:start */
+/* eslint-env node, es6 */
+/* eslint-disable compat/compat */
+
+import * as url from "url";
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 import glob from "glob";
 import path from "path";
@@ -21,9 +27,10 @@ import log from "fancy-log";
 import chalk from "chalk";
 import size from "gulp-size";
 import humanize from "humanize-duration";
+import prettyBytes from "pretty-bytes";
 
 // CSS
-import dartSass from "sass";
+import * as dartSass from "sass";
 import gulpSass from "gulp-sass";
 const sass = gulpSass(dartSass);
 import postCSS from "gulp-postcss";
@@ -54,13 +61,16 @@ const pipelines = {
 			this.emit("end");
 		},
 	}),
-	updateFileMTime: lazypipe().pipe(through2.obj, {
-		function(file, _enc, cb) {
-			var date = new Date();
-			file.stat.atime = date;
-			file.stat.mtime = date;
-			cb(null, file);
-		},
+
+	/**
+	 * Pipeline partial to update file modified time metadata.
+	 * @function pipelines.updateFileMTime
+	 */
+	updateFileMTime: lazypipe().pipe(through2.obj, function (file, _enc, cb) {
+		var date = new Date();
+		file.stat.atime = date;
+		file.stat.mtime = date;
+		cb(null, file);
 	}),
 };
 
@@ -72,11 +82,14 @@ const stripCase = (str) =>
 		.trim()
 		.toLowerCase();
 
-const upperCaseWords = (str) => str.replace(/\b\w/g, (match) => match.toUpperCase());
-const titleCase = (str) => upperCaseWords(stripCase(str));
-const pascalCase = (str) => titleCase(str).replace(/\s+/g, "");
 const lowerCaseFirst = (str) => str.charAt(0).toLowerCase() + str.slice(1);
-const camelCase = (str) => lowerCaseFirst(pascalCase(str));
+
+const camelCase = (str) =>
+	lowerCaseFirst(
+		stripCase(str)
+			.replace(/\b\w/g, (match) => match.toUpperCase())
+			.replace(/\s+/g, "")
+	);
 
 let isProductionMode = env === "production";
 if (isProductionMode) {
@@ -86,7 +99,7 @@ if (isProductionMode) {
 let isWatching = false;
 
 /**
- * Preprocess CSS.
+ * Preprocess & minify CSS.
  * @example gulp styles
  * @global
  */
@@ -101,7 +114,7 @@ export function styles() {
 			cleanCSS({ compatibility: "*" }) // ~= IE 10+
 		)
 		.pipe(rename({ prefix: "blocks.", suffix: ".build" }))
-		.pipe(size({ showFiles: true, showTotal: false, title: "Clean CSS ->" }))
+		.pipe(size({ showFiles: true, showTotal: false, title: "Bundle styles ->" }))
 		.pipe(gulp.dest("dist", { sourcemaps: isProductionMode && "." }));
 }
 
@@ -115,7 +128,11 @@ export function lint() {
 	const error = (str) => log.warn(chalk.red(str));
 	return gulp
 		.src("**/*.@(js|jsx)", { cwd: "src" })
-		.pipe(eslint({ fix: !isWatching }))
+		.pipe(
+			eslint({
+				fix: !isWatching,
+			})
+		)
 		.pipe(
 			eslint.result((result) => {
 				if (result.messages.length) {
@@ -152,6 +169,8 @@ const rollupOptions = {
 				preventAssignment: true,
 			}),
 			nodeResolve({
+				browser: true,
+				exportConditions: [isProductionMode ? env : "development"],
 				extensions: [".mjs", ".js", ".json", ".node", ".jsx"],
 			}),
 			svgr(),
@@ -175,10 +194,6 @@ const rollupOptions = {
 		entryFileNames: "[name].build.js",
 		sourcemap: !isProductionMode && "inline",
 		sourcemapExcludeSources: true,
-		globals: {
-			jquery: "jQuery",
-			wp: "wp",
-		},
 		globals: (id) => {
 			switch (id) {
 				case "jquery":
@@ -202,7 +217,7 @@ const rollupOptions = {
 };
 
 /**
- * Roll up JavaScript.
+ * Roll up & minify JavaScript.
  * * Rollup will only start with JS files in the root JS src folder.
  * * Rollup will not start with files named with a underscore prefix.
  * @example gulp bundleScripts
@@ -214,19 +229,25 @@ export function bundleScripts() {
 			return rollup({
 				input: `src/${file}`,
 				...rollupOptions.input,
-			}).then((bundle) => {
-				return bundle.write({
-					name: camelCase(file).replace(/\.js/i, "Js"),
-					...rollupOptions.output,
+			})
+				.then((bundle) => {
+					return bundle.write({
+						name: camelCase(file).replace(/\.js/i, "Js"),
+						...rollupOptions.output,
+					});
+				})
+				.then(({ output }) => {
+					const label = chalk.cyan("Bundle scripts ->"),
+						file = chalk.blue(output[0].fileName),
+						size = chalk.magenta(prettyBytes(output[0].code.length));
+					log.info(`${label} ${file} ${size}`);
 				});
-			});
-			// .then((x) => console.dir(x));
 		})
 	);
 }
 
 /**
- * Roll up JavaScript.
+ * Watch and Rollup & minify JavaScript.
  * * Rollup will only start with JS files in the root JS src folder.
  * * Rollup will not start with files named with a underscore prefix.
  * @example gulp watchScripts
@@ -243,14 +264,17 @@ export function watchScripts() {
 			},
 		});
 		watcher.on("event", (event) => {
+			const file = chalk.blue(event.input);
 			switch (event.code) {
 				case "START":
 					break;
 				case "BUNDLE_START":
-					log.info(`Rolling up '${chalk.cyan(event.input)}'...`);
+					log.info(`Rolling up ${file}...`);
 					break;
 				case "BUNDLE_END":
-					log.info(`Rolled up '${chalk.cyan(event.input)}' after ${chalk.magenta(humanize(event.duration))}`);
+					const label = chalk.cyan("Rolled up ->"),
+						duration = chalk.grey(`(${humanize(event.duration)})`);
+					log.info(`${label} ${file} ${duration}`);
 					if (event.result) {
 						event.result.close();
 					}
@@ -272,7 +296,6 @@ export function watchScripts() {
  * @example gulp scripts
  * @global
  */
-// export const scripts = gulp.series(lint, bundleScripts, minifyScripts);
 export const scripts = gulp.series(lint, bundleScripts);
 
 /**
