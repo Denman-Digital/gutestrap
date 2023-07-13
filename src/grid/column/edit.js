@@ -169,20 +169,23 @@ function ColumnEdit(props) {
 
 	const blockProps = useBlockProps({
 		id: anchor,
-		className: classNames(stripColClassNames(className), columnClassNames(attributes)),
+		className: classNames(stripColClassNames(className), columnClassNames(attributes), {
+			"has-min-height": !!style.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(style.dimensions.minHeight),
+		}),
 	});
 	/** @type {CSSStyleDeclaration} */
 	let innerStyle = {};
 
 	if (blockProps.style) {
-		const { paddingTop, paddingRight, paddingBottom, paddingLeft } = blockProps.style;
-		innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft };
+		const { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight } = blockProps.style;
+		innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight };
 		delete blockProps.style.paddingTop;
 		delete blockProps.style.paddingRight;
 		delete blockProps.style.paddingBottom;
 		delete blockProps.style.paddingLeft;
 		delete blockProps.style.color;
 		delete blockProps.style.backgroundColor;
+		delete blockProps.style.minHeight;
 	}
 
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";

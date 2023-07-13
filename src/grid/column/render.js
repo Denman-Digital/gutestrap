@@ -133,21 +133,25 @@ export const ColumnRender = (props) => {
 	const { className = "" } = attributes;
 
 	const blockProps = useBlockProps.save({
-		className: classNames(stripColClassNames(className), columnClassNames(attributes)),
+		className: classNames(stripColClassNames(className), columnClassNames(attributes), {
+			"has-min-height":
+				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+		}),
 	});
 
 	/** @type {CSSStyleDeclaration} */
 	let innerStyle = {};
 
 	if (blockProps?.style) {
-		const { paddingTop, paddingRight, paddingBottom, paddingLeft } = blockProps.style;
-		innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft };
+		const { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight } = blockProps.style;
+		innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight };
 		delete blockProps.style.paddingTop;
 		delete blockProps.style.paddingRight;
 		delete blockProps.style.paddingBottom;
 		delete blockProps.style.paddingLeft;
 		delete blockProps.style.color;
 		delete blockProps.style.backgroundColor;
+		delete blockProps.style.minHeight;
 	}
 
 	const { background, textColor, backgroundColor, gradient, style = {} } = attributes;

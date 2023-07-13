@@ -39,7 +39,7 @@ export const supports = {
 		margin: ["top", "bottom"], // Enable vertical margins.
 		padding: true, // Enable padding for all sides.
 	},
-	// dimensions: {
-	// 	minHeight: true, // Enable min height control.
-	// },
+	dimensions: {
+		minHeight: true, // Enable min height control.
+	},
 };
