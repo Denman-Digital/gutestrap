@@ -159,7 +159,13 @@ export const RowEdit = (props) => {
 		anchor,
 	} = attributes;
 
-	const blockProps = useBlockProps({ id: anchor, className: classNames(className, rowClassNames(attributes)) });
+	const blockProps = useBlockProps({
+		id: anchor,
+		className: classNames(className, rowClassNames(attributes), {
+			"has-min-height":
+				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+		}),
+	});
 
 	return (
 		<Fragment>

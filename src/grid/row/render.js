@@ -108,7 +108,12 @@ export function stripRowClassNames(className = "") {
  */
 export const RowRender = ({ attributes }) => {
 	const { className = "" } = attributes;
-	const blockProps = useBlockProps.save({ className: stripRowClassNames(className) });
+	const blockProps = useBlockProps.save({
+		className: classNames(stripRowClassNames(className), {
+			"has-min-height":
+				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+		}),
+	});
 
 	return (
 		<div {...blockProps}>
