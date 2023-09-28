@@ -111,7 +111,10 @@ export function styles() {
 		.pipe(postCSS([autoprefixer()]))
 		.pipe(pipelines.updateFileMTime())
 		.pipe(
-			cleanCSS({ compatibility: "*" }) // ~= IE 10+
+			cleanCSS({
+				compatibility: "*", // ~= IE 10+
+				level: 1,
+			})
 		)
 		.pipe(rename({ prefix: "blocks.", suffix: ".build" }))
 		.pipe(size({ showFiles: true, showTotal: false, title: "Bundle styles ->" }))
