@@ -8,9 +8,9 @@
  * Author: Denman Digital
  * Author URI: https://denman.digital
  * Version: 2.1.8
- * Requires at least: 6.0
- * Requires PHP: 7.4
- * License: GPL2+
+ * Requires at least: 6.4
+ * Requires PHP: 8.1
+ * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  *
  * @package gutestrap
