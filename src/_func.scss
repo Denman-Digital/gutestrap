@@ -1,0 +1,296 @@
+@use "sass:meta";
+@use "sass:math";
+@use "sass:list";
+@use "sass:map";
+@use "sass:string";
+
+//==============================================================================
+// Type Functions
+//==============================================================================
+
+/// Test whether a value is a string
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is a string
+@function is-string($value) {
+	@return meta.type-of($value) == "string";
+}
+/// Test whether a value is not a string
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is not a string
+@function is-not-string($value) {
+	@return meta.type-of($value) != "string";
+}
+
+/// Test whether a value is a number
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is a number
+@function is-number($value) {
+	@return meta.type-of($value) == "number";
+}
+/// Test whether a value is not a number
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is not a number
+@function is-not-number($value) {
+	@return meta.type-of($value) != "number";
+}
+
+/// Test whether a value is a list
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is a list
+@function is-list($value) {
+	@return meta.type-of($value) == "list";
+}
+/// Test whether a value is not a list
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is not a list
+@function is-not-list($value) {
+	@return meta.type-of($value) != "list";
+}
+
+/// Test whether a value is a map
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is a map
+@function is-map($value) {
+	@return meta.type-of($value) == "map";
+}
+/// Test whether a value is not a map
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is not a map
+@function is-not-map($value) {
+	@return meta.type-of($value) != "map";
+}
+
+/// Test whether a value is a boolean
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is a boolean
+@function is-bool($value) {
+	@return meta.type-of($value) == "bool";
+}
+/// Test whether a value is not a boolean
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is not a boolean
+@function is-not-bool($value) {
+	@return meta.type-of($value) != "bool";
+}
+
+/// Test strictly whether a value is null
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is null
+@function is-null($value) {
+	@return meta.type-of($value) == "null";
+}
+/// Test strictly whether a value is not null
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is not null
+@function is-not-null($value) {
+	@return meta.type-of($value) != "null";
+}
+
+/// Test whether a value is a string
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is a string
+@function is-color($value) {
+	@return meta.type-of($value) == "color";
+}
+/// Test whether a value is not a string
+/// @arg {*} $value - value to be tested
+/// @return {Bool} whether $value is not a string
+@function is-not-color($value) {
+	@return meta.type-of($value) != "color";
+}
+
+//==============================================================================
+// Unit Functions
+//==============================================================================
+
+$UNITS: (
+	"px": 0px,
+	"cm": 0cm,
+	"mm": 0mm,
+	"%": 0%,
+	"ch": 0ch,
+	"in": 0in,
+	"em": 0em,
+	"rem": 0rem,
+	"pt": 0pt,
+	"pc": 0pc,
+	"ex": 0ex,
+	"vw": 0vw,
+	"vh": 0vh,
+	"vmin": 0vmin,
+	"vmax": 0vmax,
+	"deg": 0deg,
+	"turn": 0turn,
+	"rad": 0rad,
+	"grad": 0grad,
+	"s": 0s,
+	"ms": 0ms,
+	"Hz": 0Hz,
+	"kHz": 0kHz,
+	"dppx": 0dppx,
+	"dpcm": 0dpcm,
+	"dpi": 0dpi,
+);
+$ABSOLUTE_LENGTH_UNITS: (
+	"px": 0px,
+	"cm": 0cm,
+	"mm": 0mm,
+	"in": 0in,
+	"pt": 0pt,
+	"pc": 0pc,
+);
+$RELATIVE_LENGTH_UNITS: (
+	"%": 0%,
+	"em": 0em,
+	"ex": 0ex,
+	"ch": 0ch,
+	"rem": 0rem,
+);
+
+/// Check whether a length is specified in absolute units
+/// @arg {Number} $length - length to evaluate
+/// @return {Boolean} whether a length is specified in absolute units
+@function is-absolute-length($length) {
+	@return map-contains($ABSOLUTE_LENGTH_UNITS, math.unit($length));
+}
+
+/// Check whether a length is specified in relative units
+/// @arg {Number} $length - length to evaluate
+/// @return {Boolean} whether a length is specified in relative units
+@function is-relative-length($length) {
+	@return map-contains($RELATIVE_LENGTH_UNITS, math.unit($length));
+}
+
+/// Remove the unit of a length
+/// @arg {Number} $number - Number to remove unit from
+/// @return {Number} Unitless number
+@function strip-unit($number) {
+	@if is-number($number) and not math.is-unitless($number) {
+		@return math.div($number, ($number * 0 + 1));
+	}
+
+	@return $number;
+}
+
+/// Get the unit of a value
+/// @author Ted Whitehead
+/// @arg {Number} $value - Initial value to extract unit.
+/// @return {String} Unit of $value
+@function get-unit($value) {
+	@return string.to-lower-case(string.slice($value * 0 + "", 2, -1));
+}
+
+/// Convert value from one unit into another
+/// @author Hugo Giraudel
+/// @arg {Number} $value - Initial value
+/// @arg {String} $unit - Desired unit
+/// @throw if `$unit` does not exist or if units are incompatible.
+/// @return {Number} Converted value
+@function convert-unit($value, $unit) {
+	@if map.has-key($UNITS, $unit) {
+		@return map.get($UNITS, $unit) + $value;
+	}
+	@error "Unknown unit `#{$unit}`.";
+}
+
+//==============================================================================
+// Math Functions
+//==============================================================================
+
+/// Generic precision concious rounding function
+///
+/// @arg {Number} $number - number to round
+/// @arg {Number} $magnitude - the nearest magnitude you want to round to. default is 1
+/// @arg {String} $mode - rounding mode, can be 'round', 'floor', or 'ciel', default is 'round'
+/// @return {Number} rounded input
+@function to-nearest($number, $magnitude: 1, $mode: round) {
+	// $number must be a number
+	@if is-not-number($number) {
+		@warn "#{$number} is not a number.";
+		@return $number;
+	}
+
+	// $magnitude must be a unitless number
+	@if is-not-number($magnitude) {
+		@warn "#{$magnitude} is not a number.";
+		@return $number;
+	}
+
+	$magnitude: strip-unit($magnitude);
+	$inv-mag: math.div(1, $magnitude);
+
+	@if $mode == round {
+		@return math.div(math.round($number * $inv-mag), $inv-mag);
+	} @else if $mode == ceil {
+		@return math.div(math.ceil($number * $inv-mag), $inv-mag);
+	} @else if $mode == floor {
+		@return math.div(math.floor($number * $inv-mag), $inv-mag);
+	} @else {
+		@warn "#{$mode} is undefined keyword.";
+
+		@return $number;
+	}
+}
+
+/// Approximate square root of a number using Newton's Method
+///
+/// @see https://en.wikipedia.org/wiki/Newton%27s_method
+/// @see https://www.antimath.info/css/sass-sqrt-function/
+/// @author Mihai Vaduva
+/// @arg {Number} $number
+@function sqrt($number) {
+	$x0: 1;
+	$x1: $x0;
+
+	@for $i from 1 through 10 {
+		$x1: $x0 - math.div(($x0 * $x0 - math.abs($number)), (2 * $x0));
+		$x0: $x1;
+	}
+
+	@return $x1;
+}
+
+@function unpercentage($number) {
+	@return math.div($number, 100%);
+}
+
+
+/// Convert a pixel value to rem
+///	* recursive for lists
+/// @arg {Number|List<Number>} $pixel-value - value(s) to convert
+/// @return {Number} value(s) converted to rem
+@function px-to-rem($pixel-value) {
+	// Browser default 1rem == 16px
+	@if is-list($pixel-value) {
+		$output: ();
+		$separator: list.separator($pixel-value);
+
+		@each $value in $pixel-value {
+			$output: list.append($output, px-to-rem($value), $separator);
+		}
+
+		@return $output;
+	} @else {
+		@return convert-unit(strip-unit(math.div($pixel-value, 16)), "rem");
+	}
+}
+
+/// Convert px to em
+/// @arg {Number|List<Number>} $pixel-value - value(s) to convert
+/// @arg {Number} $context-font-size - font size of parent element, default 16px
+/// @return {Number} - value(s) converted to em for given contextual font-size
+@function px-to-em($pixel-value, $context-font-size: 16px) {
+	$relative-px: math.div(1em, strip-unit($context-font-size));
+	@if is-list($pixel-value) {
+		$output: ();
+		@each $value in $pixel-value {
+			$output: list.append($output, px-to-em($value, $context-font-size));
+		}
+		@return list.join((), $output, list.separator($pixel-value), list.is-bracketed($pixel-value));
+	} @else {
+		@return convert-unit(
+			math.div(strip-unit($pixel-value), strip-unit($context-font-size)),
+			"em"
+		);
+	}
+}

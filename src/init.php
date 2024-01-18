@@ -72,7 +72,7 @@ function gutestrap_block_assets()
 
 
 	$block_assets = [
-		'style' => 'gutestrap-style-css',
+		// 'style' => 'gutestrap-style-css',
 		'editor_script' => 'gutestrap-block-js',
 		'editor_style' => 'gutestrap-block-editor-css',
 	];
@@ -90,6 +90,10 @@ function gutestrap_block_assets()
 	register_block_type('gutestrap/container', $block_assets);
 	register_block_type('gutestrap/row', $block_assets);
 	register_block_type('gutestrap/col', $block_assets);
+
+	add_action("wp_enqueue_scripts", function () {
+		wp_enqueue_style('gutestrap-style-css');
+	});
 }
 add_action('init', 'gutestrap_block_assets');
 

@@ -139,29 +139,6 @@ $utilities: map-merge(
 
 @import "../node_modules/bootstrap/scss/utilities/api";
 
-.row.no-gutters {
-	margin-left: 0;
-	margin-right: 0;
-
-	> .col,
-	> [class*="col-"] {
-		padding-left: 0 !important;
-		padding-right: 0 !important;
-	}
-}
-
-// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
-.row.vertical-gutters {
-	margin-top: calc(var(--gs-gutter) / -2);
-	margin-bottom: calc(var(--gs-gutter) / -2);
-
-	> .col,
-	> [class*="col-"] {
-		padding-top: calc(var(--gs-gutter) / 2) !important;
-		padding-bottom: calc(var(--gs-gutter) / 2) !important;
-	}
-}
-
 @each $breakpoint in map-keys($grid-breakpoints) {
 	@include media-breakpoint-up($breakpoint) {
 		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
@@ -182,6 +159,29 @@ $utilities: map-merge(
 				max-width: 100%;
 			}
 		}
+	}
+}
+
+.row.no-gutters {
+	margin-left: 0;
+	margin-right: 0;
+
+	> .col,
+	> [class*="col-"] {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+}
+
+// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
+.row.vertical-gutters {
+	margin-top: calc(var(--gs-gutter) / -2);
+	margin-bottom: calc(var(--gs-gutter) / -2);
+
+	> .col,
+	> [class*="col-"] {
+		padding-top: calc(var(--gs-gutter) / 2) !important;
+		padding-bottom: calc(var(--gs-gutter) / 2) !important;
 	}
 }
 
@@ -227,8 +227,7 @@ $container-classes: (".container-fluid");
 	&-col {
 		display: flex;
 
-		> .col__inner,
-		.col__inner {
+		> .col__inner {
 			width: 100%;
 			display: flex;
 

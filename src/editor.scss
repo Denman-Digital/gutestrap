@@ -7,7 +7,10 @@
 @use "sass:list";
 @use "sass:math";
 @use "sass:map";
+@use "func";
 @use "common" as *;
+
+$grid-breakpoints: $grid-breakpoints-raw;
 
 html {
 	box-sizing: border-box;
@@ -18,6 +21,7 @@ html {
 *::before,
 *::after {
 	box-sizing: inherit;
+	background-repeat: no-repeat;
 }
 
 .gutestrap-enabled #editor .wp-block:not(.gutestrap-block-col) {
@@ -35,23 +39,23 @@ $include-column-box-sizing: true !default;
 @import "../node_modules/bootstrap/scss/mixins/grid";
 
 @mixin make-row($gutter: $grid-gutter-width) {
-	display: flex;
-	flex-wrap: wrap;
-	margin-right: calc(var(--gs-gutter) / -2);
-	margin-left: calc(var(--gs-gutter) / -2);
+	// display: flex;
+	// flex-wrap: wrap;
+	// margin-right: calc(var(--gs-gutter) / -2);
+	// margin-left: calc(var(--gs-gutter) / -2);
 }
 
 @mixin make-col-ready() {
-	// Add box sizing if only the grid is loaded
-	box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
-	// Prevent columns from becoming too narrow when at smaller grid tiers by
-	// always setting `width: 100%;`. This works because we set the width
-	// later on to override this initial width.
-	flex-shrink: 0;
-	width: 100%;
-	max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
-	padding-right: calc(var(--gs-gutter) / 2);
-	padding-left: calc(var(--gs-gutter) / 2);
+	// // Add box sizing if only the grid is loaded
+	// box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
+	// // Prevent columns from becoming too narrow when at smaller grid tiers by
+	// // always setting `width: 100%;`. This works because we set the width
+	// // later on to override this initial width.
+	// flex-shrink: 0;
+	// width: 100%;
+	// max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
+	// padding-right: calc(var(--gs-gutter) / 2);
+	// padding-left: calc(var(--gs-gutter) / 2);
 }
 
 @mixin make-col($size: false, $columns: $grid-columns) {
@@ -76,64 +80,50 @@ $include-column-box-sizing: true !default;
 // any value of `$grid-columns`.
 
 @mixin make-grid-columns($columns: $grid-columns, $gutter: $grid-gutter-width, $breakpoints: $grid-breakpoints) {
-  @each $breakpoint in map-keys($breakpoints) {
-    $infix: breakpoint-infix($breakpoint, $breakpoints);
+	@each $breakpoint in map-keys($breakpoints) {
+		$infix: breakpoint-infix($breakpoint, $breakpoints);
 
-    @include media-breakpoint-up($breakpoint, $breakpoints) {
-      // Provide basic `.col-{bp}` classes for equal-width flexbox columns
-      .col#{$infix} {
-        flex: 1 0 0% !important; // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
-      }
+		@include media-breakpoint-up($breakpoint, $breakpoints) {
+			// Provide basic `.col-{bp}` classes for equal-width flexbox columns
+			.col#{$infix} {
+				flex: 1 0 0% !important; // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
+			}
 
-      .row-cols#{$infix}-auto > * {
-        @include make-col-auto();
-      }
+			// .row-cols#{$infix}-auto > * {
+			// 	@include make-col-auto();
+			// }
 
-      @if $grid-row-columns > 0 {
-        @for $i from 1 through $grid-row-columns {
-          .row-cols#{$infix}-#{$i} {
-            @include row-cols($i);
-          }
-        }
-      }
+			// @if $grid-row-columns > 0 {
+			// 	@for $i from 1 through $grid-row-columns {
+			// 		.row-cols#{$infix}-#{$i} {
+			// 			@include row-cols($i);
+			// 		}
+			// 	}
+			// }
 
-      .col#{$infix}-auto {
-        @include make-col-auto();
-      }
+			.col#{$infix}-auto {
+				@include make-col-auto();
+			}
 
-      @if $columns > 0 {
-        @for $i from 1 through $columns {
-          .col#{$infix}-#{$i} {
-            @include make-col($i, $columns);
-          }
-        }
+			@if $columns > 0 {
+				@for $i from 1 through $columns {
+					.col#{$infix}-#{$i} {
+						@include make-col($i, $columns);
+					}
+				}
 
-        // `$columns - 1` because offsetting by the width of an entire row isn't possible
-        @for $i from 0 through ($columns - 1) {
-          @if not ($infix == "" and $i == 0) { // Avoid emitting useless .offset-0
-            .offset#{$infix}-#{$i} {
-              @include make-col-offset($i, $columns);
-            }
-          }
-        }
-      }
-
-      // // Gutters
-      // //
-      // // Make use of `.g-*`, `.gx-*` or `.gy-*` utilities to change spacing between the columns.
-      // @each $key, $value in $gutters {
-      //   .g#{$infix}-#{$key},
-      //   .gx#{$infix}-#{$key} {
-      //     --#{$prefix}gutter-x: #{$value};
-      //   }
-
-      //   .g#{$infix}-#{$key},
-      //   .gy#{$infix}-#{$key} {
-      //     --#{$prefix}gutter-y: #{$value};
-      //   }
-      // }
-    }
-  }
+				// `$columns - 1` because offsetting by the width of an entire row isn't possible
+				@for $i from 0 through ($columns - 1) {
+					@if not($infix == "" and $i == 0) {
+						// Avoid emitting useless .offset-0
+						.offset#{$infix}-#{$i} {
+							@include make-col-offset($i, $columns);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 @import "../node_modules/bootstrap/scss/mixins/utilities";
@@ -144,27 +134,30 @@ $include-column-box-sizing: true !default;
 // Makes the @content apply to the given breakpoint and wider.
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
 	$min: breakpoint-min($name, $breakpoints);
-	@if $min {
-		$min: $min + 17.5em;
-		@media (min-width: $min) {
-			.gutestrap-enabled #editor {
-				@if $name == sm or $name == md {
-					&,
-					& .editor-styles-wrapper[style*="width: 780px"] {
-						@content;
-					}
-				} @else {
-					.editor-styles-wrapper:not([style*="width"]) {
+	.gutestrap-enabled #editor {
+		@if $min {
+			// 	$min: $min + 17.5em;
+			@media (max-width: 781.98px) {
+				@media (min-width: $min) {
+					.editor-styles-wrapper {
 						@content;
 					}
 				}
 			}
-		}
-	} @else {
-		.gutestrap-enabled #editor {
-			&,
-			& .editor-styles-wrapper[style*="width: 360px"],
-			& .editor-styles-wrapper[style*="width: 780px"] {
+			@media (min-width: 782px) {
+				@media (min-width: $min) {
+					> :not(.is-sidebar-opened) .is-desktop-preview > .editor-styles-wrapper {
+						@content;
+					}
+				}
+				@media (min-width: #{$min + 280px}) {
+					> .is-sidebar-opened .is-desktop-preview > .editor-styles-wrapper {
+						@content;
+					}
+				}
+			}
+		} @else {
+			.editor-styles-wrapper {
 				@content;
 			}
 		}
@@ -172,38 +165,46 @@ $include-column-box-sizing: true !default;
 }
 
 :root {
-	// --gs-gutter: #{$grid-gutter-width};
-	// @each $breakpoint in map.keys($grid-breakpoints) {
-	// 	@if $breakpoint == xs {
-	// 		--gs-container-w-#{$breakpoint}: initial;
-	// 	} @else {
-	// 		--gs-container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
-	// 	}
-	// }
+	--gs-gutter: #{$grid-gutter-width};
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@if $breakpoint == xs {
+			--gs-container-w-#{$breakpoint}: initial;
+		} @else {
+			--gs-container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
+		}
+	}
 	@each $breakpoint in map.keys($grid-breakpoints) {
 		@include media-breakpoint-up($breakpoint) {
-			--gs-container-w: var(--gs-container-w-#{$breakpoint}) !important;
+			--gs-container-w: var(--gs-container-w-#{$breakpoint});
 		}
 	}
 }
 
-// // Single container class with breakpoint max-widths
-// .container,
-// // 100% wide container at all breakpoints
-// .container-fluid {
-// 	width: 100%;
-// 	margin-right: auto;
-// 	margin-left: auto;
-// 	padding-right: calc(var(--gs-gutter) / 2);
-// 	padding-left: calc(var(--gs-gutter) / 2);
-// }
+.gutter-reset {
+	--gs-gutter: #{$grid-gutter-width};
+}
+
+// Single container class with breakpoint max-widths
+.container,
+// 100% wide container at all breakpoints
+.container-fluid {
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: calc(var(--gs-gutter) / 2);
+	padding-left: calc(var(--gs-gutter) / 2);
+}
+
+.container {
+	max-width: var(--gs-container-w);
+}
 
 // Responsive containers that are 100% wide until a breakpoint
 @each $breakpoint, $container-max-width in $container-max-widths {
 	.container-#{$breakpoint} {
-		// @extend .container-fluid;
+		@extend .container-fluid;
 		@include media-breakpoint-up($breakpoint) {
-			max-width: var(--gs-container-w) !important;
+			max-width: var(--gs-container-w);
 		}
 	}
 }
@@ -268,10 +269,58 @@ $utilities: map-merge(
 			max-width: 100% !important;
 			flex-basis: 100% !important;
 		}
+		[class*="justify-content#{$infix}-"]:not(.justify-content#{$infix}-stretch) {
+			> .col__content {
+				flex-basis: unset;
+			}
+		}
+		.justify-content#{$infix}-stretch {
+			> .col__content {
+				flex-basis: 100%;
+				max-width: 100%;
+			}
+		}
 	}
 }
 
+$container-classes: (".container-fluid");
+@each $breakpoint in map.keys($grid-breakpoints) {
+	$container-classes: list.append($container-classes, ".container#{breakpoint-infix($breakpoint)}", $separator: comma);
+}
+
+.contain-inset-vert:is(#{$container-classes}) {
+	padding-top: calc(var(--gs-gutter) / 2);
+	padding-bottom: calc(var(--gs-gutter) / 2);
+}
+
+.contain-inset-wide:is(#{$container-classes}) {
+	--gs-gutter: calc(#{$grid-gutter-width} * 2);
+	> * {
+		--gs-gutter: #{$grid-gutter-width};
+	}
+}
+
+[class*="container"]:is(#{$container-classes}) .uncontain-nested:is(#{$container-classes}) {
+	padding: 0 !important;
+}
+
 .gutestrap-block {
+	&-container,
+	&-row {
+		outline: 1px dashed gray;
+		outline-offset: -1px;
+
+		&::before {
+			content: attr(data-title);
+			display: block;
+			font-size: 0.75rem;
+			font-family: sans-serif;
+			color: gray;
+			padding: 0 0.25rem;
+		}
+
+	}
+
 	&-container,
 	&-col {
 		.block-editor-block-list__layout & {
@@ -281,26 +330,14 @@ $utilities: map-merge(
 	}
 
 	&-container {
-		outline: 1px dashed gray;
-		outline-offset: -1px;
 		min-height: 1.25rem;
-		// padding: 0 !important;
-		// color: inherit !important;
-		// background: transparent !important;
 
-		&:hover,
-		&:is(.has-child-selected, .is-selected, .is-hovered) {
-			outline: 1px dashed black;
+		&.has-background::before {
+			background-color: grey;
+			color: white;
+			max-width: max-content;
 		}
 
-		&::before {
-			content: attr(data-title);
-			display: block;
-			font-size: 0.75rem;
-			font-family: sans-serif;
-			color: gray;
-			padding-left: 0.25rem;
-		}
 
 		&.has-min-height {
 			display: grid;
@@ -314,34 +351,30 @@ $utilities: map-merge(
 	}
 
 	&-row {
-		outline: 1px dashed gray;
-		outline-offset: -1px;
+		// outline: 1px dashed gray;
+		// outline-offset: -1px;
 
-		> * > .block-editor-inner-blocks {
-			overflow: hidden auto;
+		> div > div > * {
+			// Add box sizing if only the grid is loaded
+			box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
+			// Prevent columns from becoming too narrow when at smaller grid tiers by
+			// always setting `width: 100%;`. This works because we set the width
+			// later on to override this initial width.
+			flex-shrink: 0;
+			width: 100%;
+			max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
+			padding-right: calc(var(--gs-gutter) / 2);
+			padding-left: calc(var(--gs-gutter) / 2);
 		}
 
-		&:is(.has-child-selected, .is-selected, .is-hovered, :hover) {
-			outline: 1px dashed grey;
-		}
-
-		&::before {
-			content: attr(data-title);
-			display: block;
-			font-size: 0.75rem;
-			font-family: sans-serif;
-			color: gray;
-			padding-left: 0.25rem;
-		}
-
-		.-is-example &,
-		&.-is-example {
-			outline: none !important;
-
-			&::before {
-				content: none !important;
-			}
-		}
+		// &::before {
+		// 	content: attr(data-title);
+		// 	display: block;
+		// 	font-size: 0.75rem;
+		// 	font-family: sans-serif;
+		// 	color: gray;
+		// 	padding-left: 0.25rem;
+		// }
 	}
 
 	&-col {
@@ -350,23 +383,17 @@ $utilities: map-merge(
 		}
 
 		&,
-		& > *:not(.wp-block-gutestrap-col) {
+		& > .col__inner {
 			display: flex;
 		}
 
-		> *,
-		> * > .wp-block-gutestrap-col {
+		> .col__inner {
 			width: 100%;
 			align-self: stretch;
-		}
-
-		> .col__inner {
 			outline-offset: -1px;
-		}
 
-		&:is(.has-child-selected, .is-selected, .is-hovered, :hover) {
-			> .col__inner {
-				outline: 1px dashed lightgrey;
+			> .col__content {
+				max-width: 100%;
 			}
 		}
 
@@ -397,18 +424,9 @@ $utilities: map-merge(
 		}
 	}
 
-	&-row.is-selected > .row > .block-editor-inner-blocks > .block-editor-block-list__layout > &-col > .col__inner {
-		outline: 1px dashed gray;
-	}
-
-	&-row-break {
-		@include make-col-ready;
-	}
-
 	&.-is-disabled {
 		opacity: 0.5;
 		filter: grayscale(0.25);
-		// border: 1px dashed gray;
 	}
 }
 
@@ -493,20 +511,18 @@ $utilities: map-merge(
 }
 
 #editor {
-	.row.wp-block-gutestrap-row {
-		margin-right: 0;
-		margin-left: 0;
-		display: block;
-
+	.wp-block-gutestrap-row {
 		> .block-editor-inner-blocks {
-			max-width: 100%;
-			padding-right: 0 !important;
-			padding-left: 0 !important;
-			overflow: hidden;
+			contain: layout;
+			// overflow: hidden;
 		}
 
-		> * > .block-editor-block-list__layout {
-			@include make-row();
+		> div > .block-editor-block-list__layout {
+			/* @include make-row(); */
+			display: flex;
+			flex-wrap: wrap;
+			margin-right: calc(var(--gs-gutter) / -2);
+			margin-left: calc(var(--gs-gutter) / -2);
 
 			> .col,
 			> [class*="col-"] {
@@ -538,7 +554,8 @@ $utilities: map-merge(
 			margin-left: 0;
 
 			> .col,
-			> [class*="col-"] {
+			> [class*="col-"],
+			> .block-list-appender {
 				padding-right: 0 !important;
 				padding-left: 0 !important;
 			}
@@ -562,19 +579,19 @@ $utilities: map-merge(
 		}
 		// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 		&.vertical-gutters > * > .block-editor-block-list__layout {
+			margin-top: calc(var(--gs-gutter) * -0.5) !important;
+			margin-bottom: calc(var(--gs-gutter) * -0.5) !important;
+
 			> .col,
-			> [class*="col-"] {
-				padding-top: calc(var(--gs-gutter, #{$grid-gutter-width}) * 0.5) !important;
-				padding-bottom: calc(var(--gs-gutter, #{$grid-gutter-width}) * 0.5) !important;
+			> [class*="col-"],
+			> .block-list-appender {
+				padding-top: calc(var(--gs-gutter) * 0.5) !important;
+				padding-bottom: calc(var(--gs-gutter) * 0.5) !important;
 			}
 
 			> .block-editor-block-popover .block-editor__padding-visualizer {
 				margin-top: calc(var(--gs-gutter) * 0.5) !important;
 				margin-bottom: calc(var(--gs-gutter) * 0.5) !important;
-			}
-
-			> .block-list-appender {
-				padding-top: calc(var(--gs-gutter, #{$grid-gutter-width}) * 0.5);
 			}
 		}
 	}
@@ -584,34 +601,6 @@ $utilities: map-merge(
 	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
 	@include media-breakpoint-up($breakpoint, $grid-breakpoints) {
-		@if $grid-row-columns > 0 {
-			@for $count from 1 through $grid-row-columns {
-				.row-cols#{$infix}-#{$count} > * {
-					width: 100%;
-				}
-				.row-cols#{$infix}-#{$count} > * > * > * {
-					// flex: 0 0 calc(100% / #{$count});
-					// max-width: calc(100% / #{$count});
-					flex: 0 0 auto;
-					width: calc(100% / #{$count});
-				}
-			}
-
-			[class*="row-cols-"] > * > * {
-				> .col#{$infix}-auto {
-					@include make-col-auto();
-				}
-
-				@if $grid-columns > 0 {
-					@for $i from 1 through $grid-columns {
-						> .col#{$infix}-#{$i} {
-							@include make-col($i, $grid-columns);
-						}
-					}
-				}
-			}
-		}
-
 		@if $grid-columns > 0 {
 			.block-editor-block-list__layout .gutestrap-block-col {
 				@for $i from 1 through $grid-columns {
