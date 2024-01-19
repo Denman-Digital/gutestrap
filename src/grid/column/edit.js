@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
-import { Fragment } from "@wordpress/element";
+import { Fragment, useState } from "@wordpress/element";
 import { SelectControl, PanelBody, ToolbarButton, ToolbarGroup } from "@wordpress/components";
 import {
 	InspectorControls,
@@ -20,7 +20,7 @@ import { toNumber, BOOTSTRAP_ICON_CLASSES } from "../../_common";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BlockFlexItemAlignmentToolbar } from "../../components/alignment";
-import { ResponsiveTabs } from "../../components/responsive-tabs";
+import { ResponsiveTabs, getBreakpointIcon, getBreakpointLabel } from "../../components/responsive-tabs";
 import { columnClassNames, columnInnerClassNames, stripColClassNames } from "./render";
 
 import ExpandIcon from "./expand-contents.svg";
@@ -93,14 +93,14 @@ const COL_ALIGN_OPTIONS = [
 		value: "baseline",
 	},
 	{
-		label: __("Stretch to fit", "gutestrap"),
+		label: __("Stretch to fill", "gutestrap"),
 		value: "stretch",
 	},
 ];
 
 const COL_CONTENT_ALIGN_OPTIONS = [
 	{
-		label: __("Stretch to fit", "gutestrap"),
+		label: __("Stretch to fill", "gutestrap"),
 		value: "stretch stretch",
 	},
 	{
@@ -204,6 +204,7 @@ function ColumnEdit(props) {
 		backgroundImageCSS = customGradient;
 	}
 
+	const [currentBreakpoint, setCurrentBreakpoint] = useState("md");
 	return (
 		<Fragment>
 			<div {...blockProps}>
@@ -244,6 +245,7 @@ function ColumnEdit(props) {
 			</div>
 			<InspectorControls>
 				<ResponsiveTabs
+					onBreakpointChange={setCurrentBreakpoint}
 					hasNotification={(bp) => {
 						if (bp === "xs") return false;
 						return (
@@ -282,8 +284,12 @@ function ColumnEdit(props) {
 									options={canInherit ? COL_WIDTH_OPTIONS : COL_WIDTH_OPTIONS.slice(1)}
 									value={width[breakpoint] != null ? width[breakpoint] : fallbacks.width}
 									onChange={(value) => {
-										width[breakpoint] = COLUMN_SPECIAL_OPTIONS.includes(value) ? value : toNumber(value);
-										setAttributes({ width: { ...width } });
+										setAttributes({
+											width: {
+												...width,
+												[breakpoint]: COLUMN_SPECIAL_OPTIONS.includes(value) ? value : toNumber(value),
+											},
+										});
 									}}
 								/>
 								<SelectControl
@@ -291,8 +297,12 @@ function ColumnEdit(props) {
 									options={canInherit ? COL_OFFSET_OPTIONS : COL_OFFSET_OPTIONS.slice(1)}
 									value={offset[breakpoint] != null ? offset[breakpoint] : fallbacks.offset}
 									onChange={(value) => {
-										offset[breakpoint] = value === COLUMN_OPTION_INHERIT_VALUE ? value : toNumber(value);
-										setAttributes({ offset: { ...offset } });
+										setAttributes({
+											offset: {
+												...offset,
+												[breakpoint]: value === COLUMN_OPTION_INHERIT_VALUE ? value : toNumber(value),
+											},
+										});
 									}}
 								/>
 								<SelectControl
@@ -308,8 +318,7 @@ function ColumnEdit(props) {
 									]}
 									value={alignment[breakpoint] != null ? alignment[breakpoint] : fallbacks.alignment}
 									onChange={(value) => {
-										alignment[breakpoint] = value;
-										setAttributes({ alignment: { ...alignment } });
+										setAttributes({ alignment: { ...alignment, [breakpoint]: value } });
 									}}
 									help={__("Align the column within the row.", "gutestrap")}
 								/>
@@ -320,8 +329,7 @@ function ColumnEdit(props) {
 										contentAlignment[breakpoint] != null ? contentAlignment[breakpoint] : fallbacks.contentAlignment
 									}
 									onChange={(value) => {
-										contentAlignment[breakpoint] = value;
-										setAttributes({ contentAlignment: { ...contentAlignment } });
+										setAttributes({ contentAlignment: { ...contentAlignment, [breakpoint]: value } });
 									}}
 									help={__("Align content within the column.", "gutestrap")}
 								/>
@@ -342,8 +350,8 @@ function ColumnEdit(props) {
 					label={__("column", "gutestrap")}
 					value={alignment.xs}
 					onChange={(value) => {
-						alignment.xs = value;
-						setAttributes({ alignment: { ...alignment } });
+						// alignment.xs = value;
+						setAttributes({ alignment: { ...alignment, xs: value } });
 					}}
 				/>
 				<ToolbarGroup>
@@ -352,8 +360,13 @@ function ColumnEdit(props) {
 						label={__("Expand contents to fit", "gutestrap")}
 						isPressed={contentAlignment.xs === "stretch stretch"}
 						onClick={() => {
-							contentAlignment.xs = contentAlignment.xs === "stretch stretch" ? "top left" : "stretch stretch";
-							setAttributes({ contentAlignment: { ...contentAlignment } });
+							// contentAlignment.xs = contentAlignment.xs === "stretch stretch" ? "top left" : "stretch stretch";
+							setAttributes({
+								contentAlignment: {
+									...contentAlignment,
+									xs: contentAlignment.xs === "stretch stretch" ? "top left" : "stretch stretch",
+								},
+							});
 						}}
 						icon={() => <ExpandIcon className={BOOTSTRAP_ICON_CLASSES} />}
 					/>
@@ -362,10 +375,18 @@ function ColumnEdit(props) {
 					label={__("Change content alignment", "gutestrap")}
 					value={contentAlignment.xs}
 					onChange={(value) => {
-						contentAlignment.xs = value;
-						setAttributes({ contentAlignment: { ...contentAlignment } });
+						// contentAlignment.xs = value;
+						setAttributes({ contentAlignment: { ...contentAlignment, xs: value } });
 					}}
 				/>
+				<ToolbarGroup>
+					<ToolbarButton
+						showTooltip={true}
+						label={sprintf(__("Editing %s layout", "gutestrap"), getBreakpointLabel(currentBreakpoint))}
+						isPressed={false}
+						icon={() => getBreakpointIcon(currentBreakpoint, BOOTSTRAP_ICON_CLASSES)}
+					/>
+				</ToolbarGroup>
 			</BlockControls>
 		</Fragment>
 	);

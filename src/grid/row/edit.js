@@ -18,7 +18,7 @@ import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from
 import { rowClassNames, stripRowClassNames } from "./render";
 import { DEFAULT_ATTRIBUTES } from "./metadata";
 import { name as rowBreakBlockName } from "./row-break";
-import { name as columnBlockName } from "../column/metadata";
+import { name as columnBlockName } from "../column/block.json";
 const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
 
 // const generateRowColumnsOptions = (gridRowCols = 6) => {

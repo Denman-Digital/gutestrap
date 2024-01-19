@@ -1,0 +1,68 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gutestrap/col",
+	"title": "Row Column",
+	"category": "bootstrap-grid",
+	"parent": ["gutestrap/row"],
+	"icon": "columns",
+	"description": "Row columns are the building blocks of responsive layouts.",
+	"keywords": ["layout", "column", "responsive"],
+	"version": "1.0",
+	"textdomain": "gutestrap",
+	"attributes": {
+		"width": {
+			"type": "object",
+			"default": {
+				"xs": 12
+			}
+		},
+		"offset": { "type": "object" },
+		"alignment": { "type": "object" },
+		"contentAlignment": { "type": "object" },
+		"background": { "type": "object" },
+		"_isExample": { "type": "boolean" }
+	},
+	"supports": {
+		"anchor": true,
+		"alignWide": false,
+		"color": {
+			"gradients": true,
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"margin": ["top", "bottom"],
+			"padding": true
+		},
+		"dimensions": {
+			"minHeight": true
+		},
+		"defaultStylePicker": false,
+		"position": {
+			"sticky": true
+		}
+	},
+	"selectors": {},
+	"styles": [],
+	"example": {
+		"attributes": {
+			"_isExample": true
+		},
+		"innerBlocks": [
+			{
+				"name": "core/image",
+				"attributes": {
+					"sizeSlug": "large",
+					"url": "https://s.w.org/images/core/5.3/MtBlanc1.jpg"
+				}
+			}
+		]
+	},
+	"blockHooks": {
+		"gutestrap/row": "firstChild"
+	},
+	"editorStyle": "gutestrap-block-editor-css",
+	"editorScript": "gutestrap-block-js",
+	"variations": []
+}

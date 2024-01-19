@@ -1,5 +1,5 @@
-const { _x } = wp.i18n;
-const { ToolbarGroup } = wp.components;
+import { _x } from "@wordpress/i18n";
+import { ToolbarGroup } from "@wordpress/components";
 
 import { BOOTSTRAP_ICON_CLASSES } from "../../_common";
 

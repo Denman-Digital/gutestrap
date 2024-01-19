@@ -89,7 +89,7 @@ function gutestrap_block_assets()
 	 */
 	register_block_type('gutestrap/container', $block_assets);
 	register_block_type('gutestrap/row', $block_assets);
-	register_block_type('gutestrap/col', $block_assets);
+	register_block_type(__DIR__ . "/grid/column/block.json");
 
 	add_action("wp_enqueue_scripts", function () {
 		wp_enqueue_style('gutestrap-style-css');

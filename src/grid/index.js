@@ -32,7 +32,8 @@ const category = "bootstrap-grid";
 registerBlockType(ContainerBlock.name, { category, ...ContainerBlock.settings });
 registerBlockType(RowBlock.name, { category, ...RowBlock.settings });
 registerBlockType(RowBreakBlock.name, { category, ...RowBreakBlock.settings });
-registerBlockType(ColumnBlock.name, { category, ...ColumnBlock.settings });
+// registerBlockType(ColumnBlock.name, { category, ...ColumnBlock.settings });
+registerBlockType(ColumnBlock.name, ColumnBlock);
 
 wp.hooks.addFilter(
 	"editor.BlockListBlock",
