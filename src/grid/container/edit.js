@@ -181,6 +181,7 @@ wp.hooks.addFilter(
 						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
 					};
 					wrapperProps.style = { ...backgroundStyles };
+					extraClasses.push("has-background");
 				}
 			}
 			className = classNames(className, ...extraClasses);

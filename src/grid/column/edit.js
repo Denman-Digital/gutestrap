@@ -379,14 +379,14 @@ function ColumnEdit(props) {
 						setAttributes({ contentAlignment: { ...contentAlignment, xs: value } });
 					}}
 				/>
-				<ToolbarGroup>
+				{/* <ToolbarGroup>
 					<ToolbarButton
 						showTooltip={true}
 						label={sprintf(__("Editing %s layout", "gutestrap"), getBreakpointLabel(currentBreakpoint))}
 						isPressed={false}
 						icon={() => getBreakpointIcon(currentBreakpoint, BOOTSTRAP_ICON_CLASSES)}
 					/>
-				</ToolbarGroup>
+				</ToolbarGroup> */}
 			</BlockControls>
 		</Fragment>
 	);

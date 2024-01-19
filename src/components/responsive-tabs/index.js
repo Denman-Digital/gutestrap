@@ -1,7 +1,10 @@
 import classNames from "classnames";
 
-const { __ } = wp.i18n;
-const { TabPanel } = wp.components;
+import { __ } from "@wordpress/i18n";
+import { TabPanel } from "@wordpress/components";
+import { useEffect } from "@wordpress/element";
+
+import { useExternalContext } from "../hooks";
 
 import PhonePortraitIcon from "bootstrap-icons/icons/phone.svg";
 import PhoneLandscapeIcon from "bootstrap-icons/icons/phone-landscape.svg";
@@ -13,7 +16,51 @@ import DesktopLargeIcon from "bootstrap-icons/icons/tv.svg";
 
 const breakpoints = ["xs", "sm", "md", "lg", "xl", "xxl", "xxxl"];
 
-export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, hasNotification = () => false }) => {
+export const getBreakpointLabel = (bp) => {
+	switch (bp) {
+		case "xs":
+			return __("Mobile", "gutestrap");
+		case "sm":
+			return __("Mobile landscape", "gutestrap");
+		case "md":
+			return __("Tablet", "gutestrap");
+		case "lg":
+			return __("Tablet landscape", "gutestrap");
+		case "xl":
+			return __("Laptop", "gutestrap");
+		case "xxl":
+			return __("Compact desktop", "gutestrap");
+		case "xxxl":
+			return __("Desktop", "gutestrap");
+	}
+};
+
+export const getBreakpointIcon = (bp, classes) => {
+	switch (bp) {
+		case "xs":
+			return <PhonePortraitIcon className={classes} />;
+		case "sm":
+			return <PhoneLandscapeIcon className={classes} />;
+		case "md":
+			return <TabletPortraitIcon className={classes} />;
+		case "lg":
+			return <TabletLandscapeIcon className={classes} />;
+		case "xl":
+			return <LaptopIcon className={classes} />;
+		case "xxl":
+			return <DesktopSmallIcon className={classes} />;
+		case "xxxl":
+			return <DesktopLargeIcon className={classes} />;
+	}
+};
+
+export const ResponsiveTabs = ({
+	children,
+	className,
+	initialBreakpoint = "md",
+	onBreakpointChange = () => {},
+	hasNotification = () => false,
+}) => {
 	let haveNotifications = breakpoints.filter(hasNotification);
 	haveNotifications =
 		Array.isArray(haveNotifications) && haveNotifications.filter((value) => breakpoints.includes(value));
@@ -28,16 +75,27 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 		style: { width: "1.5em", height: "1.5em" },
 	};
 
+	const [currentBreakpoint, updateCurrentBreakpoint] = useExternalContext(
+		"gutestrap/responsiveBreakpoint",
+		initialBreakpoint
+	);
+
+	useEffect(() => {
+		onBreakpointChange(currentBreakpoint);
+	}, [currentBreakpoint]);
+
 	return (
 		<TabPanel
 			className={classNames("gutestrap-responsive-tabs", className)}
-			initialTabName={initialBreakpoint}
+			initialTabName={currentBreakpoint}
+			// initialTabName={initialBreakpoint}
+			onSelect={(x) => updateCurrentBreakpoint(x)}
 			tabs={[
 				{
 					name: "xs",
 					// title: <span>{__("Base", "gutestrap")}</span>,
 					title: (
-						<span>
+						<span title={__("Mobile", "gutestrap")}>
 							<PhonePortraitIcon {...iconAttributes} />
 						</span>
 					),
@@ -51,7 +109,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 				{
 					name: "sm",
 					title: (
-						<span>
+						<span title={__("Mobile landscape", "gutestrap")}>
 							<PhoneLandscapeIcon {...iconAttributes} />
 						</span>
 					),
@@ -65,7 +123,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 				{
 					name: "md",
 					title: (
-						<span>
+						<span title={__("Tablet", "gutestrap")}>
 							<TabletPortraitIcon {...iconAttributes} />
 						</span>
 					),
@@ -79,7 +137,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 				{
 					name: "lg",
 					title: (
-						<span>
+						<span title={__("Tablet landscape", "gutestrap")}>
 							<TabletLandscapeIcon {...iconAttributes} />
 						</span>
 					),
@@ -93,7 +151,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 				{
 					name: "xl",
 					title: (
-						<span>
+						<span title={__("Laptop", "gutestrap")}>
 							<LaptopIcon {...iconAttributes} />
 						</span>
 					),
@@ -107,7 +165,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 				{
 					name: "xxl",
 					title: (
-						<span>
+						<span title={__("Compact desktop", "gutestrap")}>
 							<DesktopSmallIcon {...iconAttributes} />
 						</span>
 					),
@@ -121,7 +179,7 @@ export const ResponsiveTabs = ({ className, initialBreakpoint = "md", children, 
 				{
 					name: "xxxl",
 					title: (
-						<span>
+						<span title={__("Desktop", "gutestrap")}>
 							<DesktopLargeIcon {...iconAttributes} />
 						</span>
 					),
