@@ -8,7 +8,7 @@
 	"icon": "columns",
 	"description": "Row columns are the building blocks of responsive layouts.",
 	"keywords": ["layout", "column", "responsive"],
-	"version": "1.0",
+	"version": "1.11",
 	"textdomain": "gutestrap",
 	"attributes": {
 		"width": {
