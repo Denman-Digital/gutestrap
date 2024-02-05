@@ -16,9 +16,39 @@ import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from
 // import { toNumber } from "../../_common";
 
 import { rowClassNames, stripRowClassNames } from "./render";
-import { DEFAULT_ATTRIBUTES } from "./metadata";
-import { name as rowBreakBlockName } from "./row-break";
+import { name as rowBreakBlockName } from "../row-break";
 import { name as columnBlockName } from "../column/block.json";
+
+const DEFAULT_ATTRIBUTES = {
+	noGutters: false,
+	verticalGutters: false,
+	disabled: false,
+	alignment: {
+		xs: "top",
+		sm: "inherit",
+		md: "inherit",
+		lg: "inherit",
+		xl: "inherit",
+		xxl: "inherit",
+	},
+	justification: {
+		xs: "start",
+		sm: "inherit",
+		md: "inherit",
+		lg: "inherit",
+		xl: "inherit",
+		xxl: "inherit",
+	},
+	direction: {
+		xs: "row",
+		sm: "inherit",
+		md: "inherit",
+		lg: "inherit",
+		xl: "inherit",
+		xxl: "inherit",
+	},
+};
+
 const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
 
 // const generateRowColumnsOptions = (gridRowCols = 6) => {

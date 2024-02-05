@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gutestrap/row",
+	"title": "Row",
+	"category": "gutestrap-grid",
+	"icon": "columns",
+	"description": "Use rows to create responsive & mobile-first multi-column layouts.",
+	"keywords": ["layout", "column", "responsive"],
+	"version": "1.7",
+	"textdomain": "gutestrap",
+	"attributes": {
+		"noGutters": { "type": "boolean", "default": false },
+		"verticalGutters": { "type": "boolean", "default": false },
+		"alignment": { "type": "object" },
+		"justification": { "type": "object" },
+		"direction": { "type": "object" },
+		"disabled": { "type": "boolean", "default": false },
+		"anchor": { "type": "string" },
+		"_isExample": { "type": "boolean" }
+	},
+	"supports": {
+		"anchor": true,
+		"alignWide": false,
+		"spacing": {
+			"margin": ["top", "bottom"],
+			"padding": ["top", "bottom"]
+		},
+		"dimensions": {
+			"minHeight": true
+		},
+		"defaultStylePicker": false,
+		"renaming": false
+	},
+	"selectors": {},
+	"styles": [],
+	"example": {
+		"attributes": {
+			"_isExample": true
+		},
+		"innerBlocks": [
+			{
+				"name": "core/image",
+				"attributes": {
+					"sizeSlug": "large",
+					"url": "https://raw.githubusercontent.com/Denman-Digital/gutestrap/main/assets/block-preview-row.png"
+				}
+			}
+		]
+	},
+	"editorStyle": "gutestrap-block-editor-css",
+	"editorScript": "gutestrap-block-js",
+	"variations": []
+}
