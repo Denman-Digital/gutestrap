@@ -5,7 +5,7 @@
  * Simple block, renders and saves the same content without any interactivity.
  */
 
-import { useBlockProps } from "@wordpress/block-editor";
+import { InnerBlocks, useBlockProps } from "@wordpress/block-editor";
 import classNames from "classnames";
 import BreakIcon from "./break-icon.svg";
 import metadata from "./block.json";
@@ -24,8 +24,16 @@ const save = (props) => {
 };
 
 const edit = (props) => {
-	// eslint-disable-next-line no-unused-vars
 	const { attributes, className } = props;
+
+	if (attributes._isExample) {
+		return (
+			<div>
+				<InnerBlocks />
+			</div>
+		);
+	}
+
 	const blockProps = useBlockProps({
 		className: classNames(className, "w-100"),
 	});

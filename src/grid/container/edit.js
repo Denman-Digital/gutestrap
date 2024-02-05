@@ -13,6 +13,14 @@ const { config } = gutestrapGlobal;
 function ContainerEdit({ attributes, className, setAttributes }) {
 	const { breakpoint, fluid, anchor, disabled, background, insetVertical, insetExpand, insetConditional } = attributes;
 
+	if (attributes._isExample) {
+		return (
+			<div>
+				<InnerBlocks />
+			</div>
+		);
+	}
+
 	const blockProps = useBlockProps({
 		id: anchor,
 		className: classNames(className, {

@@ -153,6 +153,15 @@ const COL_CONTENT_ALIGN_OPTIONS = [
  */
 function ColumnEdit(props) {
 	const { attributes, setAttributes, clientId } = props;
+
+	if (attributes._isExample) {
+		return (
+			<div>
+				<InnerBlocks />
+			</div>
+		);
+	}
+
 	const {
 		anchor,
 		width = {},

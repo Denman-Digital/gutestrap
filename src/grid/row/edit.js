@@ -178,6 +178,14 @@ const ROW_DIRECTION_OPTIONS = [
 export const RowEdit = (props) => {
 	const { attributes, className, setAttributes, clientId } = props;
 
+	if (attributes._isExample) {
+		return (
+			<div>
+				<InnerBlocks />
+			</div>
+		);
+	}
+
 	const {
 		defaultColWidth = {},
 		alignment = {},
