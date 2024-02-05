@@ -29,7 +29,7 @@ const category = "gutestrap-grid";
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType(ContainerBlock.name, { category, ...ContainerBlock.settings });
+registerBlockType(ContainerBlock.name, ContainerBlock);
 registerBlockType(RowBlock.name, { category, ...RowBlock.settings });
 registerBlockType(RowBreakBlock.name, { category, ...RowBreakBlock.settings });
 registerBlockType(ColumnBlock.name, ColumnBlock);

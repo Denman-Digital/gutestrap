@@ -84,6 +84,13 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 						onChange={(value) => setAttributes({ breakpoint: value })}
 					/>
 				</PanelBody>
+				<PanelBackgroundImage
+					value={background}
+					onChange={(value) => {
+						setAttributes({ background: value });
+					}}
+					initialOpen={!!background?.image}
+				/>
 				<PanelBody title={__("Container Inset", "gutestrap")} initialOpen={false}>
 					<p>
 						By default, containers apply a horizontal inset to their contents equal to half of the gutter between row
@@ -117,13 +124,6 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 						}}
 					/>
 				</PanelBody>
-				<PanelBackgroundImage
-					value={background}
-					onChange={(value) => {
-						setAttributes({ background: value });
-					}}
-					initialOpen={!!background?.image}
-				/>
 			</InspectorControls>
 			<InspectorAdvancedControls>
 				<ToggleControl

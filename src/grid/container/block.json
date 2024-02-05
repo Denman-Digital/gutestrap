@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gutestrap/container",
+	"title": "Container",
+	"category": "gutestrap-grid",
+	"icon": "columns",
+	"description": "Containers are used to contain, pad, and (sometimes) align the content within them.",
+	"keywords": ["layout", "container", "responsive", "content"],
+	"version": "1.7",
+	"textdomain": "gutestrap",
+	"attributes": {
+		"fluid": { "type": "boolean" },
+		"breakpoint": { "type": "string" },
+		"disabled": { "type": "boolean" },
+		"insetVertical": { "type": "boolean" },
+		"insetExpand": { "type": "boolean" },
+		"insetConditional": { "type": "boolean" },
+		"background": { "type": "object" },
+		"_isExample": { "type": "boolean" }
+	},
+	"supports": {
+		"anchor": true,
+		"alignWide": false,
+		"color": {
+			"gradients": true,
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": ["top", "bottom"],
+			"margin": ["top", "bottom"]
+		},
+		"dimensions": {
+			"minHeight": true
+		},
+		"defaultStylePicker": false,
+		"renaming": false
+	},
+	"selectors": {},
+	"styles": [],
+	"example": {
+		"attributes": {
+			"_isExample": true
+		},
+		"innerBlocks": [
+			{
+				"name": "core/image",
+				"attributes": {
+					"sizeSlug": "large",
+					"url": "https://raw.githubusercontent.com/Denman-Digital/gutestrap/main/assets/block-preview-container.png"
+				}
+			}
+		]
+	},
+	"editorStyle": "gutestrap-block-editor-css",
+	"editorScript": "gutestrap-block-js",
+	"variations": []
+}
