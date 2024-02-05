@@ -3,7 +3,8 @@ import { ColumnRender as save, deprecated } from "./render";
 import icon from "./icon.svg";
 import metadata from "./block.json";
 
-const { name } = metadata;
+// eslint-disable-next-line no-unused-vars
+const { name, icon: _icon, ...meta } = metadata;
 
-export { name, icon, edit, save, deprecated };
-export default { name, icon, edit, save, deprecated };
+export { name, edit, save, deprecated, icon };
+export default { name, edit, save, deprecated, icon, ...meta };

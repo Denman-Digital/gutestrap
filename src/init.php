@@ -177,8 +177,8 @@ function gutestrap_block_categories(array $categories): array
 	return array_merge(
 		[
 			[
-				"slug" => "bootstrap-grid",
-				"title" => __("Bootstrap Grid", "gutestrap"),
+				"slug" => "gutestrap-grid",
+				"title" => __("GuteStrap Grid", "gutestrap"),
 			],
 		],
 		$categories,

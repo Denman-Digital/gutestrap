@@ -14,7 +14,7 @@ import RowBlock, { RowBreakBlock } from "./row";
 import ColumnBlock from "./column";
 
 /** Block category. */
-const category = "bootstrap-grid";
+const category = "gutestrap-grid";
 
 /**
  * Register: a Gutenberg Block.
@@ -32,7 +32,6 @@ const category = "bootstrap-grid";
 registerBlockType(ContainerBlock.name, { category, ...ContainerBlock.settings });
 registerBlockType(RowBlock.name, { category, ...RowBlock.settings });
 registerBlockType(RowBreakBlock.name, { category, ...RowBreakBlock.settings });
-// registerBlockType(ColumnBlock.name, { category, ...ColumnBlock.settings });
 registerBlockType(ColumnBlock.name, ColumnBlock);
 
 wp.hooks.addFilter(

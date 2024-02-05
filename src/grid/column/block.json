@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "gutestrap/col",
 	"title": "Row Column",
-	"category": "bootstrap-grid",
+	"category": "gutestrap-grid",
 	"parent": ["gutestrap/row"],
 	"icon": "columns",
 	"description": "Row columns are the building blocks of responsive layouts.",
@@ -41,7 +41,8 @@
 		"defaultStylePicker": false,
 		"position": {
 			"sticky": true
-		}
+		},
+		"renaming": false
 	},
 	"selectors": {},
 	"styles": [],
