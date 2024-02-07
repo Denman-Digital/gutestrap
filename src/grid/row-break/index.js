@@ -40,7 +40,11 @@ const edit = (props) => {
 
 	return (
 		<div aria-hidden="true" {...blockProps}>
-			<BreakIcon width="24" height="24" className="bi bi-row-break-icon" />
+			<div className="row-break-icon-before" />
+			<div className="row-break-icon">
+				<BreakIcon width="24" height="24" className="bi bi-row-break-icon" />
+			</div>
+			<div className="row-break-icon-after" />
 		</div>
 	);
 };

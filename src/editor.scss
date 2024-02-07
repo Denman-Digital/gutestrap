@@ -318,7 +318,6 @@ $container-classes: (".container-fluid");
 			color: gray;
 			padding: 0 0.25rem;
 		}
-
 	}
 
 	&-container,
@@ -337,7 +336,6 @@ $container-classes: (".container-fluid");
 			color: white;
 			max-width: max-content;
 		}
-
 
 		&.has-min-height {
 			display: grid;
@@ -462,22 +460,31 @@ $container-classes: (".container-fluid");
 
 	&-row-break {
 		font-size: 1.5rem;
-		color: grey;
+		color: currentColor;
+		opacity: 0.75;
 		display: flex;
 		align-items: center;
+		margin: 0.25em 0;
 
-		&::before,
-		&::after {
-			content: "";
+		.row-break-icon {
+			margin: 0 0.25em;
+			padding: 0.25em;
+			border-radius: 50%;
+			background-color: currentColor;
 			display: block;
-			border: 0;
-			border-top: 1px solid #ddd;
-			border-bottom: 1px solid #fafafa;
-			flex: 1 1 0;
+
+			&-before,
+			&-after {
+				opacity: inherit;
+				border: 0;
+				border-top: 2px solid currentColor;
+				flex: 1 1 0;
+			}
 		}
 
 		svg {
-			margin: 0 0.25em;
+			fill: currentColor;
+			filter: invert(1) saturate(0) contrast(999);
 			display: block;
 		}
 	}
