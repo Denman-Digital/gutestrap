@@ -1,18 +1,23 @@
 import classNames from "classnames";
 
 import { __ } from "@wordpress/i18n";
-import { TabPanel } from "@wordpress/components";
-import { useEffect } from "@wordpress/element";
+// import { InspectorControls, BlockControls } from "@wordpress/block-editor";
+import {
+	TabPanel,
+	// ToolbarGroup, ToolbarButton
+} from "@wordpress/components";
+// import { Fragment, useState, useEffect, useContext, createContext } from "@wordpress/element";
 
-import { useExternalContext } from "../hooks";
+// import { useExternalContext } from "../hooks";
+import { BOOTSTRAP_ICON_CLASSES } from "../../_common";
 
-import PhonePortraitIcon from "bootstrap-icons/icons/phone.svg";
-import PhoneLandscapeIcon from "bootstrap-icons/icons/phone-landscape.svg";
-import TabletPortraitIcon from "bootstrap-icons/icons/tablet.svg";
-import TabletLandscapeIcon from "bootstrap-icons/icons/tablet-landscape.svg";
-import LaptopIcon from "bootstrap-icons/icons/laptop.svg";
-import DesktopSmallIcon from "bootstrap-icons/icons/display.svg";
-import DesktopLargeIcon from "bootstrap-icons/icons/tv.svg";
+import PhonePortraitIcon from "./device-phone.svg";
+import PhoneLandscapeIcon from "./device-phone-landscape.svg";
+import TabletPortraitIcon from "./device-tablet.svg";
+import TabletLandscapeIcon from "./device-tablet-landscape.svg";
+import TabletHybridIcon from "./device-tablet-hybrid.svg";
+import LaptopIcon from "./device-laptop.svg";
+import DesktopIcon from "./device-display.svg";
 
 const breakpoints = ["xs", "sm", "md", "lg", "xl", "xxl", "xxxl"];
 
@@ -27,9 +32,9 @@ export const getBreakpointLabel = (bp) => {
 		case "lg":
 			return __("Tablet landscape", "gutestrap");
 		case "xl":
-			return __("Laptop", "gutestrap");
+			return __("Hybrid tablet", "gutestrap");
 		case "xxl":
-			return __("Compact desktop", "gutestrap");
+			return __("Laptop", "gutestrap");
 		case "xxxl":
 			return __("Desktop", "gutestrap");
 	}
@@ -46,50 +51,96 @@ export const getBreakpointIcon = (bp, classes) => {
 		case "lg":
 			return <TabletLandscapeIcon className={classes} />;
 		case "xl":
-			return <LaptopIcon className={classes} />;
+			return <TabletHybridIcon className={classes} />;
 		case "xxl":
-			return <DesktopSmallIcon className={classes} />;
+			return <LaptopIcon className={classes} />;
 		case "xxxl":
-			return <DesktopLargeIcon className={classes} />;
+			return <DesktopIcon className={classes} />;
 	}
 };
 
-export const ResponsiveTabs = ({
+// export const LinkedBreakpointContext = createContext("md");
+
+export let commonBreakpoint = "md";
+
+export const BLOCK_CONTROL_BREAKPOINTS = {
+	xs: {
+		name: "xs",
+		icon: <PhonePortraitIcon className={BOOTSTRAP_ICON_CLASSES} />,
+		title: __("All devices", "gutestrap"),
+	},
+	sm: {
+		name: "sm",
+		icon: <PhoneLandscapeIcon className={BOOTSTRAP_ICON_CLASSES} />,
+		title: __("Landscape phones and larger", "gutestrap"),
+	},
+	md: {
+		name: "md",
+		icon: <TabletPortraitIcon className={BOOTSTRAP_ICON_CLASSES} />,
+		title: __("Tablets and larger", "gutestrap"),
+	},
+	lg: {
+		name: "lg",
+		icon: <TabletLandscapeIcon className={BOOTSTRAP_ICON_CLASSES} />,
+		title: __("Landscape tablets and larger", "gutestrap"),
+	},
+	xl: {
+		name: "xl",
+		icon: <TabletHybridIcon className={BOOTSTRAP_ICON_CLASSES} />,
+		title: __("Hybrid tablets and larger", "gutestrap"),
+	},
+	xxl: {
+		name: "xxl",
+		icon: <LaptopIcon className={BOOTSTRAP_ICON_CLASSES} />,
+		title: __("Laptops and larger", "gutestrap"),
+	},
+	xxxl: {
+		name: "xxxl",
+		icon: <DesktopIcon className={BOOTSTRAP_ICON_CLASSES} />,
+		title: __("Desktops and larger", "gutestrap"),
+	},
+};
+
+export const BreakpointTabs = ({
 	children,
 	className,
-	initialBreakpoint = "md",
-	onBreakpointChange = () => {},
+	// initialBreakpoint = commonBreakpoint,
+	// onBreakpointChange = () => {},
 	hasNotification = () => false,
 }) => {
+	// const linkedBreakpoint = useContext(LinkedBreakpointContext);
+
 	let haveNotifications = breakpoints.filter(hasNotification);
 	haveNotifications =
-		Array.isArray(haveNotifications) && haveNotifications.filter((value) => breakpoints.includes(value));
+		Array.isArray(haveNotifications) &&
+		haveNotifications.filter((currentBreakpoint) => breakpoints.includes(currentBreakpoint));
 	if (haveNotifications.length === 0) {
 		haveNotifications = false;
 	}
 
 	const iconAttributes = {
 		viewBox: "0 0 16 16",
-		width: null,
-		height: null,
-		style: { width: "1.5em", height: "1.5em" },
+		width: "1.5em",
+		height: "1.5em",
+		// style: { width: "1.5em", height: "1.5em" },
 	};
 
-	const [currentBreakpoint, updateCurrentBreakpoint] = useExternalContext(
-		"gutestrap/responsiveBreakpoint",
-		initialBreakpoint
-	);
+	// const [currentBreakpoint, updateCurrentBreakpoint] = useExternalContext(
+	// 	"gutestrap/responsiveBreakpoint",
+	// 	initialBreakpoint
+	// );
 
-	useEffect(() => {
-		onBreakpointChange(currentBreakpoint);
-	}, [currentBreakpoint]);
+	// useEffect(() => {
+	// 	onBreakpointChange(currentBreakpoint);
+	// }, [currentBreakpoint]);
 
 	return (
 		<TabPanel
 			className={classNames("gutestrap-responsive-tabs", className)}
-			initialTabName={currentBreakpoint}
+			initialTabName={commonBreakpoint}
 			// initialTabName={initialBreakpoint}
-			onSelect={(x) => updateCurrentBreakpoint(x)}
+			// onSelect={(x) => updateCurrentBreakpoint(x)}
+			onSelect={(x) => (commonBreakpoint = x)}
 			tabs={[
 				{
 					name: "xs",
@@ -151,43 +202,43 @@ export const ResponsiveTabs = ({
 				{
 					name: "xl",
 					title: (
-						<span title={__("Laptop", "gutestrap")}>
-							<LaptopIcon {...iconAttributes} />
+						<span title={__("Hybrid tablet", "gutestrap")}>
+							<TabletHybridIcon {...iconAttributes} />
 						</span>
 					),
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xl"),
 					}),
-					label: __("Laptop", "gutestrap"),
-					description: __("Settings for laptops and larger devices. 1200px wide and up.", "gutestrap"),
+					label: __("Hybrid tablet", "gutestrap"),
+					description: __("Settings for hybrid tablets and larger devices. 1200px wide and up.", "gutestrap"),
 					breakpoint: "xl",
 				},
 				{
 					name: "xxl",
 					title: (
-						<span title={__("Compact desktop", "gutestrap")}>
-							<DesktopSmallIcon {...iconAttributes} />
+						<span title={__("Laptop", "gutestrap")}>
+							<LaptopIcon {...iconAttributes} />
 						</span>
 					),
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xxl"),
 					}),
-					label: __("Compact desktop", "gutestrap"),
-					description: __("Settings for compact desktop devices and larger. 1440px wide and up.", "gutestrap"),
+					label: __("Laptop", "gutestrap"),
+					description: __("Settings for laptops and larger devices. 1440px wide and up.", "gutestrap"),
 					breakpoint: "xxl",
 				},
 				{
 					name: "xxxl",
 					title: (
 						<span title={__("Desktop", "gutestrap")}>
-							<DesktopLargeIcon {...iconAttributes} />
+							<DesktopIcon {...iconAttributes} />
 						</span>
 					),
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xxxl"),
 					}),
 					label: __("Desktop", "gutestrap"),
-					description: __("Settings for large desktop devices and larger. 1680px wide and up.", "gutestrap"),
+					description: __("Settings for desktop devices and larger. 1680px wide and up.", "gutestrap"),
 					breakpoint: "xxxl",
 				},
 			]}
@@ -196,3 +247,75 @@ export const ResponsiveTabs = ({
 		</TabPanel>
 	);
 };
+
+// export const BreakpointBlockControls = ({
+// 	children,
+// 	className,
+// 	// initialBreakpoint = "md",
+// 	onBreakpointChange = () => {},
+// 	// currentBreakpoint,
+// 	// onChange,
+// 	isCollapsed = true,
+// }) => {
+// 	const [_refresh, _setRefresh] = useState(0);
+// 	const refresh = () => _setRefresh(_refresh + 1);
+
+// 	// function applyOrUnset(align) {
+// 	// 	return () => onChange(value === align ? undefined : align);
+// 	// }
+
+// 	// const [currentBreakpoint, updateCurrentBreakpoint] = useExternalContext(
+// 	// 	"gutestrap/responsiveBreakpoint",
+// 	// 	initialBreakpoint
+// 	// );
+
+// 	// useEffect(() => {
+// 	// 	console.log("current bp useEffect");
+// 	// 	onBreakpointChange(currentBreakpoint);
+// 	// }, [currentBreakpoint]);
+
+// 	// console.log(currentBreakpoint, value);
+
+// 	// const activeAlignment = BLOCK_CONTROL_BREAKPOINTS[currentBreakpoint];
+// 	const activeBreakpoint = BLOCK_CONTROL_BREAKPOINTS[commonBreakpoint];
+// 	return (
+// 		<Fragment>
+// 			{children}
+// 			<ToolbarGroup
+// 				className={classNames(className, "gutestrap-breakpoint-block-controls")}
+// 				// popoverProps={{
+// 				// 	isAlternate: true,
+
+// 				// }}
+// 				isCollapsed={isCollapsed}
+// 				icon={activeBreakpoint.icon}
+// 				label={__("Switch breakpoint settings", "gutestrap")}
+// 				controls={breakpoints.map((bp) => {
+// 					const { icon, title } = BLOCK_CONTROL_BREAKPOINTS[bp];
+// 					return {
+// 						icon,
+// 						title,
+// 						// isActive: currentBreakpoint === bp,
+// 						isActive: commonBreakpoint === bp,
+// 						role: isCollapsed ? "menuitemradio" : undefined,
+// 						onClick: () => {
+// 							if (breakpoints.includes(bp)) {
+// 								commonBreakpoint = bp;
+// 								onBreakpointChange(commonBreakpoint);
+// 							}
+// 							refresh();
+// 						},
+// 					};
+// 				})}
+// 			/>
+// 			{/* <ToolbarGroup>
+// 				<ToolbarButton
+// 					showTooltip={true}
+// 					// label={sprintf(__("Editing %s layout", "gutestrap"), getBreakpointLabel(currentBreakpoint))}
+// 					isPressed={false}
+// 					// icon={() => getBreakpointIcon(currentBreakpoint, BOOTSTRAP_ICON_CLASSES)}
+// 				/>
+// 			</ToolbarGroup> */}
+// 		</Fragment>
+// 	);
+// };

@@ -10,11 +10,17 @@ export const useStateProp = (stateProp, checkShouldUpdate = (newStateProp, state
 
 const externalContexts = new Map();
 export const useExternalContext = (contextId, initialValue) => {
-	const [context, setContext] = useState(
-		externalContexts.has(contextId) ? externalContexts.get(contextId) : initialValue
-	);
+	// const [context, setContext] = useState(
+	// 	externalContexts.has(contextId) ? externalContexts.get(contextId) : initialValue
+	// );
+
+	const context = externalContexts.has(contextId) ? externalContexts.get(contextId) : initialValue;
+	const setContext = (value) => externalContexts.set(contextId, value);
+
 	useEffect(() => {
+		console.log("Updating context", { id: contextId, context, curr: externalContexts.get(contextId) });
 		externalContexts.set(contextId, context);
+		console.log("Updated context", { id: contextId, context: externalContexts.get(contextId) });
 	}, [context]);
 	return [context, setContext];
 };

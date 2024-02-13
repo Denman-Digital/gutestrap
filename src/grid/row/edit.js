@@ -5,14 +5,18 @@ import {
 	InspectorControls,
 	InspectorAdvancedControls,
 	InnerBlocks,
-	BlockControls,
+	// BlockControls,
 	useBlockProps,
 } from "@wordpress/block-editor";
 import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
-import { ResponsiveTabs } from "../../components/responsive-tabs";
-import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from "../../components/alignment";
+import {
+	BreakpointTabs,
+	// BreakpointBlockControls,
+	// LinkedBreakpointContext
+} from "../../components/responsive-tabs";
+// import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from "../../components/alignment";
 // import { toNumber } from "../../_common";
 
 import { rowClassNames, stripRowClassNames } from "./render";
@@ -49,7 +53,7 @@ const DEFAULT_ATTRIBUTES = {
 	},
 };
 
-const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
+// const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
 
 // const generateRowColumnsOptions = (gridRowCols = 6) => {
 // 	const opts = [];
@@ -205,6 +209,8 @@ export const RowEdit = (props) => {
 		}),
 	});
 
+	// const [bp, setBP] = useState("md");
+
 	return (
 		<Fragment>
 			<div {...blockProps}>
@@ -221,9 +227,9 @@ export const RowEdit = (props) => {
 					}}
 				/>
 			</div>
-
-			<BlockControls>
-				<BlockContentJustificationToolbar
+			{/* <LinkedBreakpointContext.Provider value={}> */}
+			{/* <BlockControls> */}
+			{/* <BlockContentJustificationToolbar
 					label={ROW_CHILDREN_LABEL}
 					value={justification.xs}
 					onChange={(value) => {
@@ -239,10 +245,66 @@ export const RowEdit = (props) => {
 						alignment.xs = value;
 						setAttributes({ alignment: { ...alignment } });
 					}}
-				/>
-			</BlockControls>
+				/> */}
+			{/* <BreakpointBlockControls initialBreakpoint=""/> */}
+			{/* <BreakpointBlockControls> */}
+			{/* {(tab) => {
+						const { label, breakpoint } = tab;
+						const canInherit = breakpoint !== "xs";
+						return (
+							<Fragment>
+								<SelectControl
+									label={__("Distribute columns", "gutestrap")}
+									options={canInherit ? ROW_JUSTIFICATION_OPTIONS : ROW_JUSTIFICATION_OPTIONS_XS}
+									value={
+										justification[breakpoint] != null
+											? justification[breakpoint]
+											: DEFAULT_ATTRIBUTES.justification[breakpoint]
+									}
+									onChange={(value) => {
+										justification[breakpoint] = value;
+										setAttributes({ justification: { ...justification } });
+									}}
+								/>
+								<SelectControl
+									label={__("Align columns", "gutestrap")}
+									options={canInherit ? ROW_ALIGNMENT_OPTIONS : ROW_ALIGNMENT_OPTIONS_XS}
+									value={
+										alignment[breakpoint] != null ? alignment[breakpoint] : DEFAULT_ATTRIBUTES.alignment[breakpoint]
+									}
+									onChange={(value) => {
+										alignment[breakpoint] = value;
+										setAttributes({ alignment: { ...alignment } });
+									}}
+								/>
+								<SelectControl
+									label={__("Row direction", "gutestrap")}
+									options={
+										canInherit
+											? ROW_DIRECTION_OPTIONS
+											: [
+													{
+														label: __("Normal (Default)", "gutestrap"),
+														value: "row",
+													},
+													ROW_DIRECTION_OPTIONS[2],
+											  ]
+									}
+									value={
+										direction[breakpoint] != null ? direction[breakpoint] : DEFAULT_ATTRIBUTES.direction[breakpoint]
+									}
+									onChange={(value) => {
+										direction[breakpoint] = value;
+										setAttributes({ direction: { ...direction } });
+									}}
+								/>
+							</Fragment>
+						);
+					}} */}
+			{/* </BreakpointBlockControls> */}
+			{/* </BlockControls> */}
 			<InspectorControls>
-				<ResponsiveTabs
+				<BreakpointTabs
 					hasNotification={(bp) => {
 						if (bp === "xs") return false;
 						return (
@@ -259,19 +321,6 @@ export const RowEdit = (props) => {
 						return (
 							<PanelBody>
 								<p>{`${label} layout`}</p>
-								{/* <SelectControl
-									label={__("Default column width", "gutestrap")}
-									options={[canInherit ? INHERIT_OPTION : COLS_AUTO_OPTION, ...ROW_COLS_OPTIONS]}
-									value={
-										defaultColWidth[breakpoint] != null
-											? defaultColWidth[breakpoint]
-											: DEFAULT_ATTRIBUTES.defaultColWidth[breakpoint]
-									}
-									onChange={(value) => {
-										defaultColWidth[breakpoint] = toNumber(value);
-										setAttributes({ defaultColWidth: { ...defaultColWidth } });
-									}}
-								/> */}
 								<SelectControl
 									label={__("Distribute columns", "gutestrap")}
 									options={canInherit ? ROW_JUSTIFICATION_OPTIONS : ROW_JUSTIFICATION_OPTIONS_XS}
@@ -320,7 +369,7 @@ export const RowEdit = (props) => {
 							</PanelBody>
 						);
 					}}
-				</ResponsiveTabs>
+				</BreakpointTabs>
 				<PanelBody title={__("Gutters", "gutestrap")} initialOpen={false}>
 					<ToggleControl
 						checked={!noGutters}
@@ -338,7 +387,7 @@ export const RowEdit = (props) => {
 					/>
 				</PanelBody>
 			</InspectorControls>
-
+			{/* </LinkedBreakpointContext.Provider> */}
 			<InspectorAdvancedControls>
 				<ToggleControl
 					label={__("Disable block", "gutestrap")}

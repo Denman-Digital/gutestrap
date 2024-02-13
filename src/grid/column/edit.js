@@ -1,29 +1,43 @@
 import classNames from "classnames";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
-import { Fragment, useState } from "@wordpress/element";
-import { SelectControl, PanelBody, ToolbarButton, ToolbarGroup } from "@wordpress/components";
+import {
+	Fragment,
+	// useState
+} from "@wordpress/element";
+import {
+	SelectControl,
+	PanelBody,
+	// ToolbarButton, ToolbarGroup
+} from "@wordpress/components";
 import {
 	InspectorControls,
 	InnerBlocks,
-	BlockControls,
+	// BlockControls,
 	getColorClassName,
 	useBlockProps,
 	__experimentalGetGradientClass as getGradientClass,
-	__experimentalBlockAlignmentMatrixControl as BlockAlignmentMatrixControl,
+	// __experimentalBlockAlignmentMatrixControl as BlockAlignmentMatrixControl,
 } from "@wordpress/block-editor";
 
 import { createHigherOrderComponent } from "@wordpress/compose";
 
-import { toNumber, BOOTSTRAP_ICON_CLASSES } from "../../_common";
+import {
+	toNumber,
+	// BOOTSTRAP_ICON_CLASSES
+} from "../../_common";
 
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
-import { BlockFlexItemAlignmentToolbar } from "../../components/alignment";
-import { ResponsiveTabs, getBreakpointIcon, getBreakpointLabel } from "../../components/responsive-tabs";
+// import { BlockFlexItemAlignmentToolbar } from "../../components/alignment";
+import {
+	BreakpointTabs,
+	// getBreakpointIcon,
+	// getBreakpointLabel
+} from "../../components/responsive-tabs";
 import { columnClassNames, columnInnerClassNames, stripColClassNames } from "./render";
 
-import ExpandIcon from "./expand-contents.svg";
+// import ExpandIcon from "./expand-contents.svg";
 
 const { config } = gutestrapGlobal;
 
@@ -213,7 +227,7 @@ function ColumnEdit(props) {
 		backgroundImageCSS = customGradient;
 	}
 
-	const [currentBreakpoint, setCurrentBreakpoint] = useState("md");
+	// const [currentBreakpoint, setCurrentBreakpoint] = useState("md");
 	return (
 		<Fragment>
 			<div {...blockProps}>
@@ -253,8 +267,8 @@ function ColumnEdit(props) {
 				</div>
 			</div>
 			<InspectorControls>
-				<ResponsiveTabs
-					onBreakpointChange={setCurrentBreakpoint}
+				<BreakpointTabs
+					// onBreakpointChange={setCurrentBreakpoint}
 					hasNotification={(bp) => {
 						if (bp === "xs") return false;
 						return (
@@ -345,7 +359,7 @@ function ColumnEdit(props) {
 							</PanelBody>
 						);
 					}}
-				</ResponsiveTabs>
+				</BreakpointTabs>
 				<PanelBackgroundImage
 					value={background}
 					onChange={(value) => {
@@ -354,8 +368,8 @@ function ColumnEdit(props) {
 					initialOpen={!!background.image}
 				/>
 			</InspectorControls>
-			<BlockControls>
-				<BlockFlexItemAlignmentToolbar
+			{/* <BlockControls> */}
+			{/* <BlockFlexItemAlignmentToolbar
 					label={__("column", "gutestrap")}
 					value={alignment.xs}
 					onChange={(value) => {
@@ -387,8 +401,8 @@ function ColumnEdit(props) {
 						// contentAlignment.xs = value;
 						setAttributes({ contentAlignment: { ...contentAlignment, xs: value } });
 					}}
-				/>
-				{/* <ToolbarGroup>
+				/> */}
+			{/* <ToolbarGroup>
 					<ToolbarButton
 						showTooltip={true}
 						label={sprintf(__("Editing %s layout", "gutestrap"), getBreakpointLabel(currentBreakpoint))}
@@ -396,7 +410,7 @@ function ColumnEdit(props) {
 						icon={() => getBreakpointIcon(currentBreakpoint, BOOTSTRAP_ICON_CLASSES)}
 					/>
 				</ToolbarGroup> */}
-			</BlockControls>
+			{/* </BlockControls> */}
 		</Fragment>
 	);
 }
