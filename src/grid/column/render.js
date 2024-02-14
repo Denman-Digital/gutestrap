@@ -233,7 +233,7 @@ function migrateColumnAttributes(attributes, innerBlocks) {
 		attrs.style.color.gradient = customGradient;
 	}
 
-	console.log("Gutestrap Column migration:", { old: attributes, new: attrs });
+	console.log("GuteStrap Column migration:", { old: attributes, new: attrs });
 	return [attrs, innerBlocks];
 }
 

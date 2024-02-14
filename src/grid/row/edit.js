@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { __, _x } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import {
 	InspectorControls,
@@ -83,37 +83,33 @@ const ROW_JUSTIFICATION_OPTIONS = [
 		value: "inherit",
 	},
 	{
-		label: _x("Pack columns to the left", "Row columns justification setting", "gutestrap"),
+		label: __("Pack columns to the left", "gutestrap"),
 		value: "start",
 	},
 	{
-		label: _x("Pack columns in the centre", "Row columns justification setting", "gutestrap"),
+		label: __("Pack columns in the center", "gutestrap"),
 		value: "center",
 	},
 	{
-		label: _x("Pack columns to the right", "Row columns justification setting", "gutestrap"),
+		label: __("Pack columns to the right", "gutestrap"),
 		value: "end",
 	},
 	{
-		label: _x("Distribute columns horizontally", "Row columns justification setting", "gutestrap"),
+		label: __("Distribute columns horizontally", "gutestrap"),
 		value: "between",
 	},
 	{
-		label: _x("Distribute columns with equal spacing on each end", "Row columns justification setting", "gutestrap"),
+		label: __("Distribute columns with equal spacing on each end", "gutestrap"),
 		value: "evenly",
 	},
 	{
-		label: _x(
-			"Distribute columns with half-size spacing on each end",
-			"Row columns justification setting",
-			"gutestrap"
-		),
+		label: __("Distribute columns with half-size spacing on each end", "gutestrap"),
 		value: "around",
 	},
 ];
 const ROW_JUSTIFICATION_OPTIONS_XS = [
 	{
-		label: _x("Pack columns to the left (default)", "Row columns justification setting", "gutestrap"),
+		label: __("Pack columns to the left (default)", "gutestrap"),
 		value: "start",
 	},
 	...ROW_JUSTIFICATION_OPTIONS.slice(2),

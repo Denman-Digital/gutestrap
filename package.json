@@ -1,6 +1,6 @@
 {
 	"name": "gutestrap",
-	"displayName": "Gutestrap",
+	"displayName": "GuteStrap",
 	"version": "2.1.8",
 	"private": true,
 	"author": "Denman Digital",
@@ -132,6 +132,8 @@
 		"build": "cross-env NODE_ENV=production gulp build --color",
 		"build:dist": "cross-env NODE_ENV=production gulp build --color && composer install --no-dev",
 		"build:styles": "cross-env NODE_ENV=production gulp styles --color",
-		"build:scripts": "cross-env NODE_ENV=production gulp scripts --color"
+		"build:scripts": "cross-env NODE_ENV=production gulp scripts --color",
+		"translate": "composer run make-pot",
+		"rtl": "rtlcss dist/blocks.style.build.css assets/blocks.style-rtl.build.css && rtlcss dist/blocks.compat.build.css assets/blocks.compat-rtl.build.css && rtlcss dist/blocks.editor.build.css assets/blocks.editor-rtl.build.css"
 	}
 }

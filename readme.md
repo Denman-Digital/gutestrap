@@ -1,4 +1,4 @@
-# Gutestrap
+# GuteStrap
 
 Bootstrap layout blocks for Gutenberg
 
@@ -65,7 +65,7 @@ $grid-gutter-width: 1.875rem; // 30px
 
 ## Configuration
 
-### Enable/Disable Gutestrap Blocks for Post Types
+### Enable/Disable GuteStrap Blocks for Post Types
 
 ```php
 function my_project_enable_gutestrap(bool $current_status, string $post_type_name): bool 

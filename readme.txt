@@ -1,4 +1,4 @@
-=== Gutestrap ===
+=== GuteStrap ===
 Contributors: paulthewalton
 Tags: bootstrap,grid,gutenberg,responsive,block,column,row
 Requires at least: 6.0

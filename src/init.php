@@ -208,7 +208,7 @@ function gutestrap_compat_styles_logic()
 		(function() {
 			var gutestrapStyles = document.getElementById("gutestrap-style-css");
 			if (gutestrapStyles && !CSS.supports("(top:var(--x))")) {
-				console.warn("Gutestrap: custom properties not supported, compat stylesheet being added");
+				console.warn("GuteStrap: custom properties not supported, compat stylesheet being added");
 				gutestrapStyles.insertAdjacentHTML("afterEnd", '<?= $stylesheet_link_html; ?>');
 			}
 		})();

@@ -122,7 +122,7 @@ const COL_CONTENT_ALIGN_OPTIONS = [
 		value: "top left",
 	},
 	{
-		label: __("Top centre", "gutestrap"),
+		label: __("Top center", "gutestrap"),
 		value: "top center",
 	},
 	{
@@ -130,15 +130,15 @@ const COL_CONTENT_ALIGN_OPTIONS = [
 		value: "top right",
 	},
 	{
-		label: __("Centre left", "gutestrap"),
+		label: __("Center left", "gutestrap"),
 		value: "center left",
 	},
 	{
-		label: __("Centre", "gutestrap"),
+		label: __("Center", "gutestrap"),
 		value: "center center",
 	},
 	{
-		label: __("Centre right", "gutestrap"),
+		label: __("Center right", "gutestrap"),
 		value: "center right",
 	},
 	{
@@ -146,7 +146,7 @@ const COL_CONTENT_ALIGN_OPTIONS = [
 		value: "bottom left",
 	},
 	{
-		label: __("Bottom centre", "gutestrap"),
+		label: __("Bottom center", "gutestrap"),
 		value: "bottom center",
 	},
 	{

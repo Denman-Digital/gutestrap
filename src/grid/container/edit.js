@@ -61,7 +61,7 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 						value={breakpoint}
 						options={[
 							{
-								label: __("576px and up (landscape smartphone, default)", "gutestrap"),
+								label: __("576px and up (landscape mobile, default)", "gutestrap"),
 								value: "",
 							},
 							{
@@ -73,11 +73,11 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 								value: "lg",
 							},
 							{
-								label: __("1200px and up (laptop)", "gutestrap"),
+								label: __("1200px and up (hybrid tablet/compact laptop)", "gutestrap"),
 								value: "xl",
 							},
 							{
-								label: __("1440px and up (compact desktop)", "gutestrap"),
+								label: __("1440px and up (laptop)", "gutestrap"),
 								value: "xxl",
 							},
 							{
@@ -101,8 +101,10 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 				/>
 				<PanelBody title={__("Container Inset", "gutestrap")} initialOpen={false}>
 					<p>
-						By default, containers apply a horizontal inset to their contents equal to half of the gutter between row
-						columns.
+						{__(
+							"By default, containers apply a horizontal inset to their contents equal to half of the gutter between row columns.",
+							"gutestrap"
+						)}
 					</p>
 					<ToggleControl
 						label={__("Add vertical container inset", "gutestrap")}
@@ -123,7 +125,7 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 					<ToggleControl
 						label={__("Prevent nested inset", "gutestrap")}
 						help={__(
-							"Remove the container inset (horizantal & vertical) when this container is the child of another container.",
+							"Remove the container inset (horizontal & vertical) when this container is the child of another container.",
 							"gutestrap"
 						)}
 						checked={!!insetConditional}

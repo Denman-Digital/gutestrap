@@ -18,11 +18,13 @@ function generateOptions(gridCols, canInherit) {
 		offsets.push({
 			value: offset,
 			label: offset
-				? sprintf(_n("%d column", "%d columns", offset, "gutestrap"), offset)
+				? // translators: %d: number of columns
+				  sprintf(_n("%d column", "%d columns", offset, "gutestrap"), offset)
 				: __("No offset", "gutestrap"),
 		});
 		widths.push({
 			value: count,
+			// translators: %d: number of columns
 			label: sprintf(_n("%d column", "%d columns", count, "gutestrap"), count),
 		});
 	}

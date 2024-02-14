@@ -1,12 +1,10 @@
-const { __, sprintf } = wp.i18n;
+const { __, _x } = wp.i18n;
 const { SelectControl, ToggleControl, PanelBody } = wp.components;
 const { Fragment, useEffect } = wp.element;
 import { MediaSelectControl } from "./media-select-control";
 import { useStateProp } from "./hooks";
 
-const instructions = (attr) => (
-	<p>{sprintf(__("To edit the %s, you need permission to upload media.", "gutestrap"), attr)}</p>
-);
+const instructions = <p>{__("To edit the background image, you need permission to upload media.", "gutestrap")}</p>;
 
 const positionOptions = [
 	{
@@ -52,9 +50,9 @@ const positionOptions = [
 ];
 
 const sizeOptions = [
-	{ label: __("Cover (default)", "gutestrap"), value: "cover" },
+	{ label: _x("Cover (default)", "background image sizing", "gutestrap"), value: "cover" },
 	{ label: __("Contain", "gutestrap"), value: "contain" },
-	{ label: __("Auto", "gutestrap"), value: "auto" },
+	{ label: _x("Auto", "abbreviation: automatic", "gutestrap"), value: "auto" },
 	// { label: __("Custom", "gutestrap"), value: "custom" },
 ];
 
@@ -79,15 +77,20 @@ export const PanelBackgroundImage = ({ initialOpen = true, value = {}, onChange 
 				allowedTypes="image"
 				onSelect={setImage}
 				onRemove={() => setImage(null)}
-				fallback={instructions(__("background image", "gutestrap"))}
+				fallback={instructions}
 				editText={__("Replace", "gutestrap")}
 				removeText={__("Remove", "gutestrap")}
 			/>
 			{image && (
 				<Fragment>
-					<SelectControl label={__("Position")} options={positionOptions} value={position} onChange={setPosition} />
+					<SelectControl
+						label={__("Position", "gutestrap")}
+						options={positionOptions}
+						value={position}
+						onChange={setPosition}
+					/>
 					{/* TODO: CUSTOM POSITION */}
-					<SelectControl label={__("Size")} options={sizeOptions} value={size} onChange={setSize} />
+					<SelectControl label={__("Size", "gutestrap")} options={sizeOptions} value={size} onChange={setSize} />
 					{/* TODO: CUSOTM SIZING */}
 					<ToggleControl
 						checked={repeat}
