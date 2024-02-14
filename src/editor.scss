@@ -518,6 +518,22 @@ $container-classes: (".container-fluid");
 }
 
 #editor {
+	.row:not(.gutestrap-block-row) {
+		display: flex;
+		flex-wrap: wrap;
+		margin-right: calc(var(--gs-gutter) / -2);
+		margin-left: calc(var(--gs-gutter) / -2);
+
+		&.vertical-gutters {
+			margin-top: calc(var(--gs-gutter) * -0.5) !important;
+			margin-bottom: calc(var(--gs-gutter) * -0.5) !important;
+		}
+		&.no-gutters {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+		}
+	}
+
 	.wp-block-gutestrap-row {
 		> .block-editor-inner-blocks {
 			contain: layout;
