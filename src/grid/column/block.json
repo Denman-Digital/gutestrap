@@ -6,7 +6,7 @@
 	"category": "gutestrap-grid",
 	"parent": ["gutestrap/row"],
 	"icon": "columns",
-	"description": "Row columns are the building blocks of responsive layouts.",
+	"description": "GuteStrap Row Columns are the building blocks of responsive layouts.",
 	"keywords": ["layout", "column", "responsive"],
 	"version": "1.11",
 	"textdomain": "gutestrap",

@@ -301,7 +301,7 @@ function ColumnEdit(props) {
 
 						return (
 							<PanelBody>
-								<p>{`${label} layout`}</p>
+								<p>{label}</p>
 								<SelectControl
 									label={__("Width", "gutestrap")}
 									options={canInherit ? COL_WIDTH_OPTIONS : COL_WIDTH_OPTIONS.slice(1)}
@@ -329,7 +329,7 @@ function ColumnEdit(props) {
 									}}
 								/>
 								<SelectControl
-									label={__("Column alignment", "gutestrap")}
+									label={__("Vertical Alignment", "gutestrap")}
 									options={[
 										canInherit
 											? INHERIT_OPTION
@@ -343,7 +343,7 @@ function ColumnEdit(props) {
 									onChange={(value) => {
 										setAttributes({ alignment: { ...alignment, [breakpoint]: value } });
 									}}
-									help={__("Align the column within the row.", "gutestrap")}
+									help={__("Vertically align the column within the row.", "gutestrap")}
 								/>
 								<SelectControl
 									label={__("Content Alignment", "gutestrap")}
