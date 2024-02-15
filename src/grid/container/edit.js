@@ -5,7 +5,7 @@ import { InspectorControls, InspectorAdvancedControls, InnerBlocks, useBlockProp
 
 import { select } from "@wordpress/data";
 import { createHigherOrderComponent } from "@wordpress/compose";
-import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
+import { PanelBody, SelectControl, ToggleControl, BaseControl } from "@wordpress/components";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 
 const { config } = gutestrapGlobal;
@@ -73,7 +73,7 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 								value: "lg",
 							},
 							{
-								label: __("1200px and up (hybrid tablet/compact laptop)", "gutestrap"),
+								label: __("1200px and up (compact laptop)", "gutestrap"),
 								value: "xl",
 							},
 							{
@@ -99,13 +99,30 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 					}}
 					initialOpen={!!background?.image}
 				/>
-				<PanelBody title={__("Container Inset", "gutestrap")} initialOpen={false}>
-					<p>
-						{__(
-							"By default, containers apply a horizontal inset to their contents equal to half of the gutter between row columns.",
+			</InspectorControls>
+			<InspectorAdvancedControls>
+				<BaseControl label={__("Disable Block", "gutestrap")}>
+					<ToggleControl
+						label={__("Disable block", "gutestrap")}
+						help={__("Prevent this block and its contents from rendering.", "gutestrap")}
+						checked={disabled}
+						onChange={(checked) => {
+							setAttributes({ disabled: !!checked });
+						}}
+					/>
+				</BaseControl>
+				<BaseControl label={__("Container Inset", "gutestrap")}>
+					<ToggleControl
+						label={__("Prevent nested inset", "gutestrap")}
+						help={__(
+							"Remove the container inset (horizontal & vertical) when this container is the child of another container.",
 							"gutestrap"
 						)}
-					</p>
+						checked={!!insetConditional}
+						onChange={(checked) => {
+							setAttributes({ insetConditional: !!checked });
+						}}
+					/>
 					<ToggleControl
 						label={__("Add vertical container inset", "gutestrap")}
 						help={__("Inset container contents vertically as well as horizontally.", "gutestrap")}
@@ -122,28 +139,7 @@ function ContainerEdit({ attributes, className, setAttributes }) {
 							setAttributes({ insetExpand: !!checked });
 						}}
 					/>
-					<ToggleControl
-						label={__("Prevent nested inset", "gutestrap")}
-						help={__(
-							"Remove the container inset (horizontal & vertical) when this container is the child of another container.",
-							"gutestrap"
-						)}
-						checked={!!insetConditional}
-						onChange={(checked) => {
-							setAttributes({ insetConditional: !!checked });
-						}}
-					/>
-				</PanelBody>
-			</InspectorControls>
-			<InspectorAdvancedControls>
-				<ToggleControl
-					label={__("Disable block", "gutestrap")}
-					help={__("Prevent this block and its contents from rendering.", "gutestrap")}
-					checked={disabled}
-					onChange={(checked) => {
-						setAttributes({ disabled: !!checked });
-					}}
-				/>
+				</BaseControl>
 			</InspectorAdvancedControls>
 		</Fragment>
 	);

@@ -5,7 +5,7 @@
 	"title": "Container",
 	"category": "gutestrap-grid",
 	"icon": "columns",
-	"description": "Containers are used to contain, pad, and (sometimes) align the content within them.",
+	"description": "GuteStrap Containers are used to contain and pad the content within them.",
 	"keywords": ["layout", "container", "responsive", "content"],
 	"version": "1.7",
 	"textdomain": "gutestrap",
