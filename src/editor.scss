@@ -7,6 +7,7 @@
 @use "sass:list";
 @use "sass:math";
 @use "sass:map";
+@use "sass:color";
 @use "func";
 @use "common" as *;
 
@@ -307,7 +308,7 @@ $container-classes: (".container-fluid");
 .gutestrap-block {
 	&-container,
 	&-row {
-		outline: 1px dashed gray;
+		outline: 1px dashed lightgray;
 		outline-offset: -1px;
 
 		&::before {
@@ -315,9 +316,19 @@ $container-classes: (".container-fluid");
 			display: block;
 			font-size: 0.75rem;
 			font-family: sans-serif;
-			color: gray;
+			// color: gray;
 			padding: 0 0.25rem;
+			// background-color: color.adjust(#d3d3d3, $lightness: 10%);
+			background-color: #ededed;
+			color: #575757;
+			max-width: max-content;
+
 		}
+	}
+
+	&-container {
+		// outline-style: solid;
+		// outline-color: lightgrey;
 	}
 
 	&-container,
@@ -332,9 +343,9 @@ $container-classes: (".container-fluid");
 		min-height: 1.25rem;
 
 		&.has-background::before {
-			background-color: grey;
-			color: white;
-			max-width: max-content;
+			// background-color: grey;
+			// color: white;
+			// max-width: max-content;
 		}
 
 		&.has-min-height {
