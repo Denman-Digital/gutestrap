@@ -316,7 +316,7 @@ export const RowEdit = (props) => {
 						const canInherit = breakpoint !== "xs";
 						return (
 							<PanelBody>
-								<p>{`${label} layout`}</p>
+								<p>{label}</p>
 								<SelectControl
 									label={__("Distribute columns", "gutestrap")}
 									options={canInherit ? ROW_JUSTIFICATION_OPTIONS : ROW_JUSTIFICATION_OPTIONS_XS}

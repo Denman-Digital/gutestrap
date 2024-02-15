@@ -5,7 +5,7 @@
 	"title": "Row",
 	"category": "gutestrap-grid",
 	"icon": "columns",
-	"description": "Use rows to create responsive & mobile-first multi-column layouts.",
+	"description": "GuteStrap Rows are used to create responsive & mobile-first multi-column layouts.",
 	"keywords": ["layout", "column", "responsive"],
 	"version": "1.7",
 	"textdomain": "gutestrap",
