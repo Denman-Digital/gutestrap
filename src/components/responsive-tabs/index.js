@@ -15,7 +15,8 @@ import PhonePortraitIcon from "./device-phone.svg";
 import PhoneLandscapeIcon from "./device-phone-landscape.svg";
 import TabletPortraitIcon from "./device-tablet.svg";
 import TabletLandscapeIcon from "./device-tablet-landscape.svg";
-import TabletHybridIcon from "./device-tablet-hybrid.svg";
+// import TabletHybridIcon from "./device-tablet-hybrid.svg";
+import CompactLaptopIcon from "./device-compact-laptop.svg";
 import LaptopIcon from "./device-laptop.svg";
 import DesktopIcon from "./device-display.svg";
 
@@ -32,7 +33,7 @@ export const getBreakpointLabel = (bp) => {
 		case "lg":
 			return __("Tablet landscape", "gutestrap");
 		case "xl":
-			return __("Hybrid tablet", "gutestrap");
+			return __("Compact laptop", "gutestrap");
 		case "xxl":
 			return __("Laptop", "gutestrap");
 		case "xxxl":
@@ -51,7 +52,7 @@ export const getBreakpointIcon = (bp, classes) => {
 		case "lg":
 			return <TabletLandscapeIcon className={classes} />;
 		case "xl":
-			return <TabletHybridIcon className={classes} />;
+			return <CompactLaptopIcon className={classes} />;
 		case "xxl":
 			return <LaptopIcon className={classes} />;
 		case "xxxl":
@@ -86,8 +87,8 @@ export const BLOCK_CONTROL_BREAKPOINTS = {
 	},
 	xl: {
 		name: "xl",
-		icon: <TabletHybridIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: __("Hybrid tablets and larger", "gutestrap"),
+		icon: <CompactLaptopIcon className={BOOTSTRAP_ICON_CLASSES} />,
+		title: __("Compact laptops and larger", "gutestrap"),
 	},
 	xxl: {
 		name: "xxl",
@@ -150,7 +151,7 @@ export const BreakpointTabs = ({
 							<PhonePortraitIcon {...iconAttributes} />
 						</span>
 					),
-					label: __("Mobile", "gutestrap"),
+					label: __("Mobile (base settings)", "gutestrap"),
 					description: __("Settings for devices of all sizes.", "gutestrap"),
 					breakpoint: "xs",
 					className: classNames("has-icon-title", {
@@ -167,8 +168,8 @@ export const BreakpointTabs = ({
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("sm"),
 					}),
-					label: __("Mobile landscape", "gutestrap"),
-					description: __("Settings for landscape mobile devices and larger. 576px wide and up.", "gutestrap"),
+					label: __("Mobile landscape (576px and up)", "gutestrap"),
+					// description: __("Settings for landscape mobile devices and larger. 576px wide and up.", "gutestrap"),
 					breakpoint: "sm",
 				},
 				{
@@ -181,8 +182,8 @@ export const BreakpointTabs = ({
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("md"),
 					}),
-					label: __("Tablet", "gutestrap"),
-					description: __("Settings for tablets and larger devices. 768px wide and up.", "gutestrap"),
+					label: __("Tablet (768px and up)", "gutestrap"),
+					// description: __("Settings for tablets and larger devices. 768px wide and up.", "gutestrap"),
 					breakpoint: "md",
 				},
 				{
@@ -195,22 +196,22 @@ export const BreakpointTabs = ({
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("lg"),
 					}),
-					label: __("Tablet landscape", "gutestrap"),
-					description: __("Settings for landscape tablets and larger devices. 992px wide and up.", "gutestrap"),
+					label: __("Tablet landscape (992px and up)", "gutestrap"),
+					// description: __("Settings for landscape tablets and larger devices. 992px wide and up.", "gutestrap"),
 					breakpoint: "lg",
 				},
 				{
 					name: "xl",
 					title: (
-						<span title={__("Hybrid tablet", "gutestrap")}>
-							<TabletHybridIcon {...iconAttributes} />
+						<span title={__("Compact laptop", "gutestrap")}>
+							<CompactLaptopIcon {...iconAttributes} />
 						</span>
 					),
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xl"),
 					}),
-					label: __("Hybrid tablet", "gutestrap"),
-					description: __("Settings for hybrid tablets and larger devices. 1200px wide and up.", "gutestrap"),
+					label: __("Compact laptop (1200px and up)", "gutestrap"),
+					// description: __("Settings for compact laptops and larger devices. 1200px wide and up.", "gutestrap"),
 					breakpoint: "xl",
 				},
 				{
@@ -223,8 +224,8 @@ export const BreakpointTabs = ({
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xxl"),
 					}),
-					label: __("Laptop", "gutestrap"),
-					description: __("Settings for laptops and larger devices. 1440px wide and up.", "gutestrap"),
+					label: __("Laptop (1440px and up)", "gutestrap"),
+					// description: __("Settings for laptops and larger devices. 1440px wide and up.", "gutestrap"),
 					breakpoint: "xxl",
 				},
 				{
@@ -237,8 +238,8 @@ export const BreakpointTabs = ({
 					className: classNames("has-icon-title", {
 						"has-notification": haveNotifications && haveNotifications.includes("xxxl"),
 					}),
-					label: __("Desktop", "gutestrap"),
-					description: __("Settings for desktop devices and larger. 1680px wide and up.", "gutestrap"),
+					label: __("Desktop (1680px and up)", "gutestrap"),
+					// description: __("Settings for desktop devices and larger. 1680px wide and up.", "gutestrap"),
 					breakpoint: "xxxl",
 				},
 			]}

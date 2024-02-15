@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-tablet-hybrid" viewBox="0 0 16 16">
+<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" class="bi bi-tablet-hybrid" viewBox="0 0 16 16">
 	<path d="M13.5 3c.274 0 .5.226.5.5v7c0 .133-.053.26-.146.354-.094.093-.221.146-.354.146-1.952 0-9.048 0-11 0-.133 0-.26-.053-.354-.146-.093-.094-.146-.221-.146-.354 0-1.677 0-7 0-7 0-.274.226-.5.5-.5zm-11-1c-.823 0-1.5.677-1.5 1.5v7c0 .828.672 1.5 1.5 1.5h11c.828 0 1.5-.672 1.5-1.5 0-2.44 0-7 0-7 0-.823-.677-1.5-1.5-1.5zm-2.5 10.5h16c0 .823-.677 1.5-1.5 1.5h-13c-.823 0-1.5-.677-1.5-1.5z" fill-rule="nonzero" />
 	<circle cx="12" cy="7" r="1" />
 </svg>
