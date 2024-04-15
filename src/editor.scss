@@ -136,6 +136,7 @@ $include-column-box-sizing: true !default;
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
 	$min: breakpoint-min($name, $breakpoints);
 	.gutestrap-enabled #editor {
+		// .gutestrap-enabled {
 		@if $min {
 			// 	$min: $min + 17.5em;
 			@media (max-width: 781.98px) {
@@ -317,12 +318,11 @@ $container-classes: (".container-fluid");
 			font-size: 0.75rem;
 			font-family: sans-serif;
 			// color: gray;
-			padding: 0 0.25rem;
+			padding: 1px 0.25rem 0;
 			// background-color: color.adjust(#d3d3d3, $lightness: 10%);
 			background-color: #ededed;
 			color: #575757;
 			max-width: max-content;
-
 		}
 	}
 
@@ -387,13 +387,19 @@ $container-classes: (".container-fluid");
 	}
 
 	&-col {
-		#editor & {
+		// #editor & {
+		.editor-styles-wrapper &.wp-block,
+		.editor-styles-wrapper &.has-background {
 			background: none !important;
 		}
 
 		&,
 		& > .col__inner {
 			display: flex;
+		}
+
+		&:hover > .col__inner {
+			outline: 1px dashed lightgray;
 		}
 
 		> .col__inner {
@@ -413,6 +419,11 @@ $container-classes: (".container-fluid");
 
 		& > .col__inner > .col__content > .block-editor-inner-blocks {
 			min-width: 1em;
+
+			> .block-editor-block-list__layout > .aligncenter {
+				margin-left: auto;
+				margin-right: auto;
+			}
 		}
 		&
 			> .col__inner
@@ -501,22 +512,20 @@ $container-classes: (".container-fluid");
 	}
 }
 
-#editor {
-	.spacing-not-linked .spacing-unit-control {
-		.components-input-control__input {
-			width: 6.625em;
-		}
+.spacing-not-linked .spacing-unit-control {
+	.components-input-control__input {
+		width: 6.625em;
 	}
-	.spacing-linked-button {
-		svg {
-			width: 1.5em;
-			height: auto;
-		}
+}
+.spacing-linked-button {
+	svg {
+		width: 1.5em;
+		height: auto;
 	}
-	.spacing-unit-control {
-		label {
-			font-size: smaller;
-		}
+}
+.spacing-unit-control {
+	label {
+		font-size: smaller;
 	}
 }
 
@@ -535,13 +544,32 @@ $container-classes: (".container-fluid");
 		margin-right: calc(var(--gs-gutter) / -2);
 		margin-left: calc(var(--gs-gutter) / -2);
 
-		&.vertical-gutters {
-			margin-top: calc(var(--gs-gutter) * -0.5) !important;
-			margin-bottom: calc(var(--gs-gutter) * -0.5) !important;
+		> .col,
+		> [class*="col-"] {
+			padding-left: calc(var(--gs-gutter) / 2) !important;
+			padding-right: calc(var(--gs-gutter) / 2) !important;
 		}
+
+		&.vertical-gutters {
+			margin-top: calc(var(--gs-gutter) / -2) !important;
+			margin-bottom: calc(var(--gs-gutter) / -2) !important;
+
+			> .col,
+			> [class*="col-"] {
+				padding-top: calc(var(--gs-gutter) / 2) !important;
+				padding-bottom: calc(var(--gs-gutter) / 2) !important;
+			}
+		}
+
 		&.no-gutters {
 			margin-left: 0 !important;
 			margin-right: 0 !important;
+
+			> .col,
+			> [class*="col-"] {
+				padding-left: calc(var(--gs-gutter) / 2) !important;
+				padding-right: calc(var(--gs-gutter) / 2) !important;
+			}
 		}
 	}
 
@@ -565,8 +593,8 @@ $container-classes: (".container-fluid");
 			}
 
 			> .block-editor-block-popover .block-editor__padding-visualizer {
-				margin-right: calc(var(--gs-gutter) * 0.5) !important;
-				margin-left: calc(var(--gs-gutter) * 0.5) !important;
+				margin-right: calc(var(--gs-gutter) / 2) !important;
+				margin-left: calc(var(--gs-gutter) / 2) !important;
 			}
 
 			> .block-list-appender {
@@ -613,19 +641,19 @@ $container-classes: (".container-fluid");
 		}
 		// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 		&.vertical-gutters > * > .block-editor-block-list__layout {
-			margin-top: calc(var(--gs-gutter) * -0.5) !important;
-			margin-bottom: calc(var(--gs-gutter) * -0.5) !important;
+			margin-top: calc(var(--gs-gutter) / -2) !important;
+			margin-bottom: calc(var(--gs-gutter) / -2) !important;
 
 			> .col,
 			> [class*="col-"],
 			> .block-list-appender {
-				padding-top: calc(var(--gs-gutter) * 0.5) !important;
-				padding-bottom: calc(var(--gs-gutter) * 0.5) !important;
+				padding-top: calc(var(--gs-gutter) / 2) !important;
+				padding-bottom: calc(var(--gs-gutter) / 2) !important;
 			}
 
 			> .block-editor-block-popover .block-editor__padding-visualizer {
-				margin-top: calc(var(--gs-gutter) * 0.5) !important;
-				margin-bottom: calc(var(--gs-gutter) * 0.5) !important;
+				margin-top: calc(var(--gs-gutter) / 2) !important;
+				margin-bottom: calc(var(--gs-gutter) / 2) !important;
 			}
 		}
 	}

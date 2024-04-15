@@ -216,7 +216,8 @@ $container-classes: (".container-fluid");
 	}
 
 	&-row {
-		overflow: hidden;
+		// overflow: hidden;
+		contain: layout;
 	}
 	&-row > &-col {
 		background-image: none !important;
