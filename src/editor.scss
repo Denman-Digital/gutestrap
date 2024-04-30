@@ -1,3 +1,4 @@
+
 /**
  * #.# Editor Styles
  *
@@ -25,7 +26,7 @@ html {
 	background-repeat: no-repeat;
 }
 
-.gutestrap-enabled #editor .wp-block:not(.gutestrap-block-col) {
+.gutestrap-enabled .editor-styles-wrapper .wp-block:not(.gutestrap-block-col) {
 	max-width: unset;
 }
 
@@ -135,35 +136,35 @@ $include-column-box-sizing: true !default;
 // Makes the @content apply to the given breakpoint and wider.
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
 	$min: breakpoint-min($name, $breakpoints);
-	.gutestrap-enabled #editor {
+	// .gutestrap-enabled #editor {
 		// .gutestrap-enabled {
 		@if $min {
 			// 	$min: $min + 17.5em;
-			@media (max-width: 781.98px) {
+			// @media (max-width: 781.98px) {
 				@media (min-width: $min) {
 					.editor-styles-wrapper {
 						@content;
 					}
-				}
+				// }
 			}
-			@media (min-width: 782px) {
-				@media (min-width: $min) {
-					> :not(.is-sidebar-opened) .is-desktop-preview > .editor-styles-wrapper {
-						@content;
-					}
-				}
-				@media (min-width: #{$min + 280px}) {
-					> .is-sidebar-opened .is-desktop-preview > .editor-styles-wrapper {
-						@content;
-					}
-				}
-			}
+			// @media (min-width: 782px) {
+				// @media (min-width: $min) {
+				// 	> :not(.is-sidebar-opened) .is-desktop-preview > .editor-styles-wrapper {
+				// 		@content;
+				// 	}
+				// }
+				// @media (min-width: #{$min + 280px}) {
+				// 	> .is-sidebar-opened .is-desktop-preview > .editor-styles-wrapper {
+				// 		@content;
+				// 	}
+				// }
+			// }
 		} @else {
 			.editor-styles-wrapper {
 				@content;
 			}
 		}
-	}
+	// }
 }
 
 :root {
@@ -266,7 +267,7 @@ $utilities: map-merge(
 		.justify-content#{$infix}-evenly {
 			justify-content: space-evenly !important;
 		}
-		#editor .w#{$infix}-100 {
+		.editor-styles-wrapper .w#{$infix}-100 {
 			width: 100% !important;
 			max-width: 100% !important;
 			flex-basis: 100% !important;
@@ -306,7 +307,7 @@ $container-classes: (".container-fluid");
 	padding: 0 !important;
 }
 
-.gutestrap-block {
+.editor-styles-wrapper .gutestrap-block {
 	&-container,
 	&-row {
 		outline: 1px dashed lightgray;
@@ -360,9 +361,6 @@ $container-classes: (".container-fluid");
 	}
 
 	&-row {
-		// outline: 1px dashed gray;
-		// outline-offset: -1px;
-
 		> div > div > * {
 			// Add box sizing if only the grid is loaded
 			box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
@@ -375,21 +373,10 @@ $container-classes: (".container-fluid");
 			padding-right: calc(var(--gs-gutter) / 2);
 			padding-left: calc(var(--gs-gutter) / 2);
 		}
-
-		// &::before {
-		// 	content: attr(data-title);
-		// 	display: block;
-		// 	font-size: 0.75rem;
-		// 	font-family: sans-serif;
-		// 	color: gray;
-		// 	padding-left: 0.25rem;
-		// }
 	}
 
 	&-col {
-		// #editor & {
-		.editor-styles-wrapper &.wp-block,
-		.editor-styles-wrapper &.has-background {
+		&.wp-block {
 			background: none !important;
 		}
 
@@ -537,7 +524,7 @@ $container-classes: (".container-fluid");
 	}
 }
 
-#editor {
+.editor-styles-wrapper {
 	.row:not(.gutestrap-block-row) {
 		display: flex;
 		flex-wrap: wrap;
@@ -854,6 +841,51 @@ hr.gutestrap-block-clear-placeholder {
 					box-shadow: inset 2px 2px 2px -1px tomato;
 				}
 			}
+		}
+	}
+}
+
+.rich-select-input-wrapper {
+	// align-items: center;
+	box-sizing: border-box;
+	border-radius: inherit;
+	// display: flex;
+	// flex: 1 1 0%;
+	position: relative;
+
+	> * {
+		width: 100%;
+	}
+}
+
+.components-rich-select__toggle {
+	&,
+	&.has-icon {
+		display: flex;
+		width: 100%;
+		justify-content: flex-start;
+		border: #8c8f94 solid 1px;
+		border-radius: 3px;
+		padding: 6px 24px 6px 8px;
+		box-shadow: none;
+		font-size: 14px;
+		line-height: 2;
+		min-height: 30px;
+		max-width: 25rem;
+		-webkit-appearance: none;
+		background: #fff
+			url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E)
+			no-repeat right 5px top 55%;
+		background-size: 16px 16px;
+	}
+}
+
+.components-rich-select__toggle,
+.components-rich-select__menu {
+	svg {
+		&[width*="em"],
+		&[height*="em"] {
+			font-size: 24px;
 		}
 	}
 }
