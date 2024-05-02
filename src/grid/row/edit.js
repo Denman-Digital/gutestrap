@@ -1,31 +1,33 @@
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import {
-	InspectorControls,
-	InspectorAdvancedControls,
-	InnerBlocks,
-	// BlockControls,
-	useBlockProps,
-} from "@wordpress/block-editor";
+import { InspectorControls, InspectorAdvancedControls, InnerBlocks, useBlockProps } from "@wordpress/block-editor";
 import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
-import {
-	BreakpointTabs,
-	// BreakpointBlockControls,
-	// LinkedBreakpointContext
-} from "../../components/responsive-tabs";
-// import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from "../../components/alignment";
-// import { toNumber } from "../../_common";
+import { BreakpointTabs } from "../../components/responsive-tabs";
 
 import { rowClassNames, stripRowClassNames } from "./render";
+import { RichSelect } from "../../components/rich-select";
 import { name as rowBreakBlockName } from "../row-break";
 import { name as columnBlockName } from "../column/block.json";
 
+import AlignItemsTopIcon from "../../components/alignment/align-items-top.svg";
+import AlignItemsCenterIcon from "../../components/alignment/align-items-center.svg";
+import AlignItemsBottomIcon from "../../components/alignment/align-items-bottom.svg";
+import AlignItemsBaselineIcon from "../../components/alignment/align-items-baseline.svg";
+import AlignItemsStretchIcon from "../../components/alignment/align-items-stretch.svg";
+
+import JustifyContentStartIcon from "../../components/alignment/justify-start.svg";
+import JustifyContentCenterIcon from "../../components/alignment/justify-center.svg";
+import JustifyContentEndIcon from "../../components/alignment/justify-end.svg";
+import JustifyContentAroundIcon from "../../components/alignment/justify-space-around.svg";
+import JustifyContentBetweenIcon from "../../components/alignment/justify-space-between.svg";
+import JustifyContentEvenlyIcon from "../../components/alignment/justify-space-evenly.svg";
+
 const DEFAULT_ATTRIBUTES = {
 	noGutters: false,
-	verticalGutters: false,
+	verticalGutters: true,
 	disabled: false,
 	alignment: {
 		xs: "top",
@@ -53,30 +55,6 @@ const DEFAULT_ATTRIBUTES = {
 	},
 };
 
-// const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
-
-// const generateRowColumnsOptions = (gridRowCols = 6) => {
-// 	const opts = [];
-// 	for (let count = 1; count <= gridRowCols; count++) {
-// 		opts.push({
-// 			label: `1/${count}`,
-// 			value: count,
-// 		});
-// 	}
-// 	return opts;
-// };
-// const ROW_COLS_OPTIONS = generateRowColumnsOptions();
-
-// const INHERIT_OPTION = {
-// 	label: __("Inherit from smaller (default)", "gutestrap"),
-// 	value: 0,
-// };
-
-// const COLS_AUTO_OPTION = {
-// 	label: __("Equal-width (default)", "gutestrap"),
-// 	value: 0,
-// };
-
 const ROW_JUSTIFICATION_OPTIONS = [
 	{
 		label: __("Inherit from smaller (default)", "gutestrap"),
@@ -84,32 +62,39 @@ const ROW_JUSTIFICATION_OPTIONS = [
 	},
 	{
 		label: __("Pack columns to the left", "gutestrap"),
+		icon: JustifyContentStartIcon,
 		value: "start",
 	},
 	{
 		label: __("Pack columns in the center", "gutestrap"),
+		icon: JustifyContentCenterIcon,
 		value: "center",
 	},
 	{
 		label: __("Pack columns to the right", "gutestrap"),
+		icon: JustifyContentEndIcon,
 		value: "end",
 	},
 	{
 		label: __("Distribute columns horizontally", "gutestrap"),
+		icon: JustifyContentBetweenIcon,
 		value: "between",
 	},
 	{
 		label: __("Distribute columns with equal spacing on each end", "gutestrap"),
+		icon: JustifyContentEvenlyIcon,
 		value: "evenly",
 	},
 	{
 		label: __("Distribute columns with half-size spacing on each end", "gutestrap"),
+		icon: JustifyContentAroundIcon,
 		value: "around",
 	},
 ];
 const ROW_JUSTIFICATION_OPTIONS_XS = [
 	{
 		label: __("Pack columns to the left (default)", "gutestrap"),
+		icon: JustifyContentStartIcon,
 		value: "start",
 	},
 	...ROW_JUSTIFICATION_OPTIONS.slice(2),
@@ -122,22 +107,27 @@ const ROW_ALIGNMENT_OPTIONS = [
 	},
 	{
 		label: __("Stretch", "gutestrap"),
+		icon: AlignItemsStretchIcon,
 		value: "stretch",
 	},
 	{
 		label: __("Top", "gutestrap"),
+		icon: AlignItemsTopIcon,
 		value: "start",
 	},
 	{
 		label: __("Center", "gutestrap"),
+		icon: AlignItemsCenterIcon,
 		value: "center",
 	},
 	{
 		label: __("Bottom", "gutestrap"),
+		icon: AlignItemsBottomIcon,
 		value: "end",
 	},
 	{
 		label: __("Baseline", "gutestrap"),
+		icon: AlignItemsBaselineIcon,
 		value: "baseline",
 	},
 ];
@@ -145,6 +135,7 @@ const ROW_ALIGNMENT_OPTIONS = [
 const ROW_ALIGNMENT_OPTIONS_XS = [
 	{
 		label: __("Stretch (default)", "gutestrap"),
+		icon: AlignItemsStretchIcon,
 		value: "stretch",
 	},
 	...ROW_ALIGNMENT_OPTIONS.slice(2),
@@ -205,8 +196,6 @@ export const RowEdit = (props) => {
 		}),
 	});
 
-	// const [bp, setBP] = useState("md");
-
 	return (
 		<Fragment>
 			<div {...blockProps}>
@@ -223,82 +212,6 @@ export const RowEdit = (props) => {
 					}}
 				/>
 			</div>
-			{/* <LinkedBreakpointContext.Provider value={}> */}
-			{/* <BlockControls> */}
-			{/* <BlockContentJustificationToolbar
-					label={ROW_CHILDREN_LABEL}
-					value={justification.xs}
-					onChange={(value) => {
-						justification.xs = value;
-						setAttributes({ justification: { ...justification } });
-					}}
-				/>
-				<BlockFlexItemsAlignmentToolbar
-					label={ROW_CHILDREN_LABEL}
-					value={alignment.xs}
-					controls={["stretch", "start", "center", "end", "baseline"]}
-					onChange={(value) => {
-						alignment.xs = value;
-						setAttributes({ alignment: { ...alignment } });
-					}}
-				/> */}
-			{/* <BreakpointBlockControls initialBreakpoint=""/> */}
-			{/* <BreakpointBlockControls> */}
-			{/* {(tab) => {
-						const { label, breakpoint } = tab;
-						const canInherit = breakpoint !== "xs";
-						return (
-							<Fragment>
-								<SelectControl
-									label={__("Distribute columns", "gutestrap")}
-									options={canInherit ? ROW_JUSTIFICATION_OPTIONS : ROW_JUSTIFICATION_OPTIONS_XS}
-									value={
-										justification[breakpoint] != null
-											? justification[breakpoint]
-											: DEFAULT_ATTRIBUTES.justification[breakpoint]
-									}
-									onChange={(value) => {
-										justification[breakpoint] = value;
-										setAttributes({ justification: { ...justification } });
-									}}
-								/>
-								<SelectControl
-									label={__("Align columns", "gutestrap")}
-									options={canInherit ? ROW_ALIGNMENT_OPTIONS : ROW_ALIGNMENT_OPTIONS_XS}
-									value={
-										alignment[breakpoint] != null ? alignment[breakpoint] : DEFAULT_ATTRIBUTES.alignment[breakpoint]
-									}
-									onChange={(value) => {
-										alignment[breakpoint] = value;
-										setAttributes({ alignment: { ...alignment } });
-									}}
-								/>
-								<SelectControl
-									label={__("Row direction", "gutestrap")}
-									options={
-										canInherit
-											? ROW_DIRECTION_OPTIONS
-											: [
-													{
-														label: __("Normal (Default)", "gutestrap"),
-														value: "row",
-													},
-													ROW_DIRECTION_OPTIONS[2],
-											  ]
-									}
-									value={
-										direction[breakpoint] != null ? direction[breakpoint] : DEFAULT_ATTRIBUTES.direction[breakpoint]
-									}
-									onChange={(value) => {
-										direction[breakpoint] = value;
-										setAttributes({ direction: { ...direction } });
-									}}
-								/>
-							</Fragment>
-						);
-					}} */}
-			{/* </BreakpointBlockControls> */}
-			{/* </BlockControls> */}
 			<InspectorControls>
 				<BreakpointTabs
 					hasNotification={(bp) => {
@@ -317,7 +230,7 @@ export const RowEdit = (props) => {
 						return (
 							<PanelBody>
 								<p>{label}</p>
-								<SelectControl
+								<RichSelect
 									label={__("Distribute columns", "gutestrap")}
 									options={canInherit ? ROW_JUSTIFICATION_OPTIONS : ROW_JUSTIFICATION_OPTIONS_XS}
 									value={
@@ -330,7 +243,7 @@ export const RowEdit = (props) => {
 										setAttributes({ justification: { ...justification } });
 									}}
 								/>
-								<SelectControl
+								<RichSelect
 									label={__("Align columns", "gutestrap")}
 									options={canInherit ? ROW_ALIGNMENT_OPTIONS : ROW_ALIGNMENT_OPTIONS_XS}
 									value={
@@ -383,7 +296,6 @@ export const RowEdit = (props) => {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			{/* </LinkedBreakpointContext.Provider> */}
 			<InspectorAdvancedControls>
 				<ToggleControl
 					label={__("Disable block", "gutestrap")}

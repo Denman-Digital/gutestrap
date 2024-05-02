@@ -1,43 +1,47 @@
 import classNames from "classnames";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
-import {
-	Fragment,
-	// useState
-} from "@wordpress/element";
-import {
-	SelectControl,
-	PanelBody,
-	// ToolbarButton, ToolbarGroup
-} from "@wordpress/components";
+import { Fragment } from "@wordpress/element";
+import { PanelBody } from "@wordpress/components";
 import {
 	InspectorControls,
 	InnerBlocks,
-	// BlockControls,
 	getColorClassName,
 	useBlockProps,
 	__experimentalGetGradientClass as getGradientClass,
-	// __experimentalBlockAlignmentMatrixControl as BlockAlignmentMatrixControl,
 } from "@wordpress/block-editor";
 
 import { createHigherOrderComponent } from "@wordpress/compose";
 
-import {
-	toNumber,
-	// BOOTSTRAP_ICON_CLASSES
-} from "../../_common";
+import { toNumber } from "../../_common";
 
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
-// import { BlockFlexItemAlignmentToolbar } from "../../components/alignment";
-import {
-	BreakpointTabs,
-	// getBreakpointIcon,
-	// getBreakpointLabel
-} from "../../components/responsive-tabs";
+import { BreakpointTabs } from "../../components/responsive-tabs";
 import { columnClassNames, columnInnerClassNames, stripColClassNames } from "./render";
 
-// import ExpandIcon from "./expand-contents.svg";
+import { RichSelect } from "../../components/rich-select";
+
+import WidthIcon from "./width.svg";
+import OffsetAltIcon from "./offset.svg";
+
+import AlignSelfNoneIcon from "../../components/alignment/align-self-none.svg";
+import AlignSelfBaselineIcon from "../../components/alignment/align-self-baseline.svg";
+import AlignSelfStretchIcon from "../../components/alignment/align-self-stretch.svg";
+import AlignSelfTopIcon from "../../components/alignment/align-self-top.svg";
+import AlignSelfCenterIcon from "../../components/alignment/align-self-middle.svg";
+import AlignSelfBottomIcon from "../../components/alignment/align-self-bottom.svg";
+
+import AlignWithinStretchIcon from "../../components/alignment/align-within-stretch.svg";
+import AlignWithinBottomIcon from "../../components/alignment/align-within-bottom.svg";
+import AlignWithinBottomRightIcon from "../../components/alignment/align-within-bottom-right.svg";
+import AlignWithinBottomLeftIcon from "../../components/alignment/align-within-bottom-left.svg";
+import AlignWithinTopIcon from "../../components/alignment/align-within-top.svg";
+import AlignWithinTopRightIcon from "../../components/alignment/align-within-top-right.svg";
+import AlignWithinTopLeftIcon from "../../components/alignment/align-within-top-left.svg";
+import AlignWithinCenterIcon from "../../components/alignment/align-within-center.svg";
+import AlignWithinLeftIcon from "../../components/alignment/align-within-left.svg";
+import AlignWithinRightIcon from "../../components/alignment/align-within-right.svg";
 
 const { config } = gutestrapGlobal;
 
@@ -63,10 +67,12 @@ function generateColumnOptions(gridCols) {
 		INHERIT_OPTION,
 		{
 			label: __("Default width from row", "gutestrap"),
+			icon: WidthIcon,
 			value: COLUMN_OPTION_WIDTH_DEFAULT_VALUE,
 		},
 		{
 			label: __("Fit content", "gutestrap"),
+			icon: WidthIcon,
 			value: COLUMN_OPTION_WIDTH_FIT_VALUE,
 		},
 	];
@@ -75,12 +81,14 @@ function generateColumnOptions(gridCols) {
 		const offset = count - 1;
 		offsets.push({
 			value: offset,
+			icon: OffsetAltIcon,
 			label: offset
 				? sprintf(_n("%d column", "%d columns", offset, "gutestrap"), offset)
 				: __("No offset", "gutestrap"),
 		});
 		widths.push({
 			value: count,
+			icon: WidthIcon,
 			label: sprintf(_n("%d column", "%d columns", count, "gutestrap"), count),
 		});
 	}
@@ -92,22 +100,27 @@ const { widths: COL_WIDTH_OPTIONS, offsets: COL_OFFSET_OPTIONS } = generateColum
 const COL_ALIGN_OPTIONS = [
 	{
 		label: __("Top", "gutestrap"),
+		icon: AlignSelfTopIcon,
 		value: "start",
 	},
 	{
 		label: __("Center", "gutestrap"),
+		icon: AlignSelfCenterIcon,
 		value: "center",
 	},
 	{
 		label: __("Bottom", "gutestrap"),
+		icon: AlignSelfBottomIcon,
 		value: "end",
 	},
 	{
 		label: __("Baseline", "gutestrap"),
+		icon: AlignSelfBaselineIcon,
 		value: "baseline",
 	},
 	{
 		label: __("Stretch to fill", "gutestrap"),
+		icon: AlignSelfStretchIcon,
 		value: "stretch",
 	},
 ];
@@ -115,42 +128,52 @@ const COL_ALIGN_OPTIONS = [
 const COL_CONTENT_ALIGN_OPTIONS = [
 	{
 		label: __("Stretch to fill", "gutestrap"),
+		icon: AlignWithinStretchIcon,
 		value: "stretch stretch",
 	},
 	{
 		label: __("Top left", "gutestrap"),
+		icon: AlignWithinTopLeftIcon,
 		value: "top left",
 	},
 	{
 		label: __("Top center", "gutestrap"),
+		icon: AlignWithinTopIcon,
 		value: "top center",
 	},
 	{
 		label: __("Top right", "gutestrap"),
+		icon: AlignWithinTopRightIcon,
 		value: "top right",
 	},
 	{
 		label: __("Center left", "gutestrap"),
+		icon: AlignWithinLeftIcon,
 		value: "center left",
 	},
 	{
 		label: __("Center", "gutestrap"),
+		icon: AlignWithinCenterIcon,
 		value: "center center",
 	},
 	{
 		label: __("Center right", "gutestrap"),
+		icon: AlignWithinRightIcon,
 		value: "center right",
 	},
 	{
 		label: __("Bottom left", "gutestrap"),
+		icon: AlignWithinBottomLeftIcon,
 		value: "bottom left",
 	},
 	{
 		label: __("Bottom center", "gutestrap"),
+		icon: AlignWithinBottomIcon,
 		value: "bottom center",
 	},
 	{
 		label: __("Bottom right", "gutestrap"),
+		icon: AlignWithinBottomRightIcon,
 		value: "bottom right",
 	},
 ];
@@ -302,8 +325,9 @@ function ColumnEdit(props) {
 						return (
 							<PanelBody>
 								<p>{label}</p>
-								<SelectControl
+								<RichSelect
 									label={__("Width", "gutestrap")}
+									noIcons={true}
 									options={canInherit ? COL_WIDTH_OPTIONS : COL_WIDTH_OPTIONS.slice(1)}
 									value={width[breakpoint] != null ? width[breakpoint] : fallbacks.width}
 									onChange={(value) => {
@@ -315,7 +339,8 @@ function ColumnEdit(props) {
 										});
 									}}
 								/>
-								<SelectControl
+								<RichSelect
+									noIcons={true}
 									label={__("Offset", "gutestrap")}
 									options={canInherit ? COL_OFFSET_OPTIONS : COL_OFFSET_OPTIONS.slice(1)}
 									value={offset[breakpoint] != null ? offset[breakpoint] : fallbacks.offset}
@@ -328,13 +353,14 @@ function ColumnEdit(props) {
 										});
 									}}
 								/>
-								<SelectControl
+								<RichSelect
 									label={__("Vertical Alignment", "gutestrap")}
 									options={[
 										canInherit
 											? INHERIT_OPTION
 											: {
 													label: __("Default alignment from row", "gutestrap"),
+													icon: AlignSelfNoneIcon,
 													value: COLUMN_OPTION_INHERIT_VALUE,
 											  },
 										...COL_ALIGN_OPTIONS,
@@ -345,8 +371,9 @@ function ColumnEdit(props) {
 									}}
 									help={__("Vertically align the column within the row.", "gutestrap")}
 								/>
-								<SelectControl
+								<RichSelect
 									label={__("Content Alignment", "gutestrap")}
+									noIcons={true}
 									options={canInherit ? [INHERIT_OPTION, ...COL_CONTENT_ALIGN_OPTIONS] : COL_CONTENT_ALIGN_OPTIONS}
 									value={
 										contentAlignment[breakpoint] != null ? contentAlignment[breakpoint] : fallbacks.contentAlignment
@@ -368,49 +395,6 @@ function ColumnEdit(props) {
 					initialOpen={!!background.image}
 				/>
 			</InspectorControls>
-			{/* <BlockControls> */}
-			{/* <BlockFlexItemAlignmentToolbar
-					label={__("column", "gutestrap")}
-					value={alignment.xs}
-					onChange={(value) => {
-						// alignment.xs = value;
-						setAttributes({ alignment: { ...alignment, xs: value } });
-					}}
-				/>
-				<ToolbarGroup>
-					<ToolbarButton
-						showTooltip={true}
-						label={__("Expand contents to fit", "gutestrap")}
-						isPressed={contentAlignment.xs === "stretch stretch"}
-						onClick={() => {
-							// contentAlignment.xs = contentAlignment.xs === "stretch stretch" ? "top left" : "stretch stretch";
-							setAttributes({
-								contentAlignment: {
-									...contentAlignment,
-									xs: contentAlignment.xs === "stretch stretch" ? "top left" : "stretch stretch",
-								},
-							});
-						}}
-						icon={() => <ExpandIcon className={BOOTSTRAP_ICON_CLASSES} />}
-					/>
-				</ToolbarGroup>
-				<BlockAlignmentMatrixControl
-					label={__("Change content alignment", "gutestrap")}
-					value={contentAlignment.xs}
-					onChange={(value) => {
-						// contentAlignment.xs = value;
-						setAttributes({ contentAlignment: { ...contentAlignment, xs: value } });
-					}}
-				/> */}
-			{/* <ToolbarGroup>
-					<ToolbarButton
-						showTooltip={true}
-						label={sprintf(__("Editing %s layout", "gutestrap"), getBreakpointLabel(currentBreakpoint))}
-						isPressed={false}
-						icon={() => getBreakpointIcon(currentBreakpoint, BOOTSTRAP_ICON_CLASSES)}
-					/>
-				</ToolbarGroup> */}
-			{/* </BlockControls> */}
 		</Fragment>
 	);
 }

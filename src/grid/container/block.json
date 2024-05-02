@@ -37,8 +37,6 @@
 		"defaultStylePicker": false,
 		"renaming": false
 	},
-	"selectors": {},
-	"styles": [],
 	"example": {
 		"attributes": {
 			"_isExample": true
@@ -54,6 +52,5 @@
 		]
 	},
 	"editorStyle": "gutestrap-block-editor-css",
-	"editorScript": "gutestrap-block-js",
-	"variations": []
+	"editorScript": "gutestrap-block-js"
 }

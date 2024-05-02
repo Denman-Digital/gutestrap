@@ -10,7 +10,7 @@ export const rowClassNames = (attributes) => {
 		rowWrapClassNames(attributes)
 	);
 };
-export const rowBasicClassNames = ({ noGutters = false, verticalGutters = false }) => {
+export const rowBasicClassNames = ({ noGutters = false, verticalGutters = true }) => {
 	return classNames({
 		row: true,
 		"no-gutters": !!noGutters,

@@ -1,9 +1,1 @@
-<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-align-bottom" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-	<path d="M4 3a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2zM1 10.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z" fill-opacity="1" mask="url(#a)" />
-	<mask id="a">
-		<rect x="0" y="0" width="100%" height="100%" fill="#fff" />
-		<text x="8" y="10" font-size="8px" fill="#000" text-anchor="middle" font-family="serif">
-			T
-		</text>
-	</mask>
-</svg>
+<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m6 24v-7.5h-3.75c-.411 0-.75-.339-.75-.75s.339-.75.75-.75h3.75v-10.5c0-1.646 1.354-3 3-3h6c1.646 0 3 1.354 3 3v10.5h3.75c.411 0 .75.339.75.75s-.339.75-.75.75h-3.75v7.5zm5.419-9h1.137v-7.576h2.841v-1.014h-6.808v1.014h2.83z"/></svg>
