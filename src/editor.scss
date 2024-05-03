@@ -1,4 +1,3 @@
-
 /**
  * #.# Editor Styles
  *
@@ -137,33 +136,33 @@ $include-column-box-sizing: true !default;
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
 	$min: breakpoint-min($name, $breakpoints);
 	// .gutestrap-enabled #editor {
-		// .gutestrap-enabled {
-		@if $min {
-			// 	$min: $min + 17.5em;
-			// @media (max-width: 781.98px) {
-				@media (min-width: $min) {
-					.editor-styles-wrapper {
-						@content;
-					}
-				// }
-			}
-			// @media (min-width: 782px) {
-				// @media (min-width: $min) {
-				// 	> :not(.is-sidebar-opened) .is-desktop-preview > .editor-styles-wrapper {
-				// 		@content;
-				// 	}
-				// }
-				// @media (min-width: #{$min + 280px}) {
-				// 	> .is-sidebar-opened .is-desktop-preview > .editor-styles-wrapper {
-				// 		@content;
-				// 	}
-				// }
-			// }
-		} @else {
+	// .gutestrap-enabled {
+	@if $min {
+		// 	$min: $min + 17.5em;
+		// @media (max-width: 781.98px) {
+		@media (min-width: $min) {
 			.editor-styles-wrapper {
 				@content;
 			}
+			// }
 		}
+		// @media (min-width: 782px) {
+		// @media (min-width: $min) {
+		// 	> :not(.is-sidebar-opened) .is-desktop-preview > .editor-styles-wrapper {
+		// 		@content;
+		// 	}
+		// }
+		// @media (min-width: #{$min + 280px}) {
+		// 	> .is-sidebar-opened .is-desktop-preview > .editor-styles-wrapper {
+		// 		@content;
+		// 	}
+		// }
+		// }
+	} @else {
+		.editor-styles-wrapper {
+			@content;
+		}
+	}
 	// }
 }
 
@@ -309,6 +308,7 @@ $container-classes: (".container-fluid");
 
 .editor-styles-wrapper .gutestrap-block {
 	&-container,
+	&-container.block-editor-block-list__block:focus,
 	&-row {
 		outline: 1px dashed lightgray;
 		outline-offset: -1px;
@@ -325,11 +325,6 @@ $container-classes: (".container-fluid");
 			color: #575757;
 			max-width: max-content;
 		}
-	}
-
-	&-container {
-		// outline-style: solid;
-		// outline-color: lightgrey;
 	}
 
 	&-container,
@@ -358,6 +353,15 @@ $container-classes: (".container-fluid");
 				align-self: center;
 			}
 		}
+
+		&::after {
+			content: "";
+			display: block;
+			height: 1px;
+			margin-top: -1px;
+			pointer-events: none;
+			visibility: hidden;
+		}
 	}
 
 	&-row {
@@ -372,6 +376,12 @@ $container-classes: (".container-fluid");
 			max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
 			padding-right: calc(var(--gs-gutter) / 2);
 			padding-left: calc(var(--gs-gutter) / 2);
+		}
+
+		&.is-selected {
+			> div > div > * > .col__inner {
+				outline: 1px dashed lightgray;
+			}
 		}
 	}
 
@@ -429,16 +439,7 @@ $container-classes: (".container-fluid");
 				margin: 0;
 			}
 		}
-	}
 
-	&.-is-disabled {
-		opacity: 0.5;
-		filter: grayscale(0.25);
-	}
-}
-
-.wp-block-gutestrap {
-	&-col {
 		& > div > div > * {
 			&:first-child:not(:last-child) {
 				margin-top: 0;
@@ -496,6 +497,12 @@ $container-classes: (".container-fluid");
 			filter: invert(1) saturate(0) contrast(999);
 			display: block;
 		}
+	}
+
+
+	&.-is-disabled {
+		opacity: 0.5;
+		filter: grayscale(0.25);
 	}
 }
 
@@ -560,7 +567,7 @@ $container-classes: (".container-fluid");
 		}
 	}
 
-	.wp-block-gutestrap-row {
+	.gutestrap-block-row {
 		> .block-editor-inner-blocks {
 			contain: layout;
 			// overflow: hidden;
@@ -661,7 +668,7 @@ $container-classes: (".container-fluid");
 			}
 		}
 
-		.wp-block-gutestrap-row {
+		.gutestrap-block-row {
 			&.justify-content#{$infix}-start > * > .block-editor-block-list__layout {
 				justify-content: flex-start !important;
 			}
@@ -858,7 +865,20 @@ hr.gutestrap-block-clear-placeholder {
 	}
 }
 
+.components-rich-select__selection-label {
+	flex: 1 1 auto;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+
+	&:not(:first-child) {
+		margin-left: 6px;
+	}
+}
+
 .components-rich-select__toggle {
+	text-align: start;
+
 	&,
 	&.has-icon {
 		display: flex;
@@ -866,7 +886,7 @@ hr.gutestrap-block-clear-placeholder {
 		justify-content: flex-start;
 		border: #8c8f94 solid 1px;
 		border-radius: 3px;
-		padding: 6px 24px 6px 46x;
+		padding: 6px 24px 6px 6px;
 		box-shadow: none;
 		font-size: 14px;
 		line-height: 2;
@@ -881,6 +901,7 @@ hr.gutestrap-block-clear-placeholder {
 
 	&.has-icon.has-text {
 		padding-left: 6px;
+		padding-right: 24px;
 	}
 }
 
@@ -891,5 +912,6 @@ hr.gutestrap-block-clear-placeholder {
 		&[height*="em"] {
 			font-size: 24px;
 		}
+		flex: 0 0 auto;
 	}
 }

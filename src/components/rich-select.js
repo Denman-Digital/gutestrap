@@ -185,7 +185,9 @@ function RichSelect(props, ref) {
 								aria-describedby={helpId}
 								disabled={disabled}
 							>
-								{activeOption?.label || (
+								{activeOption?.label ? (
+									<span className="components-rich-select__selection-label">{activeOption.label}</span>
+								) : (
 									<span className="components-rich-select__placeholder">
 										{placeholderProp || mergedToggleProps.children}
 									</span>

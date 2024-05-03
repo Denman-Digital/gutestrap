@@ -44,7 +44,6 @@
 		},
 		"renaming": false
 	},
-	"selectors": {},
 	"styles": [],
 	"example": {
 		"attributes": {
@@ -60,10 +59,6 @@
 			}
 		]
 	},
-	"blockHooks": {
-		"gutestrap/row": "firstChild"
-	},
 	"editorStyle": "gutestrap-block-editor-css",
-	"editorScript": "gutestrap-block-js",
-	"variations": []
+	"editorScript": "gutestrap-block-js"
 }
