@@ -19,7 +19,7 @@ export const FLEX_JUSTIFY_CONTENT_OPTIONS = [
 	{
 		name: "center",
 		icon: <JustifyCenterIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: __("Pack %ITEMS% in the center", "gutestrap"),
+		title: __("Pack %ITEMS% in the centre", "gutestrap"),
 	},
 	{
 		name: "end",

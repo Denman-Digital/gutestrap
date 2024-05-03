@@ -104,7 +104,7 @@ const COL_ALIGN_OPTIONS = [
 		value: "start",
 	},
 	{
-		label: __("Center", "gutestrap"),
+		label: __("Centre", "gutestrap"),
 		icon: AlignSelfCenterIcon,
 		value: "center",
 	},
@@ -137,7 +137,7 @@ const COL_CONTENT_ALIGN_OPTIONS = [
 		value: "top left",
 	},
 	{
-		label: __("Top center", "gutestrap"),
+		label: __("Top centre", "gutestrap"),
 		icon: AlignWithinTopIcon,
 		value: "top center",
 	},
@@ -147,17 +147,17 @@ const COL_CONTENT_ALIGN_OPTIONS = [
 		value: "top right",
 	},
 	{
-		label: __("Center left", "gutestrap"),
+		label: __("Centre left", "gutestrap"),
 		icon: AlignWithinLeftIcon,
 		value: "center left",
 	},
 	{
-		label: __("Center", "gutestrap"),
+		label: __("Centre", "gutestrap"),
 		icon: AlignWithinCenterIcon,
 		value: "center center",
 	},
 	{
-		label: __("Center right", "gutestrap"),
+		label: __("Centre right", "gutestrap"),
 		icon: AlignWithinRightIcon,
 		value: "center right",
 	},
@@ -167,7 +167,7 @@ const COL_CONTENT_ALIGN_OPTIONS = [
 		value: "bottom left",
 	},
 	{
-		label: __("Bottom center", "gutestrap"),
+		label: __("Bottom centre", "gutestrap"),
 		icon: AlignWithinBottomIcon,
 		value: "bottom center",
 	},

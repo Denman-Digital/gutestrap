@@ -8,7 +8,7 @@ const instructions = <p>{__("To edit the background image, you need permission t
 
 const positionOptions = [
 	{
-		label: __("Center (default)", "gutestrap"),
+		label: __("Centre (default)", "gutestrap"),
 		value: "center center",
 	},
 	{

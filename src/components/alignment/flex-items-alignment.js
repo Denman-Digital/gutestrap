@@ -25,7 +25,7 @@ export const FLEX_ALIGN_ITEMS_OPTIONS = [
 	{
 		name: "center",
 		icon: <AlignItemsCenterIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: __("Align %ITEMS% center", "gutestrap"),
+		title: __("Align %ITEMS% centre", "gutestrap"),
 	},
 	{
 		name: "end",
@@ -112,7 +112,7 @@ export const FLEX_ALIGN_SELF_OPTIONS = {
 	center: {
 		name: "center",
 		icon: <AlignSelfCenterIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: __("Align %ITEM% center", "gutestrap"),
+		title: __("Align %ITEM% centre", "gutestrap"),
 	},
 	end: {
 		name: "end",
