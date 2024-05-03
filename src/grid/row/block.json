@@ -11,7 +11,7 @@
 	"textdomain": "gutestrap",
 	"attributes": {
 		"noGutters": { "type": "boolean", "default": false },
-		"verticalGutters": { "type": "boolean", "default": false },
+		"verticalGutters": { "type": "boolean", "default": true },
 		"alignment": { "type": "object" },
 		"justification": { "type": "object" },
 		"direction": { "type": "object" },
@@ -32,7 +32,7 @@
 		"defaultStylePicker": false,
 		"renaming": false
 	},
-	"selectors": {},
+	"allowedBlocks": ["gutestrap/col", "gutestrap/row-break"],
 	"styles": [],
 	"example": {
 		"attributes": {
@@ -49,6 +49,5 @@
 		]
 	},
 	"editorStyle": "gutestrap-block-editor-css",
-	"editorScript": "gutestrap-block-js",
-	"variations": []
+	"editorScript": "gutestrap-block-js"
 }

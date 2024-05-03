@@ -10,7 +10,7 @@ export const rowClassNames = (attributes) => {
 		rowWrapClassNames(attributes)
 	);
 };
-export const rowBasicClassNames = ({ noGutters = false, verticalGutters = true }) => {
+export const rowBasicClassNames = ({ noGutters = false, verticalGutters = false }) => {
 	return classNames({
 		row: true,
 		"no-gutters": !!noGutters,
@@ -172,6 +172,12 @@ const v6 = {
 			margin: ["top", "bottom"], // Enable vertical margin.
 		},
 	},
+	// migrate: (attributes, innerBlocks) => {
+	// 	if (attributes.verticalGutters == null) {
+	// 		attributes.verticalGutters = true;
+	// 	}
+	// 	return [attributes, innerBlocks];
+	// },
 	save: ({ attributes }) => {
 		const { className } = attributes;
 		const blockProps = useBlockProps.save({
