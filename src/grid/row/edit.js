@@ -30,7 +30,7 @@ const DEFAULT_ATTRIBUTES = {
 	verticalGutters: true,
 	disabled: false,
 	alignment: {
-		xs: "top",
+		xs: "stretch",
 		sm: "inherit",
 		md: "inherit",
 		lg: "inherit",
@@ -66,7 +66,7 @@ const ROW_JUSTIFICATION_OPTIONS = [
 		value: "start",
 	},
 	{
-		label: __("Pack columns in the center", "gutestrap"),
+		label: __("Pack columns in the centre", "gutestrap"),
 		icon: JustifyContentCenterIcon,
 		value: "center",
 	},
@@ -116,7 +116,7 @@ const ROW_ALIGNMENT_OPTIONS = [
 		value: "start",
 	},
 	{
-		label: __("Center", "gutestrap"),
+		label: __("Centre", "gutestrap"),
 		icon: AlignItemsCenterIcon,
 		value: "center",
 	},
@@ -239,8 +239,7 @@ export const RowEdit = (props) => {
 											: DEFAULT_ATTRIBUTES.justification[breakpoint]
 									}
 									onChange={(value) => {
-										justification[breakpoint] = value;
-										setAttributes({ justification: { ...justification } });
+										setAttributes({ justification: { ...justification, [breakpoint]: value } });
 									}}
 								/>
 								<RichSelect
@@ -250,8 +249,7 @@ export const RowEdit = (props) => {
 										alignment[breakpoint] != null ? alignment[breakpoint] : DEFAULT_ATTRIBUTES.alignment[breakpoint]
 									}
 									onChange={(value) => {
-										alignment[breakpoint] = value;
-										setAttributes({ alignment: { ...alignment } });
+										setAttributes({ alignment: { ...alignment, [breakpoint]: value } });
 									}}
 								/>
 								<SelectControl
@@ -271,8 +269,7 @@ export const RowEdit = (props) => {
 										direction[breakpoint] != null ? direction[breakpoint] : DEFAULT_ATTRIBUTES.direction[breakpoint]
 									}
 									onChange={(value) => {
-										direction[breakpoint] = value;
-										setAttributes({ direction: { ...direction } });
+										setAttributes({ direction: { ...direction, [breakpoint]: value } });
 									}}
 								/>
 							</PanelBody>
