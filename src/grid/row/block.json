@@ -11,7 +11,7 @@
 	"textdomain": "gutestrap",
 	"attributes": {
 		"noGutters": { "type": "boolean", "default": false },
-		"verticalGutters": { "type": "boolean", "default": true },
+		"verticalGutters": { "type": "boolean", "default": false },
 		"alignment": { "type": "object" },
 		"justification": { "type": "object" },
 		"direction": { "type": "object" },
