@@ -266,7 +266,7 @@ $utilities: map-merge(
 		.justify-content#{$infix}-evenly {
 			justify-content: space-evenly !important;
 		}
-		.editor-styles-wrapper .w#{$infix}-100 {
+		.w#{$infix}-100 {
 			width: 100% !important;
 			max-width: 100% !important;
 			flex-basis: 100% !important;
@@ -365,18 +365,6 @@ $container-classes: (".container-fluid");
 	}
 
 	&-row {
-		> div > div > * {
-			// Add box sizing if only the grid is loaded
-			box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
-			// Prevent columns from becoming too narrow when at smaller grid tiers by
-			// always setting `width: 100%;`. This works because we set the width
-			// later on to override this initial width.
-			flex-shrink: 0;
-			width: 100%;
-			max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
-			padding-right: calc(var(--gs-gutter) / 2);
-			padding-left: calc(var(--gs-gutter) / 2);
-		}
 
 		&.is-selected {
 			> div > div > * > .col__inner {
@@ -386,6 +374,17 @@ $container-classes: (".container-fluid");
 	}
 
 	&-col {
+		// Add box sizing if only the grid is loaded
+		box-sizing: border-box;
+		// Prevent columns from becoming too narrow when at smaller grid tiers by
+		// always setting `width: 100%;`. This works because we set the width
+		// later on to override this initial width.
+		flex-shrink: 0;
+		width: 100%;
+		max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
+		padding-right: calc(var(--gs-gutter) / 2);
+		padding-left: calc(var(--gs-gutter) / 2);
+
 		&.wp-block {
 			background: none !important;
 		}
@@ -474,7 +473,12 @@ $container-classes: (".container-fluid");
 		opacity: 0.75;
 		display: flex;
 		align-items: center;
-		margin: 0.25em 0;
+		margin: 0.25em auto;
+		--w: calc(100% - var(--gs-gutter));
+		width: var(--w) !important;
+		max-width: var(--w) !important;
+		flex-basis: var(--w) !important;
+		flex-shrink: 0;
 
 		.row-break-icon {
 			margin: 0 0.25em;
@@ -498,7 +502,6 @@ $container-classes: (".container-fluid");
 			display: block;
 		}
 	}
-
 
 	&.-is-disabled {
 		opacity: 0.5;
@@ -568,13 +571,7 @@ $container-classes: (".container-fluid");
 	}
 
 	.gutestrap-block-row {
-		> .block-editor-inner-blocks {
-			contain: layout;
-			// overflow: hidden;
-		}
-
-		> div > .block-editor-block-list__layout {
-			/* @include make-row(); */
+		> .block-editor-inner-blocks > .block-editor-block-list__layout {
 			display: flex;
 			flex-wrap: wrap;
 			margin-right: calc(var(--gs-gutter) / -2);
@@ -615,6 +612,8 @@ $container-classes: (".container-fluid");
 				padding-right: 0 !important;
 				padding-left: 0 !important;
 			}
+
+
 
 			> .block-editor-block-popover .block-editor__padding-visualizer {
 				margin-left: 0 !important;

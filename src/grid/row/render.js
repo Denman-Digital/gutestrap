@@ -1,8 +1,8 @@
-import classNames from "classnames";
+import classnames from "classnames";
 import { InnerBlocks, useBlockProps } from "@wordpress/block-editor";
 
 export const rowClassNames = (attributes) => {
-	return classNames(
+	return classnames(
 		rowBasicClassNames(attributes),
 		rowAlignmentClassNames(attributes),
 		rowJustificationClassNames(attributes),
@@ -11,14 +11,14 @@ export const rowClassNames = (attributes) => {
 	);
 };
 export const rowBasicClassNames = ({ noGutters = false, verticalGutters = false }) => {
-	return classNames({
+	return classnames({
 		row: true,
 		"no-gutters": !!noGutters,
 		"vertical-gutters": !!verticalGutters,
 	});
 };
 export const rowColumnWidthClassNames = ({ defaultColWidth = {} }) => {
-	return classNames({
+	return classnames({
 		[`row-cols-${defaultColWidth.xs}`]: !!defaultColWidth.xs,
 		[`row-cols-sm-${defaultColWidth.sm}`]: !!defaultColWidth.sm,
 		[`row-cols-md-${defaultColWidth.md}`]: !!defaultColWidth.md,
@@ -29,7 +29,7 @@ export const rowColumnWidthClassNames = ({ defaultColWidth = {} }) => {
 	});
 };
 export const rowAlignmentClassNames = ({ alignment = {} }) => {
-	return classNames({
+	return classnames({
 		[`align-items-${alignment.xs}`]: alignment.xs,
 		[`align-items-sm-${alignment.sm}`]: !!alignment.sm && alignment.sm !== "inherit",
 		[`align-items-md-${alignment.md}`]: !!alignment.md && alignment.md !== "inherit",
@@ -40,7 +40,7 @@ export const rowAlignmentClassNames = ({ alignment = {} }) => {
 	});
 };
 export const rowJustificationClassNames = ({ justification = {} }) => {
-	return classNames({
+	return classnames({
 		[`justify-content-${justification.xs}`]: justification.xs,
 		[`justify-content-sm-${justification.sm}`]: !!justification.sm && justification.sm !== "inherit",
 		[`justify-content-md-${justification.md}`]: !!justification.md && justification.md !== "inherit",
@@ -51,7 +51,7 @@ export const rowJustificationClassNames = ({ justification = {} }) => {
 	});
 };
 export const rowDirectionClassNames = ({ direction = {} }) => {
-	return classNames({
+	return classnames({
 		[`flex-${direction.xs}`]: direction.xs,
 		[`flex-sm-${direction.sm}`]: !!direction.sm && direction.sm !== "inherit",
 		[`flex-md-${direction.md}`]: !!direction.md && direction.md !== "inherit",
@@ -62,7 +62,7 @@ export const rowDirectionClassNames = ({ direction = {} }) => {
 	});
 };
 export const rowWrapClassNames = ({ direction = {} }) => {
-	return classNames({
+	return classnames({
 		[`flex-${direction.xs?.replace("row", "wrap")}`]: direction.xs,
 		[`flex-sm-${direction.sm?.replace("row", "wrap")}`]: !!direction.sm && direction.sm !== "inherit",
 		[`flex-md-${direction.md?.replace("row", "wrap")}`]: !!direction.md && direction.md !== "inherit",
@@ -109,7 +109,7 @@ export function stripRowClassNames(className = "") {
 export const RowRender = ({ attributes }) => {
 	const { className = "" } = attributes;
 	const blockProps = useBlockProps.save({
-		className: classNames(stripRowClassNames(className), {
+		className: classnames(stripRowClassNames(className), {
 			"has-min-height":
 				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
 		}),
@@ -117,7 +117,7 @@ export const RowRender = ({ attributes }) => {
 
 	return (
 		<div {...blockProps}>
-			<div className={classNames(rowClassNames(attributes))}>
+			<div className={classnames(rowClassNames(attributes))}>
 				<InnerBlocks.Content />
 			</div>
 		</div>
@@ -181,7 +181,7 @@ const v6 = {
 	save: ({ attributes }) => {
 		const { className } = attributes;
 		const blockProps = useBlockProps.save({
-			className: classNames(className, rowClassNames(attributes)),
+			className: classnames(className, rowClassNames(attributes)),
 		});
 		return (
 			<div {...blockProps}>
@@ -210,7 +210,7 @@ const v5 = {
 		return (
 			<div
 				id={anchor || null}
-				className={classNames(className, rowClassNames(attributes), rowColumnWidthClassNames(attributes))}
+				className={classnames(className, rowClassNames(attributes), rowColumnWidthClassNames(attributes))}
 				style={{
 					paddingTop: padding?.top,
 					paddingBottom: padding?.bottom,
@@ -254,7 +254,7 @@ const v4 = {
 			paddingBottom: padding?.bottom,
 		};
 		return (
-			<div id={anchor || null} className={classNames(className, rowClassNames(attributes))} style={style}>
+			<div id={anchor || null} className={classnames(className, rowClassNames(attributes))} style={style}>
 				<InnerBlocks.Content />
 			</div>
 		);
@@ -288,7 +288,7 @@ const v3 = {
 		return (
 			<div
 				id={anchor || null}
-				className={classNames(
+				className={classnames(
 					className,
 					rowBasicClassNames(attributes),
 					rowColumnWidthClassNames(attributes),
@@ -321,7 +321,7 @@ const v2 = {
 	},
 	save: ({ attributes, className }) => {
 		return (
-			<div className={classNames(className, rowClassNames(attributes))}>
+			<div className={classnames(className, rowClassNames(attributes))}>
 				<InnerBlocks.Content />
 			</div>
 		);
@@ -341,7 +341,7 @@ const v1 = {
 	},
 	save: ({ attributes, className }) => {
 		return (
-			<div className={classNames(className, rowClassNames(attributes))}>
+			<div className={classnames(className, rowClassNames(attributes))}>
 				<InnerBlocks.Content />
 			</div>
 		);

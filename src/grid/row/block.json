@@ -23,8 +23,8 @@
 		"anchor": true,
 		"alignWide": false,
 		"spacing": {
-			"margin": ["top", "bottom"],
-			"padding": ["top", "bottom"]
+			"margin": true,
+			"padding": true
 		},
 		"dimensions": {
 			"minHeight": true

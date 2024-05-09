@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import classnames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { InspectorControls, InspectorAdvancedControls, InnerBlocks, useBlockProps } from "@wordpress/block-editor";
@@ -190,7 +190,7 @@ export const RowEdit = (props) => {
 
 	const blockProps = useBlockProps({
 		id: anchor,
-		className: classNames(className, rowClassNames(attributes), {
+		className: classnames(className, rowClassNames(attributes), {
 			"has-min-height":
 				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
 		}),
