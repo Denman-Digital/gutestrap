@@ -30,6 +30,14 @@ html {
 	max-width: unset;
 }
 
+.editor-styles-wrapper .wp-block.gutestrap-block-col {
+	margin-right: unset;
+
+	&:not([class*="offset-"]) {
+		margin-left: unset;
+	}
+}
+
 $include-column-box-sizing: true !default;
 
 @import "../node_modules/bootstrap/scss/functions";
