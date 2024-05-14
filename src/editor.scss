@@ -25,7 +25,8 @@ html {
 	background-repeat: no-repeat;
 }
 
-.gutestrap-enabled .editor-styles-wrapper .wp-block:not(.gutestrap-block-col) {
+.gutestrap-enabled .editor-styles-wrapper .wp-block:not(.gutestrap-block-col),
+.gutestrap-enabled .editor-styles-wrapper .block-editor-block-list__layout.is-root-container>.wp-block:not(.gutestrap-block-col) {
 	max-width: unset;
 }
 
