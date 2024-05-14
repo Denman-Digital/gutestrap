@@ -367,7 +367,6 @@ $container-classes: (".container-fluid");
 		}
 
 		> .container {
-
 			> .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender.wp-block:last-child {
 				margin-bottom: 0;
 				padding-bottom: 1em;
@@ -413,6 +412,7 @@ $container-classes: (".container-fluid");
 			display: flex;
 		}
 
+		&.is-selected > .col__inner,
 		&:hover > .col__inner {
 			outline: 1px dashed lightgray;
 		}
