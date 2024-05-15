@@ -1,3 +1,5 @@
+![GuteStrap](https://raw.githubusercontent.com/Denman-Digital/gutestrap/main/assets/banner-1544x500.jpg)
+
 # GuteStrap
 
 Bootstrap layout blocks for Gutenberg
