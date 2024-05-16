@@ -1,7 +1,7 @@
 {
 	"name": "gutestrap",
 	"displayName": "GuteStrap",
-	"version": "2.2.5",
+	"version": "2.2.6",
 	"private": true,
 	"author": "Denman Digital",
 	"description": "Supercharge your Gutenberg layouts with Bootstrap Grid.",
