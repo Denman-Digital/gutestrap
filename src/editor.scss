@@ -63,8 +63,8 @@ $include-column-box-sizing: true !default;
 }
 
 @mixin make-col-auto() {
-  flex: 0 0 auto !important;
-  width: auto !important;
+	flex: 0 0 auto !important;
+	width: auto !important;
 }
 
 // Framework grid generation
@@ -334,6 +334,17 @@ $container-classes: (".container-fluid");
 	}
 
 	&-row {
+		display: block !important;
+
+		> .block-editor-inner-blocks {
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+
+		&::before {
+			margin-bottom: calc(0.5 * var(--gs-gutter));
+		}
+
 		&.is-selected {
 			> div > div > * > .col__inner {
 				outline: 1px dashed lightgray;
