@@ -238,3 +238,9 @@ $container-classes: (".container-fluid");
 		}
 	}
 }
+
+@each $containment in (none, strict, content, layout, paint, style, size, inline-size) {
+	.contain-#{$containment} {
+		contain: $containment !important;
+	}
+}
