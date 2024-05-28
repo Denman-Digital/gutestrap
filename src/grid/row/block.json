@@ -17,6 +17,7 @@
 		"direction": { "type": "object" },
 		"disabled": { "type": "boolean", "default": false },
 		"anchor": { "type": "string" },
+		"uncontain": { "type": "boolean", "default": false },
 		"_isExample": { "type": "boolean" }
 	},
 	"supports": {

@@ -7,7 +7,13 @@ import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BreakpointTabs } from "../../components/responsive-tabs";
 
-import { rowClassNames, stripRowClassNames } from "./render";
+import {
+	rowAlignmentClassNames,
+	rowBasicClassNames,
+	rowDirectionClassNames,
+	rowJustificationClassNames,
+	stripRowClassNames,
+} from "./render";
 import { RichSelect } from "../../components/rich-select";
 import { name as rowBreakBlockName } from "../row-break";
 import { name as columnBlockName } from "../column/block.json";
@@ -186,14 +192,23 @@ export const RowEdit = (props) => {
 		verticalGutters,
 		disabled,
 		anchor,
+		uncontain,
 	} = attributes;
 
 	const blockProps = useBlockProps({
 		id: anchor,
-		className: classnames(className, rowClassNames(attributes), {
-			"has-min-height":
-				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
-		}),
+		className: classnames(
+			className,
+			rowBasicClassNames(attributes),
+			rowAlignmentClassNames(attributes),
+			rowJustificationClassNames(attributes),
+			rowDirectionClassNames(attributes),
+			{
+				"has-min-height":
+					!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+				"contain-none": uncontain,
+			}
+		),
 	});
 
 	return (
@@ -202,6 +217,7 @@ export const RowEdit = (props) => {
 				<InnerBlocks
 					allowedBlocks={[rowBreakBlockName, columnBlockName]}
 					orientation="horizontal"
+					defaultBlock={{ name: columnBlockName }}
 					renderAppender={() => {
 						return (
 							<Fragment>
@@ -300,6 +316,14 @@ export const RowEdit = (props) => {
 					checked={disabled}
 					onChange={(checked) => {
 						setAttributes({ disabled: !!checked });
+					}}
+				/>
+				<ToggleControl
+					label={__("Disable layout containment", "gutestrap")}
+					help={__('By default, rows have "contain: layout" applied.', "gutestrap")}
+					checked={uncontain}
+					onChange={(checked) => {
+						setAttributes({ uncontain: !!checked });
 					}}
 				/>
 			</InspectorAdvancedControls>
