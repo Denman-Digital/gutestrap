@@ -63,6 +63,26 @@ class Gutestrap_Update
 		];
 	}
 
+	/**
+	 * Get and parse changelog.md
+	 * @since 2.2.8
+	 * @return string
+	 */
+	public function get_remote_changelog(): string
+	{
+		$remote_changelog = get_file_data($this->remote_plugin_endpoint_base . "changelog.md", []);
+		if (!$remote_changelog) return "";
+
+		if (function_exists("acf_parse_markdown")) {
+			$remote_changelog = \acf_parse_markdown($remote_changelog);
+		}
+
+		return sprintf(
+			"<div>%s</div>",
+			$remote_changelog
+		);
+	}
+
 	public function update_plugins_gutestrap_data($value)
 	{
 		if ($data = $this->get_remote_plugin_data()) {
@@ -113,6 +133,16 @@ class Gutestrap_Update
 
 		$result = (object) $result;
 
+		$changelog = sprintf(
+				'<a href="%s">%s</a>',
+				esc_url("https://github.com/Denman-Digital/gutestrap/releases"),
+				__("Full list of releases", "gutestrap")
+		);
+
+		if ($remote_changelog = $this->get_remote_changelog()) {
+			$changelog .= $remote_changelog;
+		}
+
 		$sections = [
 			'description' => $local_data["Description"],
 			'installation' => sprintf(
@@ -120,11 +150,7 @@ class Gutestrap_Update
 				__('<a href="%s" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder.', "gutestrap"),
 				esc_url("https://github.com/Denman-Digital/gutestrap/archive/{$this->repo_version_branch}.zip")
 			),
-			'changelog' => sprintf(
-				'<a href="%s">%s</a>',
-				esc_url("https://github.com/Denman-Digital/gutestrap/releases"),
-				__("Full list of releases", "gutestrap"),
-			),
+			'changelog' => $changelog,
 		];
 		$result->sections = $sections;
 		return $result;
