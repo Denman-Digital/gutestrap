@@ -335,6 +335,8 @@ $container-classes: (".container-fluid");
 
 	&-row {
 		display: block !important;
+		margin-left: 0;
+		margin-right: 0;
 
 		> .block-editor-inner-blocks {
 			margin: 0 !important;
