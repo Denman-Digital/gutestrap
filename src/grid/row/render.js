@@ -107,51 +107,85 @@ export function stripRowClassNames(className = "") {
  * @returns {Mixed} JSX Frontend HTML.
  */
 export const RowRender = ({ attributes }) => {
-	const { className = "" } = attributes;
+	const { className = "", uncontain = false } = attributes;
 	const blockProps = useBlockProps.save({
 		className: classnames(stripRowClassNames(className), {
 			"has-min-height":
 				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+			"contain-none": uncontain,
 		}),
 	});
 
 	return (
 		<div {...blockProps}>
-			<div className={classnames(rowClassNames(attributes))}>
+			<div
+				className={classnames(
+					rowBasicClassNames(attributes),
+					rowAlignmentClassNames(attributes),
+					rowJustificationClassNames(attributes),
+					rowDirectionClassNames(attributes)
+				)}
+			>
 				<InnerBlocks.Content />
 			</div>
 		</div>
 	);
 };
 
-// function stripBadClassesOnSave(props, block, attributes) {
-// 	if (block.name === "gutestrap/row") {
-// 		/** @type {{className: string}} className */
-// 		let { className } = props;
-
-// 		if (className) {
-// 			className = className.replace(/^(.*?\s)?row(\s.*)?$/gi, "$1$2");
-// 			className = className.replace(classRegexs.gutters, "");
-// 			className = className.replace(classRegexs.alignment, "");
-// 			className = className.replace(classRegexs.justification, "");
-// 			className = className.replace(classRegexs.direction, "");
-// 			className = className.replace(classRegexs.wrap, "");
-// 			className = className.replace(/\s{2,}/g, " ");
-// 		}
-// 		props.className = classNames(className.trim());
-// 	}
-// 	return props;
-// }
-
-// // wp.hooks.addFilter(
-// // 	"blocks.getSaveContent.extraProps",
-// // 	"gutestrap/row/strip-bad-classes-on-save",
-// // 	stripBadClassesOnSave
-// // );
-
 //==============================================================================
 // DEPRECATED VERSIONS
 //
+
+const v7 = {
+	attributes: {
+		noGutters: { type: "boolean", default: false },
+		verticalGutters: { type: "boolean", default: false },
+		alignment: { type: "object" },
+		justification: { type: "object" },
+		direction: { type: "object" },
+		disabled: { type: "boolean", default: false },
+		anchor: { type: "string" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		spacing: {
+			margin: true,
+			padding: true,
+		},
+		dimensions: {
+			minHeight: true,
+		},
+		defaultStylePicker: false,
+		renaming: false,
+	},
+	save: ({ attributes }) => {
+		const { className = "" } = attributes;
+		const blockProps = useBlockProps.save({
+			className: classnames(stripRowClassNames(className), {
+				"has-min-height":
+					!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+			}),
+		});
+
+		return (
+			<div {...blockProps}>
+				<div
+					className={classnames(
+						rowBasicClassNames(attributes),
+						rowAlignmentClassNames(attributes),
+						rowJustificationClassNames(attributes),
+						rowDirectionClassNames(attributes),
+						rowWrapClassNames(attributes)
+					)}
+				>
+					<InnerBlocks.Content />
+				</div>
+			</div>
+		);
+	},
+};
 
 const v6 = {
 	attributes: {
@@ -181,7 +215,14 @@ const v6 = {
 	save: ({ attributes }) => {
 		const { className } = attributes;
 		const blockProps = useBlockProps.save({
-			className: classnames(className, rowClassNames(attributes)),
+			className: classnames(
+				className,
+				rowBasicClassNames(attributes),
+				rowAlignmentClassNames(attributes),
+				rowJustificationClassNames(attributes),
+				rowDirectionClassNames(attributes),
+				rowWrapClassNames(attributes)
+			),
 		});
 		return (
 			<div {...blockProps}>
@@ -210,7 +251,15 @@ const v5 = {
 		return (
 			<div
 				id={anchor || null}
-				className={classnames(className, rowClassNames(attributes), rowColumnWidthClassNames(attributes))}
+				className={classnames(
+					className,
+					rowBasicClassNames(attributes),
+					rowAlignmentClassNames(attributes),
+					rowJustificationClassNames(attributes),
+					rowDirectionClassNames(attributes),
+					rowWrapClassNames(attributes),
+					rowColumnWidthClassNames(attributes)
+				)}
 				style={{
 					paddingTop: padding?.top,
 					paddingBottom: padding?.bottom,
@@ -254,7 +303,18 @@ const v4 = {
 			paddingBottom: padding?.bottom,
 		};
 		return (
-			<div id={anchor || null} className={classnames(className, rowClassNames(attributes))} style={style}>
+			<div
+				id={anchor || null}
+				className={classnames(
+					className,
+					rowBasicClassNames(attributes),
+					rowAlignmentClassNames(attributes),
+					rowJustificationClassNames(attributes),
+					rowDirectionClassNames(attributes),
+					rowWrapClassNames(attributes)
+				)}
+				style={style}
+			>
 				<InnerBlocks.Content />
 			</div>
 		);
@@ -294,7 +354,8 @@ const v3 = {
 					rowColumnWidthClassNames(attributes),
 					rowAlignmentClassNames(attributes),
 					rowJustificationClassNames(attributes),
-					rowDirectionClassNames(attributes)
+					rowDirectionClassNames(attributes),
+					rowWrapClassNames(attributes)
 				)}
 				style={style}
 			>
@@ -321,7 +382,16 @@ const v2 = {
 	},
 	save: ({ attributes, className }) => {
 		return (
-			<div className={classnames(className, rowClassNames(attributes))}>
+			<div
+				className={classnames(
+					className,
+					rowBasicClassNames(attributes),
+					rowAlignmentClassNames(attributes),
+					rowJustificationClassNames(attributes),
+					rowDirectionClassNames(attributes),
+					rowWrapClassNames(attributes)
+				)}
+			>
 				<InnerBlocks.Content />
 			</div>
 		);
@@ -341,11 +411,20 @@ const v1 = {
 	},
 	save: ({ attributes, className }) => {
 		return (
-			<div className={classnames(className, rowClassNames(attributes))}>
+			<div
+				className={classnames(
+					className,
+					rowBasicClassNames(attributes),
+					rowAlignmentClassNames(attributes),
+					rowJustificationClassNames(attributes),
+					rowDirectionClassNames(attributes),
+					rowWrapClassNames(attributes)
+				)}
+			>
 				<InnerBlocks.Content />
 			</div>
 		);
 	},
 };
 
-export const deprecated = [v6, v5, v4, v3, v2, v1];
+export const deprecated = [v7, v6, v5, v4, v3, v2, v1];

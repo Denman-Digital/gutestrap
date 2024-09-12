@@ -7,7 +7,7 @@
 	"icon": "columns",
 	"description": "GuteStrap Rows are used to create responsive & mobile-first multi-column layouts.",
 	"keywords": ["layout", "column", "responsive"],
-	"version": "1.7",
+	"version": "1.8",
 	"textdomain": "gutestrap",
 	"attributes": {
 		"noGutters": { "type": "boolean", "default": false },
@@ -17,6 +17,7 @@
 		"direction": { "type": "object" },
 		"disabled": { "type": "boolean", "default": false },
 		"anchor": { "type": "string" },
+		"uncontain": { "type": "boolean", "default": false },
 		"_isExample": { "type": "boolean" }
 	},
 	"supports": {

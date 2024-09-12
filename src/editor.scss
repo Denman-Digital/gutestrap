@@ -324,7 +324,48 @@ $container-classes: (".container-fluid");
 	}
 
 	&-row {
-		display: block;
+		display: block !important;
+		margin-left: 0;
+		margin-right: 0;
+
+		> .block-editor-inner-blocks {
+			margin: 0 !important;
+			padding: 0 !important;
+
+			> .block-editor-block-list__layout > .block-list-appender {
+				.block-editor-button-block-appender {
+					transition: none !important;
+
+					&::before {
+						content: "";
+						position: absolute;
+						background: var(--wp-admin-theme-color, currentColor);
+						inset: 0;
+						opacity: 0;
+						z-index: -1;
+						filter: saturate(0) contrast(999) invert(1);
+						border-radius: inherit;
+					}
+
+					&:not(:hover):not(:focus-visible) {
+						box-shadow: inset 0 0 0 1px currentColor;
+						color: currentColor;
+						filter: saturate(0) contrast(999);
+					}
+
+					&:hover,
+					&:focus-visible {
+						&::before {
+							opacity: 0.6;
+						}
+					}
+				}
+			}
+		}
+
+		&::before {
+			margin-bottom: calc(0.5 * var(--gs-gutter));
+		}
 
 		&.is-selected {
 			> div > div > * > .col__inner {
@@ -874,5 +915,11 @@ hr.gutestrap-block-clear-placeholder {
 			font-size: 24px;
 		}
 		flex: 0 0 auto;
+	}
+}
+
+@each $containment in (none, strict, content, layout, paint, style, size, inline-size) {
+	.contain-#{$containment} {
+		contain: $containment !important;
 	}
 }

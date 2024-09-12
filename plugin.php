@@ -7,7 +7,7 @@
  * Description: Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies).
  * Author: Denman Digital
  * Author URI: https://denman.digital
- * Version: 2.2.6-compat
+ * Version: 2.2.8-compat
  * Requires at least: 6.0
  * Requires PHP: 8.1
  * License: GPL2

@@ -9,6 +9,8 @@
 
 namespace Gutestrap;
 
+use function Denman_Utils\mini_markdown_parse;
+
 class Gutestrap_Update
 {
 	private static $instance = null;
@@ -26,6 +28,7 @@ class Gutestrap_Update
 		add_filter("pre_set_site_transient_update_plugins", [$this, "modify_plugins_transient"], 10, 1);
 		add_filter("plugins_api", [$this, "modify_plugin_details"], 99999, 3);
 		add_filter("upgrader_post_install",  [$this, "post_install"], 10, 3);
+		add_action('admin_head', [$this, "custom_admin_styles"]);
 	}
 
 	public static function instance(): Gutestrap_Update
@@ -61,6 +64,25 @@ class Gutestrap_Update
 				"low" => $this->remote_plugin_endpoint_base . "assets/banner-772x250.jpg",
 			]
 		];
+	}
+
+	/**
+	 * Get and parse changelog.md
+	 * @since 2.2.8
+	 * @return string
+	 */
+	public function get_remote_changelog(): string
+	{
+		// file_get_contents( $file, false, null, 0,
+		$remote_changelog = file_get_contents($this->remote_plugin_endpoint_base . "changelog.md", false, null, 0, 8 * KB_IN_BYTES);
+		if (!$remote_changelog) return $this->remote_plugin_endpoint_base . "changelog.md";
+
+		$remote_changelog = mini_markdown_parse($remote_changelog);
+
+		return sprintf(
+			"<div class='gutestrap-changelog'>%s</div>",
+			$remote_changelog
+		);
 	}
 
 	public function update_plugins_gutestrap_data($value)
@@ -113,6 +135,16 @@ class Gutestrap_Update
 
 		$result = (object) $result;
 
+		$changelog = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url("https://github.com/Denman-Digital/gutestrap/releases"),
+			__("Full list of releases", "gutestrap")
+		);
+
+		if ($remote_changelog = $this->get_remote_changelog()) {
+			$changelog .= $remote_changelog;
+		}
+
 		$sections = [
 			'description' => $local_data["Description"],
 			'installation' => sprintf(
@@ -120,11 +152,7 @@ class Gutestrap_Update
 				__('<a href="%s" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder.', "gutestrap"),
 				esc_url("https://github.com/Denman-Digital/gutestrap/archive/{$this->repo_version_branch}.zip")
 			),
-			'changelog' => sprintf(
-				'<a href="%s">%s</a>',
-				esc_url("https://github.com/Denman-Digital/gutestrap/releases"),
-				__("Full list of releases", "gutestrap"),
-			),
+			'changelog' => $changelog,
 		];
 		$result->sections = $sections;
 		return $result;
@@ -154,6 +182,30 @@ class Gutestrap_Update
 			}
 		}
 		return $response;
+	}
+
+	/**
+	 * Admin styles.
+	 */
+	function custom_admin_styles()
+	{
+		?>
+		<style>
+			.gutestrap-changelog {
+				float: left;
+				width: 100%;
+			}
+			.gutestrap-changelog h1,
+			.gutestrap-changelog h2,
+			.gutestrap-changelog h3,
+			.gutestrap-changelog h4,
+			.gutestrap-changelog h5,
+			.gutestrap-changelog h6 {
+				margin: 0.25em 0;
+				clear: none;
+			}
+		</style>
+		<?php
 	}
 }
 
