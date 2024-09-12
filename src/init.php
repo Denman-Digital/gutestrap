@@ -72,7 +72,7 @@ function gutestrap_block_assets()
 
 
 	$block_assets = [
-		'style' => 'gutestrap-style-css',
+		// 'style' => 'gutestrap-style-css',
 		'editor_script' => 'gutestrap-block-js',
 		'editor_style' => 'gutestrap-block-editor-css',
 	];
@@ -89,7 +89,11 @@ function gutestrap_block_assets()
 	 */
 	register_block_type('gutestrap/container', $block_assets);
 	register_block_type('gutestrap/row', $block_assets);
-	register_block_type('gutestrap/col', $block_assets);
+	register_block_type(__DIR__ . "/grid/column/block.json");
+
+	add_action("wp_enqueue_scripts", function () {
+		wp_enqueue_style('gutestrap-style-css');
+	});
 }
 add_action('init', 'gutestrap_block_assets');
 
@@ -173,8 +177,8 @@ function gutestrap_block_categories(array $categories): array
 	return array_merge(
 		[
 			[
-				"slug" => "bootstrap-grid",
-				"title" => __("Bootstrap Grid", "gutestrap"),
+				"slug" => "gutestrap-grid",
+				"title" => __("GuteStrap Grid", "gutestrap"),
 			],
 		],
 		$categories,
@@ -187,3 +191,28 @@ function gutestrap_block_categories(array $categories): array
 	);
 }
 add_filter('block_categories_all', 'gutestrap_block_categories', 10);
+
+/**
+ * Add script to check for and include compat styles if needed.
+ * @return void
+ */
+function gutestrap_compat_styles_logic()
+{
+	$stylesheet_link_html = sprintf(
+		'<link rel="stylesheet" id="gutestrap-compat-css" href="%s?v=%s" media="all" />',
+		esc_url(plugins_url('dist/blocks.compat.build.css', dirname(__FILE__))),
+		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.compat.build.css')
+	);
+?>
+	<script type='text/javascript'>
+		(function() {
+			var gutestrapStyles = document.getElementById("gutestrap-style-css");
+			if (gutestrapStyles && !CSS.supports("(top:var(--x))")) {
+				console.warn("GuteStrap: custom properties not supported, compat stylesheet being added");
+				gutestrapStyles.insertAdjacentHTML("afterEnd", '<?= $stylesheet_link_html; ?>');
+			}
+		})();
+	</script>
+<?php
+}
+add_action('wp_print_footer_scripts', 'gutestrap_compat_styles_logic');

@@ -5,106 +5,64 @@
  */
 
 @use "sass:map";
+@use "sass:list";
+@use "sass:math";
 @use "common" as *;
 
-// // @import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
-// $include-column-box-sizing: true !default;
+@import "../node_modules/bootstrap/scss/mixins/breakpoints";
+@import "../node_modules/bootstrap/scss/mixins/grid-framework";
+@import "../node_modules/bootstrap/scss/mixins/grid";
 
-// @import "../node_modules/bootstrap/scss/functions";
-// @import "../node_modules/bootstrap/scss/variables";
-
-// @import "../node_modules/bootstrap/scss/mixins/lists";
-// @import "../node_modules/bootstrap/scss/mixins/breakpoints";
-
-// @mixin if-custom-props-not-supported {
-// 	@supports not (top: var(--x, 0px)) {
-// 		@content;
-// 	}
-// }
-
-// // @import "../node_modules/bootstrap/scss/mixins/container";
-// @mixin make-container($gutter: $container-padding-x) {
-// 	width: 100%;
-// 	margin-right: auto;
-// 	margin-left: auto;
-// 	padding-right: calc(0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-// 	padding-left: calc(0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-
-// 	@include if-custom-props-not-supported {
-// 		padding-right: calc(0.5 * #{$gutter});
-// 		padding-left: calc(0.5 * #{$gutter});
-// 	}
-// }
-
-// @import "../node_modules/bootstrap/scss/mixins/grid";
-
-// @mixin make-row($gutter: $grid-gutter-width) {
-// 	display: flex;
-// 	flex-wrap: wrap;
-// 	margin-right: calc(-0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-// 	margin-left: calc(-0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-
-// 	@include if-custom-props-not-supported {
-// 		margin-right: calc(-0.5 * #{$gutter});
-// 		margin-left: calc(-0.5 * #{$gutter});
-// 	}
-// }
-
-// @mixin make-col-ready($gutter: $grid-gutter-width) {
-// 	// Add box sizing if only the grid is loaded
-// 	box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
-// 	// Prevent columns from becoming too narrow when at smaller grid tiers by
-// 	// always setting `width: 100%;`. This works because we set the width
-// 	// later on to override this initial width.
-// 	flex-shrink: 0;
-// 	width: 100%;
-// 	max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
-// 	padding-right: calc(0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-// 	padding-left: calc(0.5 * var(--#{$prefix}gutter-x, #{$gutter}));
-
-// 	@include if-custom-props-not-supported {
-// 		padding-right: calc(0.5 * #{$gutter});
-// 		padding-left: calc(0.5 * #{$gutter});
-// 	}
-// }
-
-// @import "../node_modules/bootstrap/scss/mixins/utilities";
-
-// @import "../node_modules/bootstrap/scss/vendor/rfs";
-
-// @import "../node_modules/bootstrap/scss/containers";
-@import "../node_modules/bootstrap/scss/grid";
-
-.row.no-gutters {
-	margin-left: 0;
-	margin-right: 0;
-
-	> .col,
-	> [class*="col-"] {
-		padding-left: 0;
-		padding-right: 0;
-	}
+@mixin make-container($gutter: $grid-gutter-width) {
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: 0.5 * $gutter;
+	padding-left: 0.5 * $gutter;
 }
 
-// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
-.row.vertical-gutters {
-	margin-top: calc(-0.5 * #{$grid-gutter-width});
-	margin-bottom: calc(-0.5 * #{$grid-gutter-width});
+@mixin make-row($gutter: $grid-gutter-width) {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -0.5 * $gutter;
+	margin-left: -0.5 * $gutter;
+}
 
-	> .col,
-	> [class*="col-"] {
-		padding-top: calc(0.5 * #{$grid-gutter-width});
-		padding-bottom: calc(0.5 * #{$grid-gutter-width});
-	}
+@mixin make-col($size, $columns: $grid-columns) {
+  flex: 0 0 math.percentage(math.div($size, $columns));
+  // Add a `max-width` to ensure content within each column does not blow out
+  // the width of the column. Applies to IE10+ and Firefox. Chrome and Safari
+  // do not appear to require this.
+  max-width: math.percentage(math.div($size, $columns));
+}
 
-	@supports (top: var(--x)) {
-		margin-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-		margin-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+@mixin make-col-offset($size, $columns: $grid-columns) {
+	$num: math.div($size, $columns);
+	margin-left: if($num == 0, 0, math.percentage($num));
+}
+
+@import "../node_modules/bootstrap/scss/grid";
+
+.row {
+	&.no-gutters {
+		margin-left: 0;
+		margin-right: 0;
 
 		> .col,
 		> [class*="col-"] {
-			padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-			padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+	// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
+	&.vertical-gutters {
+		margin-top: -0.5 * $grid-gutter-width;
+		margin-bottom: -0.5 * $grid-gutter-width;
+
+		> .col,
+		> [class*="col-"] {
+			padding-top: 0.5 * $grid-gutter-width;
+			padding-bottom: 0.5 * $grid-gutter-width;
 		}
 	}
 }
@@ -150,22 +108,29 @@
 	}
 }
 
-// @each $breakpoint in map-keys($grid-breakpoints) {
-// 	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-// 	@include media-breakpoint-up($breakpoint) {
-// 		.hide#{$infix},
-// 		.hide#{$infix}-up {
-// 			display: none !important;
-// 		}
-// 	}
-// 	@include media-breakpoint-down($breakpoint) {
-// 		.hide#{$infix}-down {
-// 			display: none !important;
-// 		}
-// 	}
-// 	@include media-breakpoint-only($breakpoint) {
-// 		.hide#{$infix}-only {
-// 			display: none !important;
-// 		}
-// 	}
-// }
+$container-classes: (".container-fluid");
+@each $breakpoint in map.keys($grid-breakpoints) {
+	$container-classes: list.append($container-classes, ".container#{breakpoint-infix($breakpoint)}", $separator: comma);
+}
+
+#{$container-classes} {
+	&.contain-inset-vert {
+		padding-top: 0.5 * $grid-gutter-width;
+		padding-bottom: 0.5 * $grid-gutter-width;
+	}
+
+	&.contain-inset-wide {
+		padding-left: $grid-gutter-width;
+		padding-right: $grid-gutter-width;
+
+		&.contain-inset-vert {
+			padding-top: $grid-gutter-width;
+			padding-bottom: $grid-gutter-width;
+		}
+	}
+
+	.uncontain-nested[class*="container"] {
+		padding: 0 !important;
+	}
+}
+

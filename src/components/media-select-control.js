@@ -28,8 +28,14 @@ let MediaSelectControl = function ({
 }) {
 	const id = `inspector-media-select-control-${instanceId}`;
 	const btnText = img?.url
-		? editText || (label && sprintf(__("Change %s"), label.toLowerCase())) || __("Change image", "gutestrap")
-		: addText || (label && sprintf(__("Add %s", "gutestrap"), label.toLowerCase())) || __("Add image", "gutestrap");
+		? editText ||
+		  // translators: %s: media destination/type label
+		  (label && sprintf(__("Change %s", "gutestrap"), label.toLowerCase())) ||
+		  __("Change image", "gutestrap")
+		: addText ||
+		  // translators: %s media destination/type label
+		  (label && sprintf(__("Add %s", "gutestrap"), label.toLowerCase())) ||
+		  __("Add image", "gutestrap");
 	return (
 		<BaseControl label={label} id={id} help={help} className={classnames(className, "components-media-select-control")}>
 			<MediaUploadCheck fallback={fallback}>
@@ -59,7 +65,9 @@ let MediaSelectControl = function ({
 										<FlexItem>
 											<Button isDestructive onClick={onRemove}>
 												{removeText ||
-													(label && sprintf(__("Remove %s", "gutestrap"), label.toLowerCase())) ||
+													{
+														/* translators: %s: media destination/type label */
+													}(label && sprintf(__("Remove %s", "gutestrap"), label.toLowerCase())) ||
 													__("Remove image", "gutestrap")}
 											</Button>
 										</FlexItem>

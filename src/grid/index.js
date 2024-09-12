@@ -10,11 +10,9 @@ import { createHigherOrderComponent } from "@wordpress/compose";
 import classNames from "classnames";
 
 import ContainerBlock from "./container";
-import RowBlock, { RowBreakBlock } from "./row";
+import RowBlock from "./row";
+import RowBreakBlock from "./row-break";
 import ColumnBlock from "./column";
-
-/** Block category. */
-const category = "bootstrap-grid";
 
 /**
  * Register: a Gutenberg Block.
@@ -29,10 +27,10 @@ const category = "bootstrap-grid";
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType(ContainerBlock.name, { category, ...ContainerBlock.settings });
-registerBlockType(RowBlock.name, { category, ...RowBlock.settings });
-registerBlockType(RowBreakBlock.name, { category, ...RowBreakBlock.settings });
-registerBlockType(ColumnBlock.name, { category, ...ColumnBlock.settings });
+registerBlockType(ContainerBlock.name, ContainerBlock);
+registerBlockType(RowBlock.name, RowBlock);
+registerBlockType(RowBreakBlock.name, RowBreakBlock);
+registerBlockType(ColumnBlock.name, ColumnBlock);
 
 wp.hooks.addFilter(
 	"editor.BlockListBlock",

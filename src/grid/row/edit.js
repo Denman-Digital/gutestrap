@@ -1,51 +1,61 @@
-import classNames from "classnames";
-import { link, linkOff } from "@wordpress/icons";
-import { __, _x } from "@wordpress/i18n";
-import { Fragment, useState } from "@wordpress/element";
-import { InspectorControls, InspectorAdvancedControls, InnerBlocks, BlockControls } from "@wordpress/block-editor";
-import {
-	PanelBody,
-	SelectControl,
-	ToggleControl,
-	__experimentalUnitControl as UnitControl,
-	Flex,
-	FlexItem,
-	Button,
-	Tooltip,
-	BaseControl,
-} from "@wordpress/components";
+import classnames from "classnames";
+import { __ } from "@wordpress/i18n";
+import { Fragment } from "@wordpress/element";
+import { InspectorControls, InspectorAdvancedControls, InnerBlocks, useBlockProps } from "@wordpress/block-editor";
+import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
 
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
-import { ResponsiveTabs } from "../../components/responsive-tabs";
-import { BlockFlexItemsAlignmentToolbar, BlockContentJustificationToolbar } from "../../components/alignment";
-import { toNumber } from "../../_common";
+import { BreakpointTabs } from "../../components/responsive-tabs";
 
-import { rowClassNames } from "./render";
-import { DEFAULT_ATTRIBUTES } from "./metadata";
-import { name as rowBreakBlockName } from "./row-break";
-import { name as columnBlockName } from "../column/metadata";
-const ROW_CHILDREN_LABEL = __("columns", "gutestrap");
+import { rowClassNames, stripRowClassNames } from "./render";
+import { RichSelect } from "../../components/rich-select";
+import { name as rowBreakBlockName } from "../row-break";
+import { name as columnBlockName } from "../column/block.json";
 
-const generateRowColumnsOptions = (gridRowCols = 6) => {
-	const opts = [];
-	for (let count = 1; count <= gridRowCols; count++) {
-		opts.push({
-			label: `1/${count}`,
-			value: count,
-		});
-	}
-	return opts;
-};
-const ROW_COLS_OPTIONS = generateRowColumnsOptions();
+import AlignItemsTopIcon from "../../components/alignment/align-items-top.svg";
+import AlignItemsCenterIcon from "../../components/alignment/align-items-center.svg";
+import AlignItemsBottomIcon from "../../components/alignment/align-items-bottom.svg";
+import AlignItemsBaselineIcon from "../../components/alignment/align-items-baseline.svg";
+import AlignItemsStretchIcon from "../../components/alignment/align-items-stretch.svg";
 
-const INHERIT_OPTION = {
-	label: __("Inherit from smaller (default)", "gutestrap"),
-	value: 0,
-};
+import JustifyContentStartIcon from "../../components/alignment/justify-start.svg";
+import JustifyContentCenterIcon from "../../components/alignment/justify-center.svg";
+import JustifyContentEndIcon from "../../components/alignment/justify-end.svg";
+import JustifyContentAroundIcon from "../../components/alignment/justify-space-around.svg";
+import JustifyContentBetweenIcon from "../../components/alignment/justify-space-between.svg";
+import JustifyContentEvenlyIcon from "../../components/alignment/justify-space-evenly.svg";
 
-const COLS_AUTO_OPTION = {
-	label: __("Equal-width (default)", "gutestrap"),
-	value: 0,
+const DEFAULT_ATTRIBUTES = {
+	noGutters: false,
+	verticalGutters: true,
+	disabled: false,
+	alignment: {
+		xs: "stretch",
+		sm: "inherit",
+		md: "inherit",
+		lg: "inherit",
+		xl: "inherit",
+		xxl: "inherit",
+		xxxl: "inherit",
+	},
+	justification: {
+		xs: "start",
+		sm: "inherit",
+		md: "inherit",
+		lg: "inherit",
+		xl: "inherit",
+		xxl: "inherit",
+		xxxl: "inherit",
+	},
+	direction: {
+		xs: "row",
+		sm: "inherit",
+		md: "inherit",
+		lg: "inherit",
+		xl: "inherit",
+		xxl: "inherit",
+		xxxl: "inherit",
+	},
 };
 
 const ROW_JUSTIFICATION_OPTIONS = [
@@ -54,37 +64,40 @@ const ROW_JUSTIFICATION_OPTIONS = [
 		value: "inherit",
 	},
 	{
-		label: _x("Pack columns to the left", "Row columns justification setting", "gutestrap"),
+		label: __("Pack columns to the left", "gutestrap"),
+		icon: JustifyContentStartIcon,
 		value: "start",
 	},
 	{
-		label: _x("Pack columns in the centre", "Row columns justification setting", "gutestrap"),
+		label: __("Pack columns in the centre", "gutestrap"),
+		icon: JustifyContentCenterIcon,
 		value: "center",
 	},
 	{
-		label: _x("Pack columns to the right", "Row columns justification setting", "gutestrap"),
+		label: __("Pack columns to the right", "gutestrap"),
+		icon: JustifyContentEndIcon,
 		value: "end",
 	},
 	{
-		label: _x("Distribute columns horizontally", "Row columns justification setting", "gutestrap"),
+		label: __("Distribute columns horizontally", "gutestrap"),
+		icon: JustifyContentBetweenIcon,
 		value: "between",
 	},
 	{
-		label: _x("Distribute columns with equal spacing on each end", "Row columns justification setting", "gutestrap"),
+		label: __("Distribute columns with equal spacing on each end", "gutestrap"),
+		icon: JustifyContentEvenlyIcon,
 		value: "evenly",
 	},
 	{
-		label: _x(
-			"Distribute columns with half-size spacing on each end",
-			"Row columns justification setting",
-			"gutestrap"
-		),
+		label: __("Distribute columns with half-size spacing on each end", "gutestrap"),
+		icon: JustifyContentAroundIcon,
 		value: "around",
 	},
 ];
 const ROW_JUSTIFICATION_OPTIONS_XS = [
 	{
-		label: _x("Pack columns to the left (default)", "Row columns justification setting", "gutestrap"),
+		label: __("Pack columns to the left (default)", "gutestrap"),
+		icon: JustifyContentStartIcon,
 		value: "start",
 	},
 	...ROW_JUSTIFICATION_OPTIONS.slice(2),
@@ -97,22 +110,27 @@ const ROW_ALIGNMENT_OPTIONS = [
 	},
 	{
 		label: __("Stretch", "gutestrap"),
+		icon: AlignItemsStretchIcon,
 		value: "stretch",
 	},
 	{
 		label: __("Top", "gutestrap"),
+		icon: AlignItemsTopIcon,
 		value: "start",
 	},
 	{
-		label: __("Center", "gutestrap"),
+		label: __("Centre", "gutestrap"),
+		icon: AlignItemsCenterIcon,
 		value: "center",
 	},
 	{
 		label: __("Bottom", "gutestrap"),
+		icon: AlignItemsBottomIcon,
 		value: "end",
 	},
 	{
 		label: __("Baseline", "gutestrap"),
+		icon: AlignItemsBaselineIcon,
 		value: "baseline",
 	},
 ];
@@ -120,6 +138,7 @@ const ROW_ALIGNMENT_OPTIONS = [
 const ROW_ALIGNMENT_OPTIONS_XS = [
 	{
 		label: __("Stretch (default)", "gutestrap"),
+		icon: AlignItemsStretchIcon,
 		value: "stretch",
 	},
 	...ROW_ALIGNMENT_OPTIONS.slice(2),
@@ -152,44 +171,55 @@ const ROW_DIRECTION_OPTIONS = [
  */
 export const RowEdit = (props) => {
 	const { attributes, className, setAttributes, clientId } = props;
+
+	if (attributes._isExample) {
+		return (
+			<div>
+				<InnerBlocks />
+			</div>
+		);
+	}
+
 	const {
 		defaultColWidth = {},
 		alignment = {},
 		direction = {},
 		justification = {},
-		padding = {},
 		noGutters,
 		verticalGutters,
 		disabled,
+		anchor,
 	} = attributes;
-	const [isPaddingLinked, setIsPaddingLinked] = useState(padding?.top === padding?.bottom);
+
+	const blockProps = useBlockProps({
+		id: anchor,
+		className: classnames(className, rowClassNames(attributes), {
+			"has-min-height":
+				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+		}),
+	});
 
 	// const { spacing = {} } = style;
 	// const { padding } = spacing;
 
 	return (
 		<Fragment>
-			<BlockControls>
-				<BlockContentJustificationToolbar
-					label={ROW_CHILDREN_LABEL}
-					value={justification.xs}
-					onChange={(value) => {
-						justification.xs = value;
-						setAttributes({ justification: { ...justification } });
+			<div {...blockProps}>
+				<InnerBlocks
+					allowedBlocks={[rowBreakBlockName, columnBlockName]}
+					orientation="horizontal"
+					renderAppender={() => {
+						return (
+							<Fragment>
+								<BlockControlsBlockAppender rootClientId={clientId} />
+								<InnerBlocks.ButtonBlockAppender />
+							</Fragment>
+						);
 					}}
 				/>
-				<BlockFlexItemsAlignmentToolbar
-					label={ROW_CHILDREN_LABEL}
-					value={alignment.xs}
-					controls={["stretch", "start", "center", "end", "baseline"]}
-					onChange={(value) => {
-						alignment.xs = value;
-						setAttributes({ alignment: { ...alignment } });
-					}}
-				/>
-			</BlockControls>
+			</div>
 			<InspectorControls>
-				<ResponsiveTabs
+				<BreakpointTabs
 					hasNotification={(bp) => {
 						if (bp === "xs") return false;
 						return (
@@ -205,21 +235,8 @@ export const RowEdit = (props) => {
 						const canInherit = breakpoint !== "xs";
 						return (
 							<PanelBody>
-								<p>{`${label} layout`}</p>
-								<SelectControl
-									label={__("Default column width", "gutestrap")}
-									options={[canInherit ? INHERIT_OPTION : COLS_AUTO_OPTION, ...ROW_COLS_OPTIONS]}
-									value={
-										defaultColWidth[breakpoint] != null
-											? defaultColWidth[breakpoint]
-											: DEFAULT_ATTRIBUTES.defaultColWidth[breakpoint]
-									}
-									onChange={(value) => {
-										defaultColWidth[breakpoint] = toNumber(value);
-										setAttributes({ defaultColWidth: { ...defaultColWidth } });
-									}}
-								/>
-								<SelectControl
+								<p>{label}</p>
+								<RichSelect
 									label={__("Distribute columns", "gutestrap")}
 									options={canInherit ? ROW_JUSTIFICATION_OPTIONS : ROW_JUSTIFICATION_OPTIONS_XS}
 									value={
@@ -228,19 +245,17 @@ export const RowEdit = (props) => {
 											: DEFAULT_ATTRIBUTES.justification[breakpoint]
 									}
 									onChange={(value) => {
-										justification[breakpoint] = value;
-										setAttributes({ justification: { ...justification } });
+										setAttributes({ justification: { ...justification, [breakpoint]: value } });
 									}}
 								/>
-								<SelectControl
+								<RichSelect
 									label={__("Align columns", "gutestrap")}
 									options={canInherit ? ROW_ALIGNMENT_OPTIONS : ROW_ALIGNMENT_OPTIONS_XS}
 									value={
 										alignment[breakpoint] != null ? alignment[breakpoint] : DEFAULT_ATTRIBUTES.alignment[breakpoint]
 									}
 									onChange={(value) => {
-										alignment[breakpoint] = value;
-										setAttributes({ alignment: { ...alignment } });
+										setAttributes({ alignment: { ...alignment, [breakpoint]: value } });
 									}}
 								/>
 								<SelectControl
@@ -260,74 +275,13 @@ export const RowEdit = (props) => {
 										direction[breakpoint] != null ? direction[breakpoint] : DEFAULT_ATTRIBUTES.direction[breakpoint]
 									}
 									onChange={(value) => {
-										direction[breakpoint] = value;
-										setAttributes({ direction: { ...direction } });
+										setAttributes({ direction: { ...direction, [breakpoint]: value } });
 									}}
 								/>
 							</PanelBody>
 						);
 					}}
-				</ResponsiveTabs>
-				<PanelBody
-					title={__("Spacing", "gutestrap")}
-					initialOpen={!!(parseFloat(padding?.top) || parseFloat(padding?.bottom))}
-				>
-					<BaseControl
-						label={__("Padding", "gutestrap")}
-						className={isPaddingLinked ? "spacing-linked" : "spacing-not-linked"}
-					>
-						<Flex align={"flex-end"}>
-							<FlexItem>
-								<Flex>
-									<FlexItem>
-										<UnitControl
-											className="spacing-unit-control"
-											label={isPaddingLinked ? __("Top and bottom", "gutestrap") : __("Top", "gutestrap")}
-											size="small"
-											value={padding?.top}
-											onChange={(value) => {
-												padding.top = value;
-												if (isPaddingLinked) {
-													padding.bottom = value;
-												}
-												setAttributes({ padding: { ...padding } });
-											}}
-										/>
-									</FlexItem>
-									{!isPaddingLinked && (
-										<FlexItem>
-											<UnitControl
-												className="spacing-unit-control"
-												label={__("Bottom", "gutestrap")}
-												size="small"
-												value={padding?.bottom}
-												onChange={(value) => {
-													padding.bottom = value;
-													setAttributes({ padding: { ...padding } });
-												}}
-											/>
-										</FlexItem>
-									)}
-								</Flex>
-							</FlexItem>
-							<FlexItem style={{ marginLeft: "auto" }}>
-								<Tooltip text={isPaddingLinked ? __("Unlink sides", "gutestrap") : __("Link sides", "gutestrap")}>
-									<span>
-										<Button
-											onClick={() => setIsPaddingLinked((state) => !state)}
-											className="spacing-linked-button"
-											isPrimary={isPaddingLinked}
-											isSecondary={!isPaddingLinked}
-											isSmall
-											icon={isPaddingLinked ? link : linkOff}
-											iconSize={16}
-										/>
-									</span>
-								</Tooltip>
-							</FlexItem>
-						</Flex>
-					</BaseControl>
-				</PanelBody>
+				</BreakpointTabs>
 				<PanelBody title={__("Gutters", "gutestrap")} initialOpen={false}>
 					<ToggleControl
 						checked={!noGutters}
@@ -356,27 +310,23 @@ export const RowEdit = (props) => {
 					}}
 				/>
 			</InspectorAdvancedControls>
-
-			<div
-				className={classNames(className, rowClassNames(attributes))}
-				style={{
-					paddingTop: padding?.top || null,
-					paddingBottom: padding?.bottom || null,
-				}}
-			>
-				<InnerBlocks
-					allowedBlocks={[rowBreakBlockName, columnBlockName]}
-					orientation="horizontal"
-					renderAppender={() => {
-						return (
-							<Fragment>
-								<BlockControlsBlockAppender rootClientId={clientId} />
-								<InnerBlocks.ButtonBlockAppender />
-							</Fragment>
-						);
-					}}
-				/>
-			</div>
 		</Fragment>
 	);
 };
+
+wp.hooks.addFilter(
+	"blocks.getBlockAttributes",
+	"gutestrap/row/allowed-custom-classes",
+	/**
+	 *
+	 * @param {{className: ?string}} blockAttributes Block attributes.
+	 * @param {{name: string}} blockType Block type settings.
+	 * @returns {Object} blockAttributes
+	 */
+	function filterRowCustomClasses(blockAttributes, blockType) {
+		if (blockType?.name === "gutestrap/row" && blockAttributes.className) {
+			blockAttributes.className = stripRowClassNames(blockAttributes.className);
+		}
+		return blockAttributes;
+	}
+);

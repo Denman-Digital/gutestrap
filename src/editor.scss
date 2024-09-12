@@ -7,7 +7,11 @@
 @use "sass:list";
 @use "sass:math";
 @use "sass:map";
+@use "sass:color";
+@use "func";
 @use "common" as *;
+
+$grid-breakpoints: $grid-breakpoints-raw;
 
 html {
 	box-sizing: border-box;
@@ -18,78 +22,194 @@ html {
 *::before,
 *::after {
 	box-sizing: inherit;
+	background-repeat: no-repeat;
 }
 
-.gutestrap-enabled #editor .wp-block:not(.gutestrap-block-col) {
+.gutestrap-enabled .editor-styles-wrapper .wp-block:not(.gutestrap-block-col),
+.gutestrap-enabled
+	.editor-styles-wrapper
+	.block-editor-block-list__layout.is-root-container
+	> .wp-block:not(.gutestrap-block-col) {
 	max-width: unset;
 }
+
+.editor-styles-wrapper .wp-block.gutestrap-block-col {
+	margin-right: unset;
+
+	&:not([class*="offset-"]) {
+		margin-left: unset;
+	}
+}
+
+$include-column-box-sizing: true !default;
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+@import "../node_modules/bootstrap/scss/mixins/lists";
+@import "../node_modules/bootstrap/scss/mixins/breakpoints";
+
+@import "../node_modules/bootstrap/scss/mixins/grid";
+
+@mixin make-col($size: false, $columns: $grid-columns) {
+	@if $size {
+		flex: 0 0 auto !important;
+		width: math.percentage(math.div($size, $columns)) !important;
+		max-width: math.percentage(math.div($size, $columns)) !important;
+	} @else {
+		flex: 1 1 0 !important;
+		max-width: 100% !important;
+	}
+}
+
+@mixin make-col-auto() {
+	flex: 0 0 auto !important;
+	width: auto !important;
+}
+
+// Framework grid generation
+//
+// Used only by Bootstrap to generate the correct number of grid classes given
+// any value of `$grid-columns`.
+
+@mixin make-grid-columns($columns: $grid-columns, $gutter: $grid-gutter-width, $breakpoints: $grid-breakpoints) {
+	@each $breakpoint in map-keys($breakpoints) {
+		$infix: breakpoint-infix($breakpoint, $breakpoints);
+
+		@include media-breakpoint-up($breakpoint, $breakpoints) {
+			// Provide basic `.col-{bp}` classes for equal-width flexbox columns
+			.col#{$infix} {
+				flex: 1 0 0% !important; // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
+			}
+
+			.col#{$infix}-auto {
+				@include make-col-auto();
+			}
+
+			@if $columns > 0 {
+				@for $i from 1 through $columns {
+					.col#{$infix}-#{$i} {
+						@include make-col($i, $columns);
+					}
+				}
+
+				// `$columns - 1` because offsetting by the width of an entire row isn't possible
+				@for $i from 0 through ($columns - 1) {
+					@if not($infix == "" and $i == 0) {
+						// Avoid emitting useless .offset-0
+						.offset#{$infix}-#{$i} {
+							@include make-col-offset($i, $columns);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// @import "../node_modules/bootstrap/scss/mixins/utilities";
+
+// @import "../node_modules/bootstrap/scss/vendor/rfs";
 
 // Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
 // Makes the @content apply to the given breakpoint and wider.
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
 	$min: breakpoint-min($name, $breakpoints);
-	@if $min {
-		// $min: $min + 280px;
-		$min: $min + 17.5em;
-		@media (min-width: $min) {
-			.gutestrap-enabled #editor {
-				@if $name == sm or $name == md {
-					&,
-					& .editor-styles-wrapper[style*="width: 780px"] {
-						@content;
-					}
-				} @else {
-					.editor-styles-wrapper:not([style*="width"]) {
-						@content;
-					}
-				}
-			}
-		}
-	} @else {
-		.gutestrap-enabled #editor {
-			&,
-			& .editor-styles-wrapper[style*="width: 360px"],
-			& .editor-styles-wrapper[style*="width: 780px"] {
+	.editor-styles-wrapper {
+		@if $min {
+			@media (min-width: $min) {
 				@content;
 			}
+		} @else {
+			@content;
+		}
+	}
+}
+
+// // <<<<<<< HEAD
+// @import "../node_modules/bootstrap/scss/grid";
+
+// .row.no-gutters {
+// 	margin-left: 0;
+// 	margin-right: 0;
+
+// 	> .col,
+// 	> [class*="col-"] {
+// 		padding-left: 0 !important;
+// 		padding-right: 0 !important;
+// 	}
+// }
+
+// // Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
+// .vertical-gutters {
+// 	margin-top: calc(#{$grid-gutter-width} * -0.5);
+// 	margin-bottom: calc(#{$grid-gutter-width} * -0.5);
+
+// 	@supports (width: var(--supports-width, 100%)) {
+// 		margin-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+// 		margin-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+// 	}
+
+// 	> .col,
+// 	> [class*="col-"] {
+// 		padding-top: calc(#{$grid-gutter-width} * 0.5);
+// 		padding-bottom: calc(#{$grid-gutter-width} * 0.5);
+
+// 		@supports (width: var(--supports-width, 100%)) {
+// 			padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+// 			padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+// 		}
+// 	}
+// }
+// // =======
+:root {
+	--gs-gutter: #{$grid-gutter-width};
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@if $breakpoint == xs {
+			--gs-container-w-#{$breakpoint}: initial;
+		} @else {
+			--gs-container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
+		}
+	}
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		@include media-breakpoint-up($breakpoint) {
+			--gs-container-w: var(--gs-container-w-#{$breakpoint});
+		}
+	}
+}
+
+.gutter-reset {
+	--gs-gutter: #{$grid-gutter-width};
+}
+
+// Single container class with breakpoint max-widths
+.container,
+// 100% wide container at all breakpoints
+.container-fluid {
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: calc(var(--gs-gutter) / 2);
+	padding-left: calc(var(--gs-gutter) / 2);
+}
+
+.container {
+	max-width: var(--gs-container-w);
+}
+
+// Responsive containers that are 100% wide until a breakpoint
+@each $breakpoint, $container-max-width in $container-max-widths {
+	.container-#{$breakpoint} {
+		@extend .container-fluid;
+		@include media-breakpoint-up($breakpoint) {
+			max-width: var(--gs-container-w);
 		}
 	}
 }
 
 @import "../node_modules/bootstrap/scss/grid";
 
-.row.no-gutters {
-	margin-left: 0;
-	margin-right: 0;
-
-	> .col,
-	> [class*="col-"] {
-		padding-left: 0 !important;
-		padding-right: 0 !important;
-	}
-}
-
-// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
-.vertical-gutters {
-	margin-top: calc(#{$grid-gutter-width} * -0.5);
-	margin-bottom: calc(#{$grid-gutter-width} * -0.5);
-
-	@supports (width: var(--supports-width, 100%)) {
-		margin-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-		margin-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-	}
-
-	> .col,
-	> [class*="col-"] {
-		padding-top: calc(#{$grid-gutter-width} * 0.5);
-		padding-bottom: calc(#{$grid-gutter-width} * 0.5);
-
-		@supports (width: var(--supports-width, 100%)) {
-			padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-			padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-		}
-	}
-}
+@import "../node_modules/bootstrap/scss/utilities/flex";
 
 @each $breakpoint in map-keys($grid-breakpoints) {
 	@include media-breakpoint-up($breakpoint) {
@@ -97,15 +217,68 @@ html {
 		.justify-content#{$infix}-evenly {
 			justify-content: space-evenly !important;
 		}
-		#editor .w#{$infix}-100 {
+		.w#{$infix}-100 {
 			width: 100% !important;
 			max-width: 100% !important;
 			flex-basis: 100% !important;
 		}
+		[class*="justify-content#{$infix}-"]:not(.justify-content#{$infix}-stretch) {
+			> .col__content {
+				flex-basis: unset;
+			}
+		}
+		.justify-content#{$infix}-stretch {
+			> .col__content {
+				flex-basis: 100%;
+				max-width: 100%;
+			}
+		}
 	}
 }
 
-.gutestrap-block {
+$container-classes: (".container-fluid");
+@each $breakpoint in map.keys($grid-breakpoints) {
+	$container-classes: list.append($container-classes, ".container#{breakpoint-infix($breakpoint)}", $separator: comma);
+}
+
+.contain-inset-vert:is(#{$container-classes}) {
+	padding-top: calc(var(--gs-gutter) / 2);
+	padding-bottom: calc(var(--gs-gutter) / 2);
+}
+
+.contain-inset-wide:is(#{$container-classes}) {
+	--gs-gutter: calc(#{$grid-gutter-width} * 2);
+	> * {
+		--gs-gutter: #{$grid-gutter-width};
+	}
+}
+
+[class*="container"]:is(#{$container-classes}) .uncontain-nested:is(#{$container-classes}) {
+	padding: 0 !important;
+}
+
+.editor-styles-wrapper .gutestrap-block {
+	&-container,
+	&-container.block-editor-block-list__block:focus,
+	&-row {
+		outline: 1px dashed lightgray;
+		outline-offset: -1px;
+
+		&::before {
+			content: attr(data-title);
+			display: block;
+			font-size: 0.75rem;
+			font-family: sans-serif;
+			// color: gray;
+			padding: 1px 0.25rem 0;
+			// background-color: color.adjust(#d3d3d3, $lightness: 10%);
+			background-color: #ededed;
+			color: #575757;
+			max-width: max-content;
+			margin-inline-end: auto;
+		}
+	}
+
 	&-container,
 	&-col {
 		.block-editor-block-list__layout & {
@@ -115,89 +288,84 @@ html {
 	}
 
 	&-container {
-		outline: 1px dashed gray;
-		outline-offset: -1px;
 		min-height: 1.25rem;
 
-		&.has-child-selected,
-		&.is-selected,
-		&.is-hovered {
-			outline: 1px dashed tomato;
+		&.has-background::before {
+			// background-color: grey;
+			// color: white;
+			// max-width: max-content;
 		}
 
-		&::before {
-			content: attr(data-title);
-			display: block;
-			font-size: 0.75rem;
-			font-family: sans-serif;
-			color: gray;
-			padding-left: 0.25rem;
+		&.has-min-height {
+			display: grid;
+			grid-template-rows: auto 1fr;
+			justify-content: unset;
+
+			> * {
+				align-self: center;
+			}
 		}
-		&.is-selected,
-		&.has-child-selected,
-		&.has-inner-blocks {
-			&::before {
-				// margin-bottom: -28px;
+
+		> .container {
+			> .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender.wp-block:last-child {
+				margin-bottom: 0;
+				padding-bottom: 1em;
+			}
+
+			&::after {
+				content: "";
+				display: block;
+				height: 1px;
+				margin-top: -1px;
+				pointer-events: none;
+				visibility: hidden;
 			}
 		}
 	}
 
 	&-row {
-		outline: 1px dashed gray;
-		outline-offset: -1px;
+		display: block;
 
-		&.has-child-selected,
-		&.is-selected,
-		&.is-hovered,
-		&:hover {
-			outline: 1px dashed limegreen;
-		}
-
-		&::before {
-			content: attr(data-title);
-			display: block;
-			font-size: 0.75rem;
-			font-family: sans-serif;
-			color: gray;
-			padding-left: 0.25rem;
-		}
-
-		.-is-example &,
-		&.-is-example {
-			outline: none !important;
-
-			&::before {
-				content: none !important;
+		&.is-selected {
+			> div > div > * > .col__inner {
+				outline: 1px dashed lightgray;
 			}
 		}
 	}
 
 	&-col {
-		#editor & {
+		// Add box sizing if only the grid is loaded
+		box-sizing: border-box;
+		// Prevent columns from becoming too narrow when at smaller grid tiers by
+		// always setting `width: 100%;`. This works because we set the width
+		// later on to override this initial width.
+		flex-shrink: 0;
+		width: 100%;
+		max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
+		padding-right: calc(var(--gs-gutter) / 2);
+		padding-left: calc(var(--gs-gutter) / 2);
+
+		&.wp-block {
 			background: none !important;
 		}
 
 		&,
-		& > *:not(.wp-block-gutestrap-col) {
+		& > .col__inner {
 			display: flex;
 		}
 
-		> *,
-		> * > .wp-block-gutestrap-col {
-			width: 100%;
-			align-self: stretch;
+		&.is-selected > .col__inner,
+		&:hover > .col__inner {
+			outline: 1px dashed lightgray;
 		}
 
 		> .col__inner {
+			width: 100%;
+			align-self: stretch;
 			outline-offset: -1px;
-		}
 
-		&.has-child-selected,
-		&.is-selected,
-		&.is-hovered,
-		&:hover {
-			> .col__inner {
-				outline: 1px dashed dodgerblue;
+			> .col__content {
+				max-width: 100%;
 			}
 		}
 
@@ -208,6 +376,11 @@ html {
 
 		& > .col__inner > .col__content > .block-editor-inner-blocks {
 			min-width: 1em;
+
+			> .block-editor-block-list__layout > .aligncenter {
+				margin-left: auto;
+				margin-right: auto;
+			}
 		}
 		&
 			> .col__inner
@@ -226,25 +399,7 @@ html {
 				margin: 0;
 			}
 		}
-	}
 
-	&-row.is-selected > .row > .block-editor-inner-blocks > .block-editor-block-list__layout > &-col > .col__inner {
-		outline: 1px dashed gray;
-	}
-
-	&-row-break {
-		@include make-col-ready;
-	}
-
-	&.-is-disabled {
-		opacity: 0.5;
-		filter: grayscale(0.25);
-		// border: 1px dashed gray;
-	}
-}
-
-.wp-block-gutestrap {
-	&-col {
 		& > div > div > * {
 			&:first-child:not(:last-child) {
 				margin-top: 0;
@@ -275,71 +430,62 @@ html {
 
 	&-row-break {
 		font-size: 1.5rem;
-		color: grey;
+		color: currentColor;
+		opacity: 0.75;
 		display: flex;
 		align-items: center;
+		margin: 0.25em auto;
+		--w: calc(100% - var(--gs-gutter));
+		width: var(--w) !important;
+		max-width: var(--w) !important;
+		flex-basis: var(--w) !important;
+		flex-shrink: 0;
 
-		&::before,
-		&::after {
-			content: "";
-			display: block;
-			border: 0;
-			border-top: 1px solid #ddd;
-			border-bottom: 1px solid #fafafa;
-			flex: 1 1 0;
-		}
-
-		svg {
+		.row-break-icon {
 			margin: 0 0.25em;
+			padding: 0.25em;
+			border-radius: 50%;
+			background-color: currentColor;
+			display: block;
+
+			&-before,
+			&-after {
+				opacity: inherit;
+				border: 0;
+				border-top: 2px solid currentColor;
+				flex: 1 1 0;
+			}
+		}
+
+		svg {
+			fill: currentColor;
+			filter: invert(1) saturate(0) contrast(999);
 			display: block;
 		}
 	}
-}
 
-#editor {
-	.spacing-not-linked .spacing-unit-control {
-		.components-input-control__input {
-			width: 6.625em;
-		}
-	}
-	.spacing-linked-button {
-		svg {
-			width: 1.5em;
-			height: auto;
-		}
-	}
-	.spacing-unit-control {
-		label {
-			font-size: smaller;
-		}
+	&.-is-disabled {
+		opacity: 0.5;
+		filter: grayscale(0.25);
 	}
 }
 
-// @each $breakpoint in map-keys($grid-breakpoints) {
-// 	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-// 	@include media-breakpoint-up($breakpoint) {
-// 		.hide#{$infix},
-// 		.hide#{$infix}-up {
-// 			// display: none !important;
-// 			opacity: 0.5 !important;
-// 			filter: grayscale(0.25) !important;
-// 		}
-// 	}
-// 	@include media-breakpoint-down($breakpoint) {
-// 		.hide#{$infix}-down {
-// 			// display: none !important;
-// 			opacity: 0.5 !important;
-// 			filter: grayscale(0.25) !important;
-// 		}
-// 	}
-// 	@include media-breakpoint-only($breakpoint) {
-// 		.hide#{$infix}-only {
-// 			// display: none !important;
-// 			opacity: 0.5 !important;
-// 			filter: grayscale(0.25) !important;
-// 		}
-// 	}
-// }
+.spacing-not-linked .spacing-unit-control {
+	.components-input-control__input {
+		width: 6.625em;
+	}
+}
+.spacing-linked-button {
+	svg {
+		width: 1.5em;
+		height: auto;
+	}
+}
+.spacing-unit-control {
+	label {
+		font-size: smaller;
+	}
+}
 
 .block-editor-block-list__block[data-title] {
 	&[data-type="core/group"] {
@@ -349,30 +495,63 @@ html {
 	}
 }
 
-#editor {
-	.row.wp-block-gutestrap-row {
-		margin-right: 0;
-		margin-left: 0;
-		display: block;
+.editor-styles-wrapper {
+	.row:not(.gutestrap-block-row) {
+		display: flex;
+		flex-wrap: wrap;
+		margin-right: calc(var(--gs-gutter) / -2);
+		margin-left: calc(var(--gs-gutter) / -2);
 
-		> .block-editor-inner-blocks {
-			max-width: 100%;
-			padding-right: 0;
-			padding-left: 0;
+		> .col,
+		> [class*="col-"] {
+			padding-left: calc(var(--gs-gutter) / 2) !important;
+			padding-right: calc(var(--gs-gutter) / 2) !important;
 		}
 
-		> * > .block-editor-block-list__layout {
-			@include make-row();
+		&.vertical-gutters {
+			margin-top: calc(var(--gs-gutter) / -2) !important;
+			margin-bottom: calc(var(--gs-gutter) / -2) !important;
 
 			> .col,
 			> [class*="col-"] {
-				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
-				padding-right: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-top: calc(var(--gs-gutter) / 2) !important;
+				padding-bottom: calc(var(--gs-gutter) / 2) !important;
+			}
+		}
+
+		&.no-gutters {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+
+			> .col,
+			> [class*="col-"] {
+				padding-left: calc(var(--gs-gutter) / 2) !important;
+				padding-right: calc(var(--gs-gutter) / 2) !important;
+			}
+		}
+	}
+
+	.gutestrap-block-row {
+		> .block-editor-inner-blocks > .block-editor-block-list__layout {
+			display: flex;
+			flex-wrap: wrap;
+			margin-right: calc(var(--gs-gutter) / -2);
+			margin-left: calc(var(--gs-gutter) / -2);
+
+			> .col,
+			> [class*="col-"] {
+				padding-left: calc(var(--gs-gutter) / 2) !important;
+				padding-right: calc(var(--gs-gutter) / 2) !important;
+			}
+
+			> .block-editor-block-popover .block-editor__padding-visualizer {
+				margin-right: calc(var(--gs-gutter) / 2) !important;
+				margin-left: calc(var(--gs-gutter) / 2) !important;
 			}
 
 			> .block-list-appender {
 				position: relative;
-				padding-left: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-left: calc(var(--gs-gutter) / 2);
 				width: 100%;
 				max-width: 100%;
 				flex-basis: 100%;
@@ -389,30 +568,44 @@ html {
 			margin-left: 0;
 
 			> .col,
-			> [class*="col-"] {
+			> [class*="col-"],
+			> .block-list-appender {
 				padding-right: 0 !important;
 				padding-left: 0 !important;
 			}
+
+			> .block-editor-block-popover .block-editor__padding-visualizer {
+				margin-left: 0 !important;
+				margin-right: 0 !important;
+			}
 		}
+
 		&:not(.vertical-gutters) > * > .block-editor-block-list__layout {
 			> .col,
 			> [class*="col-"] {
 				padding-top: 0 !important;
 				padding-bottom: 0 !important;
 			}
+			> .block-editor-block-popover .block-editor__padding-visualizer {
+				margin-top: 0 !important;
+				margin-bottom: 0 !important;
+			}
 		}
 		// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 		&.vertical-gutters > * > .block-editor-block-list__layout {
-			margin-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
-			margin-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * -0.5);
+			margin-top: calc(var(--gs-gutter) / -2) !important;
+			margin-bottom: calc(var(--gs-gutter) / -2) !important;
 
 			> .col,
-			> [class*="col-"] {
-				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
-				padding-bottom: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5) !important;
-			}
+			> [class*="col-"],
 			> .block-list-appender {
-				padding-top: calc(var(--#{$prefix}gutter-x, #{$grid-gutter-width}) * 0.5);
+				padding-top: calc(var(--gs-gutter) / 2) !important;
+				padding-bottom: calc(var(--gs-gutter) / 2) !important;
+			}
+
+			> .block-editor-block-popover .block-editor__padding-visualizer {
+				margin-top: calc(var(--gs-gutter) / 2) !important;
+				margin-bottom: calc(var(--gs-gutter) / 2) !important;
 			}
 		}
 	}
@@ -422,34 +615,6 @@ html {
 	$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
 	@include media-breakpoint-up($breakpoint, $grid-breakpoints) {
-		@if $grid-row-columns > 0 {
-			@for $count from 1 through $grid-row-columns {
-				.row-cols#{$infix}-#{$count} > * {
-					width: 100%;
-				}
-				.row-cols#{$infix}-#{$count} > * > * > * {
-					// flex: 0 0 calc(100% / #{$count});
-					// max-width: calc(100% / #{$count});
-					flex: 0 0 auto;
-					width: calc(100% / #{$count});
-				}
-			}
-
-			[class*="row-cols-"] > * > * {
-				> .col#{$infix}-auto {
-					@include make-col-auto();
-				}
-
-				@if $grid-columns > 0 {
-					@for $i from 1 through $grid-columns {
-						> .col#{$infix}-#{$i} {
-							@include make-col($i, $grid-columns);
-						}
-					}
-				}
-			}
-		}
-
 		@if $grid-columns > 0 {
 			.block-editor-block-list__layout .gutestrap-block-col {
 				@for $i from 1 through $grid-columns {
@@ -461,7 +626,7 @@ html {
 			}
 		}
 
-		.wp-block-gutestrap-row {
+		.gutestrap-block-row {
 			&.justify-content#{$infix}-start > * > .block-editor-block-list__layout {
 				justify-content: flex-start !important;
 			}
@@ -645,5 +810,69 @@ hr.gutestrap-block-clear-placeholder {
 				}
 			}
 		}
+	}
+}
+
+.rich-select-input-wrapper {
+	// align-items: center;
+	box-sizing: border-box;
+	border-radius: inherit;
+	// display: flex;
+	// flex: 1 1 0%;
+	position: relative;
+
+	> * {
+		width: 100%;
+	}
+}
+
+.components-rich-select__selection-label {
+	flex: 1 1 auto;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+
+	&:not(:first-child) {
+		margin-left: 6px;
+	}
+}
+
+.components-rich-select__toggle {
+	text-align: start;
+
+	&,
+	&.has-icon {
+		display: flex;
+		width: 100%;
+		justify-content: flex-start;
+		border: #8c8f94 solid 1px;
+		border-radius: 3px;
+		padding: 6px 24px 6px 6px;
+		box-shadow: none;
+		font-size: 14px;
+		line-height: 2;
+		min-height: 30px;
+		max-width: 25rem;
+		-webkit-appearance: none;
+		background: #fff
+			url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E)
+			no-repeat right 5px top 55%;
+		background-size: 16px 16px;
+	}
+
+	&.has-icon.has-text {
+		padding-left: 6px;
+		padding-right: 24px;
+	}
+}
+
+.components-rich-select__toggle,
+.components-rich-select__menu {
+	svg {
+		&[width*="em"],
+		&[height*="em"] {
+			font-size: 24px;
+		}
+		flex: 0 0 auto;
 	}
 }

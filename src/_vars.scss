@@ -1,3 +1,5 @@
+@use "func";
+
 /**
  * #.# Variables
  *
@@ -5,45 +7,43 @@
  * that are used across the project.
 */
 
+$grid-breakpoints-raw: (
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1420px,
+	xxxl: 1680px,
+	xxxxl: 1900px,
+);
+
 $grid-breakpoints: (
 	xs: 0,
-	// sm: 576px,
-	sm: 36em,
-	// md: 768px,
-	md: 48em,
-	// lg: 992px,
-	lg: 62em,
-	// xl: 1200px,
-	xl: 75em,
-	// xxl: 1420px,
-	xxl: 88.75em,
-	// xxxl: 1680px,
-	xxxl: 105em,
-	// xxxxl: 1900px,
-	xxxxl: 118.75em,
+	sm: func.px-to-em(576px),
+	md: func.px-to-em(768px),
+	lg: func.px-to-em(992px),
+	xl: func.px-to-em(1200px),
+	xxl: func.px-to-em(1420px),
+	xxxl: func.px-to-em(1680px),
+	xxxxl: func.px-to-em(1900px),
 );
 
 $container-max-widths: (
-	// sm: 540px,
-	sm: 33.75rem,
-	// md: 720px,
-	md: 45rem,
-	// lg: 960px,
-	lg: 60rem,
-	// xl: 1140px,
-	xl: 71.25rem,
-	// xxl: 1320px,
-	xxl: 82.5rem,
-	// xxxl: 1440px,
-	xxxl: 90rem,
-	// xxxxl: 1740px,
-	xxxxl: 108.75rem,
+	sm: func.px-to-rem(540px),
+	md: func.px-to-rem(720px),
+	lg: func.px-to-rem(960px),
+	xl: func.px-to-rem(1140px),
+	xxl: func.px-to-rem(1320px),
+	xxxl: func.px-to-rem(1440px),
+	xxxxl: func.px-to-rem(1740px),
 );
 
 $grid-columns: 12;
 $grid-gutter-width: 1.875rem;
-$grid-row-columns: 6;
+$grid-row-columns: 0;
 $prefix: gs-;
+$enable-grid-classes: true;
 
 // 👇 not used, just defined here to make Bootstrap happy
 $gutters: ();

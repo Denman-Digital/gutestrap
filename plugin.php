@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Plugin Name: Gutestrap
+ * Plugin Name: GuteStrap
  * Plugin URI: https://github.com/Denman-Digital/gutestrap/tree/compat
  * Update URI: gutestrap
- * Description: Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies). The Compat version limits and polyfills modern features to provide greater support for older devices/browsers.
+ * Description: Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies).
  * Author: Denman Digital
  * Author URI: https://denman.digital
- * Version: 2.0.0-compat
+ * Version: 2.2.6-compat
  * Requires at least: 6.0
- * Requires PHP: 7.4
- * License: GPL2+
+ * Requires PHP: 8.1
+ * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
- *
+ * Text Domain: gutestrap
+ * Domain Path: /languages/
  * @package gutestrap
  */
 
@@ -30,6 +31,10 @@ define("GUTESTRAP_PLUGIN_BASENAME", plugin_basename(__FILE__));
 
 define("GUTESTRAP_PLUGIN_FILE", basename(__FILE__));
 
+define("GUTESTRAP_PLUGIN_URI", plugin_dir_url(__FILE__));
+
+define("GUTESTRAP_PLUGIN_PATH", plugin_dir_path(__FILE__));
+
 /**
  * PHP Dependencies
  */
@@ -44,3 +49,12 @@ require_once plugin_dir_path(__FILE__) . 'src/init.php';
  * Update Check
  */
 require_once plugin_dir_path(__FILE__) . 'src/update.php';
+
+/**
+ * Load plugin textdomain.
+ */
+function gutestrap_load_textdomain()
+{
+	load_plugin_textdomain('gutestrap', false, dirname(GUTESTRAP_PLUGIN_BASENAME) . '/languages');
+}
+add_action('init', 'gutestrap_load_textdomain');

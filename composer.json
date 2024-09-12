@@ -9,17 +9,22 @@
 		}
 	],
 	"require": {
-		"php": ">=7.4",
+		"php": ">=8.1",
 		"denman-digital/wp-utils": "^1.1",
 		"scssphp/scssphp": "^1.4"
 	},
 	"require-dev": {
-		"php-stubs/wordpress-stubs": "^6.1"
+		"php-stubs/wordpress-stubs": "^6.4",
+		"wp-cli/i18n-command": "^2.2.5"
 	},
 	"repositories": [
 		{
 			"type": "vcs",
 			"url": "https://github.com/Denman-Digital/wp-utils"
 		}
-	]
+	],
+	"scripts": {
+		"lint": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor .",
+		"make-pot": "wp i18n make-pot . gutestrap.pot --domain=gutestrap"
+	}
 }

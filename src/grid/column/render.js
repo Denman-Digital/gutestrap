@@ -2,6 +2,7 @@ import classNames from "classnames";
 import {
 	InnerBlocks,
 	getColorClassName,
+	useBlockProps,
 	__experimentalGetGradientClass as getGradientClass,
 } from "@wordpress/block-editor";
 
@@ -98,6 +99,22 @@ export const columnInnerClassNames = ({ contentAlignment = {} }) => {
 	return classNames("col__inner", contentAlignClasses);
 };
 
+export function stripColClassNames(className = "") {
+	if (className) {
+		className = className
+			.replace(/^(.*\s)?col-(?:\d{1,2}|auto)(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?col(?:-(?:xs|sm|md|lg|x{1,3}l))(?:-(?:\d{1,2}|auto))?(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?offset(?:-(?:xs|sm|md|lg|x{1,3}l))?-\d{1,2}(\s.*)?$/gi, "$1$2")
+			.replace(
+				/^(.*\s)?align-self(?:-(?:xs|sm|md|lg|x{1,3}l))?-(?:stretch|start|end|center|baseline|none)(\s.*)?$/gi,
+				"$1$2"
+			)
+			.replace(/^(.*\s)?has-[\w-]+-background-color(\s.*)?$/gi, "$1$2")
+			.replace(/\s{2,}/g, " ");
+	}
+	return className.trim();
+}
+
 /**
  * The save function defines the way in which the different attributes should be combined
  * into the final markup, which is then serialized by Gutenberg into post_content.
@@ -111,28 +128,40 @@ export const columnInnerClassNames = ({ contentAlignment = {} }) => {
  * @param {string} props.className Class name.
  * @returns {Mixed} JSX Frontend HTML.
  */
-export const ColumnRender = ({ attributes, className = "" }) => {
-	const { width, anchor, background, textColor, backgroundColor, gradient, padding, margin, style = {} } = attributes;
-	const { color = {} /*, spacing = {} */ } = style;
-	// const { padding, margin } = spacing;
-	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+export const ColumnRender = (props) => {
+	const { attributes } = props;
+	const { className = "" } = attributes;
+
+	const blockProps = useBlockProps.save({
+		className: classNames(stripColClassNames(className), columnClassNames(attributes), {
+			"has-min-height":
+				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+		}),
+	});
 
 	/** @type {CSSStyleDeclaration} */
-	const innerStyle = {
-		paddingTop: padding?.top || null,
-		paddingRight: padding?.right || null,
-		paddingBottom: padding?.bottom || null,
-		paddingLeft: padding?.left || null,
-		color: customTextColor || null,
-		backgroundColor: customBackgroundColor || null,
-	};
+	let innerStyle = {};
 
-	if (!hasOption(width?.lg)) {
-		className = className.replace(/col-lg(?:-(?:\d{1,2}|auto))?/g, "");
+	if (blockProps?.style) {
+		const { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight } = blockProps.style;
+		innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight };
+		delete blockProps.style.paddingTop;
+		delete blockProps.style.paddingRight;
+		delete blockProps.style.paddingBottom;
+		delete blockProps.style.paddingLeft;
+		delete blockProps.style.color;
+		delete blockProps.style.backgroundColor;
+		delete blockProps.style.backgroundImage;
+		delete blockProps.style.background;
+		delete blockProps.style.minHeight;
 	}
-	if (!hasOption(width?.md)) {
-		className = className.replace(/col-md(?:-(?:\d{1,2}|auto))?/g, "");
-	}
+
+	const { background, textColor, backgroundColor, gradient, style = {} } = attributes;
+	const { color = {} } = style;
+	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+
+	innerStyle.color = customTextColor || null;
+	innerStyle.backgroundColor = customBackgroundColor || null;
 
 	if (background?.image?.url) {
 		innerStyle.backgroundPosition = background?.position || "center center";
@@ -148,15 +177,12 @@ export const ColumnRender = ({ attributes, className = "" }) => {
 		innerStyle.backgroundImage = customGradient;
 	}
 
+	if (gradient && blockProps.className) {
+		blockProps.className = blockProps.className.replace(getGradientClass(gradient), "");
+	}
+
 	return (
-		<div
-			id={anchor || null}
-			className={classNames(className, columnClassNames(attributes))}
-			style={{
-				marginTop: margin?.top || null,
-				marginBottom: margin?.bottom || null,
-			}}
-		>
+		<div {...blockProps}>
 			<div
 				className={classNames(columnInnerClassNames(attributes), {
 					"has-text-color": textColor || customTextColor,
@@ -175,9 +201,295 @@ export const ColumnRender = ({ attributes, className = "" }) => {
 	);
 };
 
+wp.hooks.addFilter(
+	"blocks.getSaveContent.extraProps",
+	"gutestrap/col/strip-bad-classes-on-save",
+	function stripBadClassesOnSave(props, blockType, attributes) {
+		if (blockType.name === "gutestrap/col" && props.className) {
+			props.className = classNames(stripColClassNames(props.className), columnClassNames(attributes));
+		}
+		return props;
+	}
+);
+
 //==============================================================================
 // DEPRECATED VERSIONS
 //
+
+function migrateColumnAttributes(attributes, innerBlocks) {
+	const { padding, margin, customTextColor, customBackgroundColor, customGradient, ...attrs } = attributes;
+	attrs.style = attrs.style || {};
+	attrs.style.spacing = attrs.style.spacing || {};
+	attrs.style.color = attrs.style.color || {};
+	if (padding) {
+		attrs.style.spacing.padding = padding;
+	}
+	if (margin) {
+		attrs.style.spacing.margin = margin;
+	}
+
+	attrs.style.color = attrs.style.color || {};
+	if (customTextColor) {
+		attrs.style.color.text = customTextColor;
+	}
+	if (customBackgroundColor) {
+		attrs.style.color.background = customBackgroundColor;
+	}
+	if (customGradient) {
+		attrs.style.color.gradient = customGradient;
+	}
+	return [attrs, innerBlocks];
+}
+
+export const v11 = {
+	save: (props) => {
+		const { attributes } = props;
+		const { className = "" } = attributes;
+
+		const blockProps = useBlockProps.save({
+			className: classNames(stripColClassNames(className), columnClassNames(attributes), {
+				"has-min-height":
+					!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+			}),
+		});
+
+		/** @type {CSSStyleDeclaration} */
+		let innerStyle = {};
+
+		if (blockProps?.style) {
+			const { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight } = blockProps.style;
+			innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight };
+			delete blockProps.style.paddingTop;
+			delete blockProps.style.paddingRight;
+			delete blockProps.style.paddingBottom;
+			delete blockProps.style.paddingLeft;
+			delete blockProps.style.color;
+			delete blockProps.style.backgroundColor;
+			delete blockProps.style.backgroundColor;
+			delete blockProps.style.minHeight;
+		}
+
+		const { background, textColor, backgroundColor, gradient, style = {} } = attributes;
+		const { color = {} } = style;
+		const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+
+		innerStyle.color = customTextColor || null;
+		innerStyle.backgroundColor = customBackgroundColor || null;
+
+		if (background?.image?.url) {
+			innerStyle.backgroundPosition = background?.position || "center center";
+			innerStyle.backgroundSize = background?.size || "cover";
+			innerStyle.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+		}
+
+		if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+			if (innerStyle.backgroundImage) innerStyle.backgroundImage += ", ";
+			innerStyle.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+		} else if (customGradient) {
+			innerStyle.backgroundImage = customGradient;
+		}
+
+		return (
+			<div {...blockProps}>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						"has-text-color": textColor || customTextColor,
+						"has-background": backgroundColor || customBackgroundColor || innerStyle.backgroundImage,
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+						[getGradientClass(gradient)]: gradient,
+					})}
+					style={innerStyle}
+				>
+					<div className="col__content">
+						<InnerBlocks.Content />
+					</div>
+				</div>
+			</div>
+		);
+	},
+};
+
+export const v10 = {
+	attributes: {
+		width: {
+			type: "object",
+			default: {
+				xs: 12,
+			},
+		},
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		contentAlignment: { type: "object" },
+		background: { type: "object" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			gradients: true,
+			background: true,
+			text: true,
+		},
+		spacing: {
+			margin: ["top", "bottom"], // Enable vertical margins.
+			padding: true, // Enable padding for all sides.
+		},
+	},
+	save: ({ attributes, className = "" }) => {
+		const { width, anchor, background, textColor, backgroundColor, gradient, style = {} } = attributes;
+		const { color = {}, spacing = {} } = style;
+		const { padding, margin } = spacing;
+		const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+
+		const innerStyle = {
+			paddingTop: padding?.top,
+			paddingRight: padding?.right,
+			paddingBottom: padding?.bottom,
+			paddingLeft: padding?.left,
+			color: customTextColor || null,
+			backgroundColor: customBackgroundColor || null,
+		};
+		if (!hasOption(width?.lg)) {
+			className = className.replace(/col-lg(?:-(?:\d{1,2}|auto))?/g, "");
+		}
+		if (!hasOption(width?.md)) {
+			className = className.replace(/col-md(?:-(?:\d{1,2}|auto))?/g, "");
+		}
+
+		if (background?.image?.url) {
+			innerStyle.backgroundPosition = background?.position || "center center";
+			innerStyle.backgroundSize = background?.size || "cover";
+			innerStyle.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+		}
+
+		if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+			if (innerStyle.backgroundImage) innerStyle.backgroundImage += ", ";
+			innerStyle.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+		} else if (customGradient) {
+			innerStyle.backgroundImage = customGradient;
+		}
+
+		return (
+			<div
+				id={anchor || null}
+				className={classNames(className, columnClassNames(attributes))}
+				style={{
+					marginTop: margin?.top,
+					marginBottom: margin?.bottom,
+				}}
+			>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						"has-text-color": textColor || customTextColor,
+						"has-background": backgroundColor || customBackgroundColor || innerStyle.backgroundImage,
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+						[getGradientClass(gradient)]: gradient,
+					})}
+					style={innerStyle}
+				>
+					<div className="col__content">
+						<InnerBlocks.Content />
+					</div>
+				</div>
+			</div>
+		);
+	},
+};
+
+export const v9 = {
+	attributes: {
+		width: {
+			type: "object",
+			default: {
+				xs: 12,
+			},
+		},
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		contentAlignment: { type: "object" },
+		background: { type: "object" },
+		padding: { type: "object" },
+		margin: { type: "object" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			gradients: true,
+			background: true,
+			text: true,
+		},
+	},
+	migrate: migrateColumnAttributes,
+	save: ({ attributes, className = "" }) => {
+		const { width, anchor, background, textColor, backgroundColor, gradient, padding, margin, style = {} } = attributes;
+		const { color = {} } = style;
+		const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+
+		/** @type {CSSStyleDeclaration} */
+		const innerStyle = {
+			paddingTop: padding?.top || null,
+			paddingRight: padding?.right || null,
+			paddingBottom: padding?.bottom || null,
+			paddingLeft: padding?.left || null,
+			color: customTextColor || null,
+			backgroundColor: customBackgroundColor || null,
+		};
+
+		if (!hasOption(width?.lg)) {
+			className = className.replace(/col-lg(?:-(?:\d{1,2}|auto))?/g, "");
+		}
+		if (!hasOption(width?.md)) {
+			className = className.replace(/col-md(?:-(?:\d{1,2}|auto))?/g, "");
+		}
+
+		if (background?.image?.url) {
+			innerStyle.backgroundPosition = background?.position || "center center";
+			innerStyle.backgroundSize = background?.size || "cover";
+			innerStyle.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+		}
+
+		if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+			if (innerStyle.backgroundImage) innerStyle.backgroundImage += ", ";
+			innerStyle.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+		} else if (customGradient) {
+			innerStyle.backgroundImage = customGradient;
+		}
+
+		return (
+			<div
+				id={anchor || null}
+				className={classNames(className, columnClassNames(attributes))}
+				style={{
+					marginTop: margin?.top || null,
+					marginBottom: margin?.bottom || null,
+				}}
+			>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						"has-text-color": textColor || customTextColor,
+						"has-background": backgroundColor || customBackgroundColor || innerStyle.backgroundImage,
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+						[getGradientClass(gradient)]: gradient,
+					})}
+					style={innerStyle}
+				>
+					<div className="col__content">
+						<InnerBlocks.Content />
+					</div>
+				</div>
+			</div>
+		);
+	},
+};
 
 export const v8 = {
 	attributes: {
@@ -200,28 +512,7 @@ export const v8 = {
 		anchor: true,
 		alignWide: false,
 	},
-	migrate: (attributes, innerBlocks) => {
-		const { /* padding, margin, */ customTextColor, customBackgroundColor, customGradient, ...attrs } = attributes;
-		attrs.style = attrs.style || {};
-		// attrs.style.spacing = attrs.style.spacing || {};
-		attrs.style.color = attrs.style.color || {};
-		// if (padding) {
-		// 	attrs.style.spacing.padding = padding;
-		// }
-		// if (margin) {
-		// 	attrs.style.spacing.margin = margin;
-		// }
-		if (customTextColor) {
-			attrs.style.color.text = customTextColor;
-		}
-		if (customBackgroundColor) {
-			attrs.style.color.background = customBackgroundColor;
-		}
-		if (customGradient) {
-			attrs.style.color.gradient = customGradient;
-		}
-		return [attrs, innerBlocks];
-	},
+	migrate: migrateColumnAttributes,
 	save: ({ attributes, className }) => {
 		const {
 			background,
@@ -633,4 +924,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v8, v7, v6, v5, v4, v3, v2, v1];
+export const deprecated = [v10, v9, v8, v7, v6, v5, v4, v3, v2, v1];

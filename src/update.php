@@ -88,7 +88,7 @@ class Gutestrap_Update
 			&& !$this->did_fetch_remote_data
 		) {
 			$remote_data = (object) $this->get_remote_plugin_data();
-			$local_data = get_plugin_data(__FILE__);
+			$local_data = get_plugin_data(GUTESTRAP_PLUGIN_PATH . "plugin.php");
 
 			if (version_compare($remote_data->new_version, $local_data['Version'], '>')) {
 				$transient->response[GUTESTRAP_PLUGIN_BASENAME] = $remote_data;
@@ -109,20 +109,23 @@ class Gutestrap_Update
 			return $result;
 		}
 
+		$local_data = get_plugin_data(GUTESTRAP_PLUGIN_PATH . "plugin.php");
+
 		$result = (object) $result;
 
-		$sections = array(
-			'description'    => 'Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies).',
-			'installation'   => sprintf(
-				'<a href="%s" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder.',
+		$sections = [
+			'description' => $local_data["Description"],
+			'installation' => sprintf(
+				// translators: %s: link URL
+				__('<a href="%s" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder.', "gutestrap"),
 				esc_url("https://github.com/Denman-Digital/gutestrap/archive/{$this->repo_version_branch}.zip")
 			),
-			'changelog'      => sprintf(
+			'changelog' => sprintf(
 				'<a href="%s">%s</a>',
 				esc_url("https://github.com/Denman-Digital/gutestrap/releases"),
 				__("Full list of releases", "gutestrap"),
 			),
-		);
+		];
 		$result->sections = $sections;
 		return $result;
 	}

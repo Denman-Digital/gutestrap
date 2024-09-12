@@ -1,0 +1,97 @@
+/**
+ * #.# Styles
+ *
+ * CSS for Frontend.
+ */
+
+@use "sass:list";
+@use "sass:map";
+
+@import "./vars";
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+@mixin make-row($gutter: $grid-gutter-width) {
+	margin-right: calc(#{$gutter} / -2);
+	margin-left: calc(#{$gutter} / -2);
+}
+
+@mixin make-col-ready($gutter: $grid-gutter-width) {
+	padding-right: calc(#{$gutter} / 2);
+	padding-left: calc(#{$gutter} / 2);
+}
+
+@supports not (top: var(--x)) {
+	// Single container class with breakpoint max-widths
+	.container,
+  // 100% wide container at all breakpoints
+	.container-fluid {
+		padding-right: calc(#{$grid-gutter-width} / 2);
+		padding-left: calc(#{$grid-gutter-width} / 2);
+	}
+
+	// Responsive containers that are 100% wide until a breakpoint
+	@each $breakpoint, $container-max-width in $container-max-widths {
+		.container-#{$breakpoint} {
+			@extend .container-fluid;
+
+			@include media-breakpoint-up($breakpoint) {
+				%responsive-container-#{$breakpoint} {
+					max-width: $container-max-width;
+				}
+				// Extend each breakpoint which is smaller or equal to the current breakpoint
+				$extend-breakpoint: true;
+				@each $name, $width in $grid-breakpoints {
+					@if ($extend-breakpoint) {
+						.container#{breakpoint-infix($name, $grid-breakpoints)} {
+							@extend %responsive-container-#{$breakpoint};
+						}
+						// Once the current breakpoint is reached, stop extending
+						@if ($breakpoint == $name) {
+							$extend-breakpoint: false;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@import "../node_modules/bootstrap/scss/grid";
+
+	.row.vertical-gutters {
+		margin-top: calc(#{$grid-gutter-width} / -2);
+		margin-bottom: calc(#{$grid-gutter-width} / -2);
+
+		> .col,
+		> [class*="col-"] {
+			padding-top: calc(#{$grid-gutter-width} / 2);
+			padding-bottom: calc(#{$grid-gutter-width} / 2);
+		}
+	}
+
+	$container-classes: (".container-fluid");
+	@each $breakpoint in map.keys($grid-breakpoints) {
+		$container-classes: list.append(
+			$container-classes,
+			".container#{breakpoint-infix($breakpoint)}",
+			$separator: comma
+		);
+	}
+
+	.contain-inset-vert:is(#{$container-classes}) {
+		padding-top: calc(#{$grid-gutter-width} / 2);
+		padding-bottom: calc(#{$grid-gutter-width} / 2);
+	}
+
+	.contain-inset-wide:is(#{$container-classes}) {
+		padding-left: $grid-gutter-width;
+		padding-right: $grid-gutter-width;
+
+		&.contain-inset-vert {
+			padding-top: $grid-gutter-width;
+			padding-bottom: $grid-gutter-width;
+		}
+	}
+}

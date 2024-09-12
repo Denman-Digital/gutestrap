@@ -1,10 +1,9 @@
-import classNames from "classnames";
-import { InnerBlocks } from "@wordpress/block-editor";
+import classnames from "classnames";
+import { InnerBlocks, useBlockProps } from "@wordpress/block-editor";
 
 export const rowClassNames = (attributes) => {
-	return classNames(
+	return classnames(
 		rowBasicClassNames(attributes),
-		rowColumnWidthClassNames(attributes),
 		rowAlignmentClassNames(attributes),
 		rowJustificationClassNames(attributes),
 		rowDirectionClassNames(attributes),
@@ -12,14 +11,14 @@ export const rowClassNames = (attributes) => {
 	);
 };
 export const rowBasicClassNames = ({ noGutters = false, verticalGutters = false }) => {
-	return classNames({
+	return classnames({
 		row: true,
 		"no-gutters": !!noGutters,
 		"vertical-gutters": !!verticalGutters,
 	});
 };
 export const rowColumnWidthClassNames = ({ defaultColWidth = {} }) => {
-	return classNames({
+	return classnames({
 		[`row-cols-${defaultColWidth.xs}`]: !!defaultColWidth.xs,
 		[`row-cols-sm-${defaultColWidth.sm}`]: !!defaultColWidth.sm,
 		[`row-cols-md-${defaultColWidth.md}`]: !!defaultColWidth.md,
@@ -30,7 +29,7 @@ export const rowColumnWidthClassNames = ({ defaultColWidth = {} }) => {
 	});
 };
 export const rowAlignmentClassNames = ({ alignment = {} }) => {
-	return classNames({
+	return classnames({
 		[`align-items-${alignment.xs}`]: alignment.xs,
 		[`align-items-sm-${alignment.sm}`]: !!alignment.sm && alignment.sm !== "inherit",
 		[`align-items-md-${alignment.md}`]: !!alignment.md && alignment.md !== "inherit",
@@ -41,7 +40,7 @@ export const rowAlignmentClassNames = ({ alignment = {} }) => {
 	});
 };
 export const rowJustificationClassNames = ({ justification = {} }) => {
-	return classNames({
+	return classnames({
 		[`justify-content-${justification.xs}`]: justification.xs,
 		[`justify-content-sm-${justification.sm}`]: !!justification.sm && justification.sm !== "inherit",
 		[`justify-content-md-${justification.md}`]: !!justification.md && justification.md !== "inherit",
@@ -52,7 +51,7 @@ export const rowJustificationClassNames = ({ justification = {} }) => {
 	});
 };
 export const rowDirectionClassNames = ({ direction = {} }) => {
-	return classNames({
+	return classnames({
 		[`flex-${direction.xs}`]: direction.xs,
 		[`flex-sm-${direction.sm}`]: !!direction.sm && direction.sm !== "inherit",
 		[`flex-md-${direction.md}`]: !!direction.md && direction.md !== "inherit",
@@ -63,7 +62,7 @@ export const rowDirectionClassNames = ({ direction = {} }) => {
 	});
 };
 export const rowWrapClassNames = ({ direction = {} }) => {
-	return classNames({
+	return classnames({
 		[`flex-${direction.xs?.replace("row", "wrap")}`]: direction.xs,
 		[`flex-sm-${direction.sm?.replace("row", "wrap")}`]: !!direction.sm && direction.sm !== "inherit",
 		[`flex-md-${direction.md?.replace("row", "wrap")}`]: !!direction.md && direction.md !== "inherit",
@@ -75,6 +74,30 @@ export const rowWrapClassNames = ({ direction = {} }) => {
 };
 
 /**
+ * Used to prevent critical classes from being used in the custom classname field.
+ * @param {string} className Custom className attribute.
+ * @returns {string} filtered class name
+ */
+export function stripRowClassNames(className = "") {
+	if (className) {
+		className = className
+			.replace(/^(.*\s)?row(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?(?:no|vertical)-gutters(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?flex(?:-(?:xs|sm|md|lg|x{1,3}l))?-row(?:-reverse)?(\s.*)?$/gi, "$1$2")
+			.replace(/^(.*\s)?flex(?:-(?:xs|sm|md|lg|x{1,3}l))?-wrap(?:-reverse)?(\s.*)?$/gi, "$1$2")
+			.replace(
+				/^(.*\s)?align-items(?:-(?:xs|sm|md|lg|x{1,3}l))?-(?:stretch|start|end|center|baseline|none)(\s.*)?$/gi,
+				"$1$2"
+			)
+			.replace(
+				/^(.*\s)?justify-content(?:-(?:xs|sm|md|lg|x{1,3}l))?-(?:stretch|start|end|center|between|evenly|around|none)(\s.*)?$/gi,
+				"$1$2"
+			);
+	}
+	return className.trim();
+}
+
+/**
  * The save function defines the way in which the different attributes should be combined
  * into the final markup, which is then serialized by Gutenberg into post_content.
  *
@@ -83,28 +106,121 @@ export const rowWrapClassNames = ({ direction = {} }) => {
  * @param {Object} props Props.
  * @returns {Mixed} JSX Frontend HTML.
  */
-export const RowRender = ({ attributes, className }) => {
-	const { padding, anchor } = attributes;
-	// const { style = {}, anchor } = attributes;
-	// const { spacing = {} } = style;
-	// const { padding } = spacing;
+export const RowRender = ({ attributes }) => {
+	const { className = "" } = attributes;
+	const blockProps = useBlockProps.save({
+		className: classnames(stripRowClassNames(className), {
+			"has-min-height":
+				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+		}),
+	});
+
 	return (
-		<div
-			id={anchor || null}
-			className={classNames(className, rowClassNames(attributes))}
-			style={{
-				paddingTop: padding?.top || null,
-				paddingBottom: padding?.bottom || null,
-			}}
-		>
-			<InnerBlocks.Content />
+		<div {...blockProps}>
+			<div className={classnames(rowClassNames(attributes))}>
+				<InnerBlocks.Content />
+			</div>
 		</div>
 	);
 };
 
+// function stripBadClassesOnSave(props, block, attributes) {
+// 	if (block.name === "gutestrap/row") {
+// 		/** @type {{className: string}} className */
+// 		let { className } = props;
+
+// 		if (className) {
+// 			className = className.replace(/^(.*?\s)?row(\s.*)?$/gi, "$1$2");
+// 			className = className.replace(classRegexs.gutters, "");
+// 			className = className.replace(classRegexs.alignment, "");
+// 			className = className.replace(classRegexs.justification, "");
+// 			className = className.replace(classRegexs.direction, "");
+// 			className = className.replace(classRegexs.wrap, "");
+// 			className = className.replace(/\s{2,}/g, " ");
+// 		}
+// 		props.className = classNames(className.trim());
+// 	}
+// 	return props;
+// }
+
+// // wp.hooks.addFilter(
+// // 	"blocks.getSaveContent.extraProps",
+// // 	"gutestrap/row/strip-bad-classes-on-save",
+// // 	stripBadClassesOnSave
+// // );
+
 //==============================================================================
 // DEPRECATED VERSIONS
 //
+
+const v6 = {
+	attributes: {
+		noGutters: { type: "boolean" },
+		verticalGutters: { type: "boolean" },
+		alignment: { type: "object" },
+		justification: { type: "object" },
+		direction: { type: "object" },
+		disabled: { type: "boolean" },
+		anchor: { type: "string" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		spacing: {
+			padding: ["top", "bottom"], // Enable vertical padding.
+			margin: ["top", "bottom"], // Enable vertical margin.
+		},
+	},
+	// migrate: (attributes, innerBlocks) => {
+	// 	if (attributes.verticalGutters == null) {
+	// 		attributes.verticalGutters = true;
+	// 	}
+	// 	return [attributes, innerBlocks];
+	// },
+	save: ({ attributes }) => {
+		const { className } = attributes;
+		const blockProps = useBlockProps.save({
+			className: classnames(className, rowClassNames(attributes)),
+		});
+		return (
+			<div {...blockProps}>
+				<InnerBlocks.Content />
+			</div>
+		);
+	},
+};
+
+const v5 = {
+	attributes: {
+		noGutters: { type: "boolean" },
+		verticalGutters: { type: "boolean" },
+		alignment: { type: "object" },
+		justification: { type: "object" },
+		defaultColWidth: { type: "object" },
+		direction: { type: "object" },
+		disabled: { type: "boolean" },
+		anchor: { type: "string" },
+		_isExample: { type: "boolean" },
+	},
+	save: ({ attributes, className }) => {
+		const { style = {}, anchor } = attributes;
+		const { spacing = {} } = style;
+		const { padding } = spacing;
+		return (
+			<div
+				id={anchor || null}
+				className={classnames(className, rowClassNames(attributes), rowColumnWidthClassNames(attributes))}
+				style={{
+					paddingTop: padding?.top,
+					paddingBottom: padding?.bottom,
+				}}
+			>
+				<InnerBlocks.Content />
+			</div>
+		);
+	},
+};
 
 const v4 = {
 	attributes: {
@@ -122,25 +238,23 @@ const v4 = {
 	supports: {
 		anchor: true,
 	},
-	// migrate: (attributes, innerBlocks) => {
-	// 	const { padding, ...attrs } = attributes;
-	// 	attrs.style = attrs.style || {};
-	// 	attrs.style.spacing = attrs.style.spacing || {};
-	// 	if (padding) {
-	// 		attrs.style.spacing.padding = padding;
-	// 	}
-	// 	return [attrs, innerBlocks];
-	// },
+	migrate: (attributes, innerBlocks) => {
+		const { padding, ...attrs } = attributes;
+		attrs.style = attrs.style || {};
+		attrs.style.spacing = attrs.style.spacing || {};
+		if (padding) {
+			attrs.style.spacing.padding = padding;
+		}
+		return [attrs, innerBlocks];
+	},
 	save: ({ attributes, className }) => {
 		const { padding, anchor } = attributes;
 		const style = {
 			paddingTop: padding?.top,
-			paddingRight: padding?.right,
 			paddingBottom: padding?.bottom,
-			paddingLeft: padding?.left,
 		};
 		return (
-			<div id={anchor || null} className={classNames(className, rowClassNames(attributes))} style={style}>
+			<div id={anchor || null} className={classnames(className, rowClassNames(attributes))} style={style}>
 				<InnerBlocks.Content />
 			</div>
 		);
@@ -174,7 +288,7 @@ const v3 = {
 		return (
 			<div
 				id={anchor || null}
-				className={classNames(
+				className={classnames(
 					className,
 					rowBasicClassNames(attributes),
 					rowColumnWidthClassNames(attributes),
@@ -207,7 +321,7 @@ const v2 = {
 	},
 	save: ({ attributes, className }) => {
 		return (
-			<div className={classNames(className, rowClassNames(attributes))}>
+			<div className={classnames(className, rowClassNames(attributes))}>
 				<InnerBlocks.Content />
 			</div>
 		);
@@ -227,11 +341,11 @@ const v1 = {
 	},
 	save: ({ attributes, className }) => {
 		return (
-			<div className={classNames(className, rowClassNames(attributes))}>
+			<div className={classnames(className, rowClassNames(attributes))}>
 				<InnerBlocks.Content />
 			</div>
 		);
 	},
 };
 
-export const deprecated = [v4, v3, v2, v1];
+export const deprecated = [v6, v5, v4, v3, v2, v1];

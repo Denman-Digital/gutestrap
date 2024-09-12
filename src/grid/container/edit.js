@@ -1,34 +1,49 @@
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import {
-	InspectorControls,
-	InspectorAdvancedControls,
-	InnerBlocks,
-	__experimentalGetGradientClass as getGradientClass,
-} from "@wordpress/block-editor";
-import { PanelBody, SelectControl, ToggleControl } from "@wordpress/components";
+import { InspectorControls, InspectorAdvancedControls, InnerBlocks, useBlockProps } from "@wordpress/block-editor";
+
+import { select } from "@wordpress/data";
+import { createHigherOrderComponent } from "@wordpress/compose";
+import { PanelBody, SelectControl, ToggleControl, BaseControl } from "@wordpress/components";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 
 const { config } = gutestrapGlobal;
 
-function ContainerEdit({ attributes, className, setAttributes, textColor, backgroundColor }) {
-	const { breakpoint, fluid, disabled, background, gradient, style = {} } = attributes;
-	const { color = {} } = style;
-	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+function ContainerEdit({ attributes, className, setAttributes }) {
+	const { breakpoint, fluid, anchor, disabled, background, insetVertical, insetExpand, insetConditional } = attributes;
 
-	let backgroundImageCSS = "";
-	if (background?.image?.url) {
-		backgroundImageCSS += `url(${background.image.url})`;
+	if (attributes._isExample) {
+		return (
+			<div>
+				<InnerBlocks />
+			</div>
+		);
 	}
-	if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
-		if (backgroundImageCSS) backgroundImageCSS += ", ";
-		backgroundImageCSS += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
-	} else if (customGradient) {
-		backgroundImageCSS = customGradient;
-	}
+
+	const blockProps = useBlockProps({
+		id: anchor,
+		className: classNames(className, {
+			"has-min-height":
+				!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+		}),
+	});
+
 	return (
 		<Fragment>
+			<div {...blockProps}>
+				<div
+					className={classNames(className, {
+						container: !fluid || !breakpoint,
+						[`container-${breakpoint || "fluid"}`]: fluid || breakpoint,
+						"contain-inset-vert": insetVertical,
+						"contain-inset-wide": insetExpand,
+						"uncontain-nested": insetConditional,
+					})}
+				>
+					<InnerBlocks />
+				</div>
+			</div>
 			<InspectorControls>
 				<PanelBody title={__("Responsive Max-Width", "gutestrap")}>
 					<ToggleControl
@@ -46,7 +61,7 @@ function ContainerEdit({ attributes, className, setAttributes, textColor, backgr
 						value={breakpoint}
 						options={[
 							{
-								label: __("576px and up (landscape smartphone, default)", "gutestrap"),
+								label: __("576px and up (landscape mobile, default)", "gutestrap"),
 								value: "",
 							},
 							{
@@ -58,11 +73,11 @@ function ContainerEdit({ attributes, className, setAttributes, textColor, backgr
 								value: "lg",
 							},
 							{
-								label: __("1200px and up (laptop)", "gutestrap"),
+								label: __("1200px and up (compact laptop)", "gutestrap"),
 								value: "xl",
 							},
 							{
-								label: __("1440px and up (compact desktop)", "gutestrap"),
+								label: __("1440px and up (laptop)", "gutestrap"),
 								value: "xxl",
 							},
 							{
@@ -86,44 +101,100 @@ function ContainerEdit({ attributes, className, setAttributes, textColor, backgr
 				/>
 			</InspectorControls>
 			<InspectorAdvancedControls>
-				<ToggleControl
-					label={__("Disable block", "gutestrap")}
-					help={__("Prevent this block and its contents from rendering.", "gutestrap")}
-					checked={disabled}
-					onChange={(checked) => {
-						setAttributes({ disabled: !!checked });
-					}}
-				/>
+				<BaseControl label={__("Disable Block", "gutestrap")}>
+					<ToggleControl
+						label={__("Disable block", "gutestrap")}
+						help={__("Prevent this block and its contents from rendering.", "gutestrap")}
+						checked={disabled}
+						onChange={(checked) => {
+							setAttributes({ disabled: !!checked });
+						}}
+					/>
+				</BaseControl>
+				<BaseControl label={__("Container Inset", "gutestrap")}>
+					<ToggleControl
+						label={__("Prevent nested inset", "gutestrap")}
+						help={__(
+							"Remove the container inset (horizontal & vertical) when this container is the child of another container.",
+							"gutestrap"
+						)}
+						checked={!!insetConditional}
+						onChange={(checked) => {
+							setAttributes({ insetConditional: !!checked });
+						}}
+					/>
+					<ToggleControl
+						label={__("Add vertical container inset", "gutestrap")}
+						help={__("Inset container contents vertically as well as horizontally.", "gutestrap")}
+						checked={!!insetVertical}
+						onChange={(checked) => {
+							setAttributes({ insetVertical: !!checked });
+						}}
+					/>
+					<ToggleControl
+						label={__("Expand insets", "gutestrap")}
+						help={__("Double the size of the container inset to match the gutter between row columns.", "gutestrap")}
+						checked={!!insetExpand}
+						onChange={(checked) => {
+							setAttributes({ insetExpand: !!checked });
+						}}
+					/>
+				</BaseControl>
 			</InspectorAdvancedControls>
-			<div
-				className={classNames({
-					"has-text-color": textColor?.color || customTextColor,
-					[textColor?.class]: textColor?.class,
-					"has-background": backgroundColor?.color || customBackgroundColor,
-					[backgroundColor?.class]: backgroundColor?.class,
-					[getGradientClass(gradient)]: gradient,
-				})}
-				style={{
-					backgroundImage: backgroundImageCSS || null,
-					backgroundPosition: background?.position || "center center",
-					backgroundSize: background?.size || "cover",
-					backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
-					color: textColor?.color,
-					backgroundColor: backgroundColor?.color,
-				}}
-			>
-				<div
-					className={classNames(className, {
-						container: !fluid || !breakpoint,
-						[`container-${breakpoint}`]: fluid && breakpoint,
-					})}
-				>
-					<InnerBlocks />
-				</div>
-			</div>
 		</Fragment>
 	);
 }
 
+wp.hooks.addFilter(
+	"editor.BlockListBlock",
+	"gutestrap/with-column-block-list-block-classes",
+	createHigherOrderComponent((BlockListBlock) => {
+		/**
+		 * @arg {Object} props - Props.
+		 * @arg {Object} props.attributes - Block attributes.
+		 * @arg {Object} props.block - Block properties.
+		 * @arg {string} props.block.name - Block name.
+		 * @returns {*} JSX
+		 */
+		const gutestrapColumnBlockListBlockClasses = ({ className, ...props }) => {
+			const { attributes, block, clientId } = props;
+			const extraClasses = [];
+			const wrapperProps = {};
+
+			if (block.name === "gutestrap/container") {
+				const _block = select("core/block-editor").getBlock(clientId);
+				if (_block?.innerBlocks?.length) {
+					extraClasses.push("has-inner-blocks");
+				}
+
+				const { background, gradient, style = {} } = attributes;
+				const { color = {} } = style;
+				const { gradient: customGradient } = color;
+				let backgroundImage = "";
+				if (background?.image?.url) {
+					backgroundImage += `url(${background.image.url})`;
+				}
+				if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+					if (backgroundImage) backgroundImage += ", ";
+					backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+				}
+
+				if (backgroundImage) {
+					const backgroundStyles = {
+						backgroundImage,
+						backgroundPosition: background?.position || "center center",
+						backgroundSize: background?.size || "cover",
+						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
+					};
+					wrapperProps.style = { ...backgroundStyles };
+					extraClasses.push("has-background");
+				}
+			}
+			className = classNames(className, ...extraClasses);
+			return <BlockListBlock {...props} className={className} wrapperProps={wrapperProps} />;
+		};
+		return gutestrapColumnBlockListBlockClasses;
+	}, "withGutestrapColumnBlockListBlockClasses")
+);
 export { ContainerEdit };
 export default ContainerEdit;

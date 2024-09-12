@@ -1,9 +1,10 @@
-# Gutestrap Compat
+![GuteStrap](https://raw.githubusercontent.com/Denman-Digital/gutestrap/main/assets/banner-1544x500.jpg)
+
+# GuteStrap Compat
  
 > ⚠️ **Important** ⚠️
 > 
 >   Gutestrap Compat uses the layout styles from Bootstrap version 4. Version 5 of Bootstrap dropped support for a number of older browsers, and leans hard into using CSS variables. This version of Gutestrap exists only for projects where supporting legacy(ish) browsers is crucial. In all other cases, use the latest version of regular [Gutestrap](https://github.com/Denman-Digital/gutestrap).
-
 Bootstrap layout blocks for Gutenberg.
 
 <br>
@@ -46,7 +47,7 @@ $grid-breakpoints: (
 	xl: 75em, // 1200px,
 	xxl: 88.75em, // 1420px,
 	xxxl: 105em, // 1680px,
-	xxxxl: 118.75em // 1680px,
+	xxxxl: 118.75em // 1900px,
 );
 
 $container-max-widths: (
@@ -66,7 +67,7 @@ $grid-gutter-width: 1.875rem; // 30px
 
 ## Configuration
 
-### Enable/Disable Gutestrap Blocks for Post Types
+### Enable/Disable GuteStrap Blocks for Post Types
 
 ```php
 function my_project_enable_gutestrap(bool $current_status, string $post_type_name): bool 
@@ -74,10 +75,4 @@ function my_project_enable_gutestrap(bool $current_status, string $post_type_nam
   return $post_type_name === "my_cpt" ? false : $current_status;
 }
 add_filter("gutestrap_enable_for_post_type", "my_project_enable_gutestrap", 10, 2);
-```
-
-### ~~Enable Border Colors (experimental)~~ (disabled)
-
-```php
-// add_theme_support("gutestrap-border-colors"), // disabled
 ```

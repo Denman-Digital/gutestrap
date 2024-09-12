@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gutestrap/row-break",
+	"title": "Row Break",
+	"category": "gutestrap-grid",
+	"icon": "columns",
+	"description": "Row breaks will cause any following columns to start on a new line.",
+	"keywords": ["layout", "column", "responsive"],
+	"parent": ["gutestrap/row"],
+	"version": "1.1",
+	"textdomain": "gutestrap",
+	"attributes": { "_isExample": { "type": "boolean" } },
+	"supports": {
+		"className": true,
+		"customClassName": true,
+		"anchor": false,
+		"defaultStylePicker": false,
+		"renaming": false
+	},
+	"selectors": {},
+	"styles": [],
+	"example": {
+		"attributes": {
+			"_isExample": true
+		},
+		"innerBlocks": [
+			{
+				"name": "core/image",
+				"attributes": {
+					"sizeSlug": "large",
+					"url": "https://raw.githubusercontent.com/Denman-Digital/gutestrap/main/assets/block-preview-row-break.png"
+				}
+			}
+		]
+	},
+	"editorStyle": "gutestrap-block-editor-css",
+	"editorScript": "gutestrap-block-js",
+	"variations": []
+}

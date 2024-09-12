@@ -1,4 +1,4 @@
-const { __, _x } = wp.i18n;
+const { __ } = wp.i18n;
 const { ToolbarGroup } = wp.components;
 
 import JustifyStartIcon from "./justify-start.svg";
@@ -14,36 +14,32 @@ export const FLEX_JUSTIFY_CONTENT_OPTIONS = [
 	{
 		name: "start",
 		icon: <JustifyStartIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Pack %ITEMS% to the left", "Block content justification setting", "gutestrap"),
+		title: __("Pack %ITEMS% to the left", "gutestrap"),
 	},
 	{
 		name: "center",
 		icon: <JustifyCenterIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Pack %ITEMS% in the centre", "Block content justification setting", "gutestrap"),
+		title: __("Pack %ITEMS% in the centre", "gutestrap"),
 	},
 	{
 		name: "end",
 		icon: <JustifyEndIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Pack %ITEMS% to the right", "Block content justification setting", "gutestrap"),
+		title: __("Pack %ITEMS% to the right", "gutestrap"),
 	},
 	{
 		name: "between",
 		icon: <JustifySpaceBetweenIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Distribute %ITEMS% horizontally", "Block content justification setting", "gutestrap"),
+		title: __("Distribute %ITEMS% horizontally", "gutestrap"),
 	},
 	{
 		name: "evenly",
 		icon: <JustifySpaceEvenlyIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x("Distribute %ITEMS% with equal spacing on each end", "Block content justification setting", "gutestrap"),
+		title: __("Distribute %ITEMS% with equal spacing on each end", "gutestrap"),
 	},
 	{
 		name: "around",
 		icon: <JustifySpaceAroundIcon className={BOOTSTRAP_ICON_CLASSES} />,
-		title: _x(
-			"Distribute %ITEMS% with half-size spacing on each end",
-			"Block content justification setting",
-			"gutestrap"
-		),
+		title: __("Distribute %ITEMS% with half-size spacing on each end", "gutestrap"),
 	},
 ];
 
@@ -91,7 +87,7 @@ export function BlockContentJustificationToolbar({
 			popoverProps={POPOVER_PROPS}
 			isCollapsed={isCollapsed}
 			icon={activeAlignment ? activeAlignment.icon : defaultAlignmentControl.icon}
-			label={_x("Change content distribution", "Block content justification setting label", "gutestrap")}
+			label={__("Change content distribution", "gutestrap")}
 			controls={controls.map((control) => {
 				/** @type {{icon: *, title: string}} */
 				const { icon, title } = BLOCK_CONTENT_JUSTIFICATION_CONTROLS[control];

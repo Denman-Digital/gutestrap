@@ -4,36 +4,116 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitcd6c2622ebc1de81472d93bb101f14e6
+class ComposerStaticInit4fada157ff519a3db8b8d9203a1fef5c
 {
     public static $files = array (
+        '3937806105cc8e221b8fa8db5b70d2f2' => __DIR__ . '/..' . '/wp-cli/mustangostang-spyc/includes/functions.php',
+        'be01b9b16925dcb22165c40b46681ac6' => __DIR__ . '/..' . '/wp-cli/php-cli-tools/lib/cli/cli.php',
         'c257f8e6c6fd01559b7437f250cb4044' => __DIR__ . '/..' . '/denman-digital/wp-utils/utils.php',
+        'ffb465a494c3101218c4417180c2c9a2' => __DIR__ . '/..' . '/wp-cli/i18n-command/i18n-command.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'e' => 
+        array (
+            'eftec\\bladeone\\' => 15,
+        ),
+        'W' => 
+        array (
+            'WP_CLI\\I18n\\' => 12,
+        ),
         'S' => 
         array (
+            'Symfony\\Component\\Finder\\' => 25,
             'ScssPhp\\ScssPhp\\' => 16,
+        ),
+        'P' => 
+        array (
+            'Peast\\' => 6,
+        ),
+        'M' => 
+        array (
+            'Mustangostang\\' => 14,
+        ),
+        'G' => 
+        array (
+            'Gettext\\Languages\\' => 18,
+            'Gettext\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'eftec\\bladeone\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/eftec/bladeone/lib',
+        ),
+        'WP_CLI\\I18n\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wp-cli/i18n-command/src',
+        ),
+        'Symfony\\Component\\Finder\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
         'ScssPhp\\ScssPhp\\' => 
         array (
             0 => __DIR__ . '/..' . '/scssphp/scssphp/src',
+        ),
+        'Peast\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mck89/peast/lib/Peast',
+        ),
+        'Mustangostang\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wp-cli/mustangostang-spyc/src',
+        ),
+        'Gettext\\Languages\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/languages/src',
+        ),
+        'Gettext\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/gettext/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'c' => 
+        array (
+            'cli' => 
+            array (
+                0 => __DIR__ . '/..' . '/wp-cli/php-cli-tools/lib',
+            ),
+        ),
+        'W' => 
+        array (
+            'WP_CLI\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/wp-cli/wp-cli/php',
+            ),
+        ),
+        'M' => 
+        array (
+            'Mustache' => 
+            array (
+                0 => __DIR__ . '/..' . '/mustache/mustache/src',
+            ),
         ),
     );
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'WP_CLI' => __DIR__ . '/..' . '/wp-cli/wp-cli/php/class-wp-cli.php',
+        'WP_CLI_Command' => __DIR__ . '/..' . '/wp-cli/wp-cli/php/class-wp-cli-command.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitcd6c2622ebc1de81472d93bb101f14e6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitcd6c2622ebc1de81472d93bb101f14e6::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitcd6c2622ebc1de81472d93bb101f14e6::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4fada157ff519a3db8b8d9203a1fef5c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4fada157ff519a3db8b8d9203a1fef5c::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit4fada157ff519a3db8b8d9203a1fef5c::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit4fada157ff519a3db8b8d9203a1fef5c::$classMap;
 
         }, null, ClassLoader::class);
     }

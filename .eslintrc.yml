@@ -7,10 +7,12 @@ env:
   mocha: true
 parser: "@babel/eslint-parser"
 parserOptions:
+  requireConfigFile: false
   ecmaVersion: 6
   ecmaFeatures:
     jsx: true
 extends:
+  - plugin:compat/recommended
   - plugin:prettier/recommended
   - prettier
 plugins:
