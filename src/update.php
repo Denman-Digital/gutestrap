@@ -9,6 +9,8 @@
 
 namespace Gutestrap;
 
+use function Denman_Utils\mini_markdown_parse;
+
 class Gutestrap_Update
 {
 	private static $instance = null;
@@ -26,6 +28,7 @@ class Gutestrap_Update
 		add_filter("pre_set_site_transient_update_plugins", [$this, "modify_plugins_transient"], 10, 1);
 		add_filter("plugins_api", [$this, "modify_plugin_details"], 99999, 3);
 		add_filter("upgrader_post_install",  [$this, "post_install"], 10, 3);
+		add_action('admin_head', [$this, "custom_admin_styles"]);
 	}
 
 	public static function instance(): Gutestrap_Update
@@ -70,15 +73,14 @@ class Gutestrap_Update
 	 */
 	public function get_remote_changelog(): string
 	{
-		$remote_changelog = get_file_data($this->remote_plugin_endpoint_base . "changelog.md", []);
-		if (!$remote_changelog) return "";
+		// file_get_contents( $file, false, null, 0,
+		$remote_changelog = file_get_contents($this->remote_plugin_endpoint_base . "changelog.md", false, null, 0, 8 * KB_IN_BYTES);
+		if (!$remote_changelog) return $this->remote_plugin_endpoint_base . "changelog.md";
 
-		if (function_exists("acf_parse_markdown")) {
-			$remote_changelog = \acf_parse_markdown($remote_changelog);
-		}
+		$remote_changelog = mini_markdown_parse($remote_changelog);
 
 		return sprintf(
-			"<div>%s</div>",
+			"<div class='gutestrap-changelog'>%s</div>",
 			$remote_changelog
 		);
 	}
@@ -134,9 +136,9 @@ class Gutestrap_Update
 		$result = (object) $result;
 
 		$changelog = sprintf(
-				'<a href="%s">%s</a>',
-				esc_url("https://github.com/Denman-Digital/gutestrap/releases"),
-				__("Full list of releases", "gutestrap")
+			'<a href="%s">%s</a>',
+			esc_url("https://github.com/Denman-Digital/gutestrap/releases"),
+			__("Full list of releases", "gutestrap")
 		);
 
 		if ($remote_changelog = $this->get_remote_changelog()) {
@@ -180,6 +182,30 @@ class Gutestrap_Update
 			}
 		}
 		return $response;
+	}
+
+	/**
+	 * Admin styles.
+	 */
+	function custom_admin_styles()
+	{
+		?>
+		<style>
+			.gutestrap-changelog {
+				float: left;
+				width: 100%;
+			}
+			.gutestrap-changelog h1,
+			.gutestrap-changelog h2,
+			.gutestrap-changelog h3,
+			.gutestrap-changelog h4,
+			.gutestrap-changelog h5,
+			.gutestrap-changelog h6 {
+				margin: 0.25em 0;
+				clear: none;
+			}
+		</style>
+		<?php
 	}
 }
 
