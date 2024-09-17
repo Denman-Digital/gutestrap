@@ -40,13 +40,18 @@ function gutestrap_block_assets()
 		null,
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css') // Version: File modification time.
 	);
+	wp_register_style(
+		'gutestrap-style-rtl-css',
+		plugins_url('dist/blocks.style-rtl.build.css', dirname(__FILE__)),
+		null,
+		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style-rtl.build.css') // Version: File modification time.
+	);
 
 	// Register block editor script for backend.
 	wp_register_script(
 		'gutestrap-block-js',
 		plugins_url('/dist/blocks.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
 		[
-			// 'wp-polyfills',
 			'wp-blocks',
 			'wp-block-editor',
 			'wp-i18n',
@@ -72,7 +77,6 @@ function gutestrap_block_assets()
 
 
 	$block_assets = [
-		// 'style' => 'gutestrap-style-css',
 		'editor_script' => 'gutestrap-block-js',
 		'editor_style' => 'gutestrap-block-editor-css',
 	];
@@ -92,7 +96,7 @@ function gutestrap_block_assets()
 	register_block_type(__DIR__ . "/grid/column/block.json");
 
 	add_action("wp_enqueue_scripts", function () {
-		wp_enqueue_style('gutestrap-style-css');
+		wp_enqueue_style(is_rtl() ? 'gutestrap-style-rtl-css' : 'gutestrap-style-css');
 	});
 }
 add_action('init', 'gutestrap_block_assets');
