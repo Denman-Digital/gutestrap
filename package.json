@@ -134,6 +134,6 @@
 		"build:styles": "cross-env NODE_ENV=production gulp styles --color",
 		"build:scripts": "cross-env NODE_ENV=production gulp scripts --color",
 		"translate": "composer run make-pot",
-		"rtl": "rtlcss dist/blocks.style.build.css assets/blocks.style-rtl.build.css && rtlcss dist/blocks.compat.build.css assets/blocks.compat-rtl.build.css && rtlcss dist/blocks.editor.build.css assets/blocks.editor-rtl.build.css"
+		"rtl": "rtlcss dist/blocks.style.build.css dist/blocks.style-rtl.build.css && rtlcss dist/blocks.compat.build.css dist/blocks.compat-rtl.build.css && rtlcss dist/blocks.editor.build.css dist/blocks.editor-rtl.build.css"
 	}
 }

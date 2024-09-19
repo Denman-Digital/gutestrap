@@ -41,12 +41,18 @@ function gutestrap_block_assets()
 		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css') // Version: File modification time.
 	);
 
+	wp_register_style(
+		'gutestrap-style-rtl-css',
+		plugins_url('dist/blocks.style.build.css', dirname(__FILE__)),
+		null,
+		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css') // Version: File modification time.
+	);
+
 	// Register block editor script for backend.
 	wp_register_script(
 		'gutestrap-block-js',
 		plugins_url('/dist/blocks.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
 		[
-			// 'wp-polyfills',
 			'wp-blocks',
 			'wp-block-editor',
 			'wp-i18n',
@@ -72,7 +78,6 @@ function gutestrap_block_assets()
 
 
 	$block_assets = [
-		// 'style' => 'gutestrap-style-css',
 		'editor_script' => 'gutestrap-block-js',
 		'editor_style' => 'gutestrap-block-editor-css',
 	];
@@ -92,7 +97,7 @@ function gutestrap_block_assets()
 	register_block_type(__DIR__ . "/grid/column/block.json");
 
 	add_action("wp_enqueue_scripts", function () {
-		wp_enqueue_style('gutestrap-style-css');
+		wp_enqueue_style(is_rtl() ? 'gutestrap-style-rtl-css' : 'gutestrap-style-css');
 	});
 }
 add_action('init', 'gutestrap_block_assets');
@@ -198,15 +203,16 @@ add_filter('block_categories_all', 'gutestrap_block_categories', 10);
  */
 function gutestrap_compat_styles_logic()
 {
+	$stylesheet_path = is_rtl() ? 'dist/blocks.compat-rtl.build.css' : 'dist/blocks.compat.build.css';
 	$stylesheet_link_html = sprintf(
 		'<link rel="stylesheet" id="gutestrap-compat-css" href="%s?v=%s" media="all" />',
-		esc_url(plugins_url('dist/blocks.compat.build.css', dirname(__FILE__))),
-		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.compat.build.css')
+		esc_url(plugins_url($stylesheet_path, dirname(__FILE__))),
+		filemtime(plugin_dir_path(__DIR__) . $stylesheet_path)
 	);
 ?>
 	<script type='text/javascript'>
 		(function() {
-			var gutestrapStyles = document.getElementById("gutestrap-style-css");
+			var gutestrapStyles = document.getElementById("gutestrap-style-css") || document.getElementById("gutestrap-style-rtl-css");
 			if (gutestrapStyles && !CSS.supports("(top:var(--x))")) {
 				console.warn("GuteStrap: custom properties not supported, compat stylesheet being added");
 				gutestrapStyles.insertAdjacentHTML("afterEnd", '<?= $stylesheet_link_html; ?>');
