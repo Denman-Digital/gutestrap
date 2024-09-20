@@ -26,6 +26,9 @@ Bootstrap layout blocks for Gutenberg.
 ## 👉  `npm run build:scripts`
 - Use to build production JS for your block inside `dist` folder.
 
+## 👉  `npm run rtl`
+- Use to process built CSS into RTL stylesheets.
+
 <br>
 
 ---
