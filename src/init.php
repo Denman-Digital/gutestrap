@@ -202,15 +202,16 @@ add_filter('block_categories_all', 'gutestrap_block_categories', 10);
  */
 function gutestrap_compat_styles_logic()
 {
+	$stylesheet_path = is_rtl() ? 'dist/blocks.compat-rtl.build.css' : 'dist/blocks.compat.build.css';
 	$stylesheet_link_html = sprintf(
 		'<link rel="stylesheet" id="gutestrap-compat-css" href="%s?v=%s" media="all" />',
-		esc_url(plugins_url('dist/blocks.compat.build.css', dirname(__FILE__))),
-		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.compat.build.css')
+		esc_url(plugins_url($stylesheet_path, dirname(__FILE__))),
+		filemtime(plugin_dir_path(__DIR__) . $stylesheet_path)
 	);
 ?>
 	<script type='text/javascript'>
 		(function() {
-			var gutestrapStyles = document.getElementById("gutestrap-style-css");
+			var gutestrapStyles = document.getElementById("gutestrap-style-css") || document.getElementById("gutestrap-style-rtl-css");
 			if (gutestrapStyles && !CSS.supports("(top:var(--x))")) {
 				console.warn("GuteStrap: custom properties not supported, compat stylesheet being added");
 				gutestrapStyles.insertAdjacentHTML("afterEnd", '<?= $stylesheet_link_html; ?>');

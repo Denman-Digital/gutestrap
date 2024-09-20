@@ -66,12 +66,72 @@ function generateColumnOptions(gridCols) {
 	const widths = [
 		INHERIT_OPTION,
 		{
-			label: __("Default width from row", "gutestrap"),
+			label: __("1 unit", "gutestrap"),
+			icon: WidthIcon,
+			value: 1,
+		},
+		{
+			label: __("2 units", "gutestrap"),
+			icon: WidthIcon,
+			value: 2,
+		},
+		{
+			label: __("3 units (1/4 width)", "gutestrap"),
+			icon: WidthIcon,
+			value: 3,
+		},
+		{
+			label: __("4 units (1/3 width)", "gutestrap"),
+			icon: WidthIcon,
+			value: 4,
+		},
+		{
+			label: __("5 units", "gutestrap"),
+			icon: WidthIcon,
+			value: 5,
+		},
+		{
+			label: __("6 units (1/2 width)", "gutestrap"),
+			icon: WidthIcon,
+			value: 6,
+		},
+		{
+			label: __("7 units", "gutestrap"),
+			icon: WidthIcon,
+			value: 7,
+		},
+		{
+			label: __("8 units (2/3 width)", "gutestrap"),
+			icon: WidthIcon,
+			value: 8,
+		},
+		{
+			label: __("9 units (3/4 width)", "gutestrap"),
+			icon: WidthIcon,
+			value: 9,
+		},
+		{
+			label: __("10 units", "gutestrap"),
+			icon: WidthIcon,
+			value: 10,
+		},
+		{
+			label: __("11 units", "gutestrap"),
+			icon: WidthIcon,
+			value: 11,
+		},
+		{
+			label: __("12 units (full width)", "gutestrap"),
+			icon: WidthIcon,
+			value: 12,
+		},
+		{
+			label: __("Expand to fill row", "gutestrap"),
 			icon: WidthIcon,
 			value: COLUMN_OPTION_WIDTH_DEFAULT_VALUE,
 		},
 		{
-			label: __("Fit content", "gutestrap"),
+			label: __("Shrink to fit content", "gutestrap"),
 			icon: WidthIcon,
 			value: COLUMN_OPTION_WIDTH_FIT_VALUE,
 		},
@@ -82,15 +142,13 @@ function generateColumnOptions(gridCols) {
 		offsets.push({
 			value: offset,
 			icon: OffsetAltIcon,
-			label: offset
-				? sprintf(_n("%d column", "%d columns", offset, "gutestrap"), offset)
-				: __("No offset", "gutestrap"),
+			label: offset ? sprintf(_n("%d unit", "%d units", offset, "gutestrap"), offset) : __("No offset", "gutestrap"),
 		});
-		widths.push({
-			value: count,
-			icon: WidthIcon,
-			label: sprintf(_n("%d column", "%d columns", count, "gutestrap"), count),
-		});
+		// widths.push({
+		// 	value: count,
+		// 	icon: WidthIcon,
+		// 	label: sprintf(_n("%d column", "%d columns", count, "gutestrap"), count),
+		// });
 	}
 	return { widths, offsets };
 }
