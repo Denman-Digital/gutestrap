@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
-import { PanelBody } from "@wordpress/components";
+import { PanelBody, ToggleControl } from "@wordpress/components";
 import {
 	InspectorControls,
 	InnerBlocks,
@@ -263,11 +263,13 @@ function ColumnEdit(props) {
 		offset = {},
 		alignment = {},
 		background = {},
+		contentAlignment = {},
+		hasBorderRadius,
+		hasDropShadow,
 		textColor,
 		backgroundColor,
 		gradient,
 		style = {},
-		contentAlignment = {},
 		className,
 	} = attributes;
 
@@ -320,6 +322,8 @@ function ColumnEdit(props) {
 							backgroundColor || customBackgroundColor || backgroundImageCSS || gradient || customGradient,
 						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 						[getGradientClass(gradient)]: gradient,
+						"has-border-radius": hasBorderRadius,
+						"has-drop-shadow": hasDropShadow,
 					})}
 					style={{
 						...innerStyle,
@@ -452,6 +456,23 @@ function ColumnEdit(props) {
 					}}
 					initialOpen={!!background.image}
 				/>
+				<PanelBody title={__("Effects", "gutestrap")} initialOpen={false}>
+					<ToggleControl
+						label={__("Rounded corners", "gutestrap")}
+						help={
+							hasBorderRadius && !(background?.image?.url || backgroundColor)
+								? __("Rounded corners may not be visible without a background colour or image", "gutestrap")
+								: ""
+						}
+						checked={hasBorderRadius}
+						onChange={(value) => setAttributes({ hasBorderRadius: !!value })}
+					/>
+					<ToggleControl
+						label={__("Drop shadow", "gutestrap")}
+						checked={hasDropShadow}
+						onChange={(value) => setAttributes({ hasDropShadow: !!value })}
+					/>
+				</PanelBody>
 			</InspectorControls>
 		</Fragment>
 	);

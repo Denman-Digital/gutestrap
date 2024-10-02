@@ -154,7 +154,7 @@ export const ColumnRender = (props) => {
 		delete blockProps.style.minHeight;
 	}
 
-	const { background, textColor, backgroundColor, gradient, style = {} } = attributes;
+	const { hasBorderRadius, hasDropShadow, background, textColor, backgroundColor, gradient, style = {} } = attributes;
 	const { color = {} } = style;
 	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
 
@@ -184,6 +184,8 @@ export const ColumnRender = (props) => {
 					[getColorClassName("color", textColor)]: textColor,
 					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 					[getGradientClass(gradient)]: gradient,
+					"has-border-radius": hasBorderRadius,
+					"has-drop-shadow": hasDropShadow,
 				})}
 				style={innerStyle}
 			>
