@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.10
+
+- Added: Effects dropdown in column settings to add rounded corners or drop shadows
+
 ## v2.2.9
 
 - Added: RTL styles
