@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.2.12
+## v2.2.12-compat
 
 - Fix: updated to WP Utils v2.0.2 for upstream util fixes
 
