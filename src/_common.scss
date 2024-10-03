@@ -14,3 +14,10 @@ $admin-color-fallback: #007cba;
 .wp-block-cover-image {
 	min-height: unset;
 }
+
+.col__inner.has-border-radius {
+	border-radius: var(--gs-col-radius, 10px);
+}
+.col__inner.has-drop-shadow {
+	box-shadow: var(--gs-col-shadow, 3px 4px 20px #{rgba(black, 0.1)});
+}

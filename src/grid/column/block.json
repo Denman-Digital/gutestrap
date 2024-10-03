@@ -21,6 +21,8 @@
 		"alignment": { "type": "object" },
 		"contentAlignment": { "type": "object" },
 		"background": { "type": "object" },
+		"hasBorderRadius": {"type": "boolean"},
+		"hasDropShadow": {"type": "boolean"},
 		"_isExample": { "type": "boolean" }
 	},
 	"supports": {
@@ -39,9 +41,6 @@
 			"minHeight": true
 		},
 		"defaultStylePicker": false,
-		"position": {
-			"sticky": true
-		},
 		"renaming": false
 	},
 	"styles": [],
