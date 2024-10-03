@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.10-compat
+
+- Added: Effects dropdown in column settings to add rounded corners or drop shadows
+
 ## v2.2.9.1-compat
 
 - Fixed: RTL compat style inclusion
