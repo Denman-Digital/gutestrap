@@ -3,10 +3,10 @@
 /**
  * Utility functions
  *
- * @package Denman_WP_Utils
+ * @package Denman_Utils
  */
 
-namespace Denman_Utils;
+namespace Denman_Utils\v2;
 
 use ArrayObject;
 use DateTime;
@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use WP_Post;
 use WP_Query;
 use WP_Term;
+use WP_Taxonomy;
 
 defined('ABSPATH') || exit; // Exit if accessed directly.
 
@@ -48,6 +49,7 @@ function not_empty($var): bool
 
 /**
  * Check whether string starts with substring.
+ * @deprecated 1.2.0
  * @since 1.0.0
  * @param string $haystack String to search within.
  * @param string $needle String to search for.
@@ -55,6 +57,7 @@ function not_empty($var): bool
  */
 function str_starts_with(string $haystack, string $needle): bool
 {
+	_deprecated_function("Denman_Utils\\str_starts_with", "6.0", "str_starts_with");
 	$length = strlen($needle);
 	if ($length == 0) {
 		return true;
@@ -62,8 +65,10 @@ function str_starts_with(string $haystack, string $needle): bool
 	return (substr($haystack, 0, $length) === $needle);
 }
 
+
 /**
  * Check whether string ends with substring.
+ * @deprecated 1.2.0
  * @since 1.0.0
  * @param string $haystack String to search within.
  * @param string $needle String to search for.
@@ -71,6 +76,7 @@ function str_starts_with(string $haystack, string $needle): bool
  */
 function str_ends_with(string $haystack, string $needle): bool
 {
+	_deprecated_function("Denman_Utils\\str_ends_with", "6.0", "str_ends_with");
 	$length = strlen($needle);
 	if ($length == 0) {
 		return true;
@@ -81,7 +87,6 @@ function str_ends_with(string $haystack, string $needle): bool
 /**
  * Ensure that a string starts with a prefix.
  *
- * @uses str_starts_with
  * @since 1.0.0
  * @param string $str Subject.
  * @param string $prefix Substring to look for/prepend.
@@ -89,7 +94,7 @@ function str_ends_with(string $haystack, string $needle): bool
  */
 function str_prefix(string $str, string $prefix): string
 {
-	if (!str_starts_with($str, $prefix)) {
+	if (!\str_starts_with($str, $prefix)) {
 		$str = $prefix . $str;
 	}
 	return $str;
@@ -98,7 +103,6 @@ function str_prefix(string $str, string $prefix): string
 /**
  * Ensure that a string ends with a postfix
  *
- * @uses str_ends_with
  * @since 1.0.0
  * @param string $str Subject
  * @param string $postfix Substring to look for/append
@@ -106,7 +110,7 @@ function str_prefix(string $str, string $prefix): string
  */
 function str_postfix(string $str, string $postfix): string
 {
-	if (!str_ends_with($str, $postfix)) {
+	if (!\str_ends_with($str, $postfix)) {
 		$str .= $postfix;
 	}
 	return $str;
@@ -131,7 +135,6 @@ function str_bookend(string $str, string $bookend): string
 /**
  * Ensure that a string doesn't start with a prefix
  *
- * @uses str_starts_with
  * @since 1.0.0
  * @param string $str Subject.
  * @param string $prefix Substring to look for/remove from start.
@@ -142,7 +145,7 @@ function str_unprefix(string $str, string $prefix, int $max = -1): string
 {
 	$max = $max >= 0 ? $max : -1;
 	$count = 0;
-	while ($prefix && ($max === -1 || $count < $max) && str_starts_with($str, $prefix)) {
+	while ($prefix && ($max === -1 || $count < $max) && \str_starts_with($str, $prefix)) {
 		$str = substr($str, strlen($prefix));
 	}
 	return $str;
@@ -151,7 +154,6 @@ function str_unprefix(string $str, string $prefix, int $max = -1): string
 /**
  * Ensure that a string doesn't end with a postfix
  *
- * @uses str_ends_with
  * @since 1.0.0
  * @param string $str Subject.
  * @param string $prefix Substring to look for/remove from end.
@@ -162,7 +164,7 @@ function str_unpostfix(string $str, string $postfix, int $max = -1): string
 {
 	$max = $max >= 0 ? $max : -1;
 	$count = 0;
-	while ($postfix && ($max === -1 || $count < $max) && str_ends_with($str, $postfix)) {
+	while ($postfix && ($max === -1 || $count < $max) && \str_ends_with($str, $postfix)) {
 		$str = substr($str, 0, -strlen($postfix));
 	}
 	return $str;
@@ -171,6 +173,7 @@ function str_unpostfix(string $str, string $postfix, int $max = -1): string
 
 /**
  * Check for existance of substring within a string
+ * @deprecated 1.2.0
  * @since 1.0.0
  * @param string $haystack String to search within.
  * @param string $needle String to search for.
@@ -179,6 +182,7 @@ function str_unpostfix(string $str, string $postfix, int $max = -1): string
  */
 function str_contains(string $haystack, string $needle, bool $case_insensitive = false): bool
 {
+	_deprecated_function("Denman_Utils\\str_contains", "6.0", "str_contains");
 	if ($case_insensitive) {
 		$haystack = strtolower($haystack);
 		$needle = strtolower($needle);
@@ -280,7 +284,7 @@ function array_clear_empty(array $array, bool $null_only = false): array
  * @param bool $wrap_null Optional. Whether to wrap null values in an array. Default false.
  * @return array
  */
-function assert_array($value, bool $wrap_null = false): array
+function assert_array(mixed $value, bool $wrap_null = false): array
 {
 	if (is_array($value)) {
 		return $value;
@@ -298,9 +302,9 @@ function assert_array($value, bool $wrap_null = false): array
  * @since 1.0.0
  * @param array $array Source array.
  * @param string|int $key Key to remove and return value.
- * @return mixed|void
+ * @return mixed
  */
-function array_pluck(array &$array, $key)
+function array_pluck(array &$array, string|int $key): mixed
 {
 	if (!is_array($array) || !array_key_exists($key, $array)) {
 		return;
@@ -371,9 +375,9 @@ function array_flatten(array $array): array
  * @uses min_max
  * @param mixed[] $array
  * @param int $n Position to retrieve value from. If negative, counts back from end of array. WIll not overflow array bounds.
- * @return mixed|void
+ * @return mixed
  */
-function array_nth(array $array, int $n)
+function array_nth(array $array, int $n): mixed
 {
 	if (!is_array($array)) {
 		return;
@@ -409,19 +413,21 @@ if (!function_exists('array_some')) {
 if (!function_exists('array_find')) {
 	/**
 	 * Get the first entry in an array that satisfies the callback.
+	 * @since 1.2.0 Returns empty array instead of null if no entry satisfies callback
 	 * @since 1.0.0
 	 * @param array $array
 	 * @param callable $callback Validation callback. Is passed the value, key, and full array for each entry checked.
 	 * @param int $callback_args_count Optional. Number of arguments to pass to $callback. Default and maximum is 3.
-	 * @return mixed|void
+	 * @return array
 	 */
-	function array_find(array $array, callable $callback, int $callback_args_count = 3)
+	function array_find(array $array, callable $callback, int $callback_args_count = 3): array
 	{
 		foreach ($array as $key => $value) {
 			if (call_user_func_array($callback, array_slice([$value, $key, $array], 0, $callback_args_count))) {
 				return ["key" => $key, "value" => $value];
 			}
 		}
+		return [];
 	}
 }
 
@@ -431,7 +437,7 @@ if (!function_exists('array_find')) {
  * @since 1.0.0
  * @return array
  */
-function array_concat($array, ...$additions): array
+function array_concat(array $array, array ...$additions): array
 {
 	$arrays = array_map(function ($value) {
 		return (array) $value;
@@ -468,12 +474,14 @@ function array_force_assoc(array $array): array
 
 /**
  * Check whether an array has string keys
+ * @deprecated 1.2.0
  * @since 1.1.0
  * @param array $array
  * @return bool
  */
 function array_has_string_keys(array $array): bool
 {
+	_deprecated_function("Denman_Utils\\array_has_string_keys", "6.0", "array_is_list");
 	return count(array_filter(array_keys($array), 'is_string')) > 0;
 }
 
@@ -541,6 +549,21 @@ function array_object_vars(array $objects, $props, string $key_var = ""): array
 }
 
 /**
+ * Get the opposite of an array intersection.
+ * @since 1.2.0
+ * @param array $arr1
+ * @param array $arr2
+ * @return array
+ */
+function array_divergence(array $arr1, array $arr2): array
+{
+	return array_merge(
+		array_diff($arr1, $arr2),
+		array_diff($arr2, $arr1),
+	);
+}
+
+/**
  * Unwrap single value arrays.
  *
  * Will recursively unwrap single-value arrays until left with either a single
@@ -582,7 +605,7 @@ function resolve_arglist(array $arglist): array
  * @param array $defaults_and_allowed_keys Default values and allowed keys.
  * @return array
  */
-function parse_args($args, array $defaults_and_allowed_keys = []): array
+function parse_args(string|array|object $args, array $defaults_and_allowed_keys = []): array
 {
 	$defaults = array_filter($defaults_and_allowed_keys, "is_string", ARRAY_FILTER_USE_KEY);
 	// Get allowed keys
@@ -612,11 +635,33 @@ function compare_exact($a, $b): int
 {
 	if ($a === $b) {
 		return 0;
-	} elseif ($a > $b) {
-		return 1;
 	}
-	return -1;
+	return ($a < $b) ? -1 : 1;
 }
+
+/**
+ * Generate a function to compare 2 objects or associative arrays by the value of a key
+ * @since 1.2.0
+ * @param int|string $key
+ * @param null|callable $callback
+ * @return callable
+ */
+function generate_compare_by_key(int|string $key, ?callable $callback = null): callable
+{
+	return (function ($a, $b) use ($key, $callback) {
+		$a_val = $a[$key];
+		$b_val = $b[$key];
+		if ($callback) {
+			return $callback($a_val, $b_val);
+		} else {
+			if ($a_val == $b_val) {
+				return 0;
+			}
+			return ($a_val < $b_val) ? -1 : 1;
+		}
+	});
+}
+
 
 /**
  * Get the value of a numeric string.
@@ -891,9 +936,9 @@ function resolve_post($post = null, string $post_type = "")
  * Resolve a variable to a taxonomy if possible.
  * @since 1.0.0
  * @param WP_Taxonomy|string $taxonomy Variable to be resolved to a taxonomy.
- * @return WP_Taxonomy|null
+ * @return ?WP_Taxonomy
  */
-function resolve_taxonomy($taxonomy)
+function resolve_taxonomy($taxonomy): ?WP_Taxonomy
 {
 	if (is_string($taxonomy)) {
 		$taxonomy = get_taxonomy($taxonomy);
@@ -951,16 +996,20 @@ function get_post_descendants($post = null, int $depth = -1, bool $check_post_ty
 
 /**
  * Retrieve from an array only (a) string keys for truthy values and (b) numerically indexed strings
+ *
+ * modeled after [classnames](https://www.npmjs.com/package/classnames) on NPM
+ *
+ * @since 1.2.0 Returns string instead of string array
  * @since 1.0.0
- * @param string[] $classes
- * @return string[]
+ * @param array $classes
+ * @return string
  */
-function class_names(array $classes): array
+function class_names(array $classes): string
 {
 	$class_names = [];
 	foreach ((array) $classes as $key => $value) {
 		if (is_array($value)) {
-			$class_names = array_merge($class_names, class_names($value));
+			$class_names[] = class_names($value);
 		} else if (is_string($key)) {
 			if (!!$value) {
 				$class_names[] = $key;
@@ -969,8 +1018,9 @@ function class_names(array $classes): array
 			$class_names[] = $value;
 		}
 	}
-	return $class_names;
+	return implode(' ', $class_names);
 }
+
 
 /**
  * Resolve to a string of space-separated class names.
@@ -1037,7 +1087,7 @@ function get_image_id(string $image_url): int
  * @param string $post_type The post-type slug, default is 'any'.
  * @return WP_Post|null
  */
-function get_post_by_slug(string $slug, string $post_type = 'any', string $post_status = "any")
+function get_post_by_slug(string $slug, string $post_type = 'any', string $post_status = "any"): ?WP_Post
 {
 	$posts = get_posts([
 		'name' => $slug,
@@ -1053,8 +1103,6 @@ function get_post_by_slug(string $slug, string $post_type = 'any', string $post_
  * * strips extra slashes on segments
  *
  * @since 1.0.0
- * @uses str_starts_with
- * @uses str_ends_with
  * @param string[] $segments Array of path segments.
  * @return string
  */
@@ -1063,10 +1111,10 @@ function join_path_segments(array $segments): string
 	$path = implode('/', array_map(function ($segment) {
 		return trim($segment, '/');
 	}, $segments));
-	if (str_starts_with($segments[0], '/')) {
+	if (\str_starts_with($segments[0], '/')) {
 		$path = '/' . $path;
 	}
-	if (str_ends_with(array_nth($segments, -1), '/')) {
+	if (\str_ends_with(array_nth($segments, -1), '/')) {
 		$path .= '/';
 	}
 	return $path;
@@ -1082,7 +1130,7 @@ function join_path_segments(array $segments): string
  * @param string[]|string ...$segments A series or array of path segments.
  * @return string
  */
-function get_asset_uri(...$segments): string
+function get_asset_uri(string ...$segments): string
 {
 	$path = join_path_segments(resolve_arglist($segments));
 	return get_template_directory_uri() . str_prefix($path, '/');
@@ -1098,7 +1146,7 @@ function get_asset_uri(...$segments): string
  * @param string[]|string ...$segments A series or array of path segments.
  * @return string
  */
-function get_asset_path(...$segments): string
+function get_asset_path(string ...$segments): string
 {
 	$path = join_path_segments(resolve_arglist($segments));
 	return get_template_directory() . str_prefix($path, '/');
@@ -1112,7 +1160,7 @@ function get_asset_path(...$segments): string
  * @param string[]|string ...$segments A series or array of path segments.
  * @return string
  */
-function get_asset_contents(...$path_segments): string
+function get_asset_contents(string ...$path_segments): string
 {
 	$path = get_asset_path(...$path_segments);
 	$contents = "";
@@ -1130,6 +1178,7 @@ function get_asset_contents(...$path_segments): string
  * Parse small subset of markdown to html.
  *
  * Includes: em & en dashes, bold, italic, inline code, links, paragraphs, and line-breaks.
+ * @since 1.2.0 added H1-6, UL, OL
  * @since 1.0.0
  * @param string $md Markdown content.
  * @return string Parsed HTML.
@@ -1137,26 +1186,26 @@ function get_asset_contents(...$path_segments): string
 function mini_markdown_parse(string $md): string
 {
 	$rules = [
-					// '/^-|*|={3,}$/m' => 			// '<hr>', // hr
-					'/-{3}/' => '&mdash;', // em
-					'/-{2}/' => '&ndash;', // en
-					'/(?:\*{2}((?:[^*]|(?:\\\*))+)\*{2})|(?:_{2}((?:[^_]|(?:\\_))+)_{2})/' => '<strong>$1$2</strong>', // bold
-					'/(?:\*((?:[^*]|(?:\\\*))+)\*)|(?:_((?:[^_]|(?:\\_))+)_)/' => '<em>$1$2</em>', // italic
-					'/`([^`]+)`/' => '<code>$1</code>', // code
-					'/\[([^\]]+)\]\(([^)]+)\)/' => '<a href="$2">$1</a>', // link with text
-					'/\[\]\(([^)]+)\)/' => '<a href="$1">$1</a>', // link
-					'/^#{6}\s(.*)/m' => '<h6>$1</h6>', // h6s
-					'/^#{5}\s(.*)/m' => '<h5>$1</h5>', // h5s
-					'/^#{4}\s(.*)/m' => '<h4>$1</h4>', // h4s
-					'/^#{3}\s(.*)/m' => '<h3>$1</h3>', // h3s
-					'/^#{2}\s(.*)/m' => '<h2>$1</h2>', // h2s
-					'/^#{1}\s(.*)/m' => '<h1>$1</h1>', // h1s
-					'/^[*-]\s(.*)/m' => "<ul><li>$1</li></ul>", // ul lists
-					'/^[0-9]+\.\s(.*)/m' => "<ol><li>$1</li></ol>", // ol lists
-					'/<\/ul>\s*<ul>/' => "", // fix extra ul // fix extra ul
-					'/<\/ol>\s*<ol>/' => "", // fix extra ol // fix extra ol
-					'/^([^<]]+)(?:(?: {2,}\R*)|\R{2,}|(?:\s*$))/m' => '<p>$1</p>', // paragraphs
-					"/(.+)\R{}/" => '$1<br>', // line breaks
+		// '/^-|*|={3,}$/m' => 			// '<hr>', // hr
+		'/-{3}/' => '&mdash;', // em
+		'/-{2}/' => '&ndash;', // en
+		'/(?:\*{2}((?:[^*]|(?:\\\*))+)\*{2})|(?:_{2}((?:[^_]|(?:\\_))+)_{2})/' => '<strong>$1$2</strong>', // bold
+		'/(?:\*((?:[^*]|(?:\\\*))+)\*)|(?:_((?:[^_]|(?:\\_))+)_)/' => '<em>$1$2</em>', // italic
+		'/`([^`]+)`/' => '<code>$1</code>', // code
+		'/\[([^\]]+)\]\(([^)]+)\)/' => '<a href="$2">$1</a>', // link with text
+		'/\[\]\(([^)]+)\)/' => '<a href="$1">$1</a>', // link
+		'/^#{6}\s(.*)/m' => '<h6>$1</h6>', // h6s
+		'/^#{5}\s(.*)/m' => '<h5>$1</h5>', // h5s
+		'/^#{4}\s(.*)/m' => '<h4>$1</h4>', // h4s
+		'/^#{3}\s(.*)/m' => '<h3>$1</h3>', // h3s
+		'/^#{2}\s(.*)/m' => '<h2>$1</h2>', // h2s
+		'/^#{1}\s(.*)/m' => '<h1>$1</h1>', // h1s
+		'/^[*-]\s(.*)/m' => "<ul><li>$1</li></ul>", // ul lists
+		'/^[0-9]+\.\s(.*)/m' => "<ol><li>$1</li></ol>", // ol lists
+		'/<\/ul>\s*<ul>/' => "", // fix extra ul // fix extra ul
+		'/<\/ol>\s*<ol>/' => "", // fix extra ol // fix extra ol
+		'/^([^<]]+)(?:(?: {2,}\R*)|\R{2,}|(?:\s*$))/m' => '<p>$1</p>', // paragraphs
+		"/(.+)\R{}/" => '$1<br>', // line breaks
 	];
 
 	foreach ($rules as $search => $replace) {
@@ -1274,7 +1323,7 @@ function camel_case(string $str): string
  * @param string[]|string $exclude Optional. Taxonomy slug(s) to exclude.
  * @return WP_Taxonomy[]
  */
-function get_custom_taxonomies($exclude = ''): array
+function get_custom_taxonomies(string|array $exclude = ''): array
 {
 	return array_exclude_keys(
 		get_taxonomies(
@@ -1294,7 +1343,7 @@ function get_custom_taxonomies($exclude = ''): array
  * @param string[]|string $exclude Optional. Post type slug(s) to exclude.
  * @return WP_Post_Type[]
  */
-function get_custom_post_types($exclude = ""): array
+function get_custom_post_types(string|array $exclude = ""): array
 {
 	return array_exclude_keys(
 		get_post_types(
@@ -1612,6 +1661,36 @@ function is_link_external(string $url): bool
 }
 
 /**
+ * Check if a URL is (most likely) to go to an asset file.
+ * @since 1.2.0
+ * @param string $url
+ * @param string[] $exts Extensions to check for.
+ * @return bool
+ */
+function is_link_asset(string $url, array $exts = []): bool
+{
+	$url_components = parse_url($url);
+	$path = $url_components['path'] ?? '';
+	if (!$path) {
+		// no file/directory path in url
+		return false;
+	}
+	$matches = [];
+	if (!preg_match("/\\.([a-zA-Z]{3,4})(?:\\?.*?)?$/", $path, $matches)) {
+		// no file extension in url
+		return false;
+	}
+	$extension = $matches[0];
+
+	if ($exts) {
+		// If desired extension specified, check for that
+		return in_array($extension, $exts);
+	}
+	// else just return if it's not a hypertext file extension
+	return !in_array($extension, ["php", "html", "htm"]);
+}
+
+/**
  * Check if a URL is relative.
  * @since 1.1.0
  * @param string $url
@@ -1633,7 +1712,7 @@ function is_link_relative(string $url): bool
 function hex_str_to_rgba_array(string $hex_color, float $alpha_fallback = 1.0): array
 {
 	$hex_color = trim(strtolower($hex_color));
-	if (str_starts_with($hex_color, "#")) {
+	if (\str_starts_with($hex_color, "#")) {
 		$hex_color = substr($hex_color, 1);
 	}
 	$alpha = $alpha_fallback;
@@ -1682,7 +1761,7 @@ function rgba_str_to_rgba_array(string $rgba_str): array
  * @param string|array $rgba
  * @return float
  */
-function rgba_to_luma($rgba): float
+function rgba_to_luma(string|array $rgba): float
 {
 	if (is_string($rgba)) {
 		$rgba = rgba_str_to_rgba_array($rgba);
@@ -1744,7 +1823,7 @@ function rgba_array_to_assoc(array $rgba): array
  * @param float $weight
  * @return int[]
  */
-function mix_rgb(array $rgb_color_1 = [0, 0, 0], array $rgb_color_2 = [0, 0, 0], $weight = 0.5): array
+function mix_rgb(array $rgb_color_1 = [0, 0, 0], array $rgb_color_2 = [0, 0, 0], float $weight = 0.5): array
 {
 	$color_1_weighted = array_map(function ($x) use ($weight) {
 		return $weight * $x;
@@ -1764,7 +1843,7 @@ function mix_rgb(array $rgb_color_1 = [0, 0, 0], array $rgb_color_2 = [0, 0, 0],
  * @param float $weight Proportion of white in tint.
  * @return array
  */
-function tint_rgba(array $color, $weight = 0.5): array
+function tint_rgba(array $color, float $weight = 0.5): array
 {
 	$color = rgba_array_to_sequence($color);
 	$alpha = 1;
@@ -1783,7 +1862,7 @@ function tint_rgba(array $color, $weight = 0.5): array
  * @param float $weight Proportion of grey in tone.
  * @return int[]
  */
-function tone_rgba(array $color, $weight = 0.5): array
+function tone_rgba(array $color, float $weight = 0.5): array
 {
 	$color = rgba_array_to_sequence($color);
 	$alpha = 1;
@@ -1802,7 +1881,7 @@ function tone_rgba(array $color, $weight = 0.5): array
  * @param float $weight Proportion of black in shade.
  * @return int[]
  */
-function shade_rgba(array $color, $weight = 0.5): array
+function shade_rgba(array $color, float $weight = 0.5): array
 {
 	$color = rgba_array_to_sequence($color);
 	$alpha = 1;
@@ -1863,4 +1942,94 @@ function register_ajax_callback(string $action, callable $generic_callback, $log
 	add_action("wp_ajax_nopriv_{$action}", $generic_callback);
 	add_action("wp_ajax_{$action}", $logged_in_callback);
 	return true;
+}
+
+/**
+ * Convert URLs and email addresses to links in plaintext.
+ * @since 1.2.0
+ * @param string $text
+ * @param bool $new_tab
+ * @return string
+ */
+function make_plaintext_clickable(string $text, bool $new_tab = false): string
+{
+	$text = make_clickable(strip_tags($text));
+	if ($new_tab) {
+		$text = preg_replace("/(<a[^>]*?rel=(['\"])nofollow)(\\2)([^>]*?>.*?<\/a>)/", '$1 noreferrer noopener$3 target="_blank"$4', $text);
+	}
+	$text = preg_replace("/(<a[^>]*?>)https?:\/\/(.*?<\/a>)/", "$1$2", $text);
+	return $text;
+}
+
+/**
+ * Sanitize title with multiple slug segments.
+ * @since 1.2.0
+ * @param string $value
+ * @return string
+ */
+function sanitize_title_multiple(string $value): string
+{
+	return implode("/", array_filter(array_map("sanitize_title", explode("/", urldecode($value))), function ($val) {
+		return !!$val;
+	}));
+}
+
+/**
+ * Combine multiple and optional style rules into an inline style string.
+ * @since 1.2.0
+ * @param array $styles
+ * @return string
+ */
+function inline_styles(array ...$styles): string
+{
+	$inline_styles = [];
+	$style_rules = array_merge(...$styles);
+	foreach ((array) $style_rules as $property => $value) {
+		if (is_string($property) && isset($value) && $value !== "") {
+			$inline_styles[$property] = $value;
+		}
+	}
+	$output = "";
+	array_walk($inline_styles, function ($val, $prop) use (&$output) {
+		$output .= "$prop:$val;";
+	});
+	return $output;
+}
+
+/**
+ * Render a single style rule value for a Block.
+ * @param ?string $value
+ * @return ?string
+ */
+function render_wp_block_style_rule(?string $value): ?string
+{
+	if ($value && \str_starts_with($value, "var:")) {
+		return "var(--wp--" . join("--", explode("|", substr($value, 4))) . ")";
+	}
+	return $value;
+}
+
+/**
+ * Render a 4-directional spacing style rule value.
+ * @param string[] $values
+ * @return string
+ */
+function render_wp_block_spacing(array $values): string
+{
+	$values = wp_parse_args($values, ["top" => 0, "right" => 0, "bottom" => 0, "left" => 0]);
+	$output = [];
+	foreach ($values as $dir => $value) {
+		$values[$dir] = render_wp_block_style_rule($value);
+	}
+	$output[] = $values["top"];
+	if (count(array_unique($values)) > 1) {
+		$output[] = $values["right"];
+		if ($values["right"] !== $values["left"]) {
+			$output[] = $values["bottom"];
+			$output[] = $values["left"];
+		} else if ($values["top"] !== $values["bottom"]) {
+			$output[] = $values["bottom"];
+		}
+	}
+	return implode(" ", $output);
 }
