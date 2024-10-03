@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "denman-digital/wp-utils",
-            "version": "2.0.0",
-            "version_normalized": "2.0.0.0",
+            "version": "2.0.2",
+            "version_normalized": "2.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Denman-Digital/wp-utils.git",
-                "reference": "1c70eb3665beac83844f79ff773d4c4752f344be"
+                "reference": "035178c046600ba67045e2925fb8ffc683527210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/1c70eb3665beac83844f79ff773d4c4752f344be",
-                "reference": "1c70eb3665beac83844f79ff773d4c4752f344be",
+                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/035178c046600ba67045e2925fb8ffc683527210",
+                "reference": "035178c046600ba67045e2925fb8ffc683527210",
                 "shasum": ""
             },
             "require": {
@@ -24,7 +24,7 @@
                 "php-stubs/acf-pro-stubs": "^6",
                 "php-stubs/wordpress-stubs": "^6.6"
             },
-            "time": "2024-10-03T17:37:15+00:00",
+            "time": "2024-10-03T19:15:47+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
