@@ -2,7 +2,7 @@
 Contributors: paulthewalton
 Tags: bootstrap,grid,gutenberg,responsive,block,column,row
 Requires at least: 6.0
-Tested up to: 6.6.2
+Tested up to: 6.6
 Stable tag: 2.2.12
 Requires PHP: 8.1
 License: GPLv2
