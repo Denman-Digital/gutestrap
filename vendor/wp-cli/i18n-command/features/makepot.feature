@@ -1838,8 +1838,6 @@ Feature: Generate a POT file of a WordPress project
       Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_7__["__"])( 'webpack.__', 'foo-plugin' );
       Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_7__[/* __ */ "a"])( 'webpack.mangle.__', 'foo-plugin' );
 
-<<<<<<< HEAD
-=======
       (0,wp__WEBPACK_IMPORTED_MODULE_5__.__)("rspack.__", "foo-plugin");
       wp__WEBPACK_IMPORTED_MODULE_5___default().__("rspack.default-import.__", "foo-plugin");
       wp__WEBPACK_IMPORTED_MODULE_5__.__("rspack.default-star-import.__", "foo-plugin");
@@ -1851,7 +1849,6 @@ Feature: Generate a POT file of a WordPress project
       console.log(import_wp2.default.__("esbuild.default-import.__", "foo-plugin"));
       console.log(wpStarImport.__("esbuild.default-star-import.__", "foo-plugin"));
 
->>>>>>> main
       Object(u.__)( 'minified.__', 'foo-plugin' );
       Object(j._x)( 'minified._x', 'minified._x_context', 'foo-plugin' );
 
@@ -1934,8 +1931,6 @@ Feature: Generate a POT file of a WordPress project
       """
     And the foo-plugin/foo-plugin.pot file should contain:
       """
-<<<<<<< HEAD
-=======
       msgid "rspack.__"
       """
     And the foo-plugin/foo-plugin.pot file should contain:
@@ -1960,7 +1955,6 @@ Feature: Generate a POT file of a WordPress project
       """
     And the foo-plugin/foo-plugin.pot file should contain:
       """
->>>>>>> main
       msgid "minified.__"
       """
     And the foo-plugin/foo-plugin.pot file should contain:
@@ -3664,10 +3658,7 @@ Feature: Generate a POT file of a WordPress project
       {
         "version": "1",
         "title": "My style variation",
-<<<<<<< HEAD
-=======
         "description": "My style variation description",
->>>>>>> main
         "settings": {
           "color": {
             "duotone": [
@@ -3726,14 +3717,11 @@ Feature: Generate a POT file of a WordPress project
       msgctxt "Style variation name"
       msgid "My style variation"
       """
-<<<<<<< HEAD
-=======
     And the foo-theme/foo-theme.pot file should contain:
       """
       msgctxt "Style variation description"
       msgid "My style variation description"
       """
->>>>>>> main
 
   Scenario: Extract strings from the blocks section of theme.json files
     Given an empty foo-theme directory
@@ -3873,8 +3861,6 @@ Feature: Generate a POT file of a WordPress project
       msgid "Other pattern description."
       """
 
-<<<<<<< HEAD
-=======
   Scenario: Use the license from the theme header
     Given an empty foo-theme directory
     And a foo-theme/style.css file:
@@ -3906,7 +3892,6 @@ Feature: Generate a POT file of a WordPress project
       # This file is distributed under the same license as the Foo Theme theme.
       """
 
->>>>>>> main
   Scenario: Ignores a standard set of directories as expected
     Given an empty foo-plugin directory
     And a foo-plugin/foo-plugin.php file:

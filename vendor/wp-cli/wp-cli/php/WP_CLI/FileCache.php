@@ -156,23 +156,16 @@ class FileCache {
 	 * Copy a file into the cache
 	 *
 	 * @param string $key    cache key
-<<<<<<< HEAD
-	 * @param string $source source filename
-=======
 	 * @param string $source source filename; tmp file filepath from HTTP response
->>>>>>> main
 	 * @return bool
 	 */
 	public function import( $key, $source ) {
 		$filename = $this->prepare_write( $key );
 
-<<<<<<< HEAD
-=======
 		if ( ! is_readable( $source ) ) {
 			return false;
 		}
 
->>>>>>> main
 		if ( $filename ) {
 			return copy( $source, $filename ) && touch( $filename );
 		}
@@ -350,11 +343,7 @@ class FileCache {
 	 * Prepare cache write
 	 *
 	 * @param string $key cache key
-<<<<<<< HEAD
-	 * @return bool|string filename or false
-=======
 	 * @return bool|string The destination filename or false when cache disabled or directory creation fails.
->>>>>>> main
 	 */
 	protected function prepare_write( $key ) {
 		if ( ! $this->enabled ) {
@@ -392,19 +381,11 @@ class FileCache {
 
 		$parts = preg_replace( "#[^{$this->whitelist}]#i", '-', $parts );
 
-<<<<<<< HEAD
-		return implode( '/', $parts );
-	}
-
-	/**
-	 * Filename from key
-=======
 		return rtrim( implode( '/', $parts ), '.' );
 	}
 
 	/**
 	 * Destination filename from key
->>>>>>> main
 	 *
 	 * @param string $key
 	 * @return string filename

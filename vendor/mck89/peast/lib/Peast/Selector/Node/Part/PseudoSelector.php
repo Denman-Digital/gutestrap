@@ -56,11 +56,7 @@ class PseudoSelector extends Pseudo
      *
      * @return bool
      */
-<<<<<<< HEAD
-    public function check(Node $node, Node $parent = null)
-=======
     public function check(Node $node, $parent = null)
->>>>>>> main
     {
         $match = new Matches();
         $match->addMatch($node, $parent);

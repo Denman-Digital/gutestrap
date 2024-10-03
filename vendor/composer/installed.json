@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "denman-digital/wp-utils",
-            "version": "2.0.0",
-            "version_normalized": "2.0.0.0",
+            "version": "2.0.2",
+            "version_normalized": "2.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Denman-Digital/wp-utils.git",
-                "reference": "1c70eb3665beac83844f79ff773d4c4752f344be"
+                "reference": "035178c046600ba67045e2925fb8ffc683527210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/1c70eb3665beac83844f79ff773d4c4752f344be",
-                "reference": "1c70eb3665beac83844f79ff773d4c4752f344be",
+                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/035178c046600ba67045e2925fb8ffc683527210",
+                "reference": "035178c046600ba67045e2925fb8ffc683527210",
                 "shasum": ""
             },
             "require": {
@@ -24,7 +24,7 @@
                 "php-stubs/acf-pro-stubs": "^6",
                 "php-stubs/wordpress-stubs": "^6.6"
             },
-            "time": "2024-10-03T17:37:15+00:00",
+            "time": "2024-10-03T19:15:47+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -63,386 +63,6 @@
             "name": "eftec/bladeone",
             "version": "3.52",
             "version_normalized": "3.52.0.0",
-<<<<<<< HEAD
-            "source": {
-                "type": "git",
-                "url": "https://github.com/EFTEC/BladeOne.git",
-                "reference": "a19bf66917de0b29836983db87a455a4f6e32148"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/EFTEC/BladeOne/zipball/a19bf66917de0b29836983db87a455a4f6e32148",
-                "reference": "a19bf66917de0b29836983db87a455a4f6e32148",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16.1",
-                "phpunit/phpunit": "^5.7",
-                "squizlabs/php_codesniffer": "^3.5.4"
-            },
-            "suggest": {
-                "eftec/bladeonehtml": "Extension to create forms",
-                "ext-mbstring": "This extension is used if it's active"
-            },
-            "time": "2021-04-17T13:49:01+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "eftec\\bladeone\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jorge Patricio Castro Castillo",
-                    "email": "jcastro@eftec.cl"
-                }
-            ],
-            "description": "The standalone version Blade Template Engine from Laravel in a single php file",
-            "homepage": "https://github.com/EFTEC/BladeOne",
-            "keywords": [
-                "blade",
-                "php",
-                "template",
-                "templating",
-                "view"
-            ],
-            "support": {
-                "issues": "https://github.com/EFTEC/BladeOne/issues",
-                "source": "https://github.com/EFTEC/BladeOne/tree/3.52"
-            },
-            "install-path": "../eftec/bladeone"
-        },
-        {
-            "name": "gettext/gettext",
-            "version": "v4.8.12",
-            "version_normalized": "4.8.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-gettext/Gettext.git",
-                "reference": "11af89ee6c087db3cf09ce2111a150bca5c46e12"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-gettext/Gettext/zipball/11af89ee6c087db3cf09ce2111a150bca5c46e12",
-                "reference": "11af89ee6c087db3cf09ce2111a150bca5c46e12",
-                "shasum": ""
-            },
-            "require": {
-                "gettext/languages": "^2.3",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "illuminate/view": "^5.0.x-dev",
-                "phpunit/phpunit": "^4.8|^5.7|^6.5",
-                "squizlabs/php_codesniffer": "^3.0",
-                "symfony/yaml": "~2",
-                "twig/extensions": "*",
-                "twig/twig": "^1.31|^2.0"
-            },
-            "suggest": {
-                "illuminate/view": "Is necessary if you want to use the Blade extractor",
-                "symfony/yaml": "Is necessary if you want to use the Yaml extractor/generator",
-                "twig/extensions": "Is necessary if you want to use the Twig extractor",
-                "twig/twig": "Is necessary if you want to use the Twig extractor"
-            },
-            "time": "2024-05-18T10:25:07+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Gettext\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Oscar Otero",
-                    "email": "oom@oscarotero.com",
-                    "homepage": "http://oscarotero.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP gettext manager",
-            "homepage": "https://github.com/oscarotero/Gettext",
-            "keywords": [
-                "JS",
-                "gettext",
-                "i18n",
-                "mo",
-                "po",
-                "translation"
-            ],
-            "support": {
-                "email": "oom@oscarotero.com",
-                "issues": "https://github.com/oscarotero/Gettext/issues",
-                "source": "https://github.com/php-gettext/Gettext/tree/v4.8.12"
-            },
-            "funding": [
-                {
-                    "url": "https://paypal.me/oscarotero",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/oscarotero",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/misteroom",
-                    "type": "patreon"
-                }
-            ],
-            "install-path": "../gettext/gettext"
-        },
-        {
-            "name": "gettext/languages",
-            "version": "2.10.0",
-            "version_normalized": "2.10.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-gettext/Languages.git",
-                "reference": "4d61d67fe83a2ad85959fe6133d6d9ba7dddd1ab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-gettext/Languages/zipball/4d61d67fe83a2ad85959fe6133d6d9ba7dddd1ab",
-                "reference": "4d61d67fe83a2ad85959fe6133d6d9ba7dddd1ab",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5 || ^8.4"
-            },
-            "time": "2022-10-18T15:00:10+00:00",
-            "bin": [
-                "bin/export-plural-rules"
-            ],
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Gettext\\Languages\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michele Locati",
-                    "email": "mlocati@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "gettext languages with plural rules",
-            "homepage": "https://github.com/php-gettext/Languages",
-            "keywords": [
-                "cldr",
-                "i18n",
-                "internationalization",
-                "l10n",
-                "language",
-                "languages",
-                "localization",
-                "php",
-                "plural",
-                "plural rules",
-                "plurals",
-                "translate",
-                "translations",
-                "unicode"
-            ],
-            "support": {
-                "issues": "https://github.com/php-gettext/Languages/issues",
-                "source": "https://github.com/php-gettext/Languages/tree/2.10.0"
-            },
-            "funding": [
-                {
-                    "url": "https://paypal.me/mlocati",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/mlocati",
-                    "type": "github"
-                }
-            ],
-            "install-path": "../gettext/languages"
-        },
-        {
-            "name": "mck89/peast",
-            "version": "v1.16.2",
-            "version_normalized": "1.16.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mck89/peast.git",
-                "reference": "2791b08ffcc1862fe18eef85675da3aa58c406fe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mck89/peast/zipball/2791b08ffcc1862fe18eef85675da3aa58c406fe",
-                "reference": "2791b08ffcc1862fe18eef85675da3aa58c406fe",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
-            },
-            "time": "2024-03-05T09:16:03+00:00",
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.16.2-dev"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Peast\\": "lib/Peast/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Marchiò",
-                    "email": "marco.mm89@gmail.com"
-                }
-            ],
-            "description": "Peast is PHP library that generates AST for JavaScript code",
-            "support": {
-                "issues": "https://github.com/mck89/peast/issues",
-                "source": "https://github.com/mck89/peast/tree/v1.16.2"
-            },
-            "install-path": "../mck89/peast"
-        },
-        {
-            "name": "mustache/mustache",
-            "version": "v2.14.2",
-            "version_normalized": "2.14.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bobthecow/mustache.php.git",
-                "reference": "e62b7c3849d22ec55f3ec425507bf7968193a6cb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/e62b7c3849d22ec55f3ec425507bf7968193a6cb",
-                "reference": "e62b7c3849d22ec55f3ec425507bf7968193a6cb",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.4"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "~1.11",
-                "phpunit/phpunit": "~3.7|~4.0|~5.0"
-            },
-            "time": "2022-08-23T13:07:01+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "Mustache": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Justin Hileman",
-                    "email": "justin@justinhileman.info",
-                    "homepage": "http://justinhileman.com"
-                }
-            ],
-            "description": "A Mustache implementation in PHP.",
-            "homepage": "https://github.com/bobthecow/mustache.php",
-            "keywords": [
-                "mustache",
-                "templating"
-            ],
-            "support": {
-                "issues": "https://github.com/bobthecow/mustache.php/issues",
-                "source": "https://github.com/bobthecow/mustache.php/tree/v2.14.2"
-            },
-            "install-path": "../mustache/mustache"
-        },
-        {
-            "name": "php-stubs/wordpress-stubs",
-            "version": "v6.5.3",
-            "version_normalized": "6.5.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "e611a83292d02055a25f83291a98fadd0c21e092"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/e611a83292d02055a25f83291a98fadd0c21e092",
-                "reference": "e611a83292d02055a25f83291a98fadd0c21e092",
-                "shasum": ""
-            },
-            "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-                "nikic/php-parser": "^4.13",
-                "php": "^7.4 || ~8.0.0",
-                "php-stubs/generator": "^0.8.3",
-                "phpdocumentor/reflection-docblock": "5.3",
-                "phpstan/phpstan": "^1.10.49",
-                "phpunit/phpunit": "^9.5",
-                "szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset": "^0.11"
-            },
-            "suggest": {
-                "paragonie/sodium_compat": "Pure PHP implementation of libsodium",
-                "symfony/polyfill-php80": "Symfony polyfill backporting some PHP 8.0+ features to lower PHP versions",
-                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
-            },
-            "time": "2024-05-08T02:12:31+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "WordPress function and class declaration stubs for static analysis.",
-            "homepage": "https://github.com/php-stubs/wordpress-stubs",
-            "keywords": [
-                "PHPStan",
-                "static analysis",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.5.3"
-            },
-            "install-path": "../php-stubs/wordpress-stubs"
-        },
-        {
-            "name": "scssphp/scssphp",
-            "version": "v1.12.1",
-            "version_normalized": "1.12.1.0",
-=======
->>>>>>> main
             "source": {
                 "type": "git",
                 "url": "https://github.com/EFTEC/BladeOne.git",
@@ -902,19 +522,6 @@
         },
         {
             "name": "symfony/finder",
-<<<<<<< HEAD
-            "version": "v7.0.7",
-            "version_normalized": "7.0.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/finder.git",
-                "reference": "4d58f0f4fe95a30d7b538d71197135483560b97c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/4d58f0f4fe95a30d7b538d71197135483560b97c",
-                "reference": "4d58f0f4fe95a30d7b538d71197135483560b97c",
-=======
             "version": "v7.1.4",
             "version_normalized": "7.1.4.0",
             "source": {
@@ -926,7 +533,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/finder/zipball/d95bbf319f7d052082fb7af147e0f835a695e823",
                 "reference": "d95bbf319f7d052082fb7af147e0f835a695e823",
->>>>>>> main
                 "shasum": ""
             },
             "require": {
@@ -935,11 +541,7 @@
             "require-dev": {
                 "symfony/filesystem": "^6.4|^7.0"
             },
-<<<<<<< HEAD
-            "time": "2024-04-28T11:44:19+00:00",
-=======
             "time": "2024-08-13T14:28:19+00:00",
->>>>>>> main
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -967,11 +569,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-<<<<<<< HEAD
-                "source": "https://github.com/symfony/finder/tree/v7.0.7"
-=======
                 "source": "https://github.com/symfony/finder/tree/v7.1.4"
->>>>>>> main
             },
             "funding": [
                 {
@@ -991,19 +589,6 @@
         },
         {
             "name": "wp-cli/i18n-command",
-<<<<<<< HEAD
-            "version": "2.6.1",
-            "version_normalized": "2.6.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wp-cli/i18n-command.git",
-                "reference": "7538d684d4f06b0e10c8a0166ce4e6d9e1687aa1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/i18n-command/zipball/7538d684d4f06b0e10c8a0166ce4e6d9e1687aa1",
-                "reference": "7538d684d4f06b0e10c8a0166ce4e6d9e1687aa1",
-=======
             "version": "v2.6.2",
             "version_normalized": "2.6.2.0",
             "source": {
@@ -1015,7 +600,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/wp-cli/i18n-command/zipball/53518a11f314119e320597c7a8274f11b1295bdc",
                 "reference": "53518a11f314119e320597c7a8274f11b1295bdc",
->>>>>>> main
                 "shasum": ""
             },
             "require": {
@@ -1032,11 +616,7 @@
                 "ext-json": "Used for reading and generating JSON translation files",
                 "ext-mbstring": "Used for calculating include/exclude matches in code extraction"
             },
-<<<<<<< HEAD
-            "time": "2024-02-28T11:27:34+00:00",
-=======
             "time": "2024-07-03T12:50:00+00:00",
->>>>>>> main
             "type": "wp-cli-package",
             "extra": {
                 "branch-alias": {
@@ -1075,11 +655,7 @@
             "homepage": "https://github.com/wp-cli/i18n-command",
             "support": {
                 "issues": "https://github.com/wp-cli/i18n-command/issues",
-<<<<<<< HEAD
-                "source": "https://github.com/wp-cli/i18n-command/tree/2.6.1"
-=======
                 "source": "https://github.com/wp-cli/i18n-command/tree/v2.6.2"
->>>>>>> main
             },
             "install-path": "../wp-cli/i18n-command"
         },
@@ -1205,19 +781,6 @@
         },
         {
             "name": "wp-cli/wp-cli",
-<<<<<<< HEAD
-            "version": "v2.10.0",
-            "version_normalized": "2.10.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wp-cli/wp-cli.git",
-                "reference": "a339dca576df73c31af4b4d8054efc2dab9a0685"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/a339dca576df73c31af4b4d8054efc2dab9a0685",
-                "reference": "a339dca576df73c31af4b4d8054efc2dab9a0685",
-=======
             "version": "v2.11.0",
             "version_normalized": "2.11.0.0",
             "source": {
@@ -1229,7 +792,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/53f0df112901fcf95099d0f501912a209429b6a9",
                 "reference": "53f0df112901fcf95099d0f501912a209429b6a9",
->>>>>>> main
                 "shasum": ""
             },
             "require": {
@@ -1252,11 +814,7 @@
                 "ext-readline": "Include for a better --prompt implementation",
                 "ext-zip": "Needed to support extraction of ZIP archives when doing downloads or updates"
             },
-<<<<<<< HEAD
-            "time": "2024-02-08T16:52:43+00:00",
-=======
             "time": "2024-08-08T03:04:55+00:00",
->>>>>>> main
             "bin": [
                 "bin/wp",
                 "bin/wp.bat"
@@ -1264,11 +822,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-<<<<<<< HEAD
-                    "dev-main": "2.10.x-dev"
-=======
                     "dev-main": "2.11.x-dev"
->>>>>>> main
                 }
             },
             "installation-source": "dist",

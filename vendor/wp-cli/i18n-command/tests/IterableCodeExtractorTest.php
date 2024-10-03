@@ -6,11 +6,8 @@ use WP_CLI\I18n\IterableCodeExtractor;
 use WP_CLI\Tests\TestCase;
 use WP_CLI\Utils;
 
-<<<<<<< HEAD
-=======
 require_once __DIR__ . '/includes/TestIterableCodeExtractor.php';
 
->>>>>>> main
 class IterableCodeExtractorTest extends TestCase {
 
 	/** @var string A path files are located */
@@ -24,11 +21,7 @@ class IterableCodeExtractorTest extends TestCase {
 		 */
 		self::$base = Utils\normalize_path( __DIR__ ) . '/data/';
 
-<<<<<<< HEAD
-		$property = new \ReflectionProperty( 'WP_CLI\I18n\IterableCodeExtractor', 'dir' );
-=======
 		$property = new \ReflectionProperty( TestIterableCodeExtractor::class, 'dir' );
->>>>>>> main
 		$property->setAccessible( true );
 		$property->setValue( null, self::$base );
 		$property->setAccessible( false );
@@ -44,11 +37,7 @@ class IterableCodeExtractorTest extends TestCase {
 
 	public function test_can_include_files() {
 		$includes = [ 'foo-plugin', 'bar', 'baz/inc*.js' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, [], [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, [], [ 'php', 'js' ] );
->>>>>>> main
 		$expected = static::$base . 'foo-plugin/foo-plugin.php';
 		$this->assertContains( $expected, $result );
 		$expected = static::$base . 'baz/includes/should_be_included.js';
@@ -58,11 +47,7 @@ class IterableCodeExtractorTest extends TestCase {
 	}
 
 	public function test_can_include_empty_array() {
-<<<<<<< HEAD
-		$result     = IterableCodeExtractor::getFilesFromDirectory( self::$base, [], [], [ 'php', 'js' ] );
-=======
 		$result     = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [], [], [ 'php', 'js' ] );
->>>>>>> main
 		$expected_1 = static::$base . 'foo-plugin/foo-plugin.php';
 		$expected_2 = static::$base . 'baz/includes/should_be_included.js';
 		$this->assertContains( $expected_1, $result );
@@ -70,11 +55,7 @@ class IterableCodeExtractorTest extends TestCase {
 	}
 
 	public function test_can_include_wildcard() {
-<<<<<<< HEAD
-		$result     = IterableCodeExtractor::getFilesFromDirectory( self::$base, [ '*' ], [], [ 'php', 'js' ] );
-=======
 		$result     = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [ '*' ], [], [ 'php', 'js' ] );
->>>>>>> main
 		$expected_1 = static::$base . 'foo-plugin/foo-plugin.php';
 		$expected_2 = static::$base . 'baz/includes/should_be_included.js';
 		$this->assertContains( $expected_1, $result );
@@ -82,11 +63,7 @@ class IterableCodeExtractorTest extends TestCase {
 	}
 
 	public function test_can_include_subdirectories() {
-<<<<<<< HEAD
-		$result     = IterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [], [ 'php', 'js' ] );
-=======
 		$result     = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [], [ 'php', 'js' ] );
->>>>>>> main
 		$expected_1 = static::$base . 'foo/bar/foo/bar/foo/bar/deep_directory_also_included.php';
 		$expected_2 = static::$base . 'foo/bar/foofoo/included.js';
 		$this->assertContains( $expected_1, $result );
@@ -94,11 +71,7 @@ class IterableCodeExtractorTest extends TestCase {
 	}
 
 	public function test_can_include_only_php() {
-<<<<<<< HEAD
-		$result     = IterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [], [ 'php' ] );
-=======
 		$result     = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [], [ 'php' ] );
->>>>>>> main
 		$expected_1 = static::$base . 'foo/bar/foo/bar/foo/bar/deep_directory_also_included.php';
 		$expected_2 = static::$base . 'foo/bar/foofoo/ignored.js';
 		$this->assertContains( $expected_1, $result );
@@ -106,11 +79,7 @@ class IterableCodeExtractorTest extends TestCase {
 	}
 
 	public function test_can_exclude_override_wildcard() {
-<<<<<<< HEAD
-		$result     = IterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [ 'foo/bar/excluded/*' ], [ 'php' ] );
-=======
 		$result     = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [ 'foo/bar/excluded/*' ], [ 'php' ] );
->>>>>>> main
 		$expected_1 = static::$base . 'foo/bar/foo/bar/foo/bar/deep_directory_also_included.php';
 		$expected_2 = static::$base . 'foo/bar/excluded/excluded.js';
 		$this->assertContains( $expected_1, $result );
@@ -118,11 +87,7 @@ class IterableCodeExtractorTest extends TestCase {
 	}
 
 	public function test_can_exclude_override_matching_directory() {
-<<<<<<< HEAD
-		$result     = IterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [ 'foo/bar/excluded/*' ], [ 'php' ] );
-=======
 		$result     = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [ 'foo/bar/excluded/*' ], [ 'php' ] );
->>>>>>> main
 		$expected_1 = static::$base . 'foo/bar/foo/bar/foo/bar/deep_directory_also_included.php';
 		$expected_2 = static::$base . 'foo/bar/excluded/excluded.js';
 		$this->assertContains( $expected_1, $result );
@@ -130,11 +95,7 @@ class IterableCodeExtractorTest extends TestCase {
 	}
 
 	public function test_can_not_exclude_partially_directory() {
-<<<<<<< HEAD
-		$result     = IterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [ 'exc' ], [ 'js' ] );
-=======
 		$result     = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [ 'foo/bar/*' ], [ 'exc' ], [ 'js' ] );
->>>>>>> main
 		$expected_1 = static::$base . 'foo/bar/foo/bar/foo/bar/deep_directory_also_included.php';
 		$expected_2 = static::$base . 'foo/bar/excluded/ignored.js';
 		$this->assertNotContains( $expected_1, $result );
@@ -142,21 +103,13 @@ class IterableCodeExtractorTest extends TestCase {
 	}
 
 	public function test_can_exclude_by_wildcard() {
-<<<<<<< HEAD
-		$result = IterableCodeExtractor::getFilesFromDirectory( self::$base, [], [ '*' ], [ 'php', 'js' ] );
-=======
 		$result = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [], [ '*' ], [ 'php', 'js' ] );
->>>>>>> main
 		$this->assertEmpty( $result );
 	}
 
 	public function test_can_exclude_files() {
 		$excludes = [ 'hoge' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, [], $excludes, [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [], $excludes, [ 'php', 'js' ] );
->>>>>>> main
 		$expected = static::$base . 'hoge/should_NOT_be_included.js';
 		$this->assertNotContains( $expected, $result );
 	}
@@ -165,21 +118,13 @@ class IterableCodeExtractorTest extends TestCase {
 		// Overrides include option
 		$includes = [ 'excluded/ignored.js' ];
 		$excludes = [ 'excluded/*.js' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
->>>>>>> main
 		$expected = static::$base . 'foo/bar/excluded/ignored.js';
 		$this->assertContains( $expected, $result );
 	}
 
 	public function test_can_return_all_directory_files_sorted() {
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, [ '*' ], [], [ 'php', 'blade.php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, [ '*' ], [], [ 'php', 'blade.php', 'js' ] );
->>>>>>> main
 		$expected = array(
 			static::$base . 'baz/includes/should_be_included.js',
 			static::$base . 'foo-plugin/foo-plugin.php',
@@ -198,11 +143,7 @@ class IterableCodeExtractorTest extends TestCase {
 	public function test_can_include_file_in_excluded_folder() {
 		$includes = [ 'vendor/vendor-file.php' ];
 		$excludes = [ 'vendor' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
->>>>>>> main
 		$expected = static::$base . 'vendor/vendor-file.php';
 		$this->assertContains( $expected, $result );
 	}
@@ -210,11 +151,7 @@ class IterableCodeExtractorTest extends TestCase {
 	public function test_can_include_folder_in_excluded_folder() {
 		$includes = [ 'vendor/vendor1' ];
 		$excludes = [ 'vendor' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
->>>>>>> main
 		$expected = static::$base . 'vendor/vendor1/vendor1-file.php';
 		$this->assertContains( $expected, $result );
 	}
@@ -222,11 +159,7 @@ class IterableCodeExtractorTest extends TestCase {
 	public function test_can_include_file_in_excluded_folder_with_leading_slash() {
 		$includes = [ '/vendor/vendor-file.php' ];
 		$excludes = [ 'vendor' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
->>>>>>> main
 		$expected = static::$base . 'vendor/vendor-file.php';
 		$this->assertContains( $expected, $result );
 	}
@@ -234,22 +167,14 @@ class IterableCodeExtractorTest extends TestCase {
 	public function test_can_include_file_in_excluded_folder_by_wildcard() {
 		$includes = [ 'vendor/**' ];
 		$excludes = [ 'vendor' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
->>>>>>> main
 		$expected = static::$base . 'vendor/vendor-file.php';
 		$this->assertContains( $expected, $result );
 	}
 
 	public function test_exclude_not_included_files() {
 		$includes = [ 'foo/bar/foo/bar/foo/bar/deep_directory_also_included.php' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, [], [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, [], [ 'php', 'js' ] );
->>>>>>> main
 		$expected = array(
 			static::$base . 'foo/bar/foo/bar/foo/bar/deep_directory_also_included.php',
 		);
@@ -259,11 +184,7 @@ class IterableCodeExtractorTest extends TestCase {
 	public function test_wildcard_exclude() {
 		$includes = [ 'foofoo/*' ];
 		$excludes = [ '*.min.js' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
->>>>>>> main
 		$expected = array(
 			static::$base . 'foo/bar/foofoo/included.js',
 		);
@@ -273,11 +194,7 @@ class IterableCodeExtractorTest extends TestCase {
 	public function test_identical_include_exclude() {
 		$includes = [ '*.min.js' ];
 		$excludes = [ '*.min.js' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, $excludes, [ 'php', 'js' ] );
->>>>>>> main
 		$expected = array();
 		$this->assertEquals( $expected, $result );
 	}
@@ -285,11 +202,7 @@ class IterableCodeExtractorTest extends TestCase {
 	public function test_can_include_file_in_symlinked_folder() {
 		symlink( self::$base . '/baz', self::$base . '/symlinked' );
 		$includes = [ 'symlinked/includes/should_be_included.js' ];
-<<<<<<< HEAD
-		$result   = IterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, [], [ 'php', 'js' ] );
-=======
 		$result   = TestIterableCodeExtractor::getFilesFromDirectory( self::$base, $includes, [], [ 'php', 'js' ] );
->>>>>>> main
 		$expected = static::$base . 'symlinked/includes/should_be_included.js';
 		$this->assertContains( $expected, $result );
 	}
@@ -303,20 +216,12 @@ class IterableCodeExtractorTest extends TestCase {
 	}
 
 	protected static function file_get_extension_multi_invoke( $file ) {
-<<<<<<< HEAD
-		$file_get_extension_multi_method = static::get_method_as_public( 'WP_CLI\I18n\IterableCodeExtractor', 'file_get_extension_multi' );
-=======
 		$file_get_extension_multi_method = static::get_method_as_public( TestIterableCodeExtractor::class, 'file_get_extension_multi' );
->>>>>>> main
 		return $file_get_extension_multi_method->invokeArgs( null, [ $file ] );
 	}
 
 	protected static function file_has_file_extension_invoke( $file, $extensions ) {
-<<<<<<< HEAD
-		$file_get_extension_multi_method = static::get_method_as_public( 'WP_CLI\I18n\IterableCodeExtractor', 'file_has_file_extension' );
-=======
 		$file_get_extension_multi_method = static::get_method_as_public( TestIterableCodeExtractor::class, 'file_has_file_extension' );
->>>>>>> main
 		return $file_get_extension_multi_method->invokeArgs( null, [ $file, $extensions ] );
 	}
 
@@ -327,11 +232,7 @@ class IterableCodeExtractorTest extends TestCase {
 		$this->assertEquals( static::file_get_extension_multi_invoke( new \SplFileObject( self::$base . $rel_input_file ) ), $expected_extension );
 	}
 
-<<<<<<< HEAD
-	public function file_extension_extract_provider() {
-=======
 	public static function file_extension_extract_provider() {
->>>>>>> main
 		return [
 			[ 'foo/bar/foofoo/included.js', 'js' ],
 			[ 'foo-plugin/foo-plugin.php', 'php' ],
@@ -346,11 +247,7 @@ class IterableCodeExtractorTest extends TestCase {
 		$this->assertEquals( static::file_has_file_extension_invoke( new \SplFileObject( self::$base . $rel_input_file ), $matching_extensions ), $expected_result );
 	}
 
-<<<<<<< HEAD
-	public function file_extensions_matches_provider() {
-=======
 	public static function file_extensions_matches_provider() {
->>>>>>> main
 		return [
 			[ 'foo/bar/foofoo/included.js', [ 'js' ], true ],
 			[ 'foo/bar/foofoo/included.js', [ 'js', 'php', 'blade.php' ], true ],

@@ -1,10 +1,7 @@
 name: Testing
 
 on:
-<<<<<<< HEAD
-=======
   workflow_dispatch:
->>>>>>> main
   pull_request:
   push:
     branches:

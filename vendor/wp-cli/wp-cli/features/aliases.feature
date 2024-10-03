@@ -637,8 +637,6 @@ Feature: Create shortcuts to specific WordPress installs
 
     When I try `wp cli alias is-group @foo`
     Then the return code should be 1
-<<<<<<< HEAD
-=======
 
   Scenario: Automatically add "@" prefix to an alias
     Given a WP install
@@ -666,4 +664,3 @@ Feature: Create shortcuts to specific WordPress installs
       @foo:
         path: {TEST_DIR}/foo
       """
->>>>>>> main

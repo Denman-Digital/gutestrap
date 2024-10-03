@@ -476,8 +476,6 @@ Feature: Have a config file
       {"bar":"burrito","apple":"apple"}
       """
 
-<<<<<<< HEAD
-=======
   Scenario: Config inheritance in nested folders
     Given an empty directory
     And a wp-cli.local.yml file:
@@ -529,7 +527,6 @@ Feature: Have a config file
         ssh: vagrant@otherexample.test/srv/www/otherexample.com/current
       """
 
->>>>>>> main
   @require-wp-3.9
   Scenario: WordPress installation with local dev DOMAIN_CURRENT_SITE
     Given a WP multisite installation

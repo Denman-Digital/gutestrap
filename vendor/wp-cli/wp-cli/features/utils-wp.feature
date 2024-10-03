@@ -567,11 +567,7 @@ Feature: Utilities that depend on WordPress code
       """
     And save STDOUT as {ALL_TABLES_WITH_PREFIX_STDOUT}
 
-<<<<<<< HEAD
-    # Network overriden by all-tables-with-prefix.
-=======
     # Network overridden by all-tables-with-prefix.
->>>>>>> main
     When I run `wp --require=table_names.php get_table_names --all-tables-with-prefix --network`
     Then STDOUT should contain:
       """
@@ -587,11 +583,7 @@ Feature: Utilities that depend on WordPress code
       """
     And save STDOUT as {ALL_TABLES_STDOUT}
 
-<<<<<<< HEAD
-    # Network overriden by all-tables.
-=======
     # Network overridden by all-tables.
->>>>>>> main
     When I run `wp --require=table_names.php get_table_names --all-tables --network`
     Then STDOUT should be:
       """

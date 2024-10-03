@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.12
+
+- Fix: updated to WP Utils v2.0.2 for upstream util fixes
+
 ## v2.2.11-compat
 
 - Updated PHP dependencies, tweaked assets

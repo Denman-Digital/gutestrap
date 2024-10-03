@@ -157,8 +157,6 @@ class Help_Command extends WP_CLI_Command {
 		if ( $alias ) {
 			$binding['alias'] = $alias;
 		}
-<<<<<<< HEAD
-=======
 		$hook_name        = $command->get_hook();
 		$hook_description = $hook_name ? Utils\get_hook_description( $hook_name ) : null;
 		if ( $hook_description && 'after_wp_load' !== $hook_name ) {
@@ -168,7 +166,6 @@ class Help_Command extends WP_CLI_Command {
 				$binding['shortdesc'] .= "\n\nThis command runs on the '$hook_name' hook, $hook_description";
 			}
 		}
->>>>>>> main
 
 		if ( $command->can_have_subcommands() ) {
 			$binding['has-subcommands']['subcommands'] = self::render_subcommands( $command );

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "denman-digital/wp-utils",
-            "version": "2.0.0",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Denman-Digital/wp-utils.git",
-                "reference": "1c70eb3665beac83844f79ff773d4c4752f344be"
+                "reference": "035178c046600ba67045e2925fb8ffc683527210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/1c70eb3665beac83844f79ff773d4c4752f344be",
-                "reference": "1c70eb3665beac83844f79ff773d4c4752f344be",
+                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/035178c046600ba67045e2925fb8ffc683527210",
+                "reference": "035178c046600ba67045e2925fb8ffc683527210",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "issues": "https://github.com/denman-digital/wp-utils/issues",
                 "source": "https://github.com/denman-digital/wp-utils"
             },
-            "time": "2024-10-03T17:37:15+00:00"
+            "time": "2024-10-03T19:15:47+00:00"
         },
         {
             "name": "scssphp/scssphp",
@@ -359,18 +359,6 @@
         },
         {
             "name": "mck89/peast",
-<<<<<<< HEAD
-            "version": "v1.16.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mck89/peast.git",
-                "reference": "2791b08ffcc1862fe18eef85675da3aa58c406fe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mck89/peast/zipball/2791b08ffcc1862fe18eef85675da3aa58c406fe",
-                "reference": "2791b08ffcc1862fe18eef85675da3aa58c406fe",
-=======
             "version": "v1.16.3",
             "source": {
                 "type": "git",
@@ -381,7 +369,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/mck89/peast/zipball/645ec21b650bc2aced18285c85f220d22afc1430",
                 "reference": "645ec21b650bc2aced18285c85f220d22afc1430",
->>>>>>> main
                 "shasum": ""
             },
             "require": {
@@ -394,11 +381,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-<<<<<<< HEAD
-                    "dev-master": "1.16.2-dev"
-=======
                     "dev-master": "1.16.3-dev"
->>>>>>> main
                 }
             },
             "autoload": {
@@ -419,15 +402,9 @@
             "description": "Peast is PHP library that generates AST for JavaScript code",
             "support": {
                 "issues": "https://github.com/mck89/peast/issues",
-<<<<<<< HEAD
-                "source": "https://github.com/mck89/peast/tree/v1.16.2"
-            },
-            "time": "2024-03-05T09:16:03+00:00"
-=======
                 "source": "https://github.com/mck89/peast/tree/v1.16.3"
             },
             "time": "2024-07-23T14:00:32+00:00"
->>>>>>> main
         },
         {
             "name": "mustache/mustache",
@@ -481,18 +458,6 @@
         },
         {
             "name": "php-stubs/wordpress-stubs",
-<<<<<<< HEAD
-            "version": "v6.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "e611a83292d02055a25f83291a98fadd0c21e092"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/e611a83292d02055a25f83291a98fadd0c21e092",
-                "reference": "e611a83292d02055a25f83291a98fadd0c21e092",
-=======
             "version": "v6.6.2",
             "source": {
                 "type": "git",
@@ -503,7 +468,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/f50fd7ed45894d036e4fef9ab7e5bbbaff6a30cc",
                 "reference": "f50fd7ed45894d036e4fef9ab7e5bbbaff6a30cc",
->>>>>>> main
                 "shasum": ""
             },
             "require-dev": {
@@ -511,11 +475,7 @@
                 "nikic/php-parser": "^4.13",
                 "php": "^7.4 || ^8.0",
                 "php-stubs/generator": "^0.8.3",
-<<<<<<< HEAD
-                "phpdocumentor/reflection-docblock": "5.3",
-=======
                 "phpdocumentor/reflection-docblock": "^5.4.1",
->>>>>>> main
                 "phpstan/phpstan": "^1.10.49",
                 "phpunit/phpunit": "^9.5",
                 "szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset": "^1.0",
@@ -540,24 +500,6 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-<<<<<<< HEAD
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.5.3"
-            },
-            "time": "2024-05-08T02:12:31+00:00"
-        },
-        {
-            "name": "symfony/finder",
-            "version": "v7.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/finder.git",
-                "reference": "4d58f0f4fe95a30d7b538d71197135483560b97c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/4d58f0f4fe95a30d7b538d71197135483560b97c",
-                "reference": "4d58f0f4fe95a30d7b538d71197135483560b97c",
-=======
                 "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.6.2"
             },
             "time": "2024-09-30T07:10:48+00:00"
@@ -574,7 +516,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/finder/zipball/d95bbf319f7d052082fb7af147e0f835a695e823",
                 "reference": "d95bbf319f7d052082fb7af147e0f835a695e823",
->>>>>>> main
                 "shasum": ""
             },
             "require": {
@@ -609,11 +550,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-<<<<<<< HEAD
-                "source": "https://github.com/symfony/finder/tree/v7.0.7"
-=======
                 "source": "https://github.com/symfony/finder/tree/v7.1.4"
->>>>>>> main
             },
             "funding": [
                 {
@@ -629,22 +566,6 @@
                     "type": "tidelift"
                 }
             ],
-<<<<<<< HEAD
-            "time": "2024-04-28T11:44:19+00:00"
-        },
-        {
-            "name": "wp-cli/i18n-command",
-            "version": "2.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wp-cli/i18n-command.git",
-                "reference": "7538d684d4f06b0e10c8a0166ce4e6d9e1687aa1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/i18n-command/zipball/7538d684d4f06b0e10c8a0166ce4e6d9e1687aa1",
-                "reference": "7538d684d4f06b0e10c8a0166ce4e6d9e1687aa1",
-=======
             "time": "2024-08-13T14:28:19+00:00"
         },
         {
@@ -659,7 +580,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/wp-cli/i18n-command/zipball/53518a11f314119e320597c7a8274f11b1295bdc",
                 "reference": "53518a11f314119e320597c7a8274f11b1295bdc",
->>>>>>> main
                 "shasum": ""
             },
             "require": {
@@ -713,15 +633,9 @@
             "homepage": "https://github.com/wp-cli/i18n-command",
             "support": {
                 "issues": "https://github.com/wp-cli/i18n-command/issues",
-<<<<<<< HEAD
-                "source": "https://github.com/wp-cli/i18n-command/tree/2.6.1"
-            },
-            "time": "2024-02-28T11:27:34+00:00"
-=======
                 "source": "https://github.com/wp-cli/i18n-command/tree/v2.6.2"
             },
             "time": "2024-07-03T12:50:00+00:00"
->>>>>>> main
         },
         {
             "name": "wp-cli/mustangostang-spyc",

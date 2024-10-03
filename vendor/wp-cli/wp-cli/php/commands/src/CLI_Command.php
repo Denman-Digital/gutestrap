@@ -39,10 +39,7 @@ class CLI_Command extends WP_CLI_Command {
 			'name'        => $command->get_name(),
 			'description' => $command->get_shortdesc(),
 			'longdesc'    => $command->get_longdesc(),
-<<<<<<< HEAD
-=======
 			'hook'        => $command->get_hook(),
->>>>>>> main
 		];
 
 		foreach ( $command->get_subcommands() as $subcommand ) {
@@ -84,11 +81,7 @@ class CLI_Command extends WP_CLI_Command {
 	 * * WP-CLI project config: where the project config YAML file is located.
 	 * * WP-CLI version: currently installed version.
 	 *
-<<<<<<< HEAD
-	 * See [config docs](https://wp-cli.org/config/) for more details on global
-=======
 	 * See [config docs](https://make.wordpress.org/cli/handbook/references/config/) for more details on global
->>>>>>> main
 	 * and project config YAML files.
 	 *
 	 * ## OPTIONS
@@ -188,11 +181,7 @@ class CLI_Command extends WP_CLI_Command {
 	/**
 	 * Checks to see if there is a newer version of WP-CLI available.
 	 *
-<<<<<<< HEAD
-	 * Queries the Github releases API. Returns available versions if there are
-=======
 	 * Queries the GitHub releases API. Returns available versions if there are
->>>>>>> main
 	 * updates available, or success message if using the latest release.
 	 *
 	 * ## OPTIONS
@@ -627,8 +616,6 @@ class CLI_Command extends WP_CLI_Command {
 	 *     $ echo $?
 	 *     1
 	 *
-<<<<<<< HEAD
-=======
 	 *     # Install a WP-CLI package if not already installed
 	 *     $ if ! $(wp cli has-command doctor); then wp package install wp-cli/doctor-command; fi
 	 *     Installing package wp-cli/doctor-command (dev-main || dev-master || dev-trunk)
@@ -637,7 +624,6 @@ class CLI_Command extends WP_CLI_Command {
 	 *     ---
 	 *     Success: Package installed.
 	 *
->>>>>>> main
 	 * @subcommand has-command
 	 *
 	 * @when after_wp_load

@@ -408,10 +408,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 * @return mixed
 	 */
 	private function build_aliases( $aliases, $alias, $assoc_args, $is_grouping, $grouping = '', $is_update = false ) {
-<<<<<<< HEAD
-=======
 		$alias = $this->normalize_alias( $alias );
->>>>>>> main
 
 		if ( $is_grouping ) {
 			$valid_assoc_args = [ 'config', 'grouping' ];
@@ -511,11 +508,8 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 * @param string $operation   Current operation string fro message.
 	 */
 	private function process_aliases( $aliases, $alias, $config_path, $operation = '' ) {
-<<<<<<< HEAD
-=======
 		$alias = $this->normalize_alias( $alias );
 
->>>>>>> main
 		// Convert data to YAML string.
 		$yaml_data = Spyc::YAMLDump( $aliases );
 
@@ -524,8 +518,6 @@ class CLI_Alias_Command extends WP_CLI_Command {
 			WP_CLI::success( "$operation '{$alias}' alias." );
 		}
 	}
-<<<<<<< HEAD
-=======
 
 	/**
 	 * Normalize the alias to an expected format.
@@ -543,5 +535,4 @@ class CLI_Alias_Command extends WP_CLI_Command {
 
 		return $alias;
 	}
->>>>>>> main
 }

@@ -506,11 +506,7 @@ class Subcommand extends CompositeCommand {
 	 * Get an array of parameter names, by merging the command-specific and the
 	 * global parameters.
 	 *
-<<<<<<< HEAD
-	 * @param array  $spec Optional. Specification of the current command.
-=======
 	 * @param array $spec Optional. Specification of the current command.
->>>>>>> main
 	 *
 	 * @return array Array of parameter names
 	 */

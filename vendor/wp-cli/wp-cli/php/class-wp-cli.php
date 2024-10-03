@@ -393,22 +393,14 @@ class WP_CLI {
 		}
 
 		if ( is_object( $function ) ) {
-<<<<<<< HEAD
-			// Closures are currently implemented as objects
-=======
 			// Closures are currently implemented as objects.
->>>>>>> main
 			$function = [ $function, '' ];
 		} else {
 			$function = (array) $function;
 		}
 
 		if ( is_object( $function[0] ) ) {
-<<<<<<< HEAD
-			// Object Class Calling
-=======
 			// Object Class Calling.
->>>>>>> main
 			if ( function_exists( 'spl_object_hash' ) ) {
 				return spl_object_hash( $function[0] ) . $function[1];
 			}
@@ -429,11 +421,7 @@ class WP_CLI {
 		}
 
 		if ( is_string( $function[0] ) ) {
-<<<<<<< HEAD
-			// Static Calling
-=======
 			// Static Calling.
->>>>>>> main
 			return $function[0] . '::' . $function[1];
 		}
 	}
@@ -1081,11 +1069,7 @@ class WP_CLI {
 			return $errors;
 		}
 
-<<<<<<< HEAD
-		// Only json_encode() the data when it needs it
-=======
 		// Only json_encode() the data when it needs it.
->>>>>>> main
 		$render_data = function ( $data ) {
 			if ( is_array( $data ) || is_object( $data ) ) {
 				return json_encode( $data );
@@ -1106,11 +1090,7 @@ class WP_CLI {
 
 		// PHP 7+: internal and user exceptions must implement Throwable interface.
 		// PHP 5: internal and user exceptions must extend Exception class.
-<<<<<<< HEAD
-		if ( interface_exists( 'Throwable' ) && ( $errors instanceof Throwable ) || ( $errors instanceof Exception ) ) {
-=======
 		if ( ( interface_exists( 'Throwable' ) && ( $errors instanceof Throwable ) ) || ( $errors instanceof Exception ) ) {
->>>>>>> main
 			return get_class( $errors ) . ': ' . $errors->getMessage();
 		}
 
@@ -1257,11 +1237,7 @@ class WP_CLI {
 	 * Get values of global configuration parameters.
 	 *
 	 * Provides access to `--path=<path>`, `--url=<url>`, and other values of
-<<<<<<< HEAD
-	 * the [global configuration parameters](https://wp-cli.org/config/).
-=======
 	 * the [global configuration parameters](https://make.wordpress.org/cli/handbook/references/config/).
->>>>>>> main
 	 *
 	 * ```
 	 * WP_CLI::log( 'The --url=<url> value is: ' . WP_CLI::get_config( 'url' ) );
@@ -1481,30 +1457,18 @@ class WP_CLI {
 
 
 
-<<<<<<< HEAD
-	// DEPRECATED STUFF
-=======
 	// DEPRECATED STUFF.
->>>>>>> main
 
 	public static function add_man_dir() {
 		trigger_error( 'WP_CLI::add_man_dir() is deprecated. Add docs inline.', E_USER_WARNING );
 	}
 
-<<<<<<< HEAD
-	// back-compat
-=======
 	// back-compat.
->>>>>>> main
 	public static function out( $str ) {
 		fwrite( STDOUT, $str );
 	}
 
-<<<<<<< HEAD
-	// back-compat
-=======
 	// back-compat.
->>>>>>> main
 	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid -- Deprecated method.
 	public static function addCommand( $name, $class ) {
 		trigger_error(

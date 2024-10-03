@@ -53,8 +53,6 @@ Feature: Get help about WP-CLI commands
       """
     And STDERR should be empty
 
-<<<<<<< HEAD
-=======
   Scenario: Include when the command is run if a non-standard hook.
     Given an empty directory
 
@@ -77,7 +75,6 @@ Feature: Get help about WP-CLI commands
       This command runs on the
       """
 
->>>>>>> main
   Scenario: Hide Global parameters when requested
     Given an empty directory
 

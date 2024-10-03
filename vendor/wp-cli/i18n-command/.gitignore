@@ -11,9 +11,5 @@ composer.lock
 phpunit.xml
 phpcs.xml
 .phpcs.xml
-<<<<<<< HEAD
-.phpunit.result.cache 
-=======
 .phpunit.result.cache
 .phpunit.cache
->>>>>>> main

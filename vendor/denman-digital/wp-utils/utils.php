@@ -57,7 +57,7 @@ function not_empty($var): bool
  */
 function str_starts_with(string $haystack, string $needle): bool
 {
-	_deprecated_function("Denman_Utils\\str_starts_with", "6.0", "str_starts_with");
+	_deprecated_function("Denman_Utils\\v2\\str_starts_with", "6.0", "str_starts_with");
 	$length = strlen($needle);
 	if ($length == 0) {
 		return true;
@@ -76,7 +76,7 @@ function str_starts_with(string $haystack, string $needle): bool
  */
 function str_ends_with(string $haystack, string $needle): bool
 {
-	_deprecated_function("Denman_Utils\\str_ends_with", "6.0", "str_ends_with");
+	_deprecated_function("Denman_Utils\\v2\\str_ends_with", "6.0", "str_ends_with");
 	$length = strlen($needle);
 	if ($length == 0) {
 		return true;
@@ -182,7 +182,7 @@ function str_unpostfix(string $str, string $postfix, int $max = -1): string
  */
 function str_contains(string $haystack, string $needle, bool $case_insensitive = false): bool
 {
-	_deprecated_function("Denman_Utils\\str_contains", "6.0", "str_contains");
+	_deprecated_function("Denman_Utils\\v2\\str_contains", "6.0", "str_contains");
 	if ($case_insensitive) {
 		$haystack = strtolower($haystack);
 		$needle = strtolower($needle);
@@ -307,7 +307,7 @@ function assert_array(mixed $value, bool $wrap_null = false): array
 function array_pluck(array &$array, string|int $key): mixed
 {
 	if (!is_array($array) || !array_key_exists($key, $array)) {
-		return;
+		return null;
 	}
 	$plucked = $array[$key];
 	unset($array[$key]);
@@ -380,11 +380,11 @@ function array_flatten(array $array): array
 function array_nth(array $array, int $n): mixed
 {
 	if (!is_array($array)) {
-		return;
+		return null;
 	}
 	$length = count($array);
 	if (!$length) {
-		return;
+		return null;
 	}
 	$n = min_max($n, -$length, $length - 1); // don't overflow array bounds
 	return array_values($array)[$n >= 0 ? $n : $length + $n];
@@ -481,7 +481,7 @@ function array_force_assoc(array $array): array
  */
 function array_has_string_keys(array $array): bool
 {
-	_deprecated_function("Denman_Utils\\array_has_string_keys", "6.0", "array_is_list");
+	_deprecated_function("Denman_Utils\\v2\\array_has_string_keys", "6.0", "array_is_list");
 	return count(array_filter(array_keys($array), 'is_string')) > 0;
 }
 
@@ -995,13 +995,13 @@ function get_post_descendants($post = null, int $depth = -1, bool $check_post_ty
 }
 
 /**
- * Retrieve from an array only (a) string keys for truthy values and (b) numerically indexed strings
+ * Collapse an array to only (a) string keys for truthy values and (b) numerically indexed strings
  *
  * modeled after [classnames](https://www.npmjs.com/package/classnames) on NPM
  *
  * @since 1.2.0 Returns string instead of string array
  * @since 1.0.0
- * @param array $classes
+ * @param mixed[] $classes
  * @return string
  */
 function class_names(array $classes): string
@@ -1019,6 +1019,32 @@ function class_names(array $classes): string
 		}
 	}
 	return implode(' ', $class_names);
+}
+
+/**
+ * Retrieve from an array only (a) string keys for truthy values and (b) numerically indexed strings
+ *
+ * Similar to [classnames](https://www.npmjs.com/package/classnames) on NPM
+ *
+ * @since 2.0.1
+ * @param mixed[] $classes
+ * @return string[]
+ */
+function class_names_array(array $classes): array
+{
+	$class_names = [];
+	foreach ((array) $classes as $key => $value) {
+		if (is_array($value)) {
+			$class_names[] = class_names($value);
+		} else if (is_string($key)) {
+			if (!!$value) {
+				$class_names[] = $key;
+			}
+		} else if (is_string($value)) {
+			$class_names[] = $value;
+		}
+	}
+	return $class_names;
 }
 
 
@@ -1053,7 +1079,7 @@ function html_attrs(array $attrs): string
 {
 	$attrs = array_map(function ($value) {
 		return fallback_until("is_string", $value, esc_attr(var_export($value, true)));
-	}, array_filter($attrs, "Denman_Utils\\is_not_null"));
+	}, array_filter($attrs, "Denman_Utils\\v2\\is_not_null"));
 	$output = "";
 	foreach ($attrs as $name => $value) {
 		if (is_numeric($name)) {

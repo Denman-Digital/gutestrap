@@ -273,14 +273,6 @@ class MakePotCommand extends WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-<<<<<<< HEAD
-	 *     # Create a POT file for the WordPress plugin/theme in the current directory
-	 *     $ wp i18n make-pot . languages/my-plugin.pot
-	 *
-	 *     # Create a POT file for the continents and cities list in WordPress core.
-	 *     $ wp i18n make-pot . continents-and-cities.pot --include="wp-admin/includes/continents-cities.php"
-	 *     --ignore-domain
-=======
 	 *     # Create a POT file for the WordPress plugin/theme in the current directory.
 	 *     $ wp i18n make-pot . languages/my-plugin.pot
 	 *
@@ -289,7 +281,6 @@ class MakePotCommand extends WP_CLI_Command {
 	 *
 	 *     # Create a POT file for the WordPress theme in the current directory with custom headers.
 	 *     $ wp i18n make-pot . languages/my-theme.pot --headers='{"Report-Msgid-Bugs-To":"https://github.com/theme-author/my-theme/","POT-Creation-Date":""}'
->>>>>>> main
 	 *
 	 * @when before_wp_load
 	 *
@@ -639,11 +630,7 @@ class MakePotCommand extends WP_CLI_Command {
 
 			if ( $this->main_file_path && $this->location ) {
 				$translation->addReference(
-<<<<<<< HEAD
-					ltrim( str_replace( "$this->source/", '', Utils\normalize_path( $this->main_file_path ) ), '/' )
-=======
 					ltrim( str_replace( Utils\normalize_path( "$this->source/" ), '', Utils\normalize_path( $this->main_file_path ) ), '/' )
->>>>>>> main
 				);
 			}
 
@@ -915,11 +902,7 @@ class MakePotCommand extends WP_CLI_Command {
 		}
 
 		if ( isset( $this->main_file_data['Theme Name'] ) ) {
-<<<<<<< HEAD
-			if ( isset( $this->main_file_data['License'] ) ) {
-=======
 			if ( ! empty( $this->main_file_data['License'] ) ) {
->>>>>>> main
 				return sprintf(
 					"Copyright (C) %1\$s %2\$s\nThis file is distributed under the %3\$s.",
 					date( 'Y' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
@@ -937,11 +920,7 @@ class MakePotCommand extends WP_CLI_Command {
 		}
 
 		if ( isset( $this->main_file_data['Plugin Name'] ) ) {
-<<<<<<< HEAD
-			if ( isset( $this->main_file_data['License'] ) && ! empty( $this->main_file_data['License'] ) ) {
-=======
 			if ( ! empty( $this->main_file_data['License'] ) ) {
->>>>>>> main
 				return sprintf(
 					"Copyright (C) %1\$s %2\$s\nThis file is distributed under the %3\$s.",
 					date( 'Y' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
