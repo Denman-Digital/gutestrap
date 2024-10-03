@@ -134,12 +134,23 @@ if the source directory is detected as either a plugin or theme.
 
 **EXAMPLES**
 
+<<<<<<< HEAD
     # Create a POT file for the WordPress plugin/theme in the current directory
     $ wp i18n make-pot . languages/my-plugin.pot
 
     # Create a POT file for the continents and cities list in WordPress core.
     $ wp i18n make-pot . continents-and-cities.pot --include="wp-admin/includes/continents-cities.php"
     --ignore-domain
+=======
+    # Create a POT file for the WordPress plugin/theme in the current directory.
+    $ wp i18n make-pot . languages/my-plugin.pot
+
+    # Create a POT file for the continents and cities list in WordPress core.
+    $ wp i18n make-pot . continents-and-cities.pot --include="wp-admin/includes/continents-cities.php" --ignore-domain
+
+    # Create a POT file for the WordPress theme in the current directory with custom headers.
+    $ wp i18n make-pot . languages/my-theme.pot --headers='{"Report-Msgid-Bugs-To":"https://github.com/theme-author/my-theme/","POT-Creation-Date":""}'
+>>>>>>> main
 
 
 
@@ -268,12 +279,33 @@ This behaves similarly to the [msgmerge](https://www.gnu.org/software/gettext/ma
 **OPTIONS**
 
 	<source>
+<<<<<<< HEAD
 		Path to an existing POT file to use for updating
+=======
+		Path to an existing POT file to use for updating.
+>>>>>>> main
 
 	[<destination>]
 		PO file to update or a directory containing multiple PO files.
 		  Defaults to all PO files in the source directory.
 
+<<<<<<< HEAD
+=======
+**EXAMPLES**
+
+    # Update all PO files from a POT file in the current directory.
+    $ wp i18n update-po example-plugin.pot
+    Success: Updated 3 files.
+
+    # Update a PO file from a POT file.
+    $ wp i18n update-po example-plugin.pot example-plugin-de_DE.po
+    Success: Updated 1 file.
+
+    # Update all PO files in a given directory from a POT file.
+    $ wp i18n update-po example-plugin.pot languages
+    Success: Updated 2 files.
+
+>>>>>>> main
 ## Installing
 
 This package is included with WP-CLI itself, no additional installation necessary.

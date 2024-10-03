@@ -17,8 +17,12 @@ final class IncludeFallbackAutoloader extends AutoloaderStep {
 	/**
 	 * Get the autoloader paths to scan for an autoloader.
 	 *
+<<<<<<< HEAD
 	 * @return string[]|false Array of strings with autoloader paths, or false
 	 *                        to skip.
+=======
+	 * @return string[] Array of autoloader paths, or an empty array if none are found.
+>>>>>>> main
 	 */
 	protected function get_autoloader_paths() {
 		$autoloader_paths = [

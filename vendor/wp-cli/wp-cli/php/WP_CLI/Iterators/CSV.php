@@ -54,6 +54,7 @@ class CSV implements Countable, Iterator {
 		$this->current_element = false;
 
 		while ( true ) {
+<<<<<<< HEAD
 			$str = fgets( $this->file_pointer );
 
 			if ( false === $str ) {
@@ -62,6 +63,14 @@ class CSV implements Countable, Iterator {
 
 			$row = str_getcsv( $str, $this->delimiter );
 
+=======
+			$row = fgetcsv( $this->file_pointer, self::ROW_SIZE, $this->delimiter );
+
+			if ( false === $row ) {
+				break;
+			}
+
+>>>>>>> main
 			$element = [];
 			foreach ( $this->columns as $i => $key ) {
 				if ( isset( $row[ $i ] ) ) {

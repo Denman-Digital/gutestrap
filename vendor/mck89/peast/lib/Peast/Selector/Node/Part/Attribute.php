@@ -135,7 +135,11 @@ class Attribute extends Part
      *
      * @return bool
      */
+<<<<<<< HEAD
     public function check(Node $node, Node $parent = null)
+=======
+    public function check(Node $node, $parent = null)
+>>>>>>> main
     {
         $attr = $node;
         foreach ($this->names as $name) {

@@ -7,8 +7,8 @@
  * @package gutestrap
  */
 
-use function Denman_Utils\array_exclude_keys;
-use function Denman_Utils\html_attrs;
+use function Denman_Utils\v2\array_exclude_keys;
+use function Denman_Utils\v2\html_attrs;
 
 // Exit if accessed directly.
 defined('ABSPATH') || exit;

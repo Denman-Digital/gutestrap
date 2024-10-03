@@ -90,4 +90,8 @@ Just leave this section out if you don't know how to fix it.
 
 Add any other context about the problem here.
 
+<<<<<<< HEAD
 If applicable, add screenshots to help explain (you can just drag&drop images into the Github issue).
+=======
+If applicable, add screenshots to help explain (you can just drag&drop images into the GitHub issue).
+>>>>>>> main

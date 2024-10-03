@@ -21,12 +21,33 @@ class UpdatePoCommand extends WP_CLI_Command {
 	 * ## OPTIONS
 	 *
 	 * <source>
+<<<<<<< HEAD
 	 * : Path to an existing POT file to use for updating
+=======
+	 * : Path to an existing POT file to use for updating.
+>>>>>>> main
 	 *
 	 * [<destination>]
 	 * : PO file to update or a directory containing multiple PO files.
 	 *   Defaults to all PO files in the source directory.
 	 *
+<<<<<<< HEAD
+=======
+	 * ## EXAMPLES
+	 *
+	 *     # Update all PO files from a POT file in the current directory.
+	 *     $ wp i18n update-po example-plugin.pot
+	 *     Success: Updated 3 files.
+	 *
+	 *     # Update a PO file from a POT file.
+	 *     $ wp i18n update-po example-plugin.pot example-plugin-de_DE.po
+	 *     Success: Updated 1 file.
+	 *
+	 *     # Update all PO files in a given directory from a POT file.
+	 *     $ wp i18n update-po example-plugin.pot languages
+	 *     Success: Updated 2 files.
+	 *
+>>>>>>> main
 	 * @when before_wp_load
 	 *
 	 * @throws WP_CLI\ExitException

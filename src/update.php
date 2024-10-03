@@ -9,7 +9,7 @@
 
 namespace Gutestrap;
 
-use function Denman_Utils\mini_markdown_parse;
+use function Denman_Utils\v2\mini_markdown_parse;
 
 class Gutestrap_Update
 {

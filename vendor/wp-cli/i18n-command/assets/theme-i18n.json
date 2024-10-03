@@ -1,5 +1,9 @@
 {
 	"title": "Style variation name",
+<<<<<<< HEAD
+=======
+	"description": "Style variation description",
+>>>>>>> main
 	"settings": {
 		"typography": {
 				"fontSizes": [
@@ -37,6 +41,16 @@
 				}
 			]
 		},
+<<<<<<< HEAD
+=======
+		"dimensions": {
+			"aspectRatios": [
+				{
+					"name": "Aspect ratio name"
+				}
+			]
+		},
+>>>>>>> main
 		"blocks": {
 			"*": {
 				"typography": {

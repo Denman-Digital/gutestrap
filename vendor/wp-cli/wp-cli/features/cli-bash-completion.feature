@@ -101,6 +101,15 @@ Feature: `wp cli completions` tasks
       """
 
     When I run `wp cli completions --line='wp config create --dbname=' --point=100`
+<<<<<<< HEAD
+=======
+    Then STDOUT should not contain:
+      """
+      --dbname=
+      """
+
+    When I run `wp cli completions --line='wp config create --dbname' --point=100`
+>>>>>>> main
     Then STDOUT should contain:
       """
       --dbname=

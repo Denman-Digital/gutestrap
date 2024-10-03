@@ -35,7 +35,11 @@ abstract class AutoloaderStep implements BootstrapStep {
 		$autoloader_paths = $this->get_autoloader_paths();
 
 		if ( false === $autoloader_paths ) {
+<<<<<<< HEAD
 			// Skip this autoloading step.
+=======
+			// Skip this autoload step.
+>>>>>>> main
 			return $state;
 		}
 

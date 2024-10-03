@@ -37,7 +37,11 @@
     },
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
             "dev-main": "2.10.x-dev"
+=======
+            "dev-main": "2.11.x-dev"
+>>>>>>> main
         }
     },
     "autoload": {

@@ -3,7 +3,11 @@
         'name' => 'paulthewalton/gutestrap',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
         'reference' => '6e85224df2508953a1e197aa2226309ededbfb9f',
+=======
+        'reference' => '6da8b6e6baee59a3202c52cfafe5ccc202b556f4',
+>>>>>>> main
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +15,9 @@
     ),
     'versions' => array(
         'denman-digital/wp-utils' => array(
-            'pretty_version' => '1.1.4',
-            'version' => '1.1.4.0',
-            'reference' => 'cdf80dbc49ee5de63bef43903bf6f57bf62496b1',
+            'pretty_version' => '2.0.0',
+            'version' => '2.0.0.0',
+            'reference' => '1c70eb3665beac83844f79ff773d4c4752f344be',
             'type' => 'library',
             'install_path' => __DIR__ . '/../denman-digital/wp-utils',
             'aliases' => array(),
@@ -47,9 +51,15 @@
             'dev_requirement' => true,
         ),
         'mck89/peast' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v1.16.2',
             'version' => '1.16.2.0',
             'reference' => '2791b08ffcc1862fe18eef85675da3aa58c406fe',
+=======
+            'pretty_version' => 'v1.16.3',
+            'version' => '1.16.3.0',
+            'reference' => '645ec21b650bc2aced18285c85f220d22afc1430',
+>>>>>>> main
             'type' => 'library',
             'install_path' => __DIR__ . '/../mck89/peast',
             'aliases' => array(),
@@ -67,43 +77,65 @@
         'paulthewalton/gutestrap' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
             'reference' => '6e85224df2508953a1e197aa2226309ededbfb9f',
+=======
+            'reference' => '6da8b6e6baee59a3202c52cfafe5ccc202b556f4',
+>>>>>>> main
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'php-stubs/wordpress-stubs' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v6.5.3',
             'version' => '6.5.3.0',
             'reference' => 'e611a83292d02055a25f83291a98fadd0c21e092',
+=======
+            'pretty_version' => 'v6.6.2',
+            'version' => '6.6.2.0',
+            'reference' => 'f50fd7ed45894d036e4fef9ab7e5bbbaff6a30cc',
+>>>>>>> main
             'type' => 'library',
             'install_path' => __DIR__ . '/../php-stubs/wordpress-stubs',
             'aliases' => array(),
             'dev_requirement' => true,
         ),
         'scssphp/scssphp' => array(
-            'pretty_version' => 'v1.12.1',
-            'version' => '1.12.1.0',
-            'reference' => '394ed1e960138710a60d035c1a85d43d0bf0faeb',
+            'pretty_version' => 'v1.13.0',
+            'version' => '1.13.0.0',
+            'reference' => '63d1157457e5554edf00b0c1fabab4c1511d2520',
             'type' => 'library',
             'install_path' => __DIR__ . '/../scssphp/scssphp',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'symfony/finder' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v7.0.7',
             'version' => '7.0.7.0',
             'reference' => '4d58f0f4fe95a30d7b538d71197135483560b97c',
+=======
+            'pretty_version' => 'v7.1.4',
+            'version' => '7.1.4.0',
+            'reference' => 'd95bbf319f7d052082fb7af147e0f835a695e823',
+>>>>>>> main
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/finder',
             'aliases' => array(),
             'dev_requirement' => true,
         ),
         'wp-cli/i18n-command' => array(
+<<<<<<< HEAD
             'pretty_version' => '2.6.1',
             'version' => '2.6.1.0',
             'reference' => '7538d684d4f06b0e10c8a0166ce4e6d9e1687aa1',
+=======
+            'pretty_version' => 'v2.6.2',
+            'version' => '2.6.2.0',
+            'reference' => '53518a11f314119e320597c7a8274f11b1295bdc',
+>>>>>>> main
             'type' => 'wp-cli-package',
             'install_path' => __DIR__ . '/../wp-cli/i18n-command',
             'aliases' => array(),
@@ -128,9 +160,15 @@
             'dev_requirement' => true,
         ),
         'wp-cli/wp-cli' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v2.10.0',
             'version' => '2.10.0.0',
             'reference' => 'a339dca576df73c31af4b4d8054efc2dab9a0685',
+=======
+            'pretty_version' => 'v2.11.0',
+            'version' => '2.11.0.0',
+            'reference' => '53f0df112901fcf95099d0f501912a209429b6a9',
+>>>>>>> main
             'type' => 'library',
             'install_path' => __DIR__ . '/../wp-cli/wp-cli',
             'aliases' => array(),

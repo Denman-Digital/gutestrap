@@ -43,5 +43,9 @@ abstract class Part
      *
      * @abstract
      */
+<<<<<<< HEAD
     abstract public function check(Node $node, Node $parent = null);
+=======
+    abstract public function check(Node $node, $parent = null);
+>>>>>>> main
 }
