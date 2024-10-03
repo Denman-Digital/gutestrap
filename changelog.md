@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.11
+
+- Updated PHP dependencies, tweaked assets
+
 ## v2.2.10
 
 - Added: Effects dropdown in column settings to add rounded corners or drop shadows
