@@ -139,7 +139,7 @@ $include-column-box-sizing: true !default;
 		}
 	}
 	@each $breakpoint in map.keys($container-breakpoints) {
-		@include media-breakpoint-up($breakpoint) {
+		@include media-breakpoint-up($breakpoint, $container-breakpoints) {
 			--gs-container-w: var(--gs-container-w-#{$breakpoint});
 		}
 	}
@@ -168,7 +168,7 @@ $include-column-box-sizing: true !default;
 @each $breakpoint, $container-max-width in $container-max-widths {
 	.container-#{$breakpoint} {
 		@extend .container-fluid;
-		@include media-breakpoint-up($breakpoint) {
+		@include media-breakpoint-up($breakpoint, $container-breakpoints) {
 			max-width: var(--gs-container-w);
 		}
 	}
@@ -250,7 +250,7 @@ $utilities: map-merge(
 
 $container-classes: (".container-fluid");
 @each $breakpoint in map.keys($container-breakpoints) {
-	$container-classes: list.append($container-classes, ".container#{breakpoint-infix($breakpoint)}", $separator: comma);
+	$container-classes: list.append($container-classes, ".container#{breakpoint-infix($breakpoint, $container-breakpoints)}", $separator: comma);
 }
 
 .contain-inset-vert:is(#{$container-classes}) {

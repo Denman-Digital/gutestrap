@@ -22,8 +22,8 @@ $grid-breakpoints-raw: (
 $container-breakpoints-raw: map.merge(
 	$grid-breakpoints-raw,
 	(
-		"5xl": 2560px,
-		"6xl": 3840px,
+		5xl: 2500px,
+		6xl: 3780px,
 	)
 );
 
@@ -41,8 +41,8 @@ $grid-breakpoints: (
 $container-breakpoints: map.merge(
 	$grid-breakpoints,
 	(
-		"5xl": func.px-to-em(2560px),
-		"6xl": func.px-to-em(3840px),
+		5xl: func.px-to-em(2500px),
+		6xl: func.px-to-em(3780px),
 	)
 );
 
@@ -55,7 +55,7 @@ $container-max-widths: (
 	xxxl: func.px-to-rem(1440px),
 	xxxxl: func.px-to-rem(1740px),
 	5xl: func.px-to-rem(2340px),
-	6xl: func.px-to-rem(3600px),
+	6xl: func.px-to-rem(3360px),
 );
 
 $grid-columns: 12;
