@@ -12,6 +12,7 @@
 @use "common" as *;
 
 $grid-breakpoints: $grid-breakpoints-raw;
+$container-breakpoints: $container-breakpoints-raw;
 
 html {
 	box-sizing: border-box;
@@ -130,14 +131,14 @@ $include-column-box-sizing: true !default;
 
 :root {
 	--gs-gutter: #{$grid-gutter-width};
-	@each $breakpoint in map.keys($grid-breakpoints) {
+	@each $breakpoint in map.keys($container-breakpoints) {
 		@if $breakpoint == xs {
 			--gs-container-w-#{$breakpoint}: initial;
 		} @else {
 			--gs-container-w-#{$breakpoint}: #{map.get($container-max-widths, $breakpoint)};
 		}
 	}
-	@each $breakpoint in map.keys($grid-breakpoints) {
+	@each $breakpoint in map.keys($container-breakpoints) {
 		@include media-breakpoint-up($breakpoint) {
 			--gs-container-w: var(--gs-container-w-#{$breakpoint});
 		}
@@ -248,7 +249,7 @@ $utilities: map-merge(
 }
 
 $container-classes: (".container-fluid");
-@each $breakpoint in map.keys($grid-breakpoints) {
+@each $breakpoint in map.keys($container-breakpoints) {
 	$container-classes: list.append($container-classes, ".container#{breakpoint-infix($breakpoint)}", $separator: comma);
 }
 

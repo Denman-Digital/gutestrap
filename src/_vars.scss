@@ -1,4 +1,5 @@
 @use "func";
+@use "sass:map";
 
 /**
  * #.# Variables
@@ -16,8 +17,14 @@ $grid-breakpoints-raw: (
 	xxl: 1420px,
 	xxxl: 1680px,
 	xxxxl: 1900px,
-	5xl: 2560px,
-	6xl: 3840px,
+);
+
+$container-breakpoints-raw: map.merge(
+	$grid-breakpoints-raw,
+	(
+		"5xl": 2560px,
+		"6xl": 3840px,
+	)
 );
 
 $grid-breakpoints: (
@@ -29,8 +36,14 @@ $grid-breakpoints: (
 	xxl: func.px-to-em(1420px),
 	xxxl: func.px-to-em(1680px),
 	xxxxl: func.px-to-em(1900px),
-	5xl: func.px-to-em(2560px),
-	6xl: func.px-to-em(3840px),
+);
+
+$container-breakpoints: map.merge(
+	$grid-breakpoints,
+	(
+		"5xl": func.px-to-em(2560px),
+		"6xl": func.px-to-em(3840px),
+	)
 );
 
 $container-max-widths: (
