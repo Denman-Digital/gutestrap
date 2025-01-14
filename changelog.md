@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.14
+
+- Added extra container breakpoints & max widths for 2K and 4K screen sizes
+
 ## v2.2.13
 
 - Fix: deprecation, inconsistant use of hooks in Custom SCSS panel
