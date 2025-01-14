@@ -16,6 +16,8 @@ $grid-breakpoints-raw: (
 	xxl: 1420px,
 	xxxl: 1680px,
 	xxxxl: 1900px,
+	5xl: 2560px,
+	6xl: 3840px,
 );
 
 $grid-breakpoints: (
@@ -27,6 +29,8 @@ $grid-breakpoints: (
 	xxl: func.px-to-em(1420px),
 	xxxl: func.px-to-em(1680px),
 	xxxxl: func.px-to-em(1900px),
+	5xl: func.px-to-em(2560px),
+	6xl: func.px-to-em(3840px),
 );
 
 $container-max-widths: (
@@ -37,10 +41,13 @@ $container-max-widths: (
 	xxl: func.px-to-rem(1320px),
 	xxxl: func.px-to-rem(1440px),
 	xxxxl: func.px-to-rem(1740px),
+	5xl: func.px-to-rem(2340px),
+	6xl: func.px-to-rem(3600px),
 );
 
 $grid-columns: 12;
 $grid-gutter-width: 1.875rem;
+
 $grid-row-columns: 0;
 $prefix: gs-;
 

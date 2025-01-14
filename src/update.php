@@ -80,7 +80,7 @@ class Gutestrap_Update
 		$remote_changelog = mini_markdown_parse($remote_changelog);
 
 		return sprintf(
-			"<div class='gutestrap-changelog'>%s</div>",
+			"<div class='denman-plugin-changelog'>%s</div>",
 			$remote_changelog
 		);
 	}
@@ -191,16 +191,17 @@ class Gutestrap_Update
 	{
 		?>
 		<style>
-			.gutestrap-changelog {
+			.denman-plugin-changelog {
 				float: left;
 				width: 100%;
+				margin-bottom: 66px;
 			}
-			.gutestrap-changelog h1,
-			.gutestrap-changelog h2,
-			.gutestrap-changelog h3,
-			.gutestrap-changelog h4,
-			.gutestrap-changelog h5,
-			.gutestrap-changelog h6 {
+			.denman-plugin-changelog h1,
+			.denman-plugin-changelog h2,
+			.denman-plugin-changelog h3,
+			.denman-plugin-changelog h4,
+			.denman-plugin-changelog h5,
+			.denman-plugin-changelog h6 {
 				margin: 0.25em 0;
 				clear: none;
 			}
