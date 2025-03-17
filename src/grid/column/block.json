@@ -41,7 +41,20 @@
 			"minHeight": true
 		},
 		"defaultStylePicker": false,
-		"renaming": false
+		"renaming": false,
+		"__experimentalBorder": {
+			"color": true,
+			"radius": false,
+			"style": false,
+			"width": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": false,
+				"style": false,
+				"width": true
+			}
+		}
 	},
 	"styles": [],
 	"example": {
