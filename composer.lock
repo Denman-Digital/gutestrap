@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "denman-digital/wp-utils",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Denman-Digital/wp-utils.git",
-                "reference": "035178c046600ba67045e2925fb8ffc683527210"
+                "reference": "86faa5f7b2540438b70d193f39d4a41d90c99148"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/035178c046600ba67045e2925fb8ffc683527210",
-                "reference": "035178c046600ba67045e2925fb8ffc683527210",
+                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/86faa5f7b2540438b70d193f39d4a41d90c99148",
+                "reference": "86faa5f7b2540438b70d193f39d4a41d90c99148",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "issues": "https://github.com/denman-digital/wp-utils/issues",
                 "source": "https://github.com/denman-digital/wp-utils"
             },
-            "time": "2024-10-03T19:15:47+00:00"
+            "time": "2025-03-05T00:37:27+00:00"
         },
         {
             "name": "scssphp/scssphp",
@@ -359,16 +359,16 @@
         },
         {
             "name": "mck89/peast",
-            "version": "v1.16.3",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mck89/peast.git",
-                "reference": "645ec21b650bc2aced18285c85f220d22afc1430"
+                "reference": "3a752d39bd7d8dc1e19bcf424f3d5ac1a1ca6ad5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mck89/peast/zipball/645ec21b650bc2aced18285c85f220d22afc1430",
-                "reference": "645ec21b650bc2aced18285c85f220d22afc1430",
+                "url": "https://api.github.com/repos/mck89/peast/zipball/3a752d39bd7d8dc1e19bcf424f3d5ac1a1ca6ad5",
+                "reference": "3a752d39bd7d8dc1e19bcf424f3d5ac1a1ca6ad5",
                 "shasum": ""
             },
             "require": {
@@ -381,7 +381,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.16.3-dev"
+                    "dev-master": "1.17.0-dev"
                 }
             },
             "autoload": {
@@ -402,9 +402,9 @@
             "description": "Peast is PHP library that generates AST for JavaScript code",
             "support": {
                 "issues": "https://github.com/mck89/peast/issues",
-                "source": "https://github.com/mck89/peast/tree/v1.16.3"
+                "source": "https://github.com/mck89/peast/tree/v1.17.0"
             },
-            "time": "2024-07-23T14:00:32+00:00"
+            "time": "2025-03-07T19:44:14+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -458,16 +458,16 @@
         },
         {
             "name": "php-stubs/wordpress-stubs",
-            "version": "v6.7.1",
+            "version": "v6.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "83448e918bf06d1ed3d67ceb6a985fc266a02fd1"
+                "reference": "c04f96cb232fab12a3cbcccf5a47767f0665c3f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/83448e918bf06d1ed3d67ceb6a985fc266a02fd1",
-                "reference": "83448e918bf06d1ed3d67ceb6a985fc266a02fd1",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/c04f96cb232fab12a3cbcccf5a47767f0665c3f4",
+                "reference": "c04f96cb232fab12a3cbcccf5a47767f0665c3f4",
                 "shasum": ""
             },
             "require-dev": {
@@ -500,9 +500,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.7.1"
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.7.2"
             },
-            "time": "2024-11-24T03:57:09+00:00"
+            "time": "2025-02-12T04:51:58+00:00"
         },
         {
             "name": "symfony/finder",

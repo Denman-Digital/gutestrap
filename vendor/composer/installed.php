@@ -3,7 +3,7 @@
         'name' => 'paulthewalton/gutestrap',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '6f3373ae54bfb15de56cbdbb69fcf4e937ffb30d',
+        'reference' => '7f07d6232a7a0dbbdfea7a187b70929d1b9c1d59',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'denman-digital/wp-utils' => array(
-            'pretty_version' => '2.0.2',
-            'version' => '2.0.2.0',
-            'reference' => '035178c046600ba67045e2925fb8ffc683527210',
+            'pretty_version' => '2.0.3',
+            'version' => '2.0.3.0',
+            'reference' => '86faa5f7b2540438b70d193f39d4a41d90c99148',
             'type' => 'library',
             'install_path' => __DIR__ . '/../denman-digital/wp-utils',
             'aliases' => array(),
@@ -22,7 +22,7 @@
         'paulthewalton/gutestrap' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '6f3373ae54bfb15de56cbdbb69fcf4e937ffb30d',
+            'reference' => '7f07d6232a7a0dbbdfea7a187b70929d1b9c1d59',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
