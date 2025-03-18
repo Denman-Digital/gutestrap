@@ -1,6 +1,8 @@
 import classnames from "classnames";
 import { InnerBlocks, useBlockProps } from "@wordpress/block-editor";
 
+import { optimizeBoxStyle } from "../../_common";
+
 export const rowClassNames = (attributes) => {
 	return classnames(
 		rowBasicClassNames(attributes),
@@ -116,6 +118,11 @@ export const RowRender = ({ attributes }) => {
 		}),
 	});
 
+	if (blockProps?.style) {
+		blockProps.style = optimizeBoxStyle(blockProps.style, "padding");
+		blockProps.style = optimizeBoxStyle(blockProps.style, "margin");
+	}
+
 	return (
 		<div {...blockProps}>
 			<div
@@ -135,6 +142,58 @@ export const RowRender = ({ attributes }) => {
 //==============================================================================
 // DEPRECATED VERSIONS
 //
+
+const v8 = {
+	attributes: {
+		noGutters: { type: "boolean", default: false },
+		verticalGutters: { type: "boolean", default: false },
+		alignment: { type: "object" },
+		justification: { type: "object" },
+		direction: { type: "object" },
+		disabled: { type: "boolean", default: false },
+		anchor: { type: "string" },
+		uncontain: { type: "boolean", default: false },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		spacing: {
+			margin: true,
+			padding: true,
+		},
+		dimensions: {
+			minHeight: true,
+		},
+		defaultStylePicker: false,
+		renaming: false,
+	},
+	save: ({ attributes }) => {
+		const { className = "", uncontain = false } = attributes;
+		const blockProps = useBlockProps.save({
+			className: classnames(stripRowClassNames(className), {
+				"has-min-height":
+					!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+				"contain-none": uncontain,
+			}),
+		});
+
+		return (
+			<div {...blockProps}>
+				<div
+					className={classnames(
+						rowBasicClassNames(attributes),
+						rowAlignmentClassNames(attributes),
+						rowJustificationClassNames(attributes),
+						rowDirectionClassNames(attributes)
+					)}
+				>
+					<InnerBlocks.Content />
+				</div>
+			</div>
+		);
+	},
+};
 
 const v7 = {
 	attributes: {

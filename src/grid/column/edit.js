@@ -9,7 +9,10 @@ import {
 	getColorClassName,
 	useBlockProps,
 	__experimentalGetGradientClass as getGradientClass,
+	// __experimentalUseBorderProps as useBorderProps,
+	__experimentalGetBorderClassesAndStyles as getBorderClassesAndStyles,
 } from "@wordpress/block-editor";
+import { denyProps } from "@pwalton/js-utils";
 
 import { createHigherOrderComponent } from "@wordpress/compose";
 
@@ -18,7 +21,7 @@ import { toNumber } from "../../_common";
 import { PanelBackgroundImage } from "../../components/panel-background-image";
 import { BlockControlsBlockAppender } from "../../components/block-controls-block-appender";
 import { BreakpointTabs } from "../../components/responsive-tabs";
-import { columnClassNames, columnInnerClassNames, stripColClassNames } from "./render";
+import { columnClassNames, columnInnerClassNames, stripColClassNames, COL_INNER_STYLE_PROPS } from "./render";
 
 import { RichSelect } from "../../components/rich-select";
 
@@ -281,21 +284,25 @@ function ColumnEdit(props) {
 		}),
 	});
 
+	// const borderProps = useBorderProps(attributes);
+	const borderProps = getBorderClassesAndStyles(attributes);
+
 	/** @type {CSSStyleDeclaration} */
 	let innerStyle = {};
 
 	if (blockProps.style) {
 		const { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight } = blockProps.style;
 		innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight };
-		delete blockProps.style.paddingTop;
-		delete blockProps.style.paddingRight;
-		delete blockProps.style.paddingBottom;
-		delete blockProps.style.paddingLeft;
-		delete blockProps.style.color;
-		delete blockProps.style.backgroundColor;
-		delete blockProps.style.minHeight;
-		delete blockProps.style.borderColor;
-		delete blockProps.style.borderWidth;
+		blockProps.style = denyProps(COL_INNER_STYLE_PROPS, blockProps.style);
+	}
+	if (borderProps.style) {
+		delete borderProps.style.borderRadius;
+		delete borderProps.style.borderTopLeftRadius;
+		delete borderProps.style.borderTopRightRadius;
+		delete borderProps.style.borderBottomLeftRadius;
+		delete borderProps.style.borderBottomRightRadius;
+		innerStyle = { ...innerStyle, ...borderProps.style };
+		console.log(style, borderProps.style);
 	}
 
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
@@ -314,7 +321,7 @@ function ColumnEdit(props) {
 		backgroundImageCSS = customGradient;
 	}
 
-	const { color: customBorderColor, width: borderWidth } = border;
+	const { color: customBorderColor } = border;
 
 	// const [currentBreakpoint, setCurrentBreakpoint] = useState("md");
 	return (
@@ -341,8 +348,6 @@ function ColumnEdit(props) {
 						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
 						color: customTextColor,
 						backgroundColor: customBackgroundColor,
-						borderColor: customBorderColor,
-						borderWidth,
 					}}
 				>
 					<div className="col__content">

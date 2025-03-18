@@ -4,8 +4,12 @@ import {
 	getColorClassName,
 	useBlockProps,
 	__experimentalGetGradientClass as getGradientClass,
+	// __experimentalUseBorderProps as useBorderProps,
+	__experimentalGetBorderClassesAndStyles as getBorderClassesAndStyles,
 } from "@wordpress/block-editor";
+import { denyProps } from "@pwalton/js-utils";
 
+import { optimizeBoxStyle } from "../../_common";
 import {
 	COLUMN_OPTION_INHERIT,
 	COLUMN_OPTION_WIDTH_DEFAULT,
@@ -115,6 +119,31 @@ export function stripColClassNames(className = "") {
 	return className.trim();
 }
 
+export const COL_INNER_STYLE_PROPS = [
+	"paddingTop",
+	"paddingRight",
+	"paddingBottom",
+	"paddingLeft",
+	"color",
+	"backgroundColor",
+	"minHeight",
+	"borderColor",
+	"borderTopColor",
+	"borderRightColor",
+	"borderBottomColor",
+	"borderLeftColor",
+	"borderWidth",
+	"borderTopWidth",
+	"borderRightWidth",
+	"borderBottomWidth",
+	"borderLeftWidth",
+	"borderRadius",
+	"borderTopLeftRadius",
+	"borderTopRightRadius",
+	"borderBottomLeftRadius",
+	"borderBottomRightRadius",
+];
+
 /**
  * The save function defines the way in which the different attributes should be combined
  * into the final markup, which is then serialized by Gutenberg into post_content.
@@ -139,27 +168,58 @@ export const ColumnRender = (props) => {
 		}),
 	});
 
+	const borderProps = getBorderClassesAndStyles(attributes);
+	// console.log(borderProps);
+
 	/** @type {CSSStyleDeclaration} */
 	let innerStyle = {};
 
 	if (blockProps?.style) {
 		const { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight } = blockProps.style;
 		innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight };
-		delete blockProps.style.paddingTop;
-		delete blockProps.style.paddingRight;
-		delete blockProps.style.paddingBottom;
-		delete blockProps.style.paddingLeft;
-		delete blockProps.style.color;
-		delete blockProps.style.backgroundColor;
-		delete blockProps.style.minHeight;
+		innerStyle = optimizeBoxStyle(innerStyle, "padding");
+		blockProps.style = denyProps(COL_INNER_STYLE_PROPS, blockProps.style);
+	}
+	if (borderProps?.style) {
+		delete borderProps.style.borderRadius;
+		delete borderProps.style.borderTopLeftRadius;
+		delete borderProps.style.borderTopRightRadius;
+		delete borderProps.style.borderBottomLeftRadius;
+		delete borderProps.style.borderBottomRightRadius;
+		borderProps.style = optimizeBoxStyle(borderProps.style, "borderColor", [
+			"borderTopColor",
+			"borderRightColor",
+			"borderBottomColor",
+			"borderLeftColor",
+		]);
+		borderProps.style = optimizeBoxStyle(borderProps.style, "borderWidth", [
+			"borderTopWidth",
+			"borderRightWidth",
+			"borderBottomWidth",
+			"borderLeftWidth",
+		]);
+		innerStyle = { ...innerStyle, ...borderProps.style };
 	}
 
-	const { hasBorderRadius, hasDropShadow, background, textColor, backgroundColor, gradient, style = {} } = attributes;
-	const { color = {} } = style;
+	const {
+		hasBorderRadius,
+		hasDropShadow,
+		background,
+		textColor,
+		backgroundColor,
+		borderColor,
+		gradient,
+		style = {},
+	} = attributes;
+	const { color = {}, border = {} } = style;
 	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+	const { color: customBorderColor } = border;
 
 	innerStyle.color = customTextColor || null;
 	innerStyle.backgroundColor = customBackgroundColor || null;
+	if (customBorderColor) {
+		innerStyle.borderColor = customBorderColor;
+	}
 
 	if (background?.image?.url) {
 		innerStyle.backgroundPosition = background?.position || "center center";
@@ -180,10 +240,12 @@ export const ColumnRender = (props) => {
 			<div
 				className={classNames(columnInnerClassNames(attributes), {
 					"has-text-color": textColor || customTextColor,
-					"has-background": backgroundColor || customBackgroundColor || innerStyle.backgroundImage,
 					[getColorClassName("color", textColor)]: textColor,
+					"has-background": backgroundColor || customBackgroundColor || innerStyle.backgroundImage,
 					[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 					[getGradientClass(gradient)]: gradient,
+					"has-border-color": borderColor || customBorderColor,
+					[getColorClassName("border-color", borderColor)]: borderColor,
 					"has-border-radius": hasBorderRadius,
 					"has-drop-shadow": hasDropShadow,
 				})}
@@ -238,6 +300,110 @@ function migrateColumnAttributes(attributes, innerBlocks) {
 	console.log("GuteStrap Column migration:", { old: attributes, new: attrs });
 	return [attrs, innerBlocks];
 }
+
+export const v11 = {
+	attributes: {
+		width: {
+			type: "object",
+			default: {
+				xs: 12,
+			},
+		},
+		offset: { type: "object" },
+		alignment: { type: "object" },
+		contentAlignment: { type: "object" },
+		background: { type: "object" },
+		hasBorderRadius: { type: "boolean" },
+		hasDropShadow: { type: "boolean" },
+		_isExample: { type: "boolean" },
+	},
+	supports: {
+		anchor: true,
+		alignWide: false,
+		color: {
+			gradients: true,
+			background: true,
+			text: true,
+		},
+		spacing: {
+			margin: ["top", "bottom"],
+			padding: true,
+		},
+		dimensions: {
+			minHeight: true,
+		},
+		defaultStylePicker: false,
+		renaming: false,
+	},
+	save: (props) => {
+		const { attributes } = props;
+		const { className = "" } = attributes;
+
+		const blockProps = useBlockProps.save({
+			className: classNames(stripColClassNames(className), columnClassNames(attributes), {
+				"has-min-height":
+					!!attributes.style?.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(attributes.style.dimensions.minHeight),
+			}),
+		});
+
+		/** @type {CSSStyleDeclaration} */
+		let innerStyle = {};
+
+		if (blockProps?.style) {
+			const { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight } = blockProps.style;
+			innerStyle = { paddingTop, paddingRight, paddingBottom, paddingLeft, minHeight };
+			delete blockProps.style.paddingTop;
+			delete blockProps.style.paddingRight;
+			delete blockProps.style.paddingBottom;
+			delete blockProps.style.paddingLeft;
+			delete blockProps.style.color;
+			delete blockProps.style.backgroundColor;
+			delete blockProps.style.minHeight;
+		}
+
+		const { hasBorderRadius, hasDropShadow, background, textColor, backgroundColor, gradient, style = {} } = attributes;
+		const { color = {} } = style;
+		const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
+
+		innerStyle.color = customTextColor || null;
+		innerStyle.backgroundColor = customBackgroundColor || null;
+
+		if (background?.image?.url) {
+			innerStyle.backgroundPosition = background?.position || "center center";
+			innerStyle.backgroundSize = background?.size || "cover";
+			innerStyle.backgroundRepeat = background?.repeat ? "repeat" : "no-repeat";
+			innerStyle.backgroundImage = `url(${background.image.url})`;
+		}
+
+		if (config.enableLayeredGridBackgrounds && (gradient || customGradient)) {
+			if (innerStyle.backgroundImage) innerStyle.backgroundImage += ", ";
+			innerStyle.backgroundImage += gradient ? `var(--wp--preset--gradient--${gradient})` : customGradient;
+		} else if (customGradient) {
+			innerStyle.backgroundImage = customGradient;
+		}
+
+		return (
+			<div {...blockProps}>
+				<div
+					className={classNames(columnInnerClassNames(attributes), {
+						"has-text-color": textColor || customTextColor,
+						"has-background": backgroundColor || customBackgroundColor || innerStyle.backgroundImage,
+						[getColorClassName("color", textColor)]: textColor,
+						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
+						[getGradientClass(gradient)]: gradient,
+						"has-border-radius": hasBorderRadius,
+						"has-drop-shadow": hasDropShadow,
+					})}
+					style={innerStyle}
+				>
+					<div className="col__content">
+						<InnerBlocks.Content />
+					</div>
+				</div>
+			</div>
+		);
+	},
+};
 
 export const v10 = {
 	attributes: {
@@ -852,4 +1018,4 @@ const v1 = {
 	},
 };
 
-export const deprecated = [v10, v9, v8, v7, v6, v5, v4, v3, v2, v1];
+export const deprecated = [v11, v10, v9, v8, v7, v6, v5, v4, v3, v2, v1];
