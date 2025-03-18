@@ -44,13 +44,13 @@
 		"renaming": false,
 		"__experimentalBorder": {
 			"color": true,
-			"radius": true,
+			"radius": false,
 			"style": false,
 			"width": true,
 			"__experimentalSkipSerialization": true,
 			"__experimentalDefaultControls": {
 				"color": true,
-				"radius": true,
+				"radius": false,
 				"style": false,
 				"width": true
 			}
