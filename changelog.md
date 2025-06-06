@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.17-compat
+
+- Fix: Updated PHP dependencies (WP Utils 2.0.4)
+
 ## v2.2.16-compat
 
 - Fix: border rendering on columns
