@@ -1,6 +1,40 @@
+import { denyProps } from "@pwalton/js-utils";
 import { sprintf } from "sprintf-js";
 
 export const BOOTSTRAP_ICON_CLASSES = "bi bi-block-control-icon";
+
+/**
+ * Convert longhand box style properties to shorthand (DESTRUCTIVE)
+ * @param {CSSStyleDeclaration} styles CSS styles object.
+ * @param {string} propName The name of the style shorthand property, eg: "padding".
+ * @param {string[]} [subPropNames] The 4 longhand subproperties. Defaults to propName + "Top", etc.
+ * @returns {CSSStyleDeclaration} CSS styles object
+ */
+export function optimizeBoxStyle(styles, propName, subPropNames) {
+	const p1Name = subPropNames?.[0] || propName + "Top",
+		p2Name = subPropNames?.[1] || propName + "Right",
+		p3Name = subPropNames?.[2] || propName + "Bottom",
+		p4Name = subPropNames?.[3] || propName + "Left";
+	let p1 = styles[p1Name],
+		p2 = styles[p2Name],
+		p3 = styles[p3Name],
+		p4 = styles[p4Name];
+	if (p1 == null || p2 == null || p3 == null || p4 == null) {
+		return styles;
+	}
+	if (p4 === p2) {
+		p4 = "";
+	}
+	if (p3 === p1 && p4 === "") {
+		p3 = "";
+	}
+	if (p2 === p1 && p3 === "") {
+		p2 = "";
+	}
+	styles[propName] = [p1, p2, p3, p4].join(" ").trim();
+	denyProps([p1Name, p2Name, p3Name, p4Name], styles);
+	return styles;
+}
 
 export function toNumber(value, fallback = 0) {
 	const number = Number(value);

@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.2.16-compat
+
+- Fix: border rendering on columns
+- Tweak: optimized inline styles for column padding & row padding & margins
+
 ## v2.2.15-compat
 
 - Added: support for experimental border styles on column blocks
