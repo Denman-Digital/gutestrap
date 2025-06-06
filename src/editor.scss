@@ -26,12 +26,17 @@ html {
 	background-repeat: no-repeat;
 }
 
-.gutestrap-enabled .editor-styles-wrapper .wp-block:not(.gutestrap-block-col),
-.gutestrap-enabled
-	.editor-styles-wrapper
-	.block-editor-block-list__layout.is-root-container
-	> .wp-block:not(.gutestrap-block-col) {
-	max-width: unset;
+.gutestrap-enabled .editor-styles-wrapper {
+	.wp-block:not(.gutestrap-block-col),
+	.block-editor-block-list__layout.is-root-container > .wp-block:not(.gutestrap-block-col) {
+		max-width: unset;
+	}
+
+	.editor-post-title {
+		max-width: var(--gs-container-w);
+		text-align: center;
+		text-wrap: balance;
+	}
 }
 
 .editor-styles-wrapper .wp-block.gutestrap-block-col {
@@ -239,7 +244,11 @@ $include-column-box-sizing: true !default;
 
 $container-classes: (".container-fluid");
 @each $breakpoint in map.keys($container-breakpoints) {
-	$container-classes: list.append($container-classes, ".container#{breakpoint-infix($breakpoint, $container-breakpoints)}", $separator: comma);
+	$container-classes: list.append(
+		$container-classes,
+		".container#{breakpoint-infix($breakpoint, $container-breakpoints)}",
+		$separator: comma
+	);
 }
 
 .contain-inset-vert:is(#{$container-classes}) {

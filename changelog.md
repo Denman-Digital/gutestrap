@@ -1,8 +1,14 @@
 # Changelog
 
+## v2.2.15-compat
+
+- Added: support for experimental border styles on column blocks
+- Tweak: 5xl container width
+- Fix: Updated PHP dependencies
+
 ## v2.2.14-compat
 
-- Added extra container breakpoints & max widths for 2K and 4K screen sizes
+- Added: extra container breakpoints & max widths for 2K and 4K screen sizes
 
 ## v2.2.13-compat
 

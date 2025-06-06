@@ -268,6 +268,7 @@ function ColumnEdit(props) {
 		hasDropShadow,
 		textColor,
 		backgroundColor,
+		borderColor,
 		gradient,
 		style = {},
 		className,
@@ -279,6 +280,7 @@ function ColumnEdit(props) {
 			"has-min-height": !!style.dimensions?.minHeight && !/^0(%|[a-zA-Z]+)?$/.test(style.dimensions.minHeight),
 		}),
 	});
+
 	/** @type {CSSStyleDeclaration} */
 	let innerStyle = {};
 
@@ -292,11 +294,13 @@ function ColumnEdit(props) {
 		delete blockProps.style.color;
 		delete blockProps.style.backgroundColor;
 		delete blockProps.style.minHeight;
+		delete blockProps.style.borderColor;
+		delete blockProps.style.borderWidth;
 	}
 
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
 
-	const { color = {} } = style;
+	const { color = {}, border = {} } = style;
 
 	const { text: customTextColor, background: customBackgroundColor, gradient: customGradient } = color;
 	let backgroundImageCSS = "";
@@ -310,6 +314,8 @@ function ColumnEdit(props) {
 		backgroundImageCSS = customGradient;
 	}
 
+	const { color: customBorderColor, width: borderWidth } = border;
+
 	// const [currentBreakpoint, setCurrentBreakpoint] = useState("md");
 	return (
 		<Fragment>
@@ -322,6 +328,8 @@ function ColumnEdit(props) {
 							backgroundColor || customBackgroundColor || backgroundImageCSS || gradient || customGradient,
 						[getColorClassName("background-color", backgroundColor)]: backgroundColor,
 						[getGradientClass(gradient)]: gradient,
+						"has-border-color": borderColor || customBorderColor,
+						[getColorClassName("border-color", borderColor)]: borderColor,
 						"has-border-radius": hasBorderRadius,
 						"has-drop-shadow": hasDropShadow,
 					})}
@@ -333,6 +341,8 @@ function ColumnEdit(props) {
 						backgroundRepeat: background?.repeat ? "repeat" : "no-repeat",
 						color: customTextColor,
 						backgroundColor: customBackgroundColor,
+						borderColor: customBorderColor,
+						borderWidth,
 					}}
 				>
 					<div className="col__content">
