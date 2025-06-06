@@ -41,19 +41,60 @@
 	margin-left: if($num == 0, 0, math.percentage($num));
 }
 
-@import "../node_modules/bootstrap/scss/grid";
+@import "../node_modules/bootstrap/scss/vendor/rfs";
+
+// Single container class with breakpoint max-widths
+.container,
+// 100% wide container at all breakpoints
+.container-fluid {
+	@include make-container();
+}
+
+// Responsive containers that are 100% wide until a breakpoint
+@each $breakpoint, $container-max-width in $container-max-widths {
+	.container-#{$breakpoint} {
+		@extend .container-fluid;
+	}
+
+	@include media-breakpoint-up($breakpoint, $container-breakpoints) {
+		%responsive-container-#{$breakpoint} {
+			max-width: $container-max-width;
+		}
+
+		// Extend each breakpoint which is smaller or equal to the current breakpoint
+		$extend-breakpoint: true;
+
+		@each $name, $width in $container-breakpoints {
+			@if ($extend-breakpoint) {
+				.container#{breakpoint-infix($name, $container-breakpoints)} {
+					@extend %responsive-container-#{$breakpoint};
+				}
+
+				// Once the current breakpoint is reached, stop extending
+				@if ($breakpoint == $name) {
+					$extend-breakpoint: false;
+				}
+			}
+		}
+	}
+}
 
 .row {
+	@include make-row();
+
+	// Remove the negative margin from default .row, then the horizontal padding
+	// from all immediate children columns (to prevent runaway style inheritance).
 	&.no-gutters {
-		margin-left: 0;
 		margin-right: 0;
+		margin-left: 0;
 
 		> .col,
 		> [class*="col-"] {
-			padding-left: 0;
-			padding-right: 0;
+			padding-left: 0 !important;
+			padding-right: 0 !important;
 		}
 	}
+
 	// Add a negative margin to default .row, then the vertical padding to all immediate children columns (to prevent runaway style inheritance).
 	&.vertical-gutters {
 		margin-top: -0.5 * $grid-gutter-width;
@@ -61,11 +102,13 @@
 
 		> .col,
 		> [class*="col-"] {
-			padding-top: 0.5 * $grid-gutter-width;
-			padding-bottom: 0.5 * $grid-gutter-width;
+			padding-top: 0.5 * $grid-gutter-width !important;
+			padding-bottom: 0.5 * $grid-gutter-width !important;
 		}
 	}
 }
+
+@include make-grid-columns();
 
 @import "../node_modules/bootstrap/scss/utilities/flex";
 

@@ -1,7 +1,7 @@
 {
 	"name": "gutestrap",
 	"displayName": "GuteStrap",
-	"version": "2.2.13-compat",
+	"version": "2.2.14-compat",
 	"private": true,
 	"author": "Denman Digital",
 	"description": "Supercharge your Gutenberg layouts with Bootstrap Grid.",
@@ -130,7 +130,7 @@
 		"test": "npm run lint",
 		"start": "cross-env NODE_ENV=development gulp dev --color",
 		"build": "cross-env NODE_ENV=production gulp build --color",
-		"build:dist": "cross-env NODE_ENV=production gulp build --color && composer install --no-dev",
+		"build:dist": "cross-env NODE_ENV=production gulp build --color && npm run rtl && composer install --no-dev",
 		"build:styles": "cross-env NODE_ENV=production gulp styles --color",
 		"build:scripts": "cross-env NODE_ENV=production gulp scripts --color",
 		"translate": "composer run make-pot",

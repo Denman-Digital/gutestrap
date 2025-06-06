@@ -147,6 +147,10 @@ function gutestrap_setup_js_globals()
 }
 add_action('admin_enqueue_scripts', 'gutestrap_setup_js_globals');
 
+/**
+ * Enqueue Custom SCSS CodeMirror assets
+ * @return void
+ */
 function gutestrap_custom_scss_codemirror_assets()
 {
 	$screen = get_current_screen();
@@ -176,6 +180,11 @@ function gutestrap_custom_scss_codemirror_assets()
 }
 add_action('admin_enqueue_scripts', 'gutestrap_custom_scss_codemirror_assets');
 
+/**
+ * Add Block categories
+ * @param string[] $categories
+ * @return string[]
+ */
 function gutestrap_block_categories(array $categories): array
 {
 	return array_merge(
