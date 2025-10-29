@@ -41,7 +41,7 @@ class Gutestrap_Update
 
 	public function get_remote_plugin_data(): array
 	{
-		$remote_plugin_data = get_plugin_data($this->remote_plugin_endpoint_base . GUTESTRAP_PLUGIN_FILE);
+		$remote_plugin_data = get_plugin_data($this->remote_plugin_endpoint_base . GUTESTRAP_PLUGIN_FILE, true, false);
 		if (!$remote_plugin_data) return [];
 		return [
 			"slug" => "gutestrap",
@@ -110,7 +110,7 @@ class Gutestrap_Update
 			&& !$this->did_fetch_remote_data
 		) {
 			$remote_data = (object) $this->get_remote_plugin_data();
-			$local_data = get_plugin_data(GUTESTRAP_PLUGIN_PATH . "plugin.php");
+			$local_data = get_plugin_data(GUTESTRAP_PLUGIN_PATH . "plugin.php", true, false);
 
 			if (version_compare($remote_data->new_version, $local_data['Version'], '>')) {
 				$transient->response[GUTESTRAP_PLUGIN_BASENAME] = $remote_data;
@@ -131,7 +131,7 @@ class Gutestrap_Update
 			return $result;
 		}
 
-		$local_data = get_plugin_data(GUTESTRAP_PLUGIN_PATH . "plugin.php");
+		$local_data = get_plugin_data(GUTESTRAP_PLUGIN_PATH . "plugin.php", true, false);
 
 		$result = (object) $result;
 
