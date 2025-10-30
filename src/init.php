@@ -43,9 +43,9 @@ function gutestrap_block_assets()
 
 	wp_register_style(
 		'gutestrap-style-rtl-css',
-		plugins_url('dist/blocks.style.build.css', dirname(__FILE__)),
+		plugins_url('dist/blocks.style-rtl.build.css', dirname(__FILE__)),
 		null,
-		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css') // Version: File modification time.
+		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style-rtl.build.css') // Version: File modification time.
 	);
 
 	// Register block editor script for backend.
