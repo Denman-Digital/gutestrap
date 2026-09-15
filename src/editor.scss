@@ -586,8 +586,8 @@ $container-classes: (".container-fluid");
 
 			> .col,
 			> [class*="col-"] {
-				padding-left: calc(var(--gs-gutter) / 2) !important;
-				padding-right: calc(var(--gs-gutter) / 2) !important;
+				padding-left: 0 !important;
+				padding-right: 0 !important;
 			}
 		}
 	}
