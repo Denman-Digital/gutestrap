@@ -1,6 +1,12 @@
 # Changelog
 
-## v2.2.18
+## v2.2.20
+
+- Fix: editor column gutters when no-gutters on a row
+- Fix: switch "clear" block to API version 3
+- Fix: try to repair full-width blocks in the editor for post types with GuteStrap enabled (WP 7.1) 
+
+## v2.2.19
 
 - Fix: Properly load RTL stylesheet
 
