@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.21
+
+- Fix: make changes to block width backwards compatible for WP<7.1
+
 ## v2.2.20
 
 - Fix: editor column gutters when no-gutters on a row
