@@ -14,6 +14,8 @@ defined('ABSPATH') || exit;
 
 use ScssPhp\ScssPhp;
 
+use function Denman_Utils\v2\register_ajax_callback;
+
 // require_once __DIR__ . '/custom-scss/profile-options.php';
 require_once __DIR__ . '/custom-scss/metabox.php';
 
@@ -33,25 +35,24 @@ require_once __DIR__ . '/custom-scss/metabox.php';
  */
 function gutestrap_block_assets()
 { // phpcs:ignore
-	// Register block styles for both frontend + backend.
 	wp_register_style(
 		'gutestrap-style-css',
 		plugins_url('dist/blocks.style.build.css', dirname(__FILE__)),
 		null,
-		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css') // Version: File modification time.
+		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style.build.css')
 	);
 
 	wp_register_style(
 		'gutestrap-style-rtl-css',
 		plugins_url('dist/blocks.style-rtl.build.css', dirname(__FILE__)),
 		null,
-		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style-rtl.build.css') // Version: File modification time.
+		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.style-rtl.build.css')
 	);
 
 	// Register block editor script for backend.
 	wp_register_script(
 		'gutestrap-block-js',
-		plugins_url('/dist/blocks.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
+		plugins_url('/dist/blocks.build.js', dirname(__FILE__)),
 		[
 			'wp-blocks',
 			'wp-block-editor',
@@ -64,16 +65,22 @@ function gutestrap_block_assets()
 			"wp-core-data",
 			"lodash"
 		],
-		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.build.js'), // Version: filemtime — Gets file modification time.
+		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.build.js'),
 		true
+	);
+
+	wp_register_style(
+		"gutestrap-enabled-dynamic-editor-styles",
+		admin_url("admin-ajax.php?action=gutestrap_enabled_dynamic_editor_styles"),
+		[]
 	);
 
 	// Register block editor styles for backend.
 	wp_register_style(
 		'gutestrap-block-editor-css',
-		plugins_url('dist/blocks.editor.build.css', dirname(__FILE__)), // Block editor CSS.
-		null, // Dependency to include the CSS after it.
-		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.editor.build.css') // Version: File modification time.
+		plugins_url('dist/blocks.editor.build.css', dirname(__FILE__)),
+		['gutestrap-enabled-dynamic-editor-styles'],
+		filemtime(plugin_dir_path(__DIR__) . 'dist/blocks.editor.build.css')
 	);
 
 
@@ -96,11 +103,19 @@ function gutestrap_block_assets()
 	register_block_type('gutestrap/row', $block_assets);
 	register_block_type(__DIR__ . "/grid/column/block.json");
 
-	add_action("wp_enqueue_scripts", function () {
+	add_action("wp_enqueue_scripts", function (): void {
 		wp_enqueue_style(is_rtl() ? 'gutestrap-style-rtl-css' : 'gutestrap-style-css');
 	});
 }
 add_action('init', 'gutestrap_block_assets');
+
+register_ajax_callback("gutestrap_enabled_dynamic_editor_styles", function () {
+	$enabled_post_types = array_filter(get_post_types(["public" => true]), fn(string $post_type_name): bool => !!apply_filters("gutestrap_enable_for_post_type", true, $post_type_name));
+	$selector = array_map(fn(string $post_type_name): string => ".editor-styles-wrapper.post-type-$post_type_name", $enabled_post_types);
+	header('Content-Type: text/css');
+	echo implode(',', $selector) . " { --gs-enabled-max-width-override: none; }";
+	wp_die();
+});
 
 function gutestrap_disabled_block_render(string $block_content, array $block): string
 {
@@ -196,15 +211,35 @@ function gutestrap_block_categories(array $categories): array
 			],
 		],
 		$categories,
-		[
-			[
-				'slug' => 'advanced',
-				'title' => __('Advanced', "gutestrap"),
-			]
-		]
 	);
 }
 add_filter('block_categories_all', 'gutestrap_block_categories', 10);
+
+/**
+ * Allow/block GuteStrap blocks per post type
+ * @param array|bool $allowed_block_types
+ * @param WP_Block_Editor_Context $context
+ * @return array|bool
+ */
+function gutestrap_allowed_block_types_per_post_type(mixed $allowed_block_types, WP_Block_Editor_Context $context): mixed
+{
+	// An array of block names to disable
+	$gutestrap_blocks = [
+		'gutestrap/container',
+		'gutestrap/row',
+		'gutestrap/row-break',
+		'gutestrap/col',
+	];
+	if ($context->name === "core/edit-post" && $context->post && !apply_filters("gutestrap_enable_for_post_type", true, $context->post->post_type)) {
+		if (!is_array($allowed_block_types)) {
+			$allowed_block_types = array_keys(WP_Block_Type_Registry::get_instance()->get_all_registered());
+		}
+		$allowed_block_types = array_diff($allowed_block_types, $gutestrap_blocks);
+	}
+
+	return $allowed_block_types;
+}
+add_filter('allowed_block_types_all', 'gutestrap_allowed_block_types_per_post_type', PHP_INT_MAX, 2);
 
 /**
  * Add script to check for and include compat styles if needed.
