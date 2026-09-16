@@ -111,9 +111,10 @@ add_action('init', 'gutestrap_block_assets');
 
 register_ajax_callback("gutestrap_enabled_dynamic_editor_styles", function () {
 	$enabled_post_types = array_filter(get_post_types(["public" => true]), fn(string $post_type_name): bool => !!apply_filters("gutestrap_enable_for_post_type", true, $post_type_name));
-	$selector = array_map(fn(string $post_type_name): string => ".editor-styles-wrapper.post-type-$post_type_name", $enabled_post_types);
+	$selectors = array_map(fn(string $post_type_name): string => ".editor-styles-wrapper.post-type-$post_type_name", $enabled_post_types);
+	array_unshift($selectors, ".gutestrap-enabled .editor-styles-wrapper");
 	header('Content-Type: text/css');
-	echo implode(',', $selector) . " { --gs-enabled-max-width-override: none; }";
+	echo implode(',', $selectors) . " { --gs-enabled-max-width-override: none; }";
 	wp_die();
 });
 
