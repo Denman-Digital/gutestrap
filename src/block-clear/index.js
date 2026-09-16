@@ -23,12 +23,13 @@ const { withInstanceId } = wp.compose;
  */
 registerBlockType("gutestrap/clear", {
 	title: __("Clear", "gutestrap"),
+	apiVersion: 3,
 	description: __(
 		"Push the following content below any floating elements, such as left‐ or right‐aligned images and other media.",
 		"gutestrap"
 	),
 	icon: "forms",
-	category: "layout",
+	category: "design",
 	keywords: [__("layout", "gutestrap"), __("alignment", "gutestrap"), __("clear", "gutestrap")],
 	attributes: {
 		height: {
