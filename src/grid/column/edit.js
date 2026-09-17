@@ -302,7 +302,7 @@ function ColumnEdit(props) {
 		delete borderProps.style.borderBottomLeftRadius;
 		delete borderProps.style.borderBottomRightRadius;
 		innerStyle = { ...innerStyle, ...borderProps.style };
-		console.log(style, borderProps.style);
+		// console.log(style, borderProps.style);
 	}
 
 	contentAlignment.xs = contentAlignment.xs || "stretch stretch";
