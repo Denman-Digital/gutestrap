@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.18-compat
+
+- Fix: Don't trigger loading textdomain too early
+
 ## v2.2.17-compat
 
 - Fix: Updated PHP dependencies (WP Utils 2.0.4)
