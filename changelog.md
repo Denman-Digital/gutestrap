@@ -1,10 +1,16 @@
 # Changelog
 
-## v2.2.18-compat
+## v2.2.20-compat
+
+- Fix: editor column gutters when no-gutters on a row
+- Fix: switch "clear" block to API version 3
+- Fix: try to repair full-width blocks in the editor for post types with GuteStrap enabled (WP 7.1) 
+
+## v2.2.19-compat
 
 - Fix: Properly load RTL stylesheet
 
-## v2.2.18
+## v2.2.18-compat
 
 - Fix: Don't trigger loading textdomain too early
 

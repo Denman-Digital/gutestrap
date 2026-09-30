@@ -14,22 +14,20 @@ import "./block-clear/";
 import "./custom-scss/";
 
 import { select } from "@wordpress/data";
-import { getBlockTypes, unregisterBlockType, unregisterBlockVariation } from "@wordpress/blocks";
+import { getBlockTypes, unregisterBlockType } from "@wordpress/blocks";
 
 const { debounce } = lodash;
 
 const { excludedPostTypes } = gutestrapGlobal.config;
 
+const gutestrapGridBlocks = ["gutestrap/container", "gutestrap/row", "gutestrap/row-break", "gutestrap/col"];
+
 /**
  * Unregister selected blocktypes.
  */
 const clearBlockTypes = debounce(() => {
-	getBlockTypes().forEach((blockType) => {
-		if (/^(gutestrap)\//.test(blockType.name)) {
-			unregisterBlockType(blockType.name);
-			document.body.classList.remove("gutestrap-enabled");
-		}
-	});
+	gutestrapGridBlocks.forEach(unregisterBlockType);
+	document.body.classList.remove("gutestrap-enabled");
 }, 50);
 
 const getPostType = () => select("core/editor")?.getCurrentPostType?.();
@@ -46,8 +44,4 @@ wp.data.subscribe(() => {
 		}
 	}
 	currentPostType = postType;
-});
-
-wp.domReady(() => {
-	unregisterBlockVariation("core/group", "group-row");
 });
