@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.22-compat
+
+- Fix: remove some console log pollution
+
 ## v2.2.21-compat
 
 - Fix: make changes to block width backwards compatible for WP<7.1
