@@ -2,6 +2,10 @@
 
 ## v2.2.18-compat
 
+- Fix: Properly load RTL stylesheet
+
+## v2.2.18
+
 - Fix: Don't trigger loading textdomain too early
 
 ## v2.2.17-compat
