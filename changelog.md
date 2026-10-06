@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.2.23
+
+- Fix: font-weight in rich-select control
+- Fix: properly minified JS
+
 ## v2.2.22
 
 - Fix: remove some console log pollution
