@@ -895,6 +895,7 @@ hr.gutestrap-block-clear-placeholder {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	font-weight: normal;
 
 	&:not(:first-child) {
 		margin-left: 6px;

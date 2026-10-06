@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.2.23-compat
+
+- Fix: font-weight in rich-select control
+- Fix: properly minified JS
+
 ## v2.2.22-compat
 
 - Fix: remove some console log pollution
