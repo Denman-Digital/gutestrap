@@ -2,12 +2,12 @@
 
 /**
  * Plugin Name: GuteStrap
- * Plugin URI: https://github.com/Denman-Digital/gutestrap
+ * Plugin URI: https://github.com/psddb/gutestrap
  * Update URI: gutestrap
  * Description: Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies).
- * Author: Denman Digital
- * Author URI: https://denman.digital
- * Version: 2.2.23
+ * Author: PS & Co
+ * Author URI: https://psandco.ca
+ * Version: 2.2.24
  * Requires at least: 6.0
  * Tested up to: 6.8
  * Requires PHP: 8.1
