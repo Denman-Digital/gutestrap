@@ -3,15 +3,15 @@
 	"displayName": "GuteStrap",
 	"version": "2.2.23",
 	"private": true,
-	"author": "Denman Digital",
+	"author": "PS & Co",
 	"description": "Supercharge your Gutenberg layouts with Bootstrap Grid.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Denman-Digital/gutestrap"
+		"url": "https://github.com/psddb/gutestrap"
 	},
-	"homepage": "https://github.com/Denman-Digital/gutestrap#readme",
+	"homepage": "https://github.com/psddb/gutestrap#readme",
 	"dependencies": {
-		"@pwalton/js-utils": "^2.0.0",
+		"@pwalton/js-utils": "git://github.com/psddb/js-utils.git",
 		"@wordpress/compose": "^6.14.0",
 		"@wordpress/icons": "^9.28.0",
 		"bootstrap": "^5.2.3",
