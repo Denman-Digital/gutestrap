@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.2.24
+
+- Repo transferred to PS&Co
+- Update js & php/wp utils
+- Removed abandoned Admin UI
+
 ## v2.2.23
 
 - Fix: font-weight in rich-select control
