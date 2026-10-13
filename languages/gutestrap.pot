@@ -1,45 +1,42 @@
-# Copyright (C) 2024 Denman Digital
+# Copyright (C) 2026 PS & Co
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: GuteStrap 2.2.0\n"
+"Project-Id-Version: GuteStrap 2.2.24\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gutestrap\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-14T19:35:47+00:00\n"
+"POT-Creation-Date: 2026-10-13T16:54:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: gutestrap\n"
 
 #. Plugin Name of the plugin
+#: plugin.php
 msgid "GuteStrap"
 msgstr ""
 
 #. Plugin URI of the plugin
-msgid "https://github.com/Denman-Digital/gutestrap"
+#: plugin.php
+msgid "https://github.com/psddb/gutestrap"
 msgstr ""
 
 #. Description of the plugin
+#: plugin.php
 msgid "Supercharge your Gutenberg layouts with Bootstrap Grid (and other goodies)."
 msgstr ""
 
 #. Author of the plugin
-msgid "Denman Digital"
+#: plugin.php
+msgid "PS & Co"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://denman.digital"
-msgstr ""
-
-#: src/admin.php:293
-msgid "Follow the white rabbit."
-msgstr ""
-
-#: src/admin.php:345
-msgid "Settings Saved"
+#: plugin.php
+msgid "https://psandco.ca"
 msgstr ""
 
 #: src/custom-scss/metabox.php:32
@@ -55,21 +52,18 @@ msgstr ""
 msgid "Custom SCSS"
 msgstr ""
 
-#: src/init.php:181
+#: src/init.php:211
 msgid "GuteStrap Grid"
 msgstr ""
 
-#: src/init.php:188
-msgid "Advanced"
+#: src/update.php:141
+msgid "Full list of releases"
 msgstr ""
 
 #. translators: %s: link URL
-#: src/update.php:122
+#: src/update.php:152
+#, php-format
 msgid "<a href=\"%s\" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder."
-msgstr ""
-
-#: src/update.php:128
-msgid "Full list of releases"
 msgstr ""
 
 #: dist/blocks.build.js:15
@@ -114,7 +108,7 @@ msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/grid/container/edit.js:76
-msgid "1200px and up (hybrid tablet/compact laptop)"
+msgid "1200px and up (compact laptop)"
 msgstr ""
 
 #: dist/blocks.build.js:15
@@ -133,299 +127,307 @@ msgid "No max-width"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/container/edit.js:102
-msgid "Container Inset"
-msgstr ""
-
-#: dist/blocks.build.js:15
 #: src/grid/container/edit.js:104
-msgid "By default, containers apply a horizontal inset to their contents equal to half of the gutter between row columns."
+msgid "Disable Block"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/container/edit.js:110
-msgid "Add vertical container inset"
-msgstr ""
-
-#: dist/blocks.build.js:15
-#: src/grid/container/edit.js:111
-msgid "Inset container contents vertically as well as horizontally."
-msgstr ""
-
-#: dist/blocks.build.js:15
-#: src/grid/container/edit.js:118
-msgid "Expand insets"
-msgstr ""
-
-#: dist/blocks.build.js:15
-#: src/grid/container/edit.js:119
-msgid "Double the size of the container inset to match the gutter between row columns."
-msgstr ""
-
-#: dist/blocks.build.js:15
-#: src/grid/container/edit.js:126
-msgid "Prevent nested inset"
-msgstr ""
-
-#: dist/blocks.build.js:15
-#: src/grid/container/edit.js:127
-msgid "Remove the container inset (horizontal & vertical) when this container is the child of another container."
-msgstr ""
-
-#: dist/blocks.build.js:15
-#: src/grid/container/edit.js:140
-#: src/grid/row/edit.js:389
+#: src/grid/container/edit.js:106
+#: src/grid/row/edit.js:314
 msgid "Disable block"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/container/edit.js:141
-#: src/grid/row/edit.js:390
+#: src/grid/container/edit.js:107
+#: src/grid/row/edit.js:315
 msgid "Prevent this block and its contents from rendering."
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:70
+#: src/grid/container/edit.js:114
+msgid "Container Inset"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/container/edit.js:116
+msgid "Prevent nested inset"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/container/edit.js:117
+msgid "Remove the container inset (horizontal & vertical) when this container is the child of another container."
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/container/edit.js:127
+msgid "Add vertical container inset"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/container/edit.js:128
+msgid "Inset container contents vertically as well as horizontally."
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/container/edit.js:135
+msgid "Expand insets"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/container/edit.js:136
+msgid "Double the size of the container inset to match the gutter between row columns."
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/components/responsive-tabs/index.js:71
 msgid "All devices"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:75
+#: src/components/responsive-tabs/index.js:76
 msgid "Landscape phones and larger"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:80
+#: src/components/responsive-tabs/index.js:81
 msgid "Tablets and larger"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:85
+#: src/components/responsive-tabs/index.js:86
 msgid "Landscape tablets and larger"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:90
-msgid "Hybrid tablets and larger"
+#: src/components/responsive-tabs/index.js:91
+msgid "Compact laptops and larger"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:95
+#: src/components/responsive-tabs/index.js:96
 msgid "Laptops and larger"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:100
+#: src/components/responsive-tabs/index.js:101
 msgid "Desktops and larger"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:27
-#: src/components/responsive-tabs/index.js:149
-#: src/components/responsive-tabs/index.js:153
+#: src/components/responsive-tabs/index.js:28
+#: src/components/responsive-tabs/index.js:150
 msgid "Mobile"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/responsive-tabs/index.js:154
+msgid "Mobile (base settings)"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/components/responsive-tabs/index.js:155
 msgid "Settings for devices of all sizes."
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:29
-#: src/components/responsive-tabs/index.js:163
-#: src/components/responsive-tabs/index.js:170
+#: src/components/responsive-tabs/index.js:30
+#: src/components/responsive-tabs/index.js:164
 msgid "Mobile landscape"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/responsive-tabs/index.js:171
-msgid "Settings for landscape mobile devices and larger. 576px wide and up."
+msgid "Mobile landscape (576px and up)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:31
-#: src/components/responsive-tabs/index.js:177
-#: src/components/responsive-tabs/index.js:184
+#: src/components/responsive-tabs/index.js:32
+#: src/components/responsive-tabs/index.js:178
 msgid "Tablet"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/responsive-tabs/index.js:185
-msgid "Settings for tablets and larger devices. 768px wide and up."
+msgid "Tablet (768px and up)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:33
-#: src/components/responsive-tabs/index.js:191
-#: src/components/responsive-tabs/index.js:198
+#: src/components/responsive-tabs/index.js:34
+#: src/components/responsive-tabs/index.js:192
 msgid "Tablet landscape"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/responsive-tabs/index.js:199
-msgid "Settings for landscape tablets and larger devices. 992px wide and up."
+msgid "Tablet landscape (992px and up)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:35
-#: src/components/responsive-tabs/index.js:205
-#: src/components/responsive-tabs/index.js:212
-msgid "Hybrid tablet"
+#: src/components/responsive-tabs/index.js:36
+#: src/components/responsive-tabs/index.js:206
+msgid "Compact laptop"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/responsive-tabs/index.js:213
-msgid "Settings for hybrid tablets and larger devices. 1200px wide and up."
+msgid "Compact laptop (1200px and up)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:37
-#: src/components/responsive-tabs/index.js:219
-#: src/components/responsive-tabs/index.js:226
+#: src/components/responsive-tabs/index.js:38
+#: src/components/responsive-tabs/index.js:220
 msgid "Laptop"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/responsive-tabs/index.js:227
-msgid "Settings for laptops and larger devices. 1440px wide and up."
+msgid "Laptop (1440px and up)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/components/responsive-tabs/index.js:39
-#: src/components/responsive-tabs/index.js:233
-#: src/components/responsive-tabs/index.js:240
+#: src/components/responsive-tabs/index.js:40
+#: src/components/responsive-tabs/index.js:234
 msgid "Desktop"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/responsive-tabs/index.js:241
-msgid "Settings for desktop devices and larger. 1680px wide and up."
+msgid "Desktop (1680px and up)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:55
-#: src/grid/row/edit.js:82
-#: src/grid/row/edit.js:120
-#: src/grid/row/edit.js:155
+#: src/grid/column/edit.js:62
+#: src/grid/row/edit.js:66
+#: src/grid/row/edit.js:111
+#: src/grid/row/edit.js:152
 msgid "Inherit from smaller (default)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:86
+#: src/grid/row/edit.js:70
 msgid "Pack columns to the left"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:90
-msgid "Pack columns in the center"
+#: src/grid/row/edit.js:75
+msgid "Pack columns in the centre"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:94
+#: src/grid/row/edit.js:80
 msgid "Pack columns to the right"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:98
+#: src/grid/row/edit.js:85
 msgid "Distribute columns horizontally"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:102
+#: src/grid/row/edit.js:90
 msgid "Distribute columns with equal spacing on each end"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:106
+#: src/grid/row/edit.js:95
 msgid "Distribute columns with half-size spacing on each end"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:112
+#: src/grid/row/edit.js:102
 msgid "Pack columns to the left (default)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:124
+#: src/grid/row/edit.js:115
 msgid "Stretch"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/panel-background-image.js:15
-#: src/grid/column/edit.js:94
-#: src/grid/row/edit.js:128
+#: src/grid/column/edit.js:163
+#: src/grid/row/edit.js:120
 msgid "Top"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:98
-#: src/grid/column/edit.js:137
-#: src/grid/row/edit.js:132
-msgid "Center"
+#: src/grid/column/edit.js:168
+#: src/grid/column/edit.js:216
+#: src/grid/row/edit.js:125
+msgid "Centre"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/panel-background-image.js:19
-#: src/grid/column/edit.js:102
-#: src/grid/row/edit.js:136
+#: src/grid/column/edit.js:173
+#: src/grid/row/edit.js:130
 msgid "Bottom"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:106
-#: src/grid/row/edit.js:140
+#: src/grid/column/edit.js:178
+#: src/grid/row/edit.js:135
 msgid "Baseline"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:147
+#: src/grid/row/edit.js:143
 msgid "Stretch (default)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:159
+#: src/grid/row/edit.js:156
 msgid "Normal"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:163
+#: src/grid/row/edit.js:160
 msgid "Reversed"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:321
+#: src/grid/row/edit.js:250
 msgid "Distribute columns"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:334
+#: src/grid/row/edit.js:262
 msgid "Align columns"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:345
+#: src/grid/row/edit.js:272
 msgid "Row direction"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:351
+#: src/grid/row/edit.js:278
 msgid "Normal (Default)"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:369
+#: src/grid/row/edit.js:295
 msgid "Gutters"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:372
+#: src/grid/row/edit.js:298
 msgid "Horizontal gutters"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/row/edit.js:379
+#: src/grid/row/edit.js:305
 msgid "Vertical gutters"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/row/edit.js:322
+msgid "Disable layout containment"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/row/edit.js:323
+msgid "By default, rows have \"contain: layout\" applied."
 msgstr ""
 
 #: dist/blocks.build.js:15
@@ -434,142 +436,217 @@ msgid "Inherit from smaller"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/column-width-offset-control.js:69
-#: src/grid/column/edit.js:65
-msgid "Default width from row"
+#: src/grid/column/edit.js:72
+msgid "1 unit"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/column-width-offset-control.js:73
-#: src/grid/column/edit.js:69
-msgid "Fit content"
+#: src/grid/column/edit.js:77
+msgid "2 units"
 msgstr ""
 
-#. translators: %d: number of columns
 #: dist/blocks.build.js:15
-#: src/grid/column/column-width-offset-control.js:22
-#: src/grid/column/column-width-offset-control.js:28
-#: src/grid/column/edit.js:79
-#: src/grid/column/edit.js:84
-msgid "%d column"
-msgid_plural "%d columns"
+#: src/grid/column/edit.js:82
+msgid "3 units (1/4 width)"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:87
+msgid "4 units (1/3 width)"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:92
+msgid "5 units"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:97
+msgid "6 units (1/2 width)"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:102
+msgid "7 units"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:107
+msgid "8 units (2/3 width)"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:112
+msgid "9 units (3/4 width)"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:117
+msgid "10 units"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:122
+msgid "11 units"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:127
+msgid "12 units (full width)"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:132
+msgid "Expand to fill row"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:137
+msgid "Shrink to fit content"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:148
+#, js-format
+msgid "%d unit"
+msgid_plural "%d units"
 msgstr[0] ""
 msgstr[1] ""
 
 #: dist/blocks.build.js:15
 #: src/grid/column/column-width-offset-control.js:23
-#: src/grid/column/edit.js:80
+#: src/grid/column/edit.js:148
 msgid "No offset"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:110
-#: src/grid/column/edit.js:117
+#: src/grid/column/edit.js:183
+#: src/grid/column/edit.js:191
 msgid "Stretch to fill"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/panel-background-image.js:31
-#: src/grid/column/edit.js:121
+#: src/grid/column/edit.js:196
 msgid "Top left"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:125
-msgid "Top center"
+#: src/grid/column/edit.js:201
+msgid "Top centre"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/panel-background-image.js:35
-#: src/grid/column/edit.js:129
+#: src/grid/column/edit.js:206
 msgid "Top right"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:133
-msgid "Center left"
+#: src/grid/column/edit.js:211
+msgid "Centre left"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:141
-msgid "Center right"
+#: src/grid/column/edit.js:221
+msgid "Centre right"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/panel-background-image.js:39
-#: src/grid/column/edit.js:145
+#: src/grid/column/edit.js:226
 msgid "Bottom left"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:149
-msgid "Bottom center"
+#: src/grid/column/edit.js:231
+msgid "Bottom centre"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/components/panel-background-image.js:43
-#: src/grid/column/edit.js:153
+#: src/grid/column/edit.js:236
 msgid "Bottom right"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/grid/column/column-width-offset-control.js:66
-#: src/grid/column/edit.js:306
+#: src/grid/column/edit.js:406
 msgid "Width"
 msgstr ""
 
 #: dist/blocks.build.js:15
 #: src/grid/column/column-width-offset-control.js:82
-#: src/grid/column/edit.js:319
+#: src/grid/column/edit.js:421
 msgid "Offset"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:332
-msgid "Column alignment"
+#: src/grid/column/edit.js:434
+msgid "Vertical Alignment"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:337
+#: src/grid/column/edit.js:439
 msgid "Default alignment from row"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:346
-msgid "Align the column within the row."
+#: src/grid/column/edit.js:449
+msgid "Vertically align the column within the row."
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:349
+#: src/grid/column/edit.js:452
 msgid "Content Alignment"
 msgstr ""
 
 #: dist/blocks.build.js:15
-#: src/grid/column/edit.js:357
+#: src/grid/column/edit.js:461
 msgid "Align content within the column."
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:474
+msgid "Effects"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:476
+msgid "Rounded corners"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:479
+msgid "Rounded corners may not be visible without a background colour or image"
+msgstr ""
+
+#: dist/blocks.build.js:15
+#: src/grid/column/edit.js:486
+msgid "Drop shadow"
 msgstr ""
 
 #: src/block-clear/index.js:25
 msgid "Clear"
 msgstr ""
 
-#: src/block-clear/index.js:26
+#: src/block-clear/index.js:27
 msgid "Push the following content below any floating elements, such as left‐ or right‐aligned images and other media."
 msgstr ""
 
-#: src/block-clear/index.js:32
+#: src/block-clear/index.js:33
 msgid "layout"
 msgstr ""
 
-#: src/block-clear/index.js:32
+#: src/block-clear/index.js:33
 msgid "alignment"
 msgstr ""
 
-#: src/block-clear/index.js:32
+#: src/block-clear/index.js:33
 msgid "clear"
 msgstr ""
 
-#: src/block-clear/index.js:76
+#: src/block-clear/index.js:77
 msgid "Settings"
 msgstr ""
 
@@ -578,7 +655,7 @@ msgid "Pack %ITEMS% to the left"
 msgstr ""
 
 #: src/components/alignment/flex-content-justification.js:22
-msgid "Pack %ITEMS% in the center"
+msgid "Pack %ITEMS% in the centre"
 msgstr ""
 
 #: src/components/alignment/flex-content-justification.js:27
@@ -611,7 +688,7 @@ msgid "Align %ITEMS% top"
 msgstr ""
 
 #: src/components/alignment/flex-items-alignment.js:28
-msgid "Align %ITEMS% center"
+msgid "Align %ITEMS% centre"
 msgstr ""
 
 #: src/components/alignment/flex-items-alignment.js:33
@@ -639,7 +716,7 @@ msgid "Align %ITEM% top"
 msgstr ""
 
 #: src/components/alignment/flex-items-alignment.js:115
-msgid "Align %ITEM% center"
+msgid "Align %ITEM% centre"
 msgstr ""
 
 #: src/components/alignment/flex-items-alignment.js:120
@@ -668,6 +745,7 @@ msgstr ""
 
 #. translators: %s: media destination/type label
 #: src/components/media-select-control.js:33
+#, js-format
 msgid "Change %s"
 msgstr ""
 
@@ -677,6 +755,7 @@ msgstr ""
 
 #. translators: %s media destination/type label
 #: src/components/media-select-control.js:37
+#, js-format
 msgid "Add %s"
 msgstr ""
 
@@ -686,6 +765,7 @@ msgstr ""
 
 #. translators: %s: media destination/type label
 #: src/components/media-select-control.js:70
+#, js-format
 msgid "Remove %s"
 msgstr ""
 
@@ -698,7 +778,7 @@ msgid "To edit the background image, you need permission to upload media."
 msgstr ""
 
 #: src/components/panel-background-image.js:11
-msgid "Center (default)"
+msgid "Centre (default)"
 msgstr ""
 
 #: src/components/panel-background-image.js:23
@@ -756,6 +836,23 @@ msgstr ""
 msgid "Add custom styles to the post, written in SASS/SCSS"
 msgstr ""
 
+#. translators: %d: number of columns
+#: src/grid/column/column-width-offset-control.js:22
+#: src/grid/column/column-width-offset-control.js:28
+#, js-format
+msgid "%d column"
+msgid_plural "%d columns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/grid/column/column-width-offset-control.js:69
+msgid "Default width from row"
+msgstr ""
+
+#: src/grid/column/column-width-offset-control.js:73
+msgid "Fit content"
+msgstr ""
+
 #: src/grid/column/block.json
 msgctxt "block title"
 msgid "Row Column"
@@ -763,7 +860,7 @@ msgstr ""
 
 #: src/grid/column/block.json
 msgctxt "block description"
-msgid "Row columns are the building blocks of responsive layouts."
+msgid "GuteStrap Row Columns are the building blocks of responsive layouts."
 msgstr ""
 
 #: src/grid/column/block.json
@@ -796,7 +893,7 @@ msgstr ""
 
 #: src/grid/container/block.json
 msgctxt "block description"
-msgid "Containers are used to contain, pad, and (sometimes) align the content within them."
+msgid "GuteStrap Containers are used to contain and pad the content within them."
 msgstr ""
 
 #: src/grid/container/block.json
@@ -826,5 +923,5 @@ msgstr ""
 
 #: src/grid/row/block.json
 msgctxt "block description"
-msgid "Use rows to create responsive & mobile-first multi-column layouts."
+msgid "GuteStrap Rows are used to create responsive & mobile-first multi-column layouts."
 msgstr ""

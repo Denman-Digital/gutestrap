@@ -21,8 +21,8 @@ msgid "GuteStrap"
 msgstr "GuteStrap"
 
 #. Plugin URI of the plugin
-msgid "https://github.com/Denman-Digital/gutestrap"
-msgstr "https://github.com/Denman-Digital/gutestrap"
+msgid "https://github.com/psddb/gutestrap"
+msgstr "https://github.com/psddb/gutestrap"
 
 #. Description of the plugin
 msgid ""

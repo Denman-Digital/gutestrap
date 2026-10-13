@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit12aa1bd47cee442ceaf669b98412cc7d
 {
     public static $files = array (
-        'c257f8e6c6fd01559b7437f250cb4044' => __DIR__ . '/..' . '/denman-digital/wp-utils/utils.php',
+        'd6a2a4d53102d82ebe80e0ac40a44068' => __DIR__ . '/..' . '/psddb/wp-utils/utils.php',
     );
 
     public static $prefixLengthsPsr4 = array (

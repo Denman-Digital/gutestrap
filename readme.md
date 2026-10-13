@@ -1,4 +1,4 @@
-![GuteStrap](https://raw.githubusercontent.com/Denman-Digital/gutestrap/main/assets/banner-1544x500.jpg)
+![GuteStrap](https://raw.githubusercontent.com/psddb/gutestrap/main/assets/banner-1544x500.jpg)
 
 # GuteStrap Compat
  
